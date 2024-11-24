@@ -1,0 +1,39 @@
+/* Slide 135 (#3) */
+/* To restrict styles to the current slide, panel, or example use .slide[data-cid="slide-135-7055e294"] */
+.slide[data-cid=slide-135-7055e294] .btn-135 {
+  line-height: 60px;
+}
+.slide[data-cid=slide-135-7055e294] .btn-135 svg {
+  height: 26px !important;
+  width: 26px !important;
+  top: 0 !important;
+}
+.slide[data-cid=slide-135-7055e294] .box-135 {
+  width: 280px !important;
+}
+
+/* Slide 112 (#4) */
+/* To restrict styles to the current slide, panel, or example use .slide[data-cid="slide-112-5873b33d"] */
+.scroll .slide[data-cid=slide-112-5873b33d].slide-112,
+.scroll .slide[data-cid=slide-112-5873b33d].slide-112 .container {
+  min-height: 100vh;
+}
+
+@media (min-width: 1024px) and (max-width: 1240px) {
+  .slide[data-cid=slide-112-5873b33d].slide-112 .wrap {
+    padding: 50px;
+  }
+}
+@media (max-width: 1023px) {
+  .slide[data-cid=slide-112-5873b33d].slide-112 .wrap {
+    width: 100%;
+    display: table;
+  }
+  .slide[data-cid=slide-112-5873b33d] .poster-112 {
+    position: static;
+    height: 50vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+  }
+}

@@ -1,96 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
-  </head>
-  <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Bear Brown and Company</title>
+    <meta name="description" content="Bear Brown and Company offers consulting services in AI, machine learning, and data analytics, specializing in innovation incubation and strategic consultation." />
+    <meta property="og:title" content="Bear Brown and Company" />
+    <meta property="og:description" content="Consulting services focused on AI, machine learning, data analytics, and innovation incubation." />
+    <meta property="og:image" content="assets/img/bearbrown_company.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" sizes="any" href="assets/favicon.ico" type="image/x-icon">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">What We Do</a></li>
+                <li><a href="#humanitarians">Humanitarians AI</a></li>
+                <li><a href="#clients">Clients</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="container">
+            <h1>Bear Brown and Company</h1>
+            <p>AI Innovation | Machine Learning | Data Analytics</p>
+            <a href="#services" class="btn primary">Learn More</a>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About Bear Brown and Company</h2>
+            <p>
+                Bear Brown and Company is a consulting firm founded by Nik Bear Brown, an expert in AI, machine learning, and data analytics. We specialize in innovation incubation, project acquisition, and strategic consultation to help organizations harness the power of AI and data to achieve their goals. With a commitment to impactful, ethical AI solutions, we work with businesses, nonprofits, and educators to drive innovation and success.
+            </p>
+        </div>
+    </section>
+
+    <!-- What We Do Section -->
+    <section id="services" class="section bg-light">
+        <div class="container">
+            <h2>What Does Bear Brown Do?</h2>
+            <ul>
+                <li><strong>Project Acquisition & Networking:</strong> Bringing in valuable projects and establishing networks to support Humanitarians' initiatives.</li>
+                <li><strong>Innovation Incubation:</strong> Acting as an incubator for innovative ideas, helping foster new developments in AI and related fields.</li>
+                <li><strong>Strategic Consultation:</strong> Offering specialized consulting services in AI, machine learning, and data analytics.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Humanitarians AI Section -->
+    <section id="humanitarians" class="section">
+        <div class="container">
+            <h2>What Does Humanitarians AI Do?</h2>
+            <p>Nik Bear Brown is the founder and director of <a href="https://www.humanitarians.ai/" target="_blank">Humanitarians AI</a>, a nonprofit organization dedicated to experiential learning and continuous growth for individuals, particularly international students.</p>
+            <ul>
+                <li><strong>Hands-on Learning:</strong> Providing real-world project experience at no cost.</li>
+                <li><strong>Mission:</strong> Enabling "Real Experiential Education" for practical, impactful learning.</li>
+                <li><strong>Advocacy:</strong> Recognizing the significant role of international students in the U.S. workforce and championing their contributions.</li>
+            </ul>
+            <p>Our Key Products Include:</p>
+            <ul>
+                <li><strong>Chatbots:</strong> Conversational AI for various applications.</li>
+                <li><strong>Lyrical Literacy:</strong> Song generation technology to support creative literacy.</li>
+                <li><strong>Image Generation:</strong> Tools for creating visuals for Kindle books, coloring books, and more.</li>
+            </ul>
+            <a href="https://www.humanitarians.ai/" target="_blank" class="btn primary">Learn More About Humanitarians AI</a>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section id="clients" class="section bg-light">
+        <div class="container">
+            <h2>Companies Bear Brown Has Supported</h2>
+            <ul>
+                <li><strong>Gryffin Project:</strong> Provides branding and marketing consultation, including website development and securing branding contacts.</li>
+                <li><strong>Profile City:</strong> Offers ChatBot development support, including free consultation and volunteer support for chatbot development.</li>
+                <li><strong>Bim Ride:</strong> Supports Uber-like rides in Barbados by supplying volunteer resources for company projects.</li>
+                <li><strong>ArrowDX (Raman Effect Project):</strong> Supplied AI engineers for an AI solution addressing wastewater management through Raman spectroscopy.</li>
+                <li><strong>eBay:</strong> Conducted workshops and webinars on AI applications.</li>
+                <li><strong>Garam:</strong> Developed an image recognition and social media app for Indian food, creating a community platform around it.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>If you are interested in consulting opportunities or collaboration, please reach out:</p>
+            <ul>
+                <li><strong>Email:</strong> <a href="mailto:bear@bearbrown.co">bear@bearbrown.co</a></li>
+                <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/nikbearbrown" target="_blank">linkedin.com/in/nikbearbrown</a></li>
+                <li><strong>GitHub:</strong> <a href="https://github.com/nikbearbrown" target="_blank">github.com/nikbearbrown</a></li>
+                <li><strong>Humanitarians AI:</strong> <a href="https://www.humanitarians.ai/" target="_blank">www.humanitarians.ai</a></li>
+            </ul>
+            <a href="#services" class="btn primary">Explore Our Services</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Bear Brown and Company. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
 </html>

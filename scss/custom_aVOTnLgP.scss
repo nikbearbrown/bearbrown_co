@@ -1,0 +1,52 @@
+/* 
+Compile this file to css/custom_aVOTnLgP.css using any SCSS preprocessor. 
+More information here: https://slides.gitbook.io/manual/scss
+*/
+
+@import "mixins.scss"; 
+@import "variables.scss";
+@import "variables-custom.scss";
+
+/* Slide 135 (#3) */
+
+/* To restrict styles to the current slide, panel, or example use .slide[data-cid="slide-135-7055e294"] */
+.slide[data-cid="slide-135-7055e294"]{
+  .btn-135{
+    line-height:60px;
+    svg{
+      height: 26px !important;
+      width: 26px !important;
+      top: 0 !important;
+    }
+  }
+  .box-135{
+    width: 280px !important;
+  }
+}
+
+/* Slide 112 (#4) */
+/* To restrict styles to the current slide, panel, or example use .slide[data-cid="slide-112-5873b33d"] */
+.scroll .slide[data-cid="slide-112-5873b33d"].slide-112,
+.scroll .slide[data-cid="slide-112-5873b33d"].slide-112 .container {
+  min-height: 100vh;
+}
+.slide[data-cid="slide-112-5873b33d"]{
+  @media(min-width: #{$tablet}) AND (max-width:#{$desktop}) {
+    &.slide-112 .wrap{
+      padding:50px;
+    }
+  }
+  @include media($tablet, max) {
+    &.slide-112 .wrap {
+      width: 100%;
+      display: table;
+    }
+    .poster-112{
+      position:static;
+      height:50vh;
+      background-size:contain;
+      background-repeat:no-repeat;
+      background-position:0 0;
+    }
+  }
+}
