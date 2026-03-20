@@ -1,16 +1,29 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
-import { cn } from "@/lib/utils"
-import ThemeToggle from "@/components/ThemeToggle"
-import { useTheme } from "next-themes"
+import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { Menu, X } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import ThemeToggle from '@/components/ThemeToggle'
+import { useTheme } from 'next-themes'
 
-const baseButtonStyles = "inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-const headerButtonStyles = "bg-black text-white shadow hover:bg-gray-800 dark:border dark:border-input dark:bg-background dark:text-foreground dark:shadow-sm dark:hover:bg-accent dark:hover:text-accent-foreground"
+const NAV_ITEMS = [
+  { name: 'Home', href: '/' },
+  { name: 'Tools', href: '/tools' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: 'mailto:bear@bearbrown.co' },
+]
+
+const SOCIAL_LINKS = [
+  { name: 'GitHub', href: 'https://github.com/nikbearbrown' },
+  { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
+  { name: 'Spotify', href: 'https://open.spotify.com/artist/0hSpFCJodAYMP2cWK72zI6' },
+]
+
+const buttonStyles =
+  'inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-black text-white shadow hover:bg-gray-800 dark:border dark:border-input dark:bg-background dark:text-foreground dark:shadow-sm dark:hover:bg-accent dark:hover:text-accent-foreground'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -19,40 +32,18 @@ export default function Header() {
   const { theme } = useTheme()
   const menuRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+    if (!isMenuOpen) return
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setIsMenuOpen(false)
       }
     }
-
-    if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isMenuOpen])
-
-  const navigation = [
-    { name: "Art", href: "/art" },
-    { name: "Blog", href: "/blog" },
-    { name: "Books", href: "/books" },
-    { name: "Classes", href: "/classes" },
-    { name: "Consulting", href: "/consulting" },
-    { name: "Projects", href: "/projects" },
-  ]
-
-  const socialLinks = [
-    { name: "GitHub", href: "https://github.com/nikbearbrown" },
-    { name: "YouTube", href: "https://www.youtube.com/@NikBearBrown" },
-    { name: "Spotify", href: "https://open.spotify.com/artist/0hSpFCJodAYMP2cWK72zI6" },
-  ]
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -62,7 +53,7 @@ export default function Header() {
             {mounted ? (
               <Image
                 src={theme === 'dark' ? '/svg-logos/NikBearBrown_white_logo.svg' : '/svg-logos/NikBearBrown_black_logo.svg'}
-                alt="NikBearBrown.com"
+                alt="Bear Brown"
                 width={240}
                 height={53}
                 className="h-12 w-auto"
@@ -72,13 +63,13 @@ export default function Header() {
             )}
           </Link>
           <nav className="hidden lg:flex gap-6">
-            {navigation.map((item) => (
+            {NAV_ITEMS.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-foreground/80",
-                  pathname === item.href ? "text-foreground" : "text-foreground/60",
+                  'text-sm font-medium transition-colors hover:text-foreground/80',
+                  pathname === item.href ? 'text-foreground' : 'text-foreground/60',
                 )}
               >
                 {item.name}
@@ -89,12 +80,16 @@ export default function Header() {
 
         <div className="flex items-center gap-4">
           <div className="hidden lg:flex items-center gap-4">
-            {socialLinks.map((link) => (
-              <Link key={link.name} href={link.href} target="_blank" rel="noopener noreferrer">
-                <button className={cn(baseButtonStyles, headerButtonStyles)}>
-                  {link.name}
-                </button>
-              </Link>
+            {SOCIAL_LINKS.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonStyles}
+              >
+                {link.name}
+              </a>
             ))}
           </div>
           <ThemeToggle />
@@ -108,22 +103,21 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isMenuOpen && (
         <div className="lg:hidden">
-          <div 
+          <div
             className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
             onClick={() => setIsMenuOpen(false)}
           />
           <div ref={menuRef} className="fixed inset-x-0 top-16 z-50 mt-px bg-background border-b p-6 shadow-lg">
             <nav className="flex flex-col space-y-4">
-              {navigation.map((item) => (
+              {NAV_ITEMS.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    "text-base font-medium transition-colors hover:text-foreground/80",
-                    pathname === item.href ? "text-foreground" : "text-foreground/60",
+                    'text-base font-medium transition-colors hover:text-foreground/80',
+                    pathname === item.href ? 'text-foreground' : 'text-foreground/60',
                   )}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -131,17 +125,17 @@ export default function Header() {
                 </Link>
               ))}
               <div className="flex flex-col gap-4 mt-4">
-                {socialLinks.map((link) => (
-                  <Link 
+                {SOCIAL_LINKS.map((link) => (
+                  <a
                     key={link.name}
                     href={link.href}
                     className="text-base font-medium"
-                    target="_blank" 
+                    target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}
-                  </Link>
+                  </a>
                 ))}
               </div>
             </nav>
