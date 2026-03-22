@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ogilvy Copywriting Coach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brown: #5C3D2E;
+      --brown-light: #f5ede8;
+      --brown-mid: #e8d5cb;
+      --brown-hover: #4a3025;
+      --text: #1a1a1a;
+      --text-muted: #888;
+      --border: #e5e0dc;
+      --bg: #ffffff;
+      --code-bg: #f7f3f0;
+      --shadow: 0 2px 12px rgba(92,61,46,0.08);
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── LAYOUT ── */
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 900px;
+      margin: 0 auto;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      background: var(--bg);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--brown);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-mark svg {
+      width: 16px;
+      height: 16px;
+      fill: white;
+    }
+
+    .tool-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--brown);
+      letter-spacing: -0.01em;
+    }
+
+    .tagline {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── MESSAGES ── */
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 24px 12px;
+      scroll-behavior: smooth;
+    }
+
+    #messages::-webkit-scrollbar { width: 4px; }
+    #messages::-webkit-scrollbar-thumb { background: var(--brown-mid); border-radius: 4px; }
+    #messages::-webkit-scrollbar-track { background: transparent; }
+
+    .message-row {
+      display: flex;
+      margin-bottom: 18px;
+      animation: fadeSlide 0.2s ease;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-row.user { justify-content: flex-end; }
+    .message-row.assistant { justify-content: flex-start; }
+
+    .bubble {
+      max-width: 72%;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 14.5px;
+      line-height: 1.65;
+      position: relative;
+    }
+
+    .message-row.user .bubble {
+      background: var(--brown-light);
+      border-bottom-right-radius: 4px;
+      color: var(--text);
+    }
+
+    .message-row.assistant .bubble {
+      background: transparent;
+      border-bottom-left-radius: 4px;
+      color: var(--text);
+      padding-left: 0;
+      max-width: 88%;
+    }
+
+    /* ── ASSISTANT CONTENT RENDERING ── */
+    .bubble p { margin-bottom: 10px; }
+    .bubble p:last-child { margin-bottom: 0; }
+
+    .bubble strong { font-weight: 600; color: var(--brown); }
+    .bubble em { font-style: italic; }
+
+    .bubble pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin: 10px 0;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .bubble code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .bubble pre code {
+      background: none;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    .bubble ul, .bubble ol {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+
+    .bubble li { margin-bottom: 4px; }
+
+    .bubble h1, .bubble h2, .bubble h3 {
+      font-weight: 600;
+      color: var(--brown);
+      margin: 14px 0 6px;
+      line-height: 1.3;
+    }
+
+    .bubble h1 { font-size: 18px; }
+    .bubble h2 { font-size: 16px; }
+    .bubble h3 { font-size: 14px; }
+
+    .bubble blockquote {
+      border-left: 3px solid var(--brown-mid);
+      padding-left: 14px;
+      color: #555;
+      font-style: italic;
+      margin: 8px 0;
+    }
+
+    .bubble hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 12px 0;
+    }
+
+    /* table */
+    .bubble table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 10px 0;
+    }
+    .bubble th {
+      background: var(--brown-light);
+      color: var(--brown);
+      font-weight: 600;
+      padding: 8px 10px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .bubble td {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+    }
+    .bubble tr:nth-child(even) td { background: #fdf9f7; }
+
+    /* copy button area */
+    .assistant-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      max-width: 88%;
+    }
+
+    .copy-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--brown);
+      color: var(--brown);
+      background: var(--brown-light);
+    }
+
+    .copy-btn.copied {
+      border-color: #4caf50;
+      color: #4caf50;
+    }
+
+    .copy-btn svg {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+
+    /* ── TYPING INDICATOR ── */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 12px 4px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .dot-anim {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .dot-anim span {
+      width: 6px;
+      height: 6px;
+      background: var(--brown-mid);
+      border-radius: 50%;
+      animation: dotBounce 1.2s infinite;
+    }
+
+    .dot-anim span:nth-child(2) { animation-delay: 0.2s; }
+    .dot-anim span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dotBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+      30% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* ── INPUT BAR ── */
+    #input-area {
+      flex-shrink: 0;
+      padding: 12px 24px 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .input-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      padding-bottom: 12px;
+    }
+
+    #user-input {
+      flex: 1;
+      resize: none;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: #fdfaf8;
+      outline: none;
+      max-height: 140px;
+      min-height: 44px;
+      line-height: 1.55;
+      transition: border-color 0.15s;
+    }
+
+    #user-input:focus { border-color: var(--brown); }
+    #user-input::placeholder { color: #bbb; }
+
+    #send-btn {
+      flex-shrink: 0;
+      background: var(--brown);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    #send-btn:hover { background: var(--brown-hover); }
+    #send-btn:active { transform: scale(0.95); }
+    #send-btn:disabled { background: var(--brown-mid); cursor: not-allowed; transform: none; }
+
+    #send-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: white;
+    }
+
+    /* ── FOOTER BYLINE ── */
+    #byline {
+      flex-shrink: 0;
+      text-align: center;
+      padding: 6px 16px 10px;
+      font-size: 11px;
+      color: #bbb;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+
+    #byline a {
+      color: #bbb;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    #byline a:hover { color: var(--brown); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      header { padding: 12px 16px; }
+      #messages { padding: 16px 16px 8px; }
+      .bubble { max-width: 88%; }
+      .assistant-wrapper { max-width: 96%; }
+      #input-area { padding: 10px 16px 0; }
+      .tagline { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="header-left">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 4h14v2H3V4zm0 4h10v2H3V8zm0 4h12v2H3v-2z"/>
+        </svg>
+      </div>
+      <span class="tool-name">Ogilvy Copywriting Coach</span>
+    </div>
+    <span class="tagline">Two-mode expert tool · silent execution or active creative direction</span>
+  </header>
+
+  <div id="messages"></div>
+
+  <div id="input-area">
+    <div class="input-row">
+      <textarea
+        id="user-input"
+        rows="1"
+        placeholder="Type a command like /help, /tweet, /brandvoice… or paste a brief"
+      ></textarea>
+      <button id="send-btn" title="Send">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.94 17.94l16-7a1 1 0 000-1.88l-16-7A1 1 0 001.88 3.38L4.7 10l-2.82 6.62a1 1 0 001.06 1.32z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="byline">
+    Built with <a href="https://www.bearbrown.co" target="_blank" rel="noopener">bearbrown.co</a> · AI tools for educators, creators &amp; founders
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+// SYSTEM PROMPT
+// ─────────────────────────────────────────
+const SYSTEM_PROMPT = `You are Ogilvy, a persuasive copywriting expert inspired by the timeless principles of advertising legend David Ogilvy. You craft compelling, audience-centered copy while maintaining a consistent and unique brand voice. Your core principles: clarity, simplicity, emotional resonance, and credibility. You adapt to any platform and understand SEO for digital relevance.
+
+PERSONA — BEHAVIORAL RULES (not adjectives):
+1. Never write a word of copy before you can state the brand's single differentiator in your own words. If you can't state it, you haven't understood the brief yet.
+2. When a brief leads with features, stop and translate to outcomes before proceeding. "Our platform has 200 integrations" is not a benefit — find out what it lets the user do that they couldn't do before.
+3. Treat vague adjectives in a brief ("innovative," "best-in-class," "passionate") as a signal to interrogate, not a license to reproduce them in copy.
+4. If the requested copy contradicts the brand voice on file, name the contradiction before writing. Do not silently paper over it.
+5. The theatrical register — the wit, the "ad man" voice — is a working tool, not decoration. Deploy it when it creates connection. Drop it when precision matters more.
+
+HARD NOS:
+- Do not write copy where the differentiator is genuinely unclear. Flag it and ask.
+- Do not produce a brand voice summary from a one-word answer intake. Push for real answers.
+- Do not open body copy with the brand name. Ogilvy's rule: earn attention first.
+
+RULES:
+- Never use emoji or checkboxes (✅) in ad copy unless explicitly requested
+- Always append relevant #hashtags and SEO tags to ALL ad copy output
+- When a user has NOT provided a brand voice .md file, ALWAYS run the Brand Voice Intake sequence before writing any copy
+- When a brand voice .md IS provided, extract personality, tone, audience, and differentiators before writing
+- Match copy length, format, and tone to the specific platform requested
+- Follow 2026 platform-specific technical constraints (character limits, hashtag caps, safe zones) at all times
+
+OUTPUT RULE — NON-NEGOTIABLE:
+All outputs of length — rewrites, drafts, scripts, briefs, assembled content, any response longer than a few sentences — must be written in full. Short confirmations and clarifying questions are the only exceptions.
+
+SILENT MODIFIER RULE:
+If the user appends "silent" to any command (e.g., /tweet silent, /reel silent), execute immediately. No intake. No pushback. No phase gates. Clean output only.
+
+INTERACTIVE MODE RULE (default — no modifier needed):
+Without /silent, Ogilvy is fully present. Ask before acting. Push back on weak briefs in Ogilvy's voice. Never skip a phase gate. Never produce copy you don't believe in.
+
+START every new session with the full Ogilvy Welcome Menu.
+
+WELCOME MENU (trigger on session start or /help):
+---
+*adjusts spectacles and clears throat*
+
+Why hello there! Ogilvy here — the Sultan of Sell, the Hemingway of Headlines, your personal Copywriting Coach.
+
+Ready to write copy that doesn't just inform, but SEDUCES? Here's your menu:
+
+**BRAND FOUNDATION**
+/brandvoice   — Generate or load your brand voice profile
+/audience     — Customer empathy check
+/jargon       — Translate industry speak into plain English
+
+**COPY CREATION**
+/youtube      — Full YouTube video script (voice-over)
+/shorts       — YouTube Shorts script (30–60 sec)
+/description  — YouTube video description (SEO-optimized)
+/walkthru     — Product demo video production brief (bullet-point shot guide)
+/tweet        — X/Twitter post (standard or thread)
+/reel         — Instagram Reel caption + hook
+/story        — Instagram/Facebook Story copy
+/carousel     — Instagram/Facebook carousel copy
+/facebook     — Facebook feed post
+/linkedin     — LinkedIn post
+/blurb        — General social media blurb (specify platform)
+/crowdfund    — Crowdfunding campaign copy (Kickstarter/GoFundMe)
+/byline       — Writer's byline (one-line, short, and full paragraph variants)
+/urso         — 30-second voice-over teaser script from a Substack article
+/vercel       — Generate a clear, one-paragraph tool description from a prompt set
+
+**CAMPAIGN TOOLS**
+/tagline      — Catchphrase and tagline creator
+/cta          — Call-to-action optimizer
+/hook         — Opening hook generator
+
+**COPY REFINEMENT**
+/benefit      — Transform features into benefits
+/emotion      — Emotional impact analyzer
+/credibility  — Add stats, testimonials, social proof
+/seo          — SEO keyword integration
+/edit         — Full copy refinement pass
+
+**NAVIGATION**
+/list         — Full command reference table
+/show         — Live demo: silent vs. interactive mode side by side
+/silent       — Append to any command for clean output, no questions, no pushback
+
+Type any command or just paste your content and tell me the platform.
+Note: /silent skips intake and pushback for any command — use it when you know exactly what you need. Without it, I'm fully in the room.
+*winks and adjusts bowtie*
+---
+
+BRAND VOICE INTAKE: When user requests any copy without a brand voice file, ask these 10 questions before writing any copy:
+1. Brand name and one-sentence description of what you do
+2. Three adjectives that describe your brand's personality
+3. Who is your ideal customer? (age, lifestyle, pain points, desires)
+4. What is your single biggest differentiator from competitors?
+5. What brands do you ADMIRE and why?
+6. What brands do you NEVER want to sound like?
+7. What tone is OFF-LIMITS?
+8. What does your customer fear most? What do they dream about?
+9. What platforms are most important to your brand?
+10. What is the ONE action you most want your audience to take?
+
+PUSHBACK LAYER (always active in interactive mode):
+1. FLAGS WEAK INPUT — Name the specific gap in copywriter's language before acting
+2. NAMES ASSUMPTIONS — Surface embedded assumptions and ask if they hold
+3. REFRAMES LIMITING QUESTIONS — Offer the better question with explanation
+4. DISAGREES DIRECTLY — Name strategic problems plainly and offer a path forward
+Every pushback ends with a question or path forward. Never a dead end.
+
+PHASE GATES (interactive mode — do not skip):
+Phase 1: Brand Foundation → confirm brand voice before any copy
+Phase 2: Copy Creation → confirm core message before refinement
+Phase 3: Refinement → confirm polish before finalization
+Phase 4: Finalization → deliver final output
+
+UNIVERSAL OUTPUT RULE:
+ALL copy outputs must end with:
+---
+TAGS: [10–15 SEO keyword tags, comma-separated]
+HASHTAGS: [platform-appropriate count — max 2 for X, max 5 for Instagram, 3–5 for others]
+---`;
+
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
+const conversationHistory = [];
+let isLoading = false;
+
+// ─────────────────────────────────────────
+// DOM REFS
+// ─────────────────────────────────────────
+const messagesEl = document.getElementById('messages');
+const inputEl    = document.getElementById('user-input');
+const sendBtn    = document.getElementById('send-btn');
+
+// ─────────────────────────────────────────
+// MARKDOWN → HTML (lightweight)
+// ─────────────────────────────────────────
+function renderMarkdown(text) {
+  // Escape HTML first for safety
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  let lines = text.split('\n');
+  let html = '';
+  let i = 0;
+  let inCode = false;
+  let codeBuffer = '';
+  let codeLang = '';
+  let inTable = false;
+  let tableRows = [];
+
+  function flushTable() {
+    if (!tableRows.length) return;
+    let th = '';
+    let tb = '';
+    // header row
+    const hcells = tableRows[0];
+    th = '<tr>' + hcells.map(c => `<th>${c}</th>`).join('') + '</tr>';
+    // body rows (skip separator row)
+    for (let r = 1; r < tableRows.length; r++) {
+      const row = tableRows[r];
+      // skip separator rows like |---|---|
+      if (row.every(c => /^[-: ]+$/.test(c))) continue;
+      tb += '<tr>' + row.map(c => `<td>${c}</td>`).join('') + '</tr>';
+    }
+    html += `<table><thead>${th}</thead><tbody>${tb}</tbody></table>`;
+    tableRows = [];
+    inTable = false;
+  }
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // ── fenced code block
+    if (!inCode && /^```/.test(line)) {
+      inCode = true;
+      codeLang = line.slice(3).trim();
+      codeBuffer = '';
+      i++; continue;
+    }
+    if (inCode) {
+      if (/^```/.test(line)) {
+        html += `<pre><code>${esc(codeBuffer.replace(/\n$/,''))}</code></pre>`;
+        inCode = false; codeBuffer = ''; codeLang = '';
+      } else {
+        codeBuffer += line + '\n';
+      }
+      i++; continue;
+    }
+
+    // ── table
+    if (/^\|/.test(line)) {
+      if (!inTable) inTable = true;
+      const cells = line.split('|').slice(1,-1).map(c => c.trim());
+      // convert inline md in cells
+      const rendered = cells.map(c => inlineRender(c));
+      tableRows.push(rendered);
+      i++; continue;
+    } else if (inTable) {
+      flushTable();
+    }
+
+    // ── headings
+    const h3 = line.match(/^### (.+)/);
+    const h2 = line.match(/^## (.+)/);
+    const h1 = line.match(/^# (.+)/);
+    if (h3) { html += `<h3>${inlineRender(h3[1])}</h3>`; i++; continue; }
+    if (h2) { html += `<h2>${inlineRender(h2[1])}</h2>`; i++; continue; }
+    if (h1) { html += `<h1>${inlineRender(h1[1])}</h1>`; i++; continue; }
+
+    // ── hr
+    if (/^---+$/.test(line.trim())) { html += '<hr>'; i++; continue; }
+
+    // ── blockquote
+    if (/^> /.test(line)) {
+      html += `<blockquote>${inlineRender(line.slice(2))}</blockquote>`;
+      i++; continue;
+    }
+
+    // ── unordered list
+    if (/^[-*] /.test(line)) {
+      html += '<ul>';
+      while (i < lines.length && /^[-*] /.test(lines[i])) {
+        html += `<li>${inlineRender(lines[i].replace(/^[-*] /,''))}</li>`;
+        i++;
+      }
+      html += '</ul>';
+      continue;
+    }
+
+    // ── ordered list
+    if (/^\d+\. /.test(line)) {
+      html += '<ol>';
+      while (i < lines.length && /^\d+\. /.test(lines[i])) {
+        html += `<li>${inlineRender(lines[i].replace(/^\d+\. /,''))}</li>`;
+        i++;
+      }
+      html += '</ol>';
+      continue;
+    }
+
+    // ── blank line
+    if (line.trim() === '') { i++; continue; }
+
+    // ── paragraph
+    html += `<p>${inlineRender(line)}</p>`;
+    i++;
+  }
+
+  if (inTable) flushTable();
+  if (inCode) html += `<pre><code>${esc(codeBuffer)}</code></pre>`;
+
+  return html;
+}
+
+function inlineRender(text) {
+  function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  let s = esc(text);
+  // bold+italic
+  s = s.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  // bold
+  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // italic
+  s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  s = s.replace(/_(.+?)_/g, '<em>$1</em>');
+  // inline code
+  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // links
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  return s;
+}
+
+// ─────────────────────────────────────────
+// RENDER MESSAGES
+// ─────────────────────────────────────────
+function appendMessage(role, content) {
+  const row = document.createElement('div');
+  row.className = `message-row ${role}`;
+
+  if (role === 'user') {
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = content;
+    row.appendChild(bubble);
+  } else {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'assistant-wrapper';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.innerHTML = renderMarkdown(content);
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn';
+    copyBtn.innerHTML = `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+      <path d="M8 3a1 1 0 011-1h6a1 1 0 011 1v1h1a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1h1V3zm2 0v1h4V3H10zM5 6v10h10V6H5z"/>
+    </svg>Copy`;
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(content).then(() => {
+        copyBtn.textContent = '✓ Copied';
+        copyBtn.classList.add('copied');
+        setTimeout(() => {
+          copyBtn.innerHTML = `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+            <path d="M8 3a1 1 0 011-1h6a1 1 0 011 1v1h1a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1h1V3zm2 0v1h4V3H10zM5 6v10h10V6H5z"/>
+          </svg>Copy`;
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      });
+    });
+
+    wrapper.appendChild(bubble);
+    wrapper.appendChild(copyBtn);
+    row.appendChild(wrapper);
+  }
+
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function showTyping() {
+  const row = document.createElement('div');
+  row.className = 'message-row assistant';
+  row.id = 'typing-row';
+  row.innerHTML = `<div class="typing-indicator">
+    <div class="dot-anim"><span></span><span></span><span></span></div>
+    <span style="font-size:12px;color:var(--text-muted);margin-left:4px">Ogilvy is thinking…</span>
+  </div>`;
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typing-row');
+  if (el) el.remove();
+}
+
+// ─────────────────────────────────────────
+// AUTO-RESIZE TEXTAREA
+// ─────────────────────────────────────────
+inputEl.addEventListener('input', () => {
+  inputEl.style.height = 'auto';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 140) + 'px';
+});
+
+// ─────────────────────────────────────────
+// SEND
+// ─────────────────────────────────────────
+async function sendMessage(text) {
+  if (!text.trim() || isLoading) return;
+
+  isLoading = true;
+  sendBtn.disabled = true;
+
+  conversationHistory.push({ role: 'user', content: text });
+  appendMessage('user', text);
+
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+
+  showTyping();
+
+  try {
+    const response = await fetch('/api/ogilvy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: SYSTEM_PROMPT,
+        messages: conversationHistory
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error(`API error ${response.status}: ${err}`);
+    }
+
+    const data = await response.json();
+    const reply = data.content
+      .filter(b => b.type === 'text')
+      .map(b => b.text)
+      .join('\n');
+
+    removeTyping();
+    conversationHistory.push({ role: 'assistant', content: reply });
+    appendMessage('assistant', reply);
+
+  } catch (err) {
+    removeTyping();
+    const msg = `*clears throat awkwardly*\n\nSomething went wrong on my end. Error: ${err.message}\n\nTry again — Ogilvy doesn't give up that easily.`;
+    conversationHistory.push({ role: 'assistant', content: msg });
+    appendMessage('assistant', msg);
+  } finally {
+    isLoading = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+}
+
+// ─────────────────────────────────────────
+// EVENT LISTENERS
+// ─────────────────────────────────────────
+sendBtn.addEventListener('click', () => sendMessage(inputEl.value));
+
+inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage(inputEl.value);
+  }
+});
+
+// ─────────────────────────────────────────
+// WELCOME MESSAGE ON LOAD
+// ─────────────────────────────────────────
+async function loadWelcome() {
+  isLoading = true;
+  sendBtn.disabled = true;
+  showTyping();
+
+  try {
+    const response = await fetch('/api/ogilvy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: 'Hello' }]
+      })
+    });
+
+    if (!response.ok) throw new Error(`API error ${response.status}`);
+
+    const data = await response.json();
+    const reply = data.content
+      .filter(b => b.type === 'text')
+      .map(b => b.text)
+      .join('\n');
+
+    removeTyping();
+    conversationHistory.push({ role: 'user', content: 'Hello' });
+    conversationHistory.push({ role: 'assistant', content: reply });
+    appendMessage('assistant', reply);
+
+  } catch (err) {
+    removeTyping();
+    const fallback = `*adjusts spectacles and clears throat*
+
+Why hello there! Ogilvy here — the Sultan of Sell, the Hemingway of Headlines, your personal Copywriting Coach.
+
+Ready to write copy that doesn't just inform, but SEDUCES? Type **/help** for the full menu or paste a brief to get started.
+
+*winks and adjusts bowtie*`;
+    appendMessage('assistant', fallback);
+  } finally {
+    isLoading = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+}
+
+loadWelcome();
+</script>
+</body>
+</html>
