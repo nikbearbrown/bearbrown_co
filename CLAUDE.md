@@ -174,6 +174,7 @@ Substack-simple editor:
 ### Blog viz system
 - `lib/viz/registry.ts` — maps `data-viz` names to lazy-loaded render functions
 - `lib/viz/ai-adoption-bars.ts` — D3 horizontal bar chart ("AI Adoption by Sector"), chocolate brown bars, responsive
+- `lib/viz/ai-ecosystem-graph.ts` — D3 force-directed graph ("The AI Ecosystem 2025"), interactive: drag nodes, hover/click to highlight connections, tooltips, color-coded groups
 - `components/BlogVizHydrator/BlogVizHydrator.tsx` — client component that renders HTML via `dangerouslySetInnerHTML`, then hydrates any `[data-viz]` elements by looking up the registry and dynamically importing the renderer
 - To add a new viz: create `lib/viz/<name>.ts` exporting `default (el: HTMLElement) => void`, add entry to `registry.ts`
 
@@ -518,6 +519,7 @@ lib/
   viz/
     registry.ts                     # data-viz name → lazy import map
     ai-adoption-bars.ts             # D3 horizontal bar chart (AI Adoption by Sector)
+    ai-ecosystem-graph.ts           # D3 interactive force-directed graph (AI Ecosystem)
 ```
 
 #### Adding content
