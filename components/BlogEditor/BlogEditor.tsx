@@ -22,9 +22,12 @@ interface BlogPost {
   title: string
   subtitle: string
   slug: string
+  byline: string
   content: string
   published: boolean
 }
+
+const DEFAULT_BYLINE = `Few advisors put skin in the game the way Bear Brown does — building bespoke AI solutions, taking equity instead of checks for early-stage advising, and connecting startups with top engineering graduates before the competition finds them. An Associate Teaching Professor of Engineering at Northeastern University, Ph.D., MBA, and founder of Bear Brown & Company, he's spent years making AI practical, ethical, and accessible — inside the classroom, inside the lab, and inside the cap table.\nFollow his work at https://www.bearbrown.co/`
 
 function slugify(text: string): string {
   return text
@@ -65,6 +68,7 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [title, setTitle] = useState(post?.title || '')
   const [subtitle, setSubtitle] = useState(post?.subtitle || '')
+  const [byline, setByline] = useState(post?.byline ?? DEFAULT_BYLINE)
   const [slug, setSlug] = useState(post?.slug || '')
   const [slugEdited, setSlugEdited] = useState(!!post)
   const [content, setContent] = useState(post?.content || '')
@@ -138,6 +142,7 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
       title: title.trim(),
       subtitle: subtitle.trim() || null,
       slug: slug.trim() || slugify(title),
+      byline: byline.trim() || null,
       content,
       excerpt,
       published: publish,
@@ -189,6 +194,18 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
         placeholder="Add a subtitle..."
         className="w-full text-xl bg-transparent border-none outline-none placeholder:text-muted-foreground/40 italic"
       />
+
+      {/* Byline */}
+      <div>
+        <Label className="text-xs text-muted-foreground mb-1 block">Byline</Label>
+        <textarea
+          value={byline}
+          onChange={(e) => setByline(e.target.value)}
+          placeholder="Author byline..."
+          rows={4}
+          className="w-full text-sm border rounded-md p-3 bg-background resize-y focus:outline-none focus:ring-1 focus:ring-ring"
+        />
+      </div>
 
       {/* Slug */}
       <div className="flex items-center gap-2">

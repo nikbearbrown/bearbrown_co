@@ -59,6 +59,11 @@ export default async function BlogPostPage({
           className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tighter prose-a:text-foreground prose-a:underline prose-img:rounded-lg"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+        {post.byline && (
+          <div className="mt-12 pt-8 border-t text-sm text-muted-foreground whitespace-pre-line">
+            {post.byline}
+          </div>
+        )}
         <div className="mt-16 pt-8 border-t">
           <Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground">← Back to Blog</Link>
         </div>

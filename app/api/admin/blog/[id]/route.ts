@@ -34,7 +34,7 @@ export async function PUT(
 
   const { id } = await params
   const body = await req.json()
-  const { title, subtitle, slug, content, excerpt, published } = body
+  const { title, subtitle, slug, byline, content, excerpt, published } = body
 
   try {
     // Check if we need to set published_at on first publish
@@ -51,6 +51,7 @@ export async function PUT(
         title = ${title},
         subtitle = ${subtitle || null},
         slug = ${slug},
+        byline = ${byline || null},
         content = ${content},
         excerpt = ${excerpt || null},
         published = ${published ?? false},

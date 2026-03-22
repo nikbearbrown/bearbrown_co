@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json()
-  const { title, subtitle, slug, content, excerpt, published } = body
+  const { title, subtitle, slug, byline, content, excerpt, published } = body
 
   if (!title || !slug || !content) {
     return NextResponse.json({ error: 'Title, slug, and content are required' }, { status: 400 })
@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const rows = await sql`
-      INSERT INTO blog_posts (title, subtitle, slug, content, excerpt, published, published_at)
-      VALUES (${title}, ${subtitle || null}, ${slug}, ${content}, ${excerpt || null}, ${published || false}, ${published ? new Date().toISOString() : null})
+      INSERT INTO blog_posts (title, subtitle, slug, byline, content, excerpt, published, published_at)
+      VALUES (${title}, ${subtitle || null}, ${slug}, ${byline || null}, ${content}, ${excerpt || null}, ${published || false}, ${published ? new Date().toISOString() : null})
       RETURNING *
     `
     return NextResponse.json(rows[0])

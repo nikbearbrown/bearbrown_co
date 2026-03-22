@@ -138,6 +138,7 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   title TEXT NOT NULL,
   subtitle TEXT,
   slug TEXT NOT NULL UNIQUE,
+  byline TEXT,
   content TEXT NOT NULL,
   excerpt TEXT,
   published BOOLEAN DEFAULT false,
@@ -163,14 +164,15 @@ RLS: public can read published posts only, service role has full access.
 Substack-simple editor:
 - Large title input (no label, headline style)
 - Italic subtitle input ("Add a subtitle...")
+- Byline textarea (pre-populated with default author bio, saved per post)
 - Auto-generated slug from title (editable)
-- contentEditable rich text area with toolbar: Bold, Italic, Strikethrough, Code, Link, H2, H3, Bullet list, Numbered list
+- HTML textarea editor with toolbar: Bold, Italic, Strikethrough, Code, Link, H2, H3, Bullet list, Numbered list + Preview toggle
 - Actions: "Save Draft", "Publish" (sets published=true + published_at), "Unpublish" (for published posts)
 - Auto-generates excerpt (first 200 chars plain text)
 
 ### Public pages
 - `/blog` — Clean feed: published posts newest first, title + subtitle + excerpt + date + "Read →"
-- `/blog/[slug]` — Full post with title, subtitle, date, HTML prose content, back link
+- `/blog/[slug]` — Full post with title, subtitle, date, HTML prose content, byline footer, back link
 
 ## About page (`/app/about/page.tsx`) — DONE
 Prose-forward CV format with sections:

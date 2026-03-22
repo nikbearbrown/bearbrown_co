@@ -14,6 +14,7 @@ export default function EditBlogPostPage({
     title: string
     subtitle: string
     slug: string
+    byline: string
     content: string
     published: boolean
   } | null>(null)
@@ -31,6 +32,7 @@ export default function EditBlogPostPage({
           title: data.title || '',
           subtitle: data.subtitle || '',
           slug: data.slug || '',
+          byline: data.byline || '',
           content: data.content || '',
           published: data.published || false,
         })
