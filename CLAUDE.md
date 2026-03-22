@@ -60,9 +60,11 @@ Four-column grid layout:
 - Muzak component removed from layout
 
 ## Home page (`/app/page.tsx`) — DONE
-- Left: name (h1), tagline, About Me + Contact buttons (black button style)
-- Right: SpotifyPlayer component
-- Below fold: AI contact assistant widget (NOT YET BUILT)
+Four sections, alternating white/muted/dark backgrounds:
+1. **Hero** (two-column): Left — name (h1), subtitle "AI Consultant, Angel Advisor & Talent Connector", body text, "Work With Me" (mailto) + "Read My Writing" (Substack) buttons. Right — YouTube embed (GN7yQntWJHU).
+2. **What I Do** (3-column cards, muted bg): AI Consulting (Brain icon), Angel Advising (Rocket icon), Talent Connector (Users icon). Each with description + mailto link.
+3. **Connect** (centered, dark bg foreground/background inverted): "Let's Collaborate" heading, subtext, buttons for Substack, YouTube, GitHub, Humanitarians AI.
+4. **Spotify** (white bg): "Nik Bear Brown — Poet and Songwriter" title, uses existing SpotifyPlayer component with random artist shuffle.
 
 ## Tools system — DONE
 
@@ -133,13 +135,6 @@ Separate dedicated page at `/privacy/cookies`. Sections: what are cookies, cooki
 
 ### Terms of Service (`/app/terms-of-service/page.tsx`)
 15 sections: introduction, website purpose, AI consulting services, intellectual property, use license, user conduct, newsletter content (lists all 5 Substack publications), third-party services and links, disclaimer, limitations, indemnification, revisions and errata, governing law (Wyoming), modifications, contact. Nav: Privacy Policy ← → Home.
-
-## AI Contact Assistant (Home page) — NOT YET BUILT
-- Embedded Claude-powered chat widget
-- Purpose: help visitors answer common questions before emailing bear@bearbrown.co
-- System prompt context: Bear is a professor at NEU, builds AI tools for education, speaks at conferences, writes for EdSurge and ISTE+ASCD, runs Humanitarians AI (501c3), runs Bear Brown LLC (AI consulting + engineering grad placement), open to consulting and collaboration
-- Calls Anthropic API — auth handled by Claude.ai if published as artifact
-- Keep UI minimal: small chat box, not full-page
 
 ## Spotify player (`/components/SpotifyPlayer/SpotifyPlayer.tsx`) — DONE
 Client component. Randomly picks one artist on mount via `pickRandom()` helper.
@@ -459,7 +454,6 @@ After every session, always:
 
 ## Remaining work (in priority order)
 1. Add Subby + CRITIQ tools via admin dashboard (artifact IDs in Tools system docs above)
-2. Build AI contact assistant widget on home page
-3. Flesh out About page (Substack, musinique.com, Bear Brown LLC, publications)
-4. Add admin login page (currently admin_session cookie must be set manually)
-5. Add Substack nav link to public header or About page (Substack button already in social links)
+2. Flesh out About page (Substack, musinique.com, Bear Brown LLC, publications)
+3. Add admin login page (currently admin_session cookie must be set manually)
+4. Consider AI contact assistant widget (currently all CTAs route to mailto)
