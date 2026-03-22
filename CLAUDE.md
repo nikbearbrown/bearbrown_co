@@ -23,22 +23,27 @@ Primary audiences:
 1. `/` — Home (business card + Spotify player + AI contact assistant)
 2. `/tools` — Tools directory (card grid, Supabase-driven)
 3. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
-4. `/about` — CV / bio page (prose format)
-5. `/privacy` — Privacy Policy for Bear Brown LLC
-6. `/privacy/cookies` — Cookie Policy for Bear Brown LLC (dedicated page)
-7. `/terms-of-service` — Terms of Service for Bear Brown LLC
-8. `/substack` — Newsletter hub: card grid of all Substack sections
-9. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
-10. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
-11. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
-12. `/admin/dashboard/tools` — Manage tools (link and artifact types)
-13. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
+4. `/blog` — Blog feed: published posts newest first, clean card list
+5. `/blog/[slug]` — Individual blog post with prose content
+6. `/about` — CV / bio page (prose format)
+7. `/privacy` — Privacy Policy for Bear Brown LLC
+8. `/privacy/cookies` — Cookie Policy for Bear Brown LLC (dedicated page)
+9. `/terms-of-service` — Terms of Service for Bear Brown LLC
+10. `/substack` — Newsletter hub: card grid of all Substack sections
+11. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
+12. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
+13. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
+14. `/admin/dashboard/blog` — Manage blog posts (list, create, edit, delete)
+15. `/admin/dashboard/blog/new` — New post editor
+16. `/admin/dashboard/blog/[id]/edit` — Edit existing post
+17. `/admin/dashboard/tools` — Manage tools (link and artifact types)
+18. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
 
 ## Persistent layout (every page)
 
 ### Header (`/components/Header/Header.tsx`) — DONE
 - Logo: theme-aware SVG (white for dark, black for light)
-- Nav: Home (`/`) | Tools (`/tools`) | About (`/about`) | Contact (`mailto:bear@bearbrown.co`)
+- Nav: Home (`/`) | Tools (`/tools`) | About (`/about`) | Blog (`/blog`)
 - Social buttons (top right): GitHub, YouTube, Spotify, Substack — black button style
 - Dark/light mode toggle (ThemeToggle component)
 - Mobile hamburger menu with backdrop (lg breakpoint)
@@ -122,6 +127,49 @@ CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (tru
 ### Initial tools to add via admin:
 1. **Subby** — Substack writing assistant (artifact_id: `6dc0c6cf-32e0-4f53-94b9-f6d01cc4df9c`)
 2. **CRITIQ** — Peer review & paper development protocol (artifact_id: `a53d969f-5aaf-45f6-9992-2c6a00a4122f`)
+
+## Blog system — DONE
+
+### Database (`blog_posts` table in Supabase)
+```sql
+CREATE TABLE IF NOT EXISTS blog_posts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  subtitle TEXT,
+  slug TEXT NOT NULL UNIQUE,
+  content TEXT NOT NULL,
+  excerpt TEXT,
+  published BOOLEAN DEFAULT false,
+  published_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+RLS: public can read published posts only, service role has full access.
+
+### API routes
+- `GET/POST /api/admin/blog` — admin: list all posts / create post
+- `GET/PUT/DELETE /api/admin/blog/[id]` — admin: get / update / delete post
+- `GET /api/blog` — public: list published posts
+- `GET /api/blog/[slug]` — public: single published post
+
+### Admin UI
+- `/admin/dashboard/blog` — Post list with title, Draft/Published badge, date, edit/delete buttons, "New Post" link
+- `/admin/dashboard/blog/new` — New post editor
+- `/admin/dashboard/blog/[id]/edit` — Edit existing post
+
+### Blog Editor (`/components/BlogEditor/BlogEditor.tsx`)
+Substack-simple editor:
+- Large title input (no label, headline style)
+- Italic subtitle input ("Add a subtitle...")
+- Auto-generated slug from title (editable)
+- contentEditable rich text area with toolbar: Bold, Italic, Strikethrough, Code, Link, H2, H3, Bullet list, Numbered list
+- Actions: "Save Draft", "Publish" (sets published=true + published_at), "Unpublish" (for published posts)
+- Auto-generates excerpt (first 200 chars plain text)
+
+### Public pages
+- `/blog` — Clean feed: published posts newest first, title + subtitle + excerpt + date + "Read →"
+- `/blog/[slug]` — Full post with title, subtitle, date, HTML prose content, back link
 
 ## About page (`/app/about/page.tsx`) — DONE
 Prose-forward CV format with sections:
@@ -244,8 +292,9 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 - `app/robots.ts` — allows all, disallows `/admin/` and `/api/`, points to `/sitemap.xml`
 
 ## Admin dashboard (`/app/admin/dashboard/`) — DONE
-- Layout with tabbed nav (Overview, Tools, Substack)
+- Layout with tabbed nav (Overview, Blog, Tools, Substack)
 - Protected pages — requires `admin_session` cookie to use API routes
+- Blog management: create/edit/delete posts with rich text editor, publish/unpublish
 - Tools management: create/edit/delete tools with link/artifact type support
 - Substack management: create/edit/delete sections, import ZIP archives
 - Overview is placeholder
@@ -266,7 +315,7 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 ## What NOT to do
 - Do not use localStorage — use React state or sessionStorage
 - Do not add analytics or tracking beyond what's already present
-- Keep public nav to four items: Home, Tools, About, Contact
+- Keep public nav to four items: Home, Tools, About, Blog
 - Do not commit .env.local or credentials to git
 
 ## User Guide
@@ -405,6 +454,8 @@ npm run dev        # starts at http://localhost:3000
 app/
   page.tsx                          # Home
   about/page.tsx                    # About / CV
+  blog/page.tsx                     # Blog feed (published posts)
+  blog/[slug]/page.tsx              # Individual blog post
   tools/page.tsx                    # Tools directory (card grid)
   tools/[slug]/page.tsx             # Artifact tool embed page
   privacy/page.tsx                  # Privacy Policy
@@ -417,8 +468,17 @@ app/
   admin/dashboard/
     layout.tsx                      # Admin layout with tab nav
     page.tsx                        # Admin overview (placeholder)
+    blog/page.tsx                   # Blog post list
+    blog/new/page.tsx               # New post editor
+    blog/[id]/edit/page.tsx         # Edit post editor
     tools/page.tsx                  # Tools manager (link + artifact types)
     substack/page.tsx               # Substack section manager
+  api/admin/blog/
+    route.ts                        # GET/POST blog posts (admin)
+    [id]/route.ts                   # GET/PUT/DELETE blog post (admin)
+  api/blog/
+    route.ts                        # GET published posts (public)
+    [slug]/route.ts                 # GET single published post (public)
   api/admin/tools/
     route.ts                        # GET/POST tools
     [id]/route.ts                   # PUT/DELETE tool
@@ -432,6 +492,7 @@ components/
   Header/Header.tsx                 # Sticky header with nav + social + theme toggle
   Footer/Footer.tsx                 # 4-column footer (company, publications, social, legal)
   ArtistCarousel/ArtistCarousel.tsx  # Rotating artist carousel with Spotify/Apple/Musinique links
+  BlogEditor/BlogEditor.tsx         # Rich text blog editor (contentEditable + toolbar)
   SpotifyPlayer/SpotifyPlayer.tsx   # Random artist Spotify embed (legacy, still available)
   ThemeToggle.tsx                   # Dark/light mode toggle
   theme-provider.tsx                # next-themes wrapper

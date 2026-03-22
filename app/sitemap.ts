@@ -8,6 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: BASE_URL, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
     { url: `${BASE_URL}/tools`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/blog`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE_URL}/substack`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE_URL}/privacy`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
     { url: `${BASE_URL}/privacy/cookies`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
@@ -33,6 +34,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: t.updated_at ? new Date(t.updated_at) : new Date(),
           changeFrequency: 'weekly',
           priority: 0.7,
+        })
+      }
+    }
+
+    // Blog posts
+    const { data: blogPosts } = await supabase
+      .from('blog_posts')
+      .select('slug, published_at, updated_at')
+      .eq('published', true)
+
+    if (blogPosts) {
+      for (const p of blogPosts) {
+        entries.push({
+          url: `${BASE_URL}/blog/${p.slug}`,
+          lastModified: p.updated_at ? new Date(p.updated_at) : p.published_at ? new Date(p.published_at) : new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.8,
         })
       }
     }

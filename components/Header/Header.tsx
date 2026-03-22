@@ -13,7 +13,7 @@ const NAV_ITEMS = [
   { name: 'Home', href: '/' },
   { name: 'Tools', href: '/tools' },
   { name: 'About', href: '/about' },
-  { name: 'Contact', href: 'mailto:bear@bearbrown.co' },
+  { name: 'Blog', href: '/blog' },
 ]
 
 const SOCIAL_LINKS = [

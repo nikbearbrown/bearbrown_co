@@ -1,64 +1,90 @@
-import BlogCard from "@/components/BlogCard/BlogCard"
-import { blogPosts } from "@/data/blogPosts"
-import Link from "next/link"
+import Link from 'next/link'
+import type { Metadata } from 'next'
+import { getSupabaseAdmin } from '@/lib/supabase/server'
 
-export default function BlogPage() {
+export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'Blog - Bear Brown',
+  description: 'Writing on AI, startups, education, and technology by Nik Bear Brown.',
+}
+
+interface Post {
+  id: string
+  title: string
+  subtitle: string | null
+  slug: string
+  excerpt: string | null
+  published_at: string | null
+}
+
+async function getPosts(): Promise<Post[]> {
+  try {
+    const supabase = getSupabaseAdmin()
+    const { data } = await supabase
+      .from('blog_posts')
+      .select('id, title, subtitle, slug, excerpt, published_at')
+      .eq('published', true)
+      .order('published_at', { ascending: false })
+    return data ?? []
+  } catch {
+    return []
+  }
+}
+
+function formatDate(dateStr: string | null): string {
+  if (!dateStr) return ''
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+}
+
+export default async function BlogPage() {
+  const posts = await getPosts()
+
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-4">Blog</h1>
-        <p className="text-lg mb-12 max-w-3xl">
-          Insights, updates, and stories about our work and the impact of AI for social good.
+    <div className="container px-4 md:px-6 mx-auto py-12">
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-4xl font-bold tracking-tighter mb-4">Blog</h1>
+        <p className="text-muted-foreground mb-10">
+          Writing on AI, startups, education, and technology.
         </p>
 
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">Latest Articles</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.slice(0, 3).map((post, index) => (
-              <BlogCard key={index} post={post} />
+        {posts.length === 0 ? (
+          <p className="text-muted-foreground">No posts yet. Check back soon.</p>
+        ) : (
+          <div className="divide-y">
+            {posts.map((post) => (
+              <article key={post.id} className="py-8 first:pt-0">
+                <Link href={`/blog/${post.slug}`} className="group block">
+                  {post.published_at && (
+                    <time className="text-sm text-muted-foreground">
+                      {formatDate(post.published_at)}
+                    </time>
+                  )}
+                  <h2 className="text-2xl font-semibold mt-1 group-hover:underline">
+                    {post.title}
+                  </h2>
+                  {post.subtitle && (
+                    <p className="text-lg text-muted-foreground mt-1">
+                      {post.subtitle}
+                    </p>
+                  )}
+                  {post.excerpt && (
+                    <p className="text-muted-foreground mt-3 leading-relaxed">
+                      {post.excerpt}
+                    </p>
+                  )}
+                  <span className="text-sm font-medium mt-3 inline-block group-hover:underline">
+                    Read →
+                  </span>
+                </Link>
+              </article>
             ))}
           </div>
-        </div>
-
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">Education</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts
-              .filter((p) => p.category === "education")
-              .map((post, index) => (
-                <BlogCard key={index} post={post} />
-              ))}
-          </div>
-        </div>
-
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">Healthcare</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts
-              .filter((p) => p.category === "healthcare")
-              .map((post, index) => (
-                <BlogCard key={index} post={post} />
-              ))}
-          </div>
-        </div>
-
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">Social Good</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts
-              .filter((p) => p.category === "social")
-              .map((post, index) => (
-                <BlogCard key={index} post={post} />
-              ))}
-          </div>
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-lg mb-6">Subscribe to our newsletter to stay updated with our latest articles and news.</p>
-          <Link href="/contact" className="bg-black text-white px-6 py-3 rounded-md font-medium inline-block">
-            Subscribe
-          </Link>
-        </div>
+        )}
       </div>
     </div>
   )
