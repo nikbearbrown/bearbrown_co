@@ -3,24 +3,30 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - Bear Brown LLC',
-  description: 'Privacy policy for Bear Brown LLC and bearbrown.co',
+  description: 'Privacy policy for Bear Brown LLC, AI consulting services, and bearbrown.co',
 }
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="container px-4 md:px-6 mx-auto py-12">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold tracking-tighter mb-2">Privacy Policy</h1>
-        <p className="text-sm text-muted-foreground mb-8">Last updated: March 2026</p>
+      <div className="max-w-4xl mx-auto">
+        <div className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Privacy Policy</h1>
+          <p className="text-sm text-muted-foreground">Last updated: March 2026</p>
+        </div>
 
         <div className="prose prose-lg dark:prose-invert max-w-none">
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">1. Who We Are</h2>
+            <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
             <p>
-              This website (<strong>bearbrown.co</strong>) is operated by <strong>Bear Brown LLC</strong> (Nik Bear Brown, Sole Member),
-              a Wyoming limited liability company providing AI consulting services.
+              Welcome to <strong>bearbrown.co</strong>, operated by <strong>Bear Brown LLC</strong> (Nik Bear Brown, Sole Member),
+              a Wyoming limited liability company providing AI consulting services. We are committed to protecting your
+              personal information and your right to privacy. If you have any questions or concerns about this privacy
+              policy or our practices with regard to your personal information, please contact us at{' '}
+              <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>.
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
+              <li><strong>Company:</strong> Bear Brown LLC (Nik Bear Brown, Sole Member)</li>
               <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
               <li><strong>Email:</strong>{' '}
                 <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
@@ -30,144 +36,175 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">2. Information We Collect</h2>
-            <p>We may collect information you voluntarily provide, including:</p>
+            <h2 className="text-2xl font-semibold mb-4">Information We Collect</h2>
+            <p>
+              We collect personal information that you voluntarily provide to us when you contact us through our
+              website, express an interest in obtaining information about us or our AI consulting services, participate
+              in activities on the website, or otherwise contact us.
+            </p>
+            <p className="mt-4">
+              The personal information we collect depends on the context of your interactions with us and the website,
+              the choices you make, and the services you use. The personal information we collect may include:
+            </p>
             <ul className="list-disc pl-6 mt-4 space-y-2">
-              <li>Name and email address submitted through the contact assistant or direct email</li>
-              <li>Messages and inquiries you send via the site</li>
-              <li>Information provided when engaging our AI consulting services</li>
+              <li><strong>Name and Contact Data:</strong> We collect your name, email address, and other similar contact data when you reach out to us via the contact assistant or email.</li>
+              <li><strong>Inquiry Content:</strong> We collect the content of messages, questions, and inquiries you send through the site or contact assistant.</li>
+              <li><strong>Consulting Engagement Data:</strong> When engaging our AI consulting services, we may collect business information, project requirements, and related professional details as governed by separate consulting agreements.</li>
             </ul>
             <p className="mt-4">
-              We also collect standard analytics data (page views, browser type, referring pages) through Vercel
-              Analytics to understand how the site is used. No personally identifiable information is collected
-              through analytics.
+              We also automatically collect certain information when you visit our website, including standard analytics
+              data (page views, browser type, referring pages, device information) through Vercel Analytics. This data
+              is aggregated and does not personally identify you.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">3. How We Use Your Information</h2>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>To respond to your inquiries and messages</li>
-              <li>To provide AI consulting services you have engaged</li>
-              <li>To improve the site and its content</li>
+            <h2 className="text-2xl font-semibold mb-4">How We Use Your Information</h2>
+            <p>We use the information we collect or receive:</p>
+            <ul className="list-disc pl-6 mt-4 space-y-2">
+              <li>To respond to your inquiries and provide support</li>
+              <li>To deliver AI consulting services you have engaged</li>
+              <li>To send administrative information, such as updates to our terms or policies</li>
+              <li>To send relevant updates about our services and publications (only with your consent)</li>
+              <li>To improve our website, content, and services</li>
               <li>To understand site usage through aggregated analytics</li>
-              <li>To send relevant updates about our services (only with your consent)</li>
+              <li>To protect our services and enforce our terms</li>
+              <li>To respond to legal requests and prevent harm</li>
+              <li>To connect organizations with engineering talent through our placement services</li>
             </ul>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">4. Sharing Your Information</h2>
+            <h2 className="text-2xl font-semibold mb-4">Sharing Your Information</h2>
             <p>
-              We do not sell, rent, or share your personal information with third parties for marketing purposes.
-              Information may be shared only:
+              We do not sell, rent, or trade any of your personal information with third parties for their
+              promotional purposes.
+            </p>
+            <p className="mt-4">
+              We may process or share your data based on the following legal bases:
             </p>
             <ul className="list-disc pl-6 mt-4 space-y-2">
-              <li>As required by law or to comply with legal process</li>
-              <li>To protect the rights, safety, or property of Bear Brown LLC or others</li>
-              <li>With service providers who assist in operating our website (subject to confidentiality obligations)</li>
+              <li><strong>Consent:</strong> We may process your data if you have given us specific consent to use your personal information for a specific purpose.</li>
+              <li><strong>Legitimate Interests:</strong> We may process your data when it is reasonably necessary to achieve our legitimate business interests, such as improving our services or responding to inquiries.</li>
+              <li><strong>Performance of a Contract:</strong> Where we have entered into a consulting agreement or other contract with you, we may process your personal information to fulfill the terms of that agreement.</li>
+              <li><strong>Legal Obligations:</strong> We may disclose your information where we are legally required to do so in order to comply with applicable law, governmental requests, a judicial proceeding, court order, or legal process.</li>
+              <li><strong>Vital Interests:</strong> We may disclose your information where we believe it is necessary to investigate, prevent, or take action regarding potential violations of our policies, suspected fraud, situations involving potential threats to safety, or as evidence in litigation.</li>
             </ul>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">5. Third-Party Services</h2>
-            <p>This site uses the following third-party services:</p>
+            <h2 className="text-2xl font-semibold mb-4">Third-Party Services</h2>
+            <p>This website integrates with the following third-party services, each with its own privacy policy:</p>
             <ul className="list-disc pl-6 mt-4 space-y-2">
-              <li><strong>Vercel:</strong> Hosting and analytics</li>
-              <li><strong>Supabase:</strong> Database for newsletter content</li>
-              <li><strong>Spotify:</strong> Embedded music player</li>
-              <li><strong>Substack:</strong> Newsletter publishing and distribution</li>
+              <li><strong>Vercel:</strong> Website hosting and privacy-focused analytics</li>
+              <li><strong>Supabase:</strong> Database infrastructure for newsletter content storage</li>
+              <li><strong>Spotify:</strong> Embedded music player for artist profiles</li>
+              <li><strong>Substack:</strong> Newsletter publishing and distribution platform</li>
               <li><strong>Anthropic:</strong> AI-powered contact assistant</li>
+              <li><strong>GitHub:</strong> Source code hosting and collaboration</li>
+              <li><strong>YouTube:</strong> Video content hosting</li>
             </ul>
             <p className="mt-4">
-              Each of these services has its own privacy policy governing how they handle data.
-              We encourage you to review their policies.
-            </p>
-          </section>
-
-          <section className="mb-8" id="cookies">
-            <h2 className="text-2xl font-semibold mb-4">6. Cookie Policy</h2>
-            <p>
-              This site uses minimal cookies. We believe in transparency about what data is stored in your browser.
-            </p>
-            <h3 className="text-lg font-semibold mt-6 mb-3">Cookies we use:</h3>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>
-                <strong>Theme preference</strong> — Stores your dark/light mode choice so it persists across visits.
-                This is a functional cookie and does not track you.
-              </li>
-              <li>
-                <strong>Admin session</strong> — Used only for site administrators to access the admin dashboard.
-                Not set for regular visitors.
-              </li>
-            </ul>
-            <h3 className="text-lg font-semibold mt-6 mb-3">Cookies we do NOT use:</h3>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Advertising or remarketing cookies</li>
-              <li>Cross-site tracking cookies</li>
-              <li>Social media tracking pixels</li>
-            </ul>
-            <p className="mt-4">
-              Third-party embeds (Spotify player, Substack) may set their own cookies when loaded.
-              These are governed by the respective third party's cookie policy.
-            </p>
-            <h3 className="text-lg font-semibold mt-6 mb-3">Managing cookies</h3>
-            <p>
-              You can control and delete cookies through your browser settings. Disabling cookies
-              may affect your theme preference but will not prevent you from using the site.
+              We encourage you to review the privacy policies of these third-party services. Bear Brown LLC is not
+              responsible for the privacy practices of external services.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">7. Data Retention</h2>
+            <h2 className="text-2xl font-semibold mb-4">Cookies and Tracking Technologies</h2>
             <p>
-              We retain personal information only for as long as necessary to fulfill the purposes outlined in this policy,
-              or as required by law. Analytics data is retained in aggregated, non-identifiable form.
+              We use minimal cookies and do not use advertising or cross-site tracking technologies. For detailed
+              information about the cookies we use and how to manage them, please see our{' '}
+              <Link href="/privacy/cookies" className="text-primary hover:underline">Cookie Policy</Link>.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">8. Your Rights</h2>
-            <p>You have the right to:</p>
+            <h2 className="text-2xl font-semibold mb-4">Data Security</h2>
+            <p>
+              We have implemented appropriate technical and organizational security measures designed to protect the
+              security of any personal information we process. This includes using encrypted connections (HTTPS),
+              secure cloud infrastructure providers, and access controls on administrative systems.
+            </p>
+            <p className="mt-4">
+              However, please remember that no method of transmission over the Internet or method of electronic
+              storage is 100% secure. While we strive to use commercially acceptable means to protect your personal
+              information, we cannot guarantee its absolute security. Transmission of personal information to and
+              from our website is at your own risk. You should only access our services within a secure environment.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">Data Retention</h2>
+            <p>
+              We will only keep your personal information for as long as it is necessary for the purposes set out
+              in this privacy policy, unless a longer retention period is required or permitted by law (such as tax,
+              accounting, or other legal requirements).
+            </p>
+            <p className="mt-4">
+              When we have no ongoing legitimate business need to process your personal information, we will either
+              delete or anonymize such information, or, if this is not possible (for example, because your personal
+              information has been stored in backup archives), then we will securely store your personal information
+              and isolate it from any further processing until deletion is possible.
+            </p>
+            <p className="mt-4">
+              Analytics data is retained in aggregated, non-identifiable form and is not subject to individual
+              deletion requests.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">Your Privacy Rights</h2>
+            <p>
+              Depending on your location, you may have certain rights under applicable data protection laws.
+              These may include the right:
+            </p>
             <ul className="list-disc pl-6 mt-4 space-y-2">
-              <li>Request access to the personal information we hold about you</li>
-              <li>Request correction of inaccurate information</li>
-              <li>Request deletion of your personal information</li>
-              <li>Withdraw consent for future communications</li>
+              <li>To request access and obtain a copy of your personal information</li>
+              <li>To request rectification or erasure of your personal information</li>
+              <li>To restrict the processing of your personal information</li>
+              <li>If applicable, to data portability</li>
+              <li>To withdraw consent at any time for processing based on consent</li>
             </ul>
             <p className="mt-4">
-              To exercise any of these rights, contact us at{' '}
-              <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>.
-              We will respond within 30 days.
+              In certain circumstances, you may also have the right to object to the processing of your personal
+              information. To make such a request, please contact us using the details provided below. We will
+              consider and act upon any request in accordance with applicable data protection laws and will respond
+              within 30 days.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">9. Children's Privacy</h2>
+            <h2 className="text-2xl font-semibold mb-4">Children&apos;s Privacy</h2>
             <p>
-              This website is not directed at children under the age of 13. We do not knowingly collect
-              personal information from children. If you believe we have inadvertently collected such information,
-              please contact us and we will promptly delete it.
+              Our website and services are not directed at children under the age of 13. We do not knowingly
+              collect personal information from children under 13. If you are a parent or guardian and believe
+              your child has provided us with personal information, please contact us and we will promptly
+              delete such information.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">10. Changes to This Policy</h2>
+            <h2 className="text-2xl font-semibold mb-4">Changes to This Privacy Policy</h2>
             <p>
-              We may update this privacy policy from time to time. Changes will be posted on this page with an
-              updated date. Continued use of the site after changes constitutes acceptance of the revised policy.
+              We may update this privacy policy from time to time in order to reflect changes to our practices or
+              for other operational, legal, or regulatory reasons. We will notify you of any changes by posting the
+              new privacy policy on this page with an updated date. You are advised to review this privacy policy
+              periodically for any changes. Changes to this privacy policy are effective when they are posted on
+              this page.
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">11. Contact</h2>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
             <p>
-              Questions about this policy? Contact Bear Brown LLC:
+              If you have questions or comments about this privacy policy, please contact Bear Brown LLC:
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
-              <li>
+              <li><strong>Email:</strong>{' '}
                 <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
               </li>
-              <li>30 N Gould St Ste N, Sheridan, WY 82801</li>
+              <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
             </ul>
           </section>
         </div>
@@ -175,11 +212,11 @@ export default function PrivacyPolicyPage() {
         {/* Navigation */}
         <div className="mt-12 pt-8 border-t">
           <div className="flex flex-col sm:flex-row gap-4 justify-between">
-            <Link href="/" className="text-primary hover:underline">
-              ← Home
-            </Link>
             <Link href="/terms-of-service" className="text-primary hover:underline">
-              Terms of Service →
+              ← Terms of Service
+            </Link>
+            <Link href="/privacy/cookies" className="text-primary hover:underline">
+              Cookie Policy →
             </Link>
           </div>
         </div>

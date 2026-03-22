@@ -23,13 +23,14 @@ Primary audiences:
 1. `/` — Home (business card + Spotify player + AI contact assistant)
 2. `/tools` — Tools directory (placeholder — card grid coming)
 3. `/about` — CV / bio page (prose format)
-4. `/privacy` — Privacy Policy for Bear Brown LLC (includes Cookie Policy at #cookies)
-5. `/terms-of-service` — Terms of Service for Bear Brown LLC
-6. `/substack` — Newsletter hub: card grid of all Substack sections
-7. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
-8. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
-9. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
-10. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
+4. `/privacy` — Privacy Policy for Bear Brown LLC
+5. `/privacy/cookies` — Cookie Policy for Bear Brown LLC (dedicated page)
+6. `/terms-of-service` — Terms of Service for Bear Brown LLC
+7. `/substack` — Newsletter hub: card grid of all Substack sections
+8. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
+9. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
+10. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
+11. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
 
 ## Persistent layout (every page)
 
@@ -85,14 +86,17 @@ Prose-forward CV format with sections:
 
 Still needs: Substack link, musinique.com links, Bear Brown LLC details, publications list.
 
-## Privacy Policy (`/app/privacy/page.tsx`) — DONE
-Full privacy policy for Bear Brown LLC (Nik Bear Brown, Sole Member). References company address (30 N Gould St Ste N, Sheridan WY 82801), EIN (41-4226710), and AI consulting services. Sections: who we are, info collection, usage, sharing, third-party services (Vercel, Supabase, Spotify, Substack, Anthropic), cookie policy (#cookies anchor), data retention, your rights, children's privacy, changes, contact. Nav links to Home and Terms of Service.
+## Legal Pages — DONE
+All three pages follow the Humanitarians AI structural template, rewritten for Bear Brown LLC. Each references: Bear Brown LLC (Nik Bear Brown, Sole Member), 30 N Gould St Ste N, Sheridan WY 82801, bear@bearbrown.co, EIN 41-4226710, AI consulting services.
 
-## Cookie Policy — DONE
-Integrated as section 6 within `/privacy` page, accessible via `/privacy#cookies`. Covers: theme preference cookie, admin session cookie, no advertising/tracking cookies, third-party embed cookies (Spotify, Substack), browser cookie management.
+### Privacy Policy (`/app/privacy/page.tsx`)
+Sections: introduction, information we collect (contact data, inquiry content, consulting engagement data, analytics), how we use info, sharing (consent, legitimate interests, contract, legal, vital interests), third-party services (Vercel, Supabase, Spotify, Substack, Anthropic, GitHub, YouTube), cookies reference (links to Cookie Policy page), data security, data retention, your privacy rights, children's privacy, changes, contact. Nav: Terms of Service ← → Cookie Policy.
 
-## Terms of Service (`/app/terms-of-service/page.tsx`) — DONE
-Full terms for Bear Brown LLC. References company details, AI consulting services, Wyoming governing law. Sections: intro, services, AI consulting, intellectual property, use license, user conduct, third-party services, newsletter content, disclaimer of warranties, limitation of liability, indemnification, governing law (Wyoming), changes, contact. Nav links to Privacy Policy and Home.
+### Cookie Policy (`/app/privacy/cookies/page.tsx`)
+Separate dedicated page at `/privacy/cookies`. Sections: what are cookies, cookies we use (table: theme + admin_session), cookies we do NOT use (advertising, remarketing, cross-site tracking, social pixels, individual analytics), third-party cookies (Spotify, Substack, Claude.site with links to their policies), how to manage cookies (browser-specific instructions), Do Not Track, changes, contact. Nav: Privacy Policy ← → Terms of Service.
+
+### Terms of Service (`/app/terms-of-service/page.tsx`)
+15 sections: introduction, website purpose, AI consulting services, intellectual property, use license, user conduct, newsletter content (lists all 5 Substack publications), third-party services and links, disclaimer, limitations, indemnification, revisions and errata, governing law (Wyoming), modifications, contact. Nav: Privacy Policy ← → Home.
 
 ## AI Contact Assistant (Home page) — NOT YET BUILT
 - Embedded Claude-powered chat widget
@@ -359,7 +363,8 @@ app/
   page.tsx                          # Home
   about/page.tsx                    # About / CV
   tools/page.tsx                    # Tools directory (placeholder)
-  privacy/page.tsx                  # Privacy Policy (includes Cookie Policy at #cookies)
+  privacy/page.tsx                  # Privacy Policy
+  privacy/cookies/page.tsx          # Cookie Policy (dedicated page)
   terms-of-service/page.tsx         # Terms of Service
   substack/
     page.tsx                        # Newsletter hub
