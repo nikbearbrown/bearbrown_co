@@ -42,6 +42,40 @@ function formatDate(dateStr: string | null): string {
   })
 }
 
+function BulkActions({
+  posts,
+  selectedIds,
+  onPublish,
+  onUnpublish,
+  onDelete,
+}: {
+  posts: Post[]
+  selectedIds: Set<string>
+  onPublish: () => void
+  onUnpublish: () => void
+  onDelete: () => void
+}) {
+  const selectedDrafts = posts.filter(p => selectedIds.has(p.id) && !p.published).length
+  const selectedPublished = posts.filter(p => selectedIds.has(p.id) && p.published).length
+  return (
+    <>
+      {selectedDrafts > 0 && (
+        <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white" onClick={onPublish}>
+          Publish {selectedDrafts} selected
+        </Button>
+      )}
+      {selectedPublished > 0 && (
+        <Button variant="secondary" size="sm" onClick={onUnpublish}>
+          Unpublish {selectedPublished} selected
+        </Button>
+      )}
+      <Button variant="destructive" size="sm" onClick={onDelete}>
+        Delete {selectedIds.size} selected
+      </Button>
+    </>
+  )
+}
+
 export default function BlogAdminPage() {
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
@@ -115,6 +149,37 @@ export default function BlogAdminPage() {
     if (!confirm(`Delete ${selectedIds.size} selected posts?`)) return
     for (const id of selectedIds) {
       await fetch(`/api/admin/blog/${id}`, { method: 'DELETE' })
+    }
+    setSelectedIds(new Set())
+    fetchPosts()
+  }
+
+  async function bulkPublish() {
+    if (selectedIds.size === 0) return
+    const drafts = posts.filter(p => selectedIds.has(p.id) && !p.published)
+    if (drafts.length === 0) return
+    const now = new Date().toISOString()
+    for (const post of drafts) {
+      await fetch(`/api/admin/blog/${post.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ published: true, published_at: now }),
+      })
+    }
+    setSelectedIds(new Set())
+    fetchPosts()
+  }
+
+  async function bulkUnpublish() {
+    if (selectedIds.size === 0) return
+    const published = posts.filter(p => selectedIds.has(p.id) && p.published)
+    if (published.length === 0) return
+    for (const post of published) {
+      await fetch(`/api/admin/blog/${post.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ published: false }),
+      })
     }
     setSelectedIds(new Set())
     fetchPosts()
@@ -241,9 +306,13 @@ export default function BlogAdminPage() {
             Select all {activeTag ? 'filtered' : ''} ({filteredPosts.length})
           </label>
           {selectedIds.size > 0 && (
-            <Button variant="destructive" size="sm" onClick={bulkDelete}>
-              Delete {selectedIds.size} selected
-            </Button>
+            <BulkActions
+              posts={posts}
+              selectedIds={selectedIds}
+              onPublish={bulkPublish}
+              onUnpublish={bulkUnpublish}
+              onDelete={bulkDelete}
+            />
           )}
         </div>
       )}
