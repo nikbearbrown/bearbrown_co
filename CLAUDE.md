@@ -17,6 +17,8 @@ Primary audiences:
 - TypeScript
 - next-themes for dark/light mode
 - Neon (serverless PostgreSQL via @neondatabase/serverless)
+- Tiptap (ProseMirror-based rich text editor for blog)
+- D3.js (data visualizations embedded in blog posts)
 - adm-zip (server-side Substack ZIP parsing)
 
 ## Site structure
@@ -161,13 +163,17 @@ RLS: public can read published posts only, service role has full access.
 - `/admin/dashboard/blog/[id]/edit` — Edit existing post
 
 ### Blog Editor (`/components/BlogEditor/BlogEditor.tsx`)
-Substack-simple editor:
+Tiptap (ProseMirror-based) rich text editor, Substack-style:
 - Large title input (no label, headline style)
 - Italic subtitle input ("Add a subtitle...")
 - Byline textarea (pre-populated with default author bio, saved per post)
 - Auto-generated slug from title (editable)
-- HTML textarea editor with toolbar: Bold, Italic, Strikethrough, Code, Link, H2, H3, Bullet list, Numbered list, Insert Viz (BarChart icon) + Preview toggle
-- "Insert Viz" prompts for a viz name and inserts `<div data-viz="name"></div>` at cursor
+- Tiptap WYSIWYG editor with toolbar:
+  - Text: Bold, Italic, Underline, Strikethrough, Inline Code, Code Block
+  - Structure: H2, H3, Bullet List, Ordered List, Blockquote, Horizontal Rule
+  - Embeds: Link, Image (URL prompt), YouTube (via @tiptap/extension-youtube), Spotify (URL → iframe), D3 Viz (inserts `data-viz` placeholder)
+- Preview toggle renders HTML via BlogVizHydrator (D3 vizzes work in preview)
+- Output is clean HTML via `editor.getHTML()`, stored in `content` column
 - Actions: "Save Draft", "Publish" (sets published=true + published_at), "Unpublish" (for published posts)
 - Auto-generates excerpt (first 200 chars plain text)
 
@@ -505,7 +511,7 @@ components/
   Header/Header.tsx                 # Sticky header with nav + social + theme toggle
   Footer/Footer.tsx                 # 4-column footer (company, publications, social, legal)
   ArtistCarousel/ArtistCarousel.tsx  # Rotating artist carousel with Spotify/Apple/Musinique links
-  BlogEditor/BlogEditor.tsx         # HTML textarea blog editor with toolbar + Insert Viz
+  BlogEditor/BlogEditor.tsx         # Tiptap rich text editor (WYSIWYG, embeds, viz)
   BlogVizHydrator/BlogVizHydrator.tsx # Client component: hydrates data-viz elements with D3 charts
   SpotifyPlayer/SpotifyPlayer.tsx   # Random artist Spotify embed (legacy, still available)
   ThemeToggle.tsx                   # Dark/light mode toggle

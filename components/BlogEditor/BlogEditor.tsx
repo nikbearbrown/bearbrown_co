@@ -1,21 +1,36 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
+import Youtube from '@tiptap/extension-youtube'
+import Placeholder from '@tiptap/extension-placeholder'
+import Underline from '@tiptap/extension-underline'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import BlogVizHydrator from '@/components/BlogVizHydrator/BlogVizHydrator'
 import {
-  Bold,
-  Italic,
-  Strikethrough,
-  Code,
+  Bold as BoldIcon,
+  Italic as ItalicIcon,
+  Underline as UnderlineIcon,
+  Strikethrough as StrikeIcon,
+  Code as CodeIcon,
   Link as LinkIcon,
   Heading2,
   Heading3,
   List,
   ListOrdered,
+  Quote,
+  Minus,
+  ImageIcon,
+  Youtube as YoutubeIcon,
+  Music,
   BarChart,
+  Braces,
 } from 'lucide-react'
 
 interface BlogPost {
@@ -47,35 +62,83 @@ function extractExcerpt(html: string): string {
   return text.slice(0, 200).replace(/\s\S*$/, '') + '…'
 }
 
-type WrapAction =
-  | { type: 'wrap'; before: string; after: string }
-  | { type: 'line'; prefix: string }
-  | { type: 'link' }
+function parseSpotifyUrl(url: string): { type: string; id: string } | null {
+  // Handles: https://open.spotify.com/track/ID, /album/ID, /playlist/ID, /episode/ID
+  const match = url.match(/open\.spotify\.com\/(track|album|playlist|episode|show)\/([a-zA-Z0-9]+)/)
+  if (match) return { type: match[1], id: match[2] }
+  return null
+}
 
-const TOOLBAR: { icon: typeof Bold; label: string; action: WrapAction }[] = [
-  { icon: Bold, label: 'Bold', action: { type: 'wrap', before: '<strong>', after: '</strong>' } },
-  { icon: Italic, label: 'Italic', action: { type: 'wrap', before: '<em>', after: '</em>' } },
-  { icon: Strikethrough, label: 'Strikethrough', action: { type: 'wrap', before: '<s>', after: '</s>' } },
-  { icon: Code, label: 'Code', action: { type: 'wrap', before: '<code>', after: '</code>' } },
-  { icon: LinkIcon, label: 'Link', action: { type: 'link' } },
-  { icon: Heading2, label: 'H2', action: { type: 'line', prefix: '<h2>' } },
-  { icon: Heading3, label: 'H3', action: { type: 'line', prefix: '<h3>' } },
-  { icon: List, label: 'Bullet list', action: { type: 'line', prefix: '<li>' } },
-  { icon: ListOrdered, label: 'Numbered list', action: { type: 'line', prefix: '<li>' } },
-]
+function ToolbarButton({
+  onClick,
+  active,
+  title,
+  children,
+}: {
+  onClick: () => void
+  active?: boolean
+  title: string
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={title}
+      className={`h-8 w-8 inline-flex items-center justify-center rounded transition-colors ${
+        active ? 'bg-muted text-foreground' : 'hover:bg-muted'
+      }`}
+    >
+      {children}
+    </button>
+  )
+}
+
+function ToolbarSep() {
+  return <div className="w-px h-5 bg-border mx-0.5" />
+}
 
 export default function BlogEditor({ post }: { post?: BlogPost }) {
   const router = useRouter()
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [title, setTitle] = useState(post?.title || '')
   const [subtitle, setSubtitle] = useState(post?.subtitle || '')
   const [byline, setByline] = useState(post?.byline ?? DEFAULT_BYLINE)
   const [slug, setSlug] = useState(post?.slug || '')
   const [slugEdited, setSlugEdited] = useState(!!post)
-  const [content, setContent] = useState(post?.content || '')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [showPreview, setShowPreview] = useState(false)
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        heading: { levels: [2, 3] },
+      }),
+      Underline,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: { rel: 'noopener noreferrer', target: '_blank' },
+      }),
+      Image.configure({
+        HTMLAttributes: { class: 'rounded-lg' },
+      }),
+      Youtube.configure({
+        HTMLAttributes: { class: 'rounded-lg' },
+        width: 640,
+        height: 360,
+      }),
+      Placeholder.configure({
+        placeholder: 'Start writing…',
+      }),
+    ],
+    content: post?.content || '',
+    editorProps: {
+      attributes: {
+        class:
+          'min-h-[400px] prose prose-neutral dark:prose-invert max-w-none p-6 focus:outline-none prose-headings:font-bold prose-headings:tracking-tighter prose-a:text-foreground prose-a:underline prose-img:rounded-lg',
+      },
+    },
+  })
 
   const handleTitleChange = useCallback(
     (value: string) => {
@@ -87,50 +150,17 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
     [slugEdited],
   )
 
-  function applyAction(action: WrapAction) {
-    const ta = textareaRef.current
-    if (!ta) return
-
-    const start = ta.selectionStart
-    const end = ta.selectionEnd
-    const selected = content.slice(start, end)
-
-    let newContent: string
-    let cursorPos: number
-
-    if (action.type === 'wrap') {
-      const wrapped = `${action.before}${selected || 'text'}${action.after}`
-      newContent = content.slice(0, start) + wrapped + content.slice(end)
-      cursorPos = start + action.before.length + (selected ? selected.length : 4)
-    } else if (action.type === 'line') {
-      const closing = action.prefix === '<h2>' ? '</h2>' : action.prefix === '<h3>' ? '</h3>' : '</li>'
-      const wrapped = `${action.prefix}${selected || ''}${closing}`
-      newContent = content.slice(0, start) + wrapped + content.slice(end)
-      cursorPos = start + action.prefix.length + (selected ? selected.length : 0)
-    } else {
-      // link
-      const url = window.prompt('Enter URL:')
-      if (!url) return
-      const linkText = selected || 'link text'
-      const wrapped = `<a href="${url}">${linkText}</a>`
-      newContent = content.slice(0, start) + wrapped + content.slice(end)
-      cursorPos = start + wrapped.length
-    }
-
-    setContent(newContent)
-    // Restore focus and cursor after React re-render
-    requestAnimationFrame(() => {
-      ta.focus()
-      ta.setSelectionRange(cursorPos, cursorPos)
-    })
+  function getContent(): string {
+    return editor?.getHTML() || ''
   }
 
   async function save(publish: boolean) {
+    const content = getContent()
     if (!title.trim()) {
       setError('Title is required')
       return
     }
-    if (!content.trim()) {
+    if (!content.trim() || content === '<p></p>') {
       setError('Content is required')
       return
     }
@@ -168,6 +198,46 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
     } finally {
       setSaving(false)
     }
+  }
+
+  function insertSpotify() {
+    const url = window.prompt('Spotify URL (track, album, playlist, episode):')
+    if (!url) return
+    const parsed = parseSpotifyUrl(url)
+    if (!parsed) {
+      window.alert('Could not parse Spotify URL. Use a link like https://open.spotify.com/track/...')
+      return
+    }
+    const iframe = `<iframe src="https://open.spotify.com/embed/${parsed.type}/${parsed.id}" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" style="border-radius:12px"></iframe>`
+    editor?.chain().focus().insertContent(iframe).run()
+  }
+
+  function insertYoutube() {
+    const url = window.prompt('YouTube URL:')
+    if (!url) return
+    editor?.chain().focus().setYoutubeVideo({ src: url }).run()
+  }
+
+  function insertImage() {
+    const url = window.prompt('Image URL:')
+    if (!url) return
+    const alt = window.prompt('Alt text (optional):') || ''
+    editor?.chain().focus().setImage({ src: url, alt }).run()
+  }
+
+  function insertLink() {
+    const url = window.prompt('URL:')
+    if (!url) {
+      editor?.chain().focus().unsetLink().run()
+      return
+    }
+    editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+  }
+
+  function insertViz() {
+    const name = window.prompt('Viz name (e.g. ai-adoption-bars):')
+    if (!name) return
+    editor?.chain().focus().insertContent(`<div data-viz="${name}"></div>`).run()
   }
 
   return (
@@ -226,39 +296,64 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
 
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-1 border rounded-md p-1.5 bg-muted/30 sticky top-16 z-10">
-        {TOOLBAR.map((btn) => (
-          <button
-            key={btn.label}
-            type="button"
-            onClick={() => applyAction(btn.action)}
-            title={btn.label}
-            className="h-8 w-8 inline-flex items-center justify-center rounded hover:bg-muted transition-colors"
-          >
-            <btn.icon className="h-4 w-4" />
-          </button>
-        ))}
-        <button
-          type="button"
-          onClick={() => {
-            const name = window.prompt('Viz name (e.g. ai-adoption-bars):')
-            if (!name) return
-            const ta = textareaRef.current
-            if (!ta) return
-            const tag = `<div data-viz="${name}"></div>`
-            const pos = ta.selectionStart
-            const updated = content.slice(0, pos) + tag + content.slice(ta.selectionEnd)
-            setContent(updated)
-            requestAnimationFrame(() => {
-              ta.focus()
-              const cursor = pos + tag.length
-              ta.setSelectionRange(cursor, cursor)
-            })
-          }}
-          title="Insert Viz"
-          className="h-8 w-8 inline-flex items-center justify-center rounded hover:bg-muted transition-colors"
-        >
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleBold().run()} active={editor?.isActive('bold')} title="Bold">
+          <BoldIcon className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleItalic().run()} active={editor?.isActive('italic')} title="Italic">
+          <ItalicIcon className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleUnderline().run()} active={editor?.isActive('underline')} title="Underline">
+          <UnderlineIcon className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleStrike().run()} active={editor?.isActive('strike')} title="Strikethrough">
+          <StrikeIcon className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleCode().run()} active={editor?.isActive('code')} title="Inline code">
+          <CodeIcon className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleCodeBlock().run()} active={editor?.isActive('codeBlock')} title="Code block">
+          <Braces className="h-4 w-4" />
+        </ToolbarButton>
+
+        <ToolbarSep />
+
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()} active={editor?.isActive('heading', { level: 2 })} title="Heading 2">
+          <Heading2 className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()} active={editor?.isActive('heading', { level: 3 })} title="Heading 3">
+          <Heading3 className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleBulletList().run()} active={editor?.isActive('bulletList')} title="Bullet list">
+          <List className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleOrderedList().run()} active={editor?.isActive('orderedList')} title="Ordered list">
+          <ListOrdered className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().toggleBlockquote().run()} active={editor?.isActive('blockquote')} title="Blockquote">
+          <Quote className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor?.chain().focus().setHorizontalRule().run()} title="Divider">
+          <Minus className="h-4 w-4" />
+        </ToolbarButton>
+
+        <ToolbarSep />
+
+        <ToolbarButton onClick={insertLink} active={editor?.isActive('link')} title="Link">
+          <LinkIcon className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={insertImage} title="Image">
+          <ImageIcon className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={insertYoutube} title="YouTube embed">
+          <YoutubeIcon className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={insertSpotify} title="Spotify embed">
+          <Music className="h-4 w-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={insertViz} title="D3 viz embed">
           <BarChart className="h-4 w-4" />
-        </button>
+        </ToolbarButton>
+
         <div className="ml-auto">
           <button
             type="button"
@@ -272,21 +367,13 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
 
       {/* Editor / Preview */}
       {showPreview ? (
-        <div
-          className="min-h-[400px] prose prose-neutral dark:prose-invert max-w-none border rounded-md p-6
-            prose-headings:font-bold prose-headings:tracking-tighter
-            prose-a:text-foreground prose-a:underline
-            prose-img:rounded-lg"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
+        <div className="min-h-[400px] prose prose-neutral dark:prose-invert max-w-none border rounded-md p-6 prose-headings:font-bold prose-headings:tracking-tighter prose-a:text-foreground prose-a:underline prose-img:rounded-lg">
+          <BlogVizHydrator html={getContent()} />
+        </div>
       ) : (
-        <textarea
-          ref={textareaRef}
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Write your post in HTML..."
-          className="w-full min-h-[400px] font-mono text-sm border rounded-md p-6 bg-background resize-y focus:outline-none focus:ring-1 focus:ring-ring"
-        />
+        <div className="border rounded-md bg-background">
+          <EditorContent editor={editor} />
+        </div>
       )}
 
       {/* Actions */}
