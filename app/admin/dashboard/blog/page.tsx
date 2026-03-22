@@ -20,7 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Pencil, Trash2, Plus, Upload, Download, X } from 'lucide-react'
+import { Pencil, Trash2, Plus, Upload, Download, X, Check, XCircle } from 'lucide-react'
 
 interface Post {
   id: string
@@ -120,6 +120,32 @@ export default function BlogAdminPage() {
     fetchPosts()
   }
 
+  async function togglePublish(post: Post) {
+    try {
+      const res = await fetch(`/api/admin/blog/${post.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          post.published
+            ? { published: false }
+            : { published: true, published_at: new Date().toISOString() }
+        ),
+      })
+      if (!res.ok) throw new Error('Failed to update')
+      // Update in place
+      const updated = await res.json()
+      setPosts(prev =>
+        prev.map(p =>
+          p.id === post.id
+            ? { ...p, published: updated.published, published_at: updated.published_at }
+            : p
+        )
+      )
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error updating post')
+    }
+  }
+
   // Export: fetch count preview
   useEffect(() => {
     if (!exportOpen) return
@@ -164,7 +190,7 @@ export default function BlogAdminPage() {
               Import
             </Button>
           </Link>
-          <Button variant="outline" className="gap-2" onClick={() => setExportOpen(true)}>
+          <Button variant="outline" className="gap-2" onClick={() => { setExportTags(activeTag || ''); setExportOpen(true) }}>
             <Download className="h-4 w-4" />
             Export
           </Button>
@@ -278,6 +304,18 @@ export default function BlogAdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-2 ml-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    title={post.published ? 'Unpublish' : 'Publish'}
+                    onClick={() => togglePublish(post)}
+                  >
+                    {post.published ? (
+                      <XCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                    ) : (
+                      <Check className="h-3.5 w-3.5 text-green-600" />
+                    )}
+                  </Button>
                   <Link href={`/admin/dashboard/blog/${post.id}/edit`}>
                     <Button variant="outline" size="sm">
                       <Pencil className="h-3.5 w-3.5" />

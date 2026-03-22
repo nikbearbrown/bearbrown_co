@@ -34,30 +34,42 @@ export async function PUT(
 
   const { id } = await params
   const body = await req.json()
-  const { title, subtitle, slug, byline, content, excerpt, published, tags } = body
-  const tagsArray = Array.isArray(tags) ? tags : []
 
   try {
-    // Check if we need to set published_at on first publish
-    let publishedAt = undefined
-    if (published) {
-      const existing = await sql`SELECT published_at FROM blog_posts WHERE id = ${id}`
-      if (existing.length > 0 && !existing[0].published_at) {
-        publishedAt = new Date().toISOString()
-      }
+    // Fetch existing post to merge partial updates
+    const existing = await sql`SELECT * FROM blog_posts WHERE id = ${id}`
+    if (existing.length === 0) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 })
     }
+    const current = existing[0]
+
+    const title = body.title ?? current.title
+    const subtitle = body.subtitle !== undefined ? (body.subtitle || null) : current.subtitle
+    const slug = body.slug ?? current.slug
+    const byline = body.byline !== undefined ? (body.byline || null) : current.byline
+    const content = body.content ?? current.content
+    const excerpt = body.excerpt !== undefined ? (body.excerpt || null) : current.excerpt
+    const published = body.published ?? current.published
+    const tags = body.tags !== undefined ? (Array.isArray(body.tags) ? body.tags : []) : (current.tags || [])
+
+    // Set published_at on first publish
+    let publishedAt = current.published_at
+    if (published && !current.published_at) {
+      publishedAt = body.published_at || new Date().toISOString()
+    }
+    // Clear published_at on unpublish? Keep it — shows original publish date.
 
     const rows = await sql`
       UPDATE blog_posts SET
         title = ${title},
-        subtitle = ${subtitle || null},
+        subtitle = ${subtitle},
         slug = ${slug},
-        byline = ${byline || null},
+        byline = ${byline},
         content = ${content},
-        excerpt = ${excerpt || null},
-        published = ${published ?? false},
-        tags = ${tagsArray},
-        published_at = COALESCE(${publishedAt ?? null}::timestamptz, published_at),
+        excerpt = ${excerpt},
+        published = ${published},
+        tags = ${tags},
+        published_at = ${publishedAt},
         updated_at = NOW()
       WHERE id = ${id}
       RETURNING *
