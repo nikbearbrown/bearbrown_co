@@ -9,18 +9,38 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/tools`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/substack`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
+    { url: `${BASE_URL}/privacy`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
+    { url: `${BASE_URL}/privacy/cookies`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
+    { url: `${BASE_URL}/terms-of-service`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
   ]
 
-  // Add dynamic substack pages
   try {
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
     )
 
+    // Tools with slugs (artifact tools have their own pages)
+    const { data: tools } = await supabase
+      .from('tools')
+      .select('slug, updated_at')
+      .eq('tool_type', 'artifact')
+
+    if (tools) {
+      for (const t of tools) {
+        entries.push({
+          url: `${BASE_URL}/tools/${t.slug}`,
+          lastModified: t.updated_at ? new Date(t.updated_at) : new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.7,
+        })
+      }
+    }
+
+    // Substack sections
     const { data: sections } = await supabase
       .from('substack_sections')
-      .select('slug, updated_at')
+      .select('id, slug, updated_at')
 
     if (sections) {
       for (const s of sections) {
@@ -32,19 +52,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         })
       }
 
-      // Fetch all articles with their section slugs
+      const idToSlug = new Map(sections.map((s) => [s.id, s.slug]))
+
       const { data: articles } = await supabase
         .from('substack_articles')
         .select('slug, published_at, section_id')
 
-      if (articles && sections) {
-        const sectionMap = new Map(sections.map((s) => [s.slug, s]))
-        // Build section id -> slug map
-        const { data: allSections } = await supabase
-          .from('substack_sections')
-          .select('id, slug')
-        const idToSlug = new Map(allSections?.map((s) => [s.id, s.slug]) || [])
-
+      if (articles) {
         for (const a of articles) {
           const sectionSlug = idToSlug.get(a.section_id)
           if (sectionSlug) {

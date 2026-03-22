@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
   { name: 'Overview', href: '/admin/dashboard' },
+  { name: 'Tools', href: '/admin/dashboard/tools' },
   { name: 'Substack', href: '/admin/dashboard/substack' },
 ]
 

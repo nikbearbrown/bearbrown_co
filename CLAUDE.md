@@ -21,16 +21,18 @@ Primary audiences:
 
 ## Site structure
 1. `/` — Home (business card + Spotify player + AI contact assistant)
-2. `/tools` — Tools directory (placeholder — card grid coming)
-3. `/about` — CV / bio page (prose format)
-4. `/privacy` — Privacy Policy for Bear Brown LLC
-5. `/privacy/cookies` — Cookie Policy for Bear Brown LLC (dedicated page)
-6. `/terms-of-service` — Terms of Service for Bear Brown LLC
-7. `/substack` — Newsletter hub: card grid of all Substack sections
-8. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
-9. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
-10. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
-11. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
+2. `/tools` — Tools directory (card grid, Supabase-driven)
+3. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
+4. `/about` — CV / bio page (prose format)
+5. `/privacy` — Privacy Policy for Bear Brown LLC
+6. `/privacy/cookies` — Cookie Policy for Bear Brown LLC (dedicated page)
+7. `/terms-of-service` — Terms of Service for Bear Brown LLC
+8. `/substack` — Newsletter hub: card grid of all Substack sections
+9. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
+10. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
+11. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
+12. `/admin/dashboard/tools` — Manage tools (link and artifact types)
+13. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
 
 ## Persistent layout (every page)
 
@@ -62,18 +64,52 @@ Four-column grid layout:
 - Right: SpotifyPlayer component
 - Below fold: AI contact assistant widget (NOT YET BUILT)
 
-## Tools directory (`/app/tools/page.tsx`) — PLACEHOLDER
-Currently a placeholder page. Needs to be populated with tool cards.
+## Tools system — DONE
 
-### Tools to add (2 so far):
-1. **Subby** — Substack writing assistant
-   - iframe: `<iframe src="https://claude.site/public/artifacts/6dc0c6cf-32e0-4f53-94b9-f6d01cc4df9c/embed" title="Subby" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>`
+### Database (`tools` table in Supabase)
+```sql
+CREATE TABLE IF NOT EXISTS tools (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  description TEXT,
+  tool_type TEXT DEFAULT 'link',  -- 'link' | 'artifact'
+  url TEXT,                        -- external URL (for link tools, or fallback for artifacts)
+  artifact_id TEXT,                -- Claude artifact UUID
+  artifact_embed_code TEXT,        -- raw iframe embed (overrides artifact_id if set)
+  tags TEXT[],                     -- category tags stored as array
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE tools ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public_read_tools" ON tools FOR SELECT USING (true);
+CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (true);
+```
 
-2. **CRITIQ** — Peer review & paper development protocol
-   - iframe: `<iframe src="https://claude.site/public/artifacts/a53d969f-5aaf-45f6-9992-2c6a00a4122f/embed" title="CRITIQ" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>`
+### Tool types
+- **link** — External URL tool. Card clicks open URL in new tab.
+- **artifact** — Claude Artifact embed. Card clicks go to `/tools/[slug]` which renders the artifact in a full-viewport iframe. Iframe source: `https://claude.site/artifacts/[artifact_id]` or raw `artifact_embed_code` if provided.
 
-Card fields: name, short description, iframe embed or link, category tag.
-Adding more tools later = adding a new object to a tools data array. Keep it data-driven.
+### API routes (admin-protected)
+- `GET/POST /api/admin/tools` — list & create tools
+- `PUT/DELETE /api/admin/tools/[id]` — update & delete tools
+
+### Admin UI (`/app/admin/dashboard/tools/page.tsx`)
+- Tool list with name, type badge (Link/Artifact), slug, tags, artifact ID or URL
+- "New Tool" button → dialog form with:
+  - Name, slug (auto-generated), description
+  - Tool type selector (Link / Claude Artifact)
+  - Conditional fields: URL for link tools; artifact_id + embed_code + fallback URL for artifacts
+  - Tags (comma-separated input, stored as array)
+- Edit and delete per tool
+
+### Public pages
+- `/tools` — Card grid of all tools. Artifact tools show "Artifact" badge and link to `/tools/[slug]`. Link tools open in new tab.
+- `/tools/[slug]` — Full-page artifact embed with title bar (name, description, "Back to Tools" link, optional "Open External" button). Iframe takes full viewport height minus header.
+
+### Initial tools to add via admin:
+1. **Subby** — Substack writing assistant (artifact_id: `6dc0c6cf-32e0-4f53-94b9-f6d01cc4df9c`)
+2. **CRITIQ** — Peer review & paper development protocol (artifact_id: `a53d969f-5aaf-45f6-9992-2c6a00a4122f`)
 
 ## About page (`/app/about/page.tsx`) — DONE
 Prose-forward CV format with sections:
@@ -203,9 +239,11 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 - `app/robots.ts` — allows all, disallows `/admin/` and `/api/`, points to `/sitemap.xml`
 
 ## Admin dashboard (`/app/admin/dashboard/`) — DONE
-- Layout with tabbed nav (Overview, Substack)
+- Layout with tabbed nav (Overview, Tools, Substack)
 - Protected pages — requires `admin_session` cookie to use API routes
-- Currently only has Substack management; overview is placeholder
+- Tools management: create/edit/delete tools with link/artifact type support
+- Substack management: create/edit/delete sections, import ZIP archives
+- Overview is placeholder
 
 ## Environment variables
 ```
@@ -362,7 +400,8 @@ npm run dev        # starts at http://localhost:3000
 app/
   page.tsx                          # Home
   about/page.tsx                    # About / CV
-  tools/page.tsx                    # Tools directory (placeholder)
+  tools/page.tsx                    # Tools directory (card grid)
+  tools/[slug]/page.tsx             # Artifact tool embed page
   privacy/page.tsx                  # Privacy Policy
   privacy/cookies/page.tsx          # Cookie Policy (dedicated page)
   terms-of-service/page.tsx         # Terms of Service
@@ -373,7 +412,11 @@ app/
   admin/dashboard/
     layout.tsx                      # Admin layout with tab nav
     page.tsx                        # Admin overview (placeholder)
+    tools/page.tsx                  # Tools manager (link + artifact types)
     substack/page.tsx               # Substack section manager
+  api/admin/tools/
+    route.ts                        # GET/POST tools
+    [id]/route.ts                   # PUT/DELETE tool
   api/admin/substack/
     sections/route.ts               # GET/POST sections
     sections/[id]/route.ts          # PUT/DELETE section
@@ -399,7 +442,7 @@ lib/
 #### Adding content
 
 - **New Substack section**: Use the admin UI at `/admin/dashboard/substack`, or insert directly into the `substack_sections` table
-- **New tool card**: Add an object to the tools data array in `/app/tools/page.tsx` (once built)
+- **New tool**: Use the admin UI at `/admin/dashboard/tools`. Choose "Link Tool" for external URLs or "Claude Artifact" to embed an artifact at `/tools/[slug]`
 - **New artist to Spotify player**: Add to the `ARTISTS` array in `/components/SpotifyPlayer/SpotifyPlayer.tsx`
 
 #### Deployment
@@ -415,7 +458,7 @@ After every session, always:
 2. Commit and push all changes to main with a descriptive commit message.
 
 ## Remaining work (in priority order)
-1. Populate tools page with Subby + CRITIQ cards (data-driven)
+1. Add Subby + CRITIQ tools via admin dashboard (artifact IDs in Tools system docs above)
 2. Build AI contact assistant widget on home page
 3. Flesh out About page (Substack, musinique.com, Bear Brown LLC, publications)
 4. Add admin login page (currently admin_session cookie must be set manually)
