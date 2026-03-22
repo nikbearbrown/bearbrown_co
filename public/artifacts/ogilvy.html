@@ -4,891 +4,1189 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ogilvy Copywriting Coach</title>
+  <meta name="description" content="A two-mode AI copywriting coach built on David Ogilvy's principles. Covers 20+ commands for brand voice, social copy, video scripts, product demos, crowdfunding, and writer bylines — with 2026 platform constraints baked in. For marketers, creators, and founders who need both speed and rigorous creative direction." />
+  <meta name="keywords" content="copywriting, ogilvy, brand voice, social media copy, ad copy, content creation, two-mode tool, silent mode, interactive mode" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --brown: #5C3D2E;
-      --brown-light: #f5ede8;
-      --brown-mid: #e8d5cb;
-      --brown-hover: #4a3025;
-      --text: #1a1a1a;
-      --text-muted: #888;
-      --border: #e5e0dc;
-      --bg: #ffffff;
-      --code-bg: #f7f3f0;
-      --shadow: 0 2px 12px rgba(92,61,46,0.08);
+      --bb-1: #1a0a00;
+      --bb-2: #8B3A0F;
+      --bb-3: #C0392B;
+      --bb-4: #E8A020;
+      --bb-5: #D4500A;
+      --bb-6: #B8860B;
+      --bb-7: #C8A96E;
+      --bb-8: #F0E6D0;
+
+      --serif: 'Playfair Display', Georgia, serif;
+      --body: 'Source Serif 4', Georgia, serif;
     }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       height: 100%;
-      overflow: hidden;
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 15px;
+      background: var(--bb-8);
+      color: var(--bb-1);
+      font-family: var(--body);
+      font-size: 16px;
       line-height: 1.6;
+      overflow: hidden;
     }
 
-    /* ── LAYOUT ── */
-    #app {
-      display: flex;
-      flex-direction: column;
+    /* ─── LAYOUT ──────────────────────────────── */
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      grid-template-rows: 64px 1fr 40px;
       height: 100vh;
-      max-width: 900px;
-      margin: 0 auto;
-      border-left: 1px solid var(--border);
-      border-right: 1px solid var(--border);
     }
 
-    /* ── HEADER ── */
-    header {
+    /* ─── TOPBAR ──────────────────────────────── */
+    .topbar {
+      grid-column: 1 / -1;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 14px 24px;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-      background: var(--bg);
+      gap: 20px;
+      padding: 0 24px;
+      border-bottom: 2px solid var(--bb-1);
+      background: var(--bb-1);
     }
 
-    .header-left {
+    .topbar-logo {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--bb-8);
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .topbar-logo span {
+      color: var(--bb-4);
+    }
+
+    .topbar-rule {
+      width: 1px;
+      height: 28px;
+      background: rgba(240,230,208,0.25);
+    }
+
+    .topbar-tagline {
+      font-family: var(--body);
+      font-size: 0.78rem;
+      font-style: italic;
+      color: rgba(240,230,208,0.6);
+      letter-spacing: 0.02em;
+    }
+
+    .topbar-search {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(240,230,208,0.1);
+      border: 1px solid rgba(240,230,208,0.2);
+      border-radius: 4px;
+      padding: 6px 12px;
+    }
+    .topbar-search svg { opacity: 0.5; flex-shrink: 0; }
+    .topbar-search input {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--bb-8);
+      font-family: var(--body);
+      font-size: 0.82rem;
+      width: 180px;
+    }
+    .topbar-search input::placeholder { color: rgba(240,230,208,0.4); }
+
+    /* ─── SIDEBAR ─────────────────────────────── */
+    .sidebar {
+      border-right: 1.5px solid var(--bb-7);
+      overflow-y: auto;
+      background: color-mix(in srgb, var(--bb-8) 60%, white);
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--bb-7); border-radius: 2px; }
+
+    .sidebar-group { padding: 0 0 8px; }
+    .sidebar-group-label {
+      font-family: var(--body);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bb-6);
+      padding: 16px 18px 6px;
+    }
+
+    .cmd-item {
       display: flex;
       align-items: center;
       gap: 10px;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: background 0.12s;
+      border-left: 3px solid transparent;
+    }
+    .cmd-item:hover { background: rgba(139,58,15,0.06); }
+    .cmd-item.active {
+      background: rgba(139,58,15,0.1);
+      border-left-color: var(--bb-2);
     }
 
-    .logo-mark {
-      width: 32px;
-      height: 32px;
-      background: var(--brown);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+    .cmd-slug {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--bb-2);
+      min-width: 90px;
     }
+    .cmd-item.active .cmd-slug { color: var(--bb-5); }
 
-    .logo-mark svg {
-      width: 16px;
-      height: 16px;
-      fill: white;
-    }
-
-    .tool-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--brown);
-      letter-spacing: -0.01em;
-    }
-
-    .tagline {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 400;
-      letter-spacing: 0.01em;
-    }
-
-    /* ── MESSAGES ── */
-    #messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 24px 24px 12px;
-      scroll-behavior: smooth;
-    }
-
-    #messages::-webkit-scrollbar { width: 4px; }
-    #messages::-webkit-scrollbar-thumb { background: var(--brown-mid); border-radius: 4px; }
-    #messages::-webkit-scrollbar-track { background: transparent; }
-
-    .message-row {
-      display: flex;
-      margin-bottom: 18px;
-      animation: fadeSlide 0.2s ease;
-    }
-
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .message-row.user { justify-content: flex-end; }
-    .message-row.assistant { justify-content: flex-start; }
-
-    .bubble {
-      max-width: 72%;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-size: 14.5px;
-      line-height: 1.65;
-      position: relative;
-    }
-
-    .message-row.user .bubble {
-      background: var(--brown-light);
-      border-bottom-right-radius: 4px;
-      color: var(--text);
-    }
-
-    .message-row.assistant .bubble {
-      background: transparent;
-      border-bottom-left-radius: 4px;
-      color: var(--text);
-      padding-left: 0;
-      max-width: 88%;
-    }
-
-    /* ── ASSISTANT CONTENT RENDERING ── */
-    .bubble p { margin-bottom: 10px; }
-    .bubble p:last-child { margin-bottom: 0; }
-
-    .bubble strong { font-weight: 600; color: var(--brown); }
-    .bubble em { font-style: italic; }
-
-    .bubble pre {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px 16px;
-      overflow-x: auto;
-      margin: 10px 0;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 13px;
-      line-height: 1.55;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .bubble code {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 13px;
-      background: var(--code-bg);
-      padding: 1px 5px;
-      border-radius: 4px;
-    }
-
-    .bubble pre code {
-      background: none;
-      padding: 0;
-      font-size: inherit;
-    }
-
-    .bubble ul, .bubble ol {
-      padding-left: 20px;
-      margin: 8px 0;
-    }
-
-    .bubble li { margin-bottom: 4px; }
-
-    .bubble h1, .bubble h2, .bubble h3 {
-      font-weight: 600;
-      color: var(--brown);
-      margin: 14px 0 6px;
+    .cmd-label {
+      font-size: 0.78rem;
+      color: var(--bb-1);
+      opacity: 0.75;
       line-height: 1.3;
     }
 
-    .bubble h1 { font-size: 18px; }
-    .bubble h2 { font-size: 16px; }
-    .bubble h3 { font-size: 14px; }
+    /* ─── MAIN PANEL ──────────────────────────── */
+    .main {
+      overflow-y: auto;
+      padding: 40px 56px 40px 48px;
+    }
+    .main::-webkit-scrollbar { width: 4px; }
+    .main::-webkit-scrollbar-track { background: transparent; }
+    .main::-webkit-scrollbar-thumb { background: var(--bb-7); border-radius: 2px; }
 
-    .bubble blockquote {
-      border-left: 3px solid var(--brown-mid);
-      padding-left: 14px;
-      color: #555;
+    /* ─── WELCOME PANEL ──────────────────────── */
+    .welcome {
+      max-width: 680px;
+    }
+    .welcome-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bb-6);
+      margin-bottom: 12px;
+    }
+    .welcome-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--bb-1);
+      margin-bottom: 8px;
+    }
+    .welcome-title em {
       font-style: italic;
-      margin: 8px 0;
+      color: var(--bb-2);
+    }
+    .welcome-rule {
+      width: 48px;
+      height: 3px;
+      background: var(--bb-4);
+      margin: 20px 0;
+    }
+    .welcome-desc {
+      font-size: 1rem;
+      color: var(--bb-1);
+      opacity: 0.78;
+      margin-bottom: 32px;
+      max-width: 560px;
+      line-height: 1.7;
     }
 
-    .bubble hr {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 12px 0;
+    .mode-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .mode-card {
+      background: white;
+      border: 1.5px solid var(--bb-7);
+      padding: 20px 22px;
+      position: relative;
+    }
+    .mode-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .mode-card.silent::before { background: var(--bb-5); }
+    .mode-card.interactive::before { background: var(--bb-2); }
+    .mode-card-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bb-6);
+      margin-bottom: 6px;
+    }
+    .mode-card-title {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--bb-1);
+      margin-bottom: 8px;
+    }
+    .mode-card-desc {
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: var(--bb-1);
+      opacity: 0.7;
+    }
+    .mode-card-tag {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-family: 'Courier New', monospace;
+    }
+    .mode-card.silent .mode-card-tag { background: rgba(212,80,10,0.1); color: var(--bb-5); }
+    .mode-card.interactive .mode-card-tag { background: rgba(139,58,15,0.1); color: var(--bb-2); }
+
+    .welcome-phases {
+      border: 1.5px solid var(--bb-7);
+      background: white;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+    .phases-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--bb-1);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .phases-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--bb-7);
+    }
+    .phase-list { list-style: none; }
+    .phase-item {
+      display: flex;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+    }
+    .phase-item:last-child { border-bottom: none; }
+    .phase-num {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--bb-7);
+      line-height: 1;
+      min-width: 24px;
+    }
+    .phase-content {}
+    .phase-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--bb-2);
+      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+    .phase-desc {
+      font-size: 0.78rem;
+      color: var(--bb-1);
+      opacity: 0.65;
+      line-height: 1.5;
     }
 
-    /* table */
-    .bubble table {
+    /* posting freq table */
+    .freq-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 13px;
-      margin: 10px 0;
+      font-size: 0.82rem;
     }
-    .bubble th {
-      background: var(--brown-light);
-      color: var(--brown);
-      font-weight: 600;
-      padding: 8px 10px;
+    .freq-table th {
       text-align: left;
-      border: 1px solid var(--border);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--bb-6);
+      padding: 8px 12px;
+      border-bottom: 2px solid var(--bb-7);
     }
-    .bubble td {
-      padding: 7px 10px;
-      border: 1px solid var(--border);
+    .freq-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+      color: var(--bb-1);
     }
-    .bubble tr:nth-child(even) td { background: #fdf9f7; }
+    .freq-table tr:last-child td { border-bottom: none; }
+    .freq-table td:first-child {
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+      color: var(--bb-2);
+      font-size: 0.78rem;
+    }
 
-    /* copy button area */
-    .assistant-wrapper {
+    /* ─── COMMAND DETAIL ──────────────────────── */
+    .detail { max-width: 720px; }
+    .detail-eyebrow {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bb-6);
+      margin-bottom: 10px;
+    }
+    .detail-title {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--bb-1);
+      margin-bottom: 4px;
+    }
+    .detail-slug {
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      color: var(--bb-5);
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .detail-rule { width: 40px; height: 3px; background: var(--bb-4); margin-bottom: 20px; }
+    .detail-desc {
+      font-size: 0.95rem;
+      line-height: 1.72;
+      color: var(--bb-1);
+      margin-bottom: 28px;
+      opacity: 0.82;
+    }
+
+    .detail-meta {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-      max-width: 88%;
-    }
-
-    .copy-btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 11.5px;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: all 0.15s;
-    }
-
-    .copy-btn:hover {
-      border-color: var(--brown);
-      color: var(--brown);
-      background: var(--brown-light);
-    }
-
-    .copy-btn.copied {
-      border-color: #4caf50;
-      color: #4caf50;
-    }
-
-    .copy-btn svg {
-      width: 12px;
-      height: 12px;
-      flex-shrink: 0;
-    }
-
-    /* ── TYPING INDICATOR ── */
-    .typing-indicator {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 12px 4px;
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-
-    .dot-anim {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-    }
-
-    .dot-anim span {
-      width: 6px;
-      height: 6px;
-      background: var(--brown-mid);
-      border-radius: 50%;
-      animation: dotBounce 1.2s infinite;
-    }
-
-    .dot-anim span:nth-child(2) { animation-delay: 0.2s; }
-    .dot-anim span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes dotBounce {
-      0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-      30% { transform: translateY(-5px); opacity: 1; }
-    }
-
-    /* ── INPUT BAR ── */
-    #input-area {
-      flex-shrink: 0;
-      padding: 12px 24px 0;
-      background: var(--bg);
-      border-top: 1px solid var(--border);
-    }
-
-    .input-row {
-      display: flex;
-      align-items: flex-end;
       gap: 10px;
-      padding-bottom: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .meta-pill {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1.5px solid var(--bb-7);
+      color: var(--bb-2);
+      border-radius: 2px;
+    }
+    .meta-pill.silent { border-color: rgba(212,80,10,0.4); color: var(--bb-5); background: rgba(212,80,10,0.06); }
+    .meta-pill.cat { border-color: rgba(184,134,11,0.4); color: var(--bb-6); background: rgba(184,134,11,0.06); }
+
+    .detail-section {
+      margin-bottom: 24px;
+    }
+    .detail-section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bb-6);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--bb-7);
     }
 
-    #user-input {
-      flex: 1;
-      resize: none;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 11px 14px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: var(--text);
-      background: #fdfaf8;
-      outline: none;
-      max-height: 140px;
-      min-height: 44px;
-      line-height: 1.55;
-      transition: border-color 0.15s;
+    .input-list {
+      list-style: none;
     }
-
-    #user-input:focus { border-color: var(--brown); }
-    #user-input::placeholder { color: #bbb; }
-
-    #send-btn {
+    .input-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 4px 0;
+      font-size: 0.85rem;
+      color: var(--bb-1);
+      opacity: 0.8;
+    }
+    .input-list li::before {
+      content: '→';
+      color: var(--bb-7);
+      font-size: 0.75rem;
+      margin-top: 3px;
       flex-shrink: 0;
-      background: var(--brown);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      width: 44px;
-      height: 44px;
+    }
+
+    .structure-list {
+      list-style: none;
+      counter-reset: struct;
+    }
+    .structure-list li {
+      counter-increment: struct;
+      display: flex;
+      gap: 12px;
+      padding: 6px 0;
+      font-size: 0.84rem;
+      color: var(--bb-1);
+      border-bottom: 1px solid rgba(200,169,110,0.2);
+    }
+    .structure-list li:last-child { border-bottom: none; }
+    .structure-list li::before {
+      content: counter(struct);
+      font-family: var(--serif);
+      font-weight: 900;
+      color: var(--bb-7);
+      font-size: 1rem;
+      min-width: 18px;
+      line-height: 1.3;
+    }
+
+    .rule-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 10px 4px 8px;
+      background: rgba(192,57,43,0.08);
+      color: var(--bb-3);
+      border-left: 3px solid var(--bb-3);
+      margin-bottom: 6px;
+      display: block;
+      font-style: italic;
+    }
+
+    .quote-block {
+      border-left: 3px solid var(--bb-4);
+      padding: 10px 16px;
+      margin: 12px 0;
+      background: rgba(232,160,32,0.06);
+    }
+    .quote-block p {
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--bb-1);
+      line-height: 1.6;
+      opacity: 0.85;
+    }
+
+    .platform-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .platform-tag {
+      font-size: 0.72rem;
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+      padding: 4px 10px;
+      background: rgba(139,58,15,0.08);
+      color: var(--bb-2);
+      border: 1px solid rgba(139,58,15,0.2);
+      border-radius: 2px;
+    }
+
+    /* ─── FOOTER ──────────────────────────────── */
+    .footer {
+      grid-column: 1 / -1;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: background 0.15s, transform 0.1s;
+      border-top: 1px solid var(--bb-7);
+      background: color-mix(in srgb, var(--bb-8) 60%, white);
+      font-size: 0.72rem;
+      color: var(--bb-6);
+      gap: 4px;
     }
+    .footer a { color: var(--bb-6); text-decoration: none; border-bottom: 1px solid var(--bb-7); }
+    .footer a:hover { color: var(--bb-2); border-bottom-color: var(--bb-2); }
 
-    #send-btn:hover { background: var(--brown-hover); }
-    #send-btn:active { transform: scale(0.95); }
-    #send-btn:disabled { background: var(--brown-mid); cursor: not-allowed; transform: none; }
+    /* ─── HIDDEN ──────────────────────────────── */
+    .hidden { display: none !important; }
 
-    #send-btn svg {
-      width: 18px;
-      height: 18px;
-      fill: white;
-    }
-
-    /* ── FOOTER BYLINE ── */
-    #byline {
-      flex-shrink: 0;
-      text-align: center;
-      padding: 6px 16px 10px;
-      font-size: 11px;
-      color: #bbb;
-      font-weight: 400;
-      letter-spacing: 0.01em;
-    }
-
-    #byline a {
-      color: #bbb;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    #byline a:hover { color: var(--brown); }
-
-    /* ── MOBILE ── */
-    @media (max-width: 600px) {
-      header { padding: 12px 16px; }
-      #messages { padding: 16px 16px 8px; }
-      .bubble { max-width: 88%; }
-      .assistant-wrapper { max-width: 96%; }
-      #input-area { padding: 10px 16px 0; }
-      .tagline { display: none; }
+    /* ─── MOBILE ──────────────────────────────── */
+    @media (max-width: 720px) {
+      .app {
+        grid-template-columns: 1fr;
+        grid-template-rows: 64px auto 1fr 40px;
+        overflow: hidden;
+      }
+      .sidebar {
+        border-right: none;
+        border-bottom: 1.5px solid var(--bb-7);
+        max-height: 220px;
+        overflow-y: auto;
+      }
+      .main { padding: 24px 20px; }
+      .mode-cards { grid-template-columns: 1fr; }
+      .topbar-tagline { display: none; }
+      .topbar-search input { width: 120px; }
     }
   </style>
 </head>
 <body>
-<div id="app">
-  <header>
-    <div class="header-left">
-      <div class="logo-mark">
-        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 4h14v2H3V4zm0 4h10v2H3V8zm0 4h12v2H3v-2z"/>
-        </svg>
-      </div>
-      <span class="tool-name">Ogilvy Copywriting Coach</span>
+<div class="app">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-logo">Ogilvy <span>Copywriting</span> Coach</div>
+    <div class="topbar-rule"></div>
+    <div class="topbar-tagline">The Sultan of Sell · Interactive command reference</div>
+    <div class="topbar-search">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <circle cx="5.5" cy="5.5" r="4.5" stroke="#F0E6D0" stroke-width="1.5"/>
+        <path d="M9 9L12 12" stroke="#F0E6D0" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search commands…" autocomplete="off" />
     </div>
-    <span class="tagline">Two-mode expert tool · silent execution or active creative direction</span>
   </header>
 
-  <div id="messages"></div>
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
 
-  <div id="input-area">
-    <div class="input-row">
-      <textarea
-        id="user-input"
-        rows="1"
-        placeholder="Type a command like /help, /tweet, /brandvoice… or paste a brief"
-      ></textarea>
-      <button id="send-btn" title="Send">
-        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2.94 17.94l16-7a1 1 0 000-1.88l-16-7A1 1 0 001.88 3.38L4.7 10l-2.82 6.62a1 1 0 001.06 1.32z"/>
-        </svg>
-      </button>
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Overview</div>
+      <div class="cmd-item active" data-cmd="welcome">
+        <span class="cmd-slug">/help</span>
+        <span class="cmd-label">Welcome & overview</span>
+      </div>
+      <div class="cmd-item" data-cmd="freq">
+        <span class="cmd-slug">/freq</span>
+        <span class="cmd-label">Posting frequency</span>
+      </div>
     </div>
-  </div>
 
-  <div id="byline">
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Brand Foundation</div>
+      <div class="cmd-item" data-cmd="brandvoice">
+        <span class="cmd-slug">/brandvoice</span>
+        <span class="cmd-label">Brand voice profile</span>
+      </div>
+      <div class="cmd-item" data-cmd="audience">
+        <span class="cmd-slug">/audience</span>
+        <span class="cmd-label">Customer empathy</span>
+      </div>
+      <div class="cmd-item" data-cmd="jargon">
+        <span class="cmd-slug">/jargon</span>
+        <span class="cmd-label">Plain English translator</span>
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Video Copy</div>
+      <div class="cmd-item" data-cmd="youtube">
+        <span class="cmd-slug">/youtube</span>
+        <span class="cmd-label">Full YouTube script</span>
+      </div>
+      <div class="cmd-item" data-cmd="shorts">
+        <span class="cmd-slug">/shorts</span>
+        <span class="cmd-label">YouTube Shorts script</span>
+      </div>
+      <div class="cmd-item" data-cmd="description">
+        <span class="cmd-slug">/description</span>
+        <span class="cmd-label">Video description (SEO)</span>
+      </div>
+      <div class="cmd-item" data-cmd="walkthru">
+        <span class="cmd-slug">/walkthru</span>
+        <span class="cmd-label">Product demo brief</span>
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Social Copy</div>
+      <div class="cmd-item" data-cmd="tweet">
+        <span class="cmd-slug">/tweet</span>
+        <span class="cmd-label">X / Twitter post</span>
+      </div>
+      <div class="cmd-item" data-cmd="reel">
+        <span class="cmd-slug">/reel</span>
+        <span class="cmd-label">Instagram Reel caption</span>
+      </div>
+      <div class="cmd-item" data-cmd="story">
+        <span class="cmd-slug">/story</span>
+        <span class="cmd-label">Story copy</span>
+      </div>
+      <div class="cmd-item" data-cmd="carousel">
+        <span class="cmd-slug">/carousel</span>
+        <span class="cmd-label">Carousel copy</span>
+      </div>
+      <div class="cmd-item" data-cmd="facebook">
+        <span class="cmd-slug">/facebook</span>
+        <span class="cmd-label">Facebook feed post</span>
+      </div>
+      <div class="cmd-item" data-cmd="linkedin">
+        <span class="cmd-slug">/linkedin</span>
+        <span class="cmd-label">LinkedIn post</span>
+      </div>
+      <div class="cmd-item" data-cmd="blurb">
+        <span class="cmd-slug">/blurb</span>
+        <span class="cmd-label">General social blurb</span>
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Campaign & Special</div>
+      <div class="cmd-item" data-cmd="crowdfund">
+        <span class="cmd-slug">/crowdfund</span>
+        <span class="cmd-label">Crowdfunding copy</span>
+      </div>
+      <div class="cmd-item" data-cmd="byline">
+        <span class="cmd-slug">/byline</span>
+        <span class="cmd-label">Writer's byline</span>
+      </div>
+      <div class="cmd-item" data-cmd="urso">
+        <span class="cmd-slug">/urso</span>
+        <span class="cmd-label">Substack teaser script</span>
+      </div>
+      <div class="cmd-item" data-cmd="vercel">
+        <span class="cmd-slug">/vercel</span>
+        <span class="cmd-label">Tool description</span>
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Campaign Tools</div>
+      <div class="cmd-item" data-cmd="tagline">
+        <span class="cmd-slug">/tagline</span>
+        <span class="cmd-label">Catchphrase creator</span>
+      </div>
+      <div class="cmd-item" data-cmd="cta">
+        <span class="cmd-slug">/cta</span>
+        <span class="cmd-label">CTA optimizer</span>
+      </div>
+      <div class="cmd-item" data-cmd="hook">
+        <span class="cmd-slug">/hook</span>
+        <span class="cmd-label">Opening hook generator</span>
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Refinement</div>
+      <div class="cmd-item" data-cmd="benefit">
+        <span class="cmd-slug">/benefit</span>
+        <span class="cmd-label">Feature → benefit</span>
+      </div>
+      <div class="cmd-item" data-cmd="emotion">
+        <span class="cmd-slug">/emotion</span>
+        <span class="cmd-label">Emotional impact</span>
+      </div>
+      <div class="cmd-item" data-cmd="credibility">
+        <span class="cmd-slug">/credibility</span>
+        <span class="cmd-label">Credibility booster</span>
+      </div>
+      <div class="cmd-item" data-cmd="seo">
+        <span class="cmd-slug">/seo</span>
+        <span class="cmd-label">SEO surgeon</span>
+      </div>
+      <div class="cmd-item" data-cmd="edit">
+        <span class="cmd-slug">/edit</span>
+        <span class="cmd-label">Editing scalpel</span>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- MAIN PANEL -->
+  <main class="main" id="mainPanel">
+
+    <!-- WELCOME -->
+    <div id="panel-welcome" class="welcome">
+      <div class="welcome-eyebrow">Ogilvy Copywriting Coach · Reference Guide</div>
+      <h1 class="welcome-title">The Sultan of Sell<br><em>at your service.</em></h1>
+      <div class="welcome-rule"></div>
+      <p class="welcome-desc">A two-mode AI copywriting coach built on David Ogilvy's principles — one mode that executes on command without friction, one that puts a veteran ad man in the room. Browse commands in the sidebar or search above.</p>
+
+      <div class="mode-cards">
+        <div class="mode-card silent">
+          <div class="mode-card-label">Mode 1</div>
+          <div class="mode-card-title">Silent Execution</div>
+          <div class="mode-card-desc">Append <code>/silent</code> to any command for clean output immediately. No intake questions, no pushback, no phase gates. Use when the brief is solid and you need clean copy fast.</div>
+          <span class="mode-card-tag">/tweet silent</span>
+        </div>
+        <div class="mode-card interactive">
+          <div class="mode-card-label">Mode 2 · Default</div>
+          <div class="mode-card-title">Interactive Direction</div>
+          <div class="mode-card-desc">Without <code>/silent</code>, Ogilvy is fully in the room. Pushback on weak briefs. Phase gates. Interrogation of vague adjectives and feature-first thinking. Use when the brief might be underbaked.</div>
+          <span class="mode-card-tag">/tweet</span>
+        </div>
+      </div>
+
+      <div class="welcome-phases">
+        <div class="phases-title">Four-Phase Workflow</div>
+        <ul class="phase-list">
+          <li class="phase-item">
+            <span class="phase-num">1</span>
+            <div class="phase-content">
+              <div class="phase-name">Brand Foundation</div>
+              <div class="phase-desc">Establish who we're writing for and what makes the brand worth writing about. No copy until brand voice is confirmed.</div>
+            </div>
+          </li>
+          <li class="phase-item">
+            <span class="phase-num">2</span>
+            <div class="phase-content">
+              <div class="phase-name">Copy Creation</div>
+              <div class="phase-desc">Platform-specific draft copy using the confirmed brand voice. Reviewed before refinement begins.</div>
+            </div>
+          </li>
+          <li class="phase-item">
+            <span class="phase-num">3</span>
+            <div class="phase-content">
+              <div class="phase-name">Refinement</div>
+              <div class="phase-desc">Technical constraints, credibility, SEO, and emotional tuning applied after the core message is confirmed.</div>
+            </div>
+          </li>
+          <li class="phase-item">
+            <span class="phase-num">4</span>
+            <div class="phase-content">
+              <div class="phase-name">Finalization</div>
+              <div class="phase-desc">Output-ready copy with all tags, hashtags, and platform specs applied. Delivered as a final artifact.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- POSTING FREQUENCY -->
+    <div id="panel-freq" class="detail hidden">
+      <div class="detail-eyebrow">Reference · 2026</div>
+      <h2 class="detail-title">Posting Frequency</h2>
+      <span class="detail-slug">/freq</span>
+      <div class="detail-rule"></div>
+      <p class="detail-desc">2026 optimal posting cadence by platform. Ogilvy uses these benchmarks when advising on content calendar strategy or flagging over/under-posting.</p>
+      <div class="detail-section">
+        <table class="freq-table">
+          <thead>
+            <tr><th>Platform</th><th>Optimal Frequency</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>YouTube</td><td>1–3 videos/week + frequent Shorts</td></tr>
+            <tr><td>Instagram</td><td>3–5 feed posts/week, 1–2 Reels/day</td></tr>
+            <tr><td>X (Twitter)</td><td>2–3 posts/day</td></tr>
+            <tr><td>Facebook</td><td>1–2 posts/day</td></tr>
+            <tr><td>LinkedIn</td><td>2–5 posts/week</td></tr>
+            <tr><td>TikTok</td><td>3–5 posts/week</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DYNAMIC COMMAND PANELS -->
+    <div id="panel-dynamic" class="detail hidden"></div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
     Built with <a href="https://www.bearbrown.co" target="_blank" rel="noopener">bearbrown.co</a> · AI tools for educators, creators &amp; founders
-  </div>
+  </footer>
+
 </div>
 
 <script>
-// ─────────────────────────────────────────
-// SYSTEM PROMPT
-// ─────────────────────────────────────────
-const SYSTEM_PROMPT = `You are Ogilvy, a persuasive copywriting expert inspired by the timeless principles of advertising legend David Ogilvy. You craft compelling, audience-centered copy while maintaining a consistent and unique brand voice. Your core principles: clarity, simplicity, emotional resonance, and credibility. You adapt to any platform and understand SEO for digital relevance.
+const COMMANDS = {
+  brandvoice: {
+    title: "Brand Voice Profile",
+    slug: "/brandvoice",
+    category: "Brand Foundation",
+    silent: true,
+    desc: "Generate or load a brand voice profile. Triggered automatically when any copy is requested without a brand voice .md file on record. Runs a 10-question intake, then produces a Brand Voice Summary card before any copy is written.",
+    inputs: ["Brand name and one-sentence description", "Three personality adjectives", "Ideal customer profile", "Single biggest differentiator", "Admired and avoided brands", "Off-limits tone signals", "Customer fears and dreams", "Priority platforms", "Primary desired action"],
+    structure: ["Intake: 10 brand voice questions", "Brand Voice Summary card generated", "Confirmation gate: user approves before copy begins", "Summary includes personality, audience, tone, voice pillars, signature phrases, hashtag set"],
+    rules: ["Never produce copy before brand voice is confirmed", "Push back on one-word intake answers — they don't produce usable output", "Brand Voice Summary must be approved before proceeding to Phase 2"],
+    ogilvy: "Before I write a single word, I need to know WHO you are. No brand voice file detected. Let's build one."
+  },
+  audience: {
+    title: "Customer Empathy Check",
+    slug: "/audience",
+    category: "Brand Foundation",
+    silent: true,
+    desc: "Deep-dive customer persona analysis. Surfaces unexamined assumptions about the audience before copy locks in. Pairs with /brandvoice to sharpen persona accuracy.",
+    inputs: ["Product or brand context"],
+    structure: ["Audience profile: demographics, psychographics, pain points", "Fear and desire mapping", "Platform behavior analysis", "Assumption audit — surfaces hidden beliefs about the audience"],
+    rules: ["Flags assumptions embedded in the brief", "Asks whether the audience needs to be pushed or given permission — the distinction matters for tone"],
+    ogilvy: "You're asking me to write urgency copy, which assumes your audience needs to be pushed. What if they're already sold and what they need is permission?"
+  },
+  jargon: {
+    title: "Jargon Translator",
+    slug: "/jargon",
+    category: "Brand Foundation",
+    silent: true,
+    desc: "Converts industry-speak into plain English. Useful before writing copy in technical sectors where the brand's internal language doesn't match how customers think.",
+    inputs: ["Jargon-heavy text or feature descriptions"],
+    structure: ["Term-by-term plain English rewrite", "Benefit framing for each translated term", "Output ready to paste into any copy prompt"],
+    rules: ["Treats every vague adjective ('innovative,' 'best-in-class') as a signal to interrogate, not reproduce", "Reframes from insider language to outcome language"],
+    ogilvy: "Treat vague adjectives in a brief as a signal to interrogate, not a license to reproduce them in copy."
+  },
+  youtube: {
+    title: "Full YouTube Script",
+    slug: "/youtube",
+    category: "Video Copy",
+    silent: true,
+    desc: "Complete voice-over script for a YouTube video. Opens with a Pattern Interrupt hook, follows a Promise → Body → CTA → Close structure. Written as spoken word, not prose. Ends with the standard channel sign-off.",
+    inputs: ["Topic", "Target audience", "Key message", "Brand voice (or /brandvoice intake)"],
+    structure: ["Hook (0–8 sec): Bold claim, surprising stat, or provocative question", "Promise (8–20 sec): Exact value the viewer gets by watching", "Body: Conversational, one idea per paragraph, benefit-driven", "CTA: Specific, platform-native call to action", "Close: Standard channel sign-off"],
+    rules: ["Opens with 'Hey' — ends with standard channel sign-off", "Spoken word format, not prose — contractions and natural language only", "No jargon", "Appends YouTube tags (10–15 long-tail) + hashtags (3–5)"],
+    ogilvy: "The first five seconds are rented attention. You have to earn the next fifty-five."
+  },
+  shorts: {
+    title: "YouTube Shorts Script",
+    slug: "/shorts",
+    category: "Video Copy",
+    silent: true,
+    desc: "30–60 second YouTube Shorts script (~75–150 words). Front-loads the payoff, no slow builds. Includes pacing cues for the recorder. Appends 3–5 hashtags and 5 YouTube tags.",
+    inputs: ["Single topic or idea", "Brand voice"],
+    structure: ["Hook: first 3 words must stop the scroll", "Value Delivery: one clear insight or story beat", "CTA: single urgent action"],
+    rules: ["75–150 words total (30–60 sec at natural pace)", "Lo-fi, fast, conversational tone", "Pacing notes included: 'speak fast / pause here' cues"],
+    ogilvy: "No slow builds — front-load the payoff. The viewer is already gone by the time you get to your point."
+  },
+  description: {
+    title: "YouTube Video Description",
+    slug: "/description",
+    category: "Video Copy",
+    silent: true,
+    desc: "SEO-optimized YouTube video description in Mini-Blog format (200–300 words). Primary keyword in the first 25 words. Includes timestamps for videos over 8 minutes. Appends 3–5 hashtags and 10–15 long-tail keyword tags.",
+    inputs: ["Video script or topic summary", "Target keywords"],
+    structure: ["Line 1–2: Hook with primary keyword (125 chars max — search snippet zone)", "Paragraph 1: What the video covers", "Paragraph 2: Key takeaways and who it's for", "Links section: Related videos, resources", "Hashtags (3–5) at bottom", "Tags (10–15 long-tail keyword tags)"],
+    rules: ["First 125 characters = hook + primary keyword", "10–20 natural keyword integrations throughout", "Timestamps required for videos over 8 minutes"],
+    ogilvy: "The description is the landing page your thumbnail sends them to. Treat it accordingly."
+  },
+  walkthru: {
+    title: "Product Demo Brief",
+    slug: "/walkthru",
+    category: "Video Copy",
+    silent: true,
+    desc: "Shot-by-shot production bullet brief for a product demo video. Not a prose script — a structured production guide across 7 sections. Based on the PSR Model and Eight-Part SaaS Demo Sequence. Includes pre-production checklist and variant modes.",
+    inputs: ["Product description (one plain-English sentence)", "Target audience (role, industry, technical level)", "Single biggest pain point", "2–3 features to demonstrate", "Desired CTA", "Approximate length (60–90 sec / 2–3 min / 5+ min)", "Tone (polished / conversational / energetic / educational)"],
+    structure: ["Section 1: Hook / Pattern Interrupt (5–10 sec)", "Section 2: Pain Amplification (sec 10–20)", "Section 3: Transformation Promise (sec 20–30)", "Section 4: Proof / Credibility Layer (sec 30–40)", "Section 5: Product Walkthrough — Feature Beats (sec 40–75)", "Section 6: Objection Neutralization + Urgency (sec 75–85)", "Section 7: Friction-Free CTA (final 5–10 sec)", "Pre-production checklist: audio, visual, accessibility"],
+    rules: ["Bullet-point format only — NOT a prose script", "Never opens on a logo — opens on the problem", "Desktop sanitized: tabs closed, notifications off, bookmark bar hidden", "Demo environment uses sanitized / dummy data only"],
+    variants: ["/walkthru short — 60–90 sec (Sections 1, 3, 5, 7)", "/walkthru exec — ROI-focused, minimal UI detail", "/walkthru dev — technical cut, deep feature detail", "/walkthru script — converts brief to full narration script", "/walkthru youtube — YouTube optimization + chapter markers", "/walkthru reel — 30–60 sec Instagram/Reels hook version"],
+    ogilvy: "Done wrong, a product demo is a feature parade. Done right, it turns a skeptic into a buyer in 90 seconds flat."
+  },
+  tweet: {
+    title: "X / Twitter Post",
+    slug: "/tweet",
+    category: "Social Copy",
+    silent: true,
+    desc: "Single tweet or thread for X (Twitter). Sweet spot is 71–100 characters. Max 2 hashtags (placed at end). Thread posts numbered in 1/x format, each post self-contained. Includes keyword tags.",
+    inputs: ["Message", "Tone", "Audience"],
+    structure: ["Single tweet: punchy, value front-loaded in first 40 characters", "Thread: numbered 1/x format, hook post leads, each post self-contained"],
+    rules: ["71–100 character sweet spot (max 280)", "Max 2 hashtags — algorithm penalizes 3+", "URLs count as 23 characters; emojis count as 2", "Hashtags capitalized for readability (#BrandMarketing)", "Hashtags placed at end for narrative flow"],
+    ogilvy: "You've given me three features, which is a feature list, not a differentiator. What does a person who uses this LOSE that your tool fixes?"
+  },
+  reel: {
+    title: "Instagram Reel Caption",
+    slug: "/reel",
+    category: "Social Copy",
+    silent: true,
+    desc: "Full Instagram Reel caption with hook, body, CTA, and 5 hashtags. Primary keyword in the first two sentences (before 'show more'). Applies the 5-tag framework: brand, industry × 2, topic, location/audience.",
+    inputs: ["Reel concept", "Brand voice", "Target audience"],
+    structure: ["Hook line: scroll-stopper first sentence", "Body: 2–4 sentences of value, story, or benefit", "CTA: one specific action", "White space separator", "5 hashtags using the framework", "SEO keyword tags appended"],
+    rules: ["Caption up to 2,200 characters", "Primary keyword must appear before 'show more' fold", "On-screen text: 4 words max (scanned by AI)", "Safe zone: keep visuals within 1080×1350px center", "Max 5 hashtags placed at the very end"],
+    ogilvy: "5-Tag Framework: Brand/campaign → Industry → Industry → Topic → Location or audience. Every tag has a job."
+  },
+  story: {
+    title: "Story Copy",
+    slug: "/story",
+    category: "Social Copy",
+    silent: true,
+    desc: "Instagram and Facebook Story copy. Visual-first format — copy is minimal overlay text kept within the safe zone. Max 1–2 lines on screen, CTA sticker text at 5 words max.",
+    inputs: ["Message", "CTA goal"],
+    structure: ["On-screen text line (under 10 words)", "Story caption/context if needed", "CTA sticker text (5 words max)"],
+    rules: ["Safe zone: 1080×1920px, avoid top 250px and bottom 450px", "Max 1–2 lines of text on screen", "3 hashtags appended"],
+    ogilvy: "Visual-first. Copy is the passenger, not the driver."
+  },
+  carousel: {
+    title: "Carousel Copy",
+    slug: "/carousel",
+    category: "Social Copy",
+    silent: true,
+    desc: "Instagram/Facebook carousel copy across 3–10 slides. Educational step-by-step format drives 25% more saves. Each slide carries one idea, max 15 words on screen. Built for saves, not just views.",
+    inputs: ["Topic", "Number of slides (3–10)", "Brand voice"],
+    structure: ["Slide 1: Hook — bold promise or question", "Slides 2 to N-1: One insight per slide, numbered", "Final slide: CTA + brand handle", "Caption: storytelling intro with keyword density"],
+    rules: ["Each slide = 1 idea, 15 words on screen maximum", "Design for saves — this is reference content", "5 hashtags + keyword tags appended"],
+    ogilvy: "Design for saves. A saved carousel is a client who'll come back."
+  },
+  facebook: {
+    title: "Facebook Feed Post",
+    slug: "/facebook",
+    category: "Social Copy",
+    silent: true,
+    desc: "Facebook feed post optimized for Meaningful Social Interaction (MSI) signals. Rewards comments over shares over reactions. Mobile-first 4:5 portrait format. Soft sell preferred over aggressive CTAs.",
+    inputs: ["Message", "Audience", "Goal (awareness / engagement / commerce)"],
+    structure: ["Opening line: stops thumb-scroll, emotional or curious", "Story/value: 2–4 sentences, relatable, community-oriented", "Engagement hook: question, poll prompt, or 'tag someone who…'", "CTA: low-friction action"],
+    rules: ["Mobile-first — 4:5 portrait image preferred", "Algorithm rewards: comments > shares > reactions", "2–3 hashtags + keyword tags appended"],
+    ogilvy: "The Facebook algorithm is a relationship test. Posts that start conversations survive. Posts that broadcast die."
+  },
+  linkedin: {
+    title: "LinkedIn Post",
+    slug: "/linkedin",
+    category: "Social Copy",
+    silent: true,
+    desc: "LinkedIn post that leads with insight, not announcement. No corporate jargon. Hook line must work as a standalone statement. Includes comment prompt CTA and 3–5 hashtags.",
+    inputs: ["Professional topic", "Audience", "Brand voice"],
+    structure: ["Hook: first line works as a standalone statement", "Insight: professional value, personal story, or data point", "Lesson or takeaway: what the reader can apply", "CTA: comment prompt or resource link"],
+    rules: ["2–5 posts/week optimal cadence", "Lead with insight, not announcement", "No corporate jargon — ever", "3–5 hashtags + keyword tags appended"],
+    ogilvy: "LinkedIn rewards perspective over news. 'We launched X' is news. 'Here's what building X taught us' is perspective."
+  },
+  blurb: {
+    title: "General Social Media Blurb",
+    slug: "/blurb",
+    category: "Social Copy",
+    silent: true,
+    desc: "Platform-flexible social blurb. Specify the platform and Ogilvy applies the correct technical constraints dynamically — character limits, hashtag caps, safe zones.",
+    inputs: ["Platform name", "Message", "Tone"],
+    structure: ["Platform-specific constraints applied dynamically", "Output optimized for stated platform", "Tags and hashtags appended"],
+    rules: ["Specify platform — constraints change significantly between them", "Without a platform, Ogilvy will ask before writing"],
+    ogilvy: "The platform is the brief. Copy that works on LinkedIn will kill on Twitter. Know where it's landing."
+  },
+  crowdfund: {
+    title: "Crowdfunding Campaign Copy",
+    slug: "/crowdfund",
+    category: "Campaign & Special",
+    silent: true,
+    desc: "Full crowdfunding copy for Kickstarter (product/creative) or GoFundMe (personal/charitable). Kickstarter output includes hook, story, goal statement, 3–5 reward tier copy blocks, credibility, CTA, and visuals suggestion.",
+    inputs: ["Platform (Kickstarter or GoFundMe)", "Founder/organizer story", "Funding goal", "What funds accomplish", "Reward tiers (Kickstarter) or beneficiary details (GoFundMe)"],
+    structure: ["Kickstarter: Hook → Story → Goal → Reward Tiers (3–5) → Credibility → CTA → Visuals", "GoFundMe: Personal Intro → Vivid Problem → Turning Point → Financial Transparency → CTA → Visuals"],
+    rules: ["Reward tiers: Entry ($1–$10) for belonging, Hero tier as primary revenue driver, Premium as anchor pricing", "Early Bird variant uses scarcity + urgency language", "Financial breakdown in GoFundMe must be granular — vague fund use kills trust"],
+    ogilvy: "The story is the product. Nobody funds a spreadsheet. They fund a person with a problem worth solving."
+  },
+  byline: {
+    title: "Writer's Byline",
+    slug: "/byline",
+    category: "Campaign & Special",
+    silent: true,
+    desc: "Three byline variants for any platform: one-line (~10–20 words), short (2–3 sentences), and full paragraph (4–6 sentences). Optional brand voice variant if the writer IS the brand. Pushes back hard on generic credential lists and 'passionate storyteller' copy.",
+    inputs: ["Full name as it should appear in print", "What you write (specific beat, genre, subject)", "Where this byline appears", "Single strongest credential", "Any additional trust signals (affiliation, social handle, notable publication)", "Tone (formal / conversational / punchy / literary)", "Length needed"],
+    structure: ["One-line: Name + beat + one credential", "Short (2–3 sentences): Credential first → publication history → follow hook", "Full paragraph (4–6 sentences): Opens with strongest credential or story beat, name comes second or third", "Brand voice variant if writer = brand"],
+    rules: ["Never open with the writer's name in the full paragraph — the name is not the hook", "Do not open short bio with the writer's name", "'Passionate about X' is a feeling, not a credential — flag and replace with what they've actually done", "Credential list longer than 2 items = pick one or lose them all"],
+    ogilvy: "A byline is the shortest advertisement you'll ever write — and the one most writers butcher. 'Passionate storyteller' is not a byline. It's a crime against the reader's time."
+  },
+  urso: {
+    title: "Substack Article Teaser",
+    slug: "/urso",
+    category: "Campaign & Special",
+    silent: true,
+    desc: "30-second voice-over teaser script (~75–85 words) for a Musinique Substack article. Written for TTS/ElevenLabs — no headers, no bullet points, clean spoken prose. Teases the question, never reveals the conclusion.",
+    inputs: ["Substack article (full text, summary, or headline + key points)"],
+    structure: ["Hook: the idea, tension, or revelation that makes this article unmissable (1 sentence)", "Tease: what the article explores, what question it answers — not the conclusion (2–3 sentences)", "CTA: direct to the Musinique Substack (1–2 sentences)"],
+    rules: ["Never opens with 'In this article…' or 'Today we're talking about…'", "Never reveals the conclusion — tease the question", "Never uses 'important' or 'fascinating' — show it", "Always names the destination: 'the Musinique Substack'", "Strip all formatting — output is production-ready spoken text only"],
+    ogilvy: "Thirty seconds to make them stop everything and go read. No pressure."
+  },
+  vercel: {
+    title: "Tool Description",
+    slug: "/vercel",
+    category: "Campaign & Special",
+    silent: true,
+    desc: "Generates a one-paragraph tool description (~75–120 words) from a full prompt set or system prompt. Tone is clear, professional, slightly warm — written for a directory listing or admin panel. Not a sales pitch. Not a feature dump.",
+    inputs: ["Full prompt set or system prompt for a tool"],
+    structure: ["Leads with what the tool DOES, not what it IS", "Includes primary commands or workflows if space allows", "Ends with who it's built for or what it helps them accomplish"],
+    rules: ["No hollow buzzwords ('revolutionary,' 'cutting-edge,' 'powerful')", "Do not open with the tool name as the first word", "One clean paragraph — no bullet points, no headers"],
+    ogilvy: "A tool description is a promise. Make sure it's a promise you can keep."
+  },
+  tagline: {
+    title: "Catchphrase & Tagline Creator",
+    slug: "/tagline",
+    category: "Campaign Tools",
+    silent: true,
+    desc: "Produces 5 tagline options from a product or brand description, ranging across: witty/punchy, emotional/aspirational, direct/benefit-driven, question-based, and bold/provocative. Hashtags appended for each option.",
+    inputs: ["Product or brand description (1 paragraph)"],
+    structure: ["5 tagline options across registers", "Witty/punchy", "Emotional/aspirational", "Direct/benefit-driven", "Question-based", "Bold/provocative"],
+    rules: ["Output 5 options across the full range — never cluster around one register", "Relevant hashtags appended to each option"],
+    ogilvy: "The tagline is the logo for the mind. It should be shorter than you think and truer than you expect."
+  },
+  cta: {
+    title: "CTA Optimizer",
+    slug: "/cta",
+    category: "Campaign Tools",
+    silent: true,
+    desc: "Rewrites or generates CTAs benchmarked against 2026 conversion data. Specific language lifts conversion 161%. Personalized CTAs lift 202%. Urgency framing lifts 332%. Outputs 3 variants: standard, urgent, personalized.",
+    inputs: ["Current CTA text", "Platform", "Goal"],
+    structure: ["Analysis against 2026 conversion benchmarks", "3 CTA variants: standard / urgent / personalized", "Supporting hashtags appended"],
+    rules: ["Specific language > vague language: +161% conversion", "Personalized/audience-targeted: +202%", "Urgency framing: +332%", "Each variant is distinct in strategy, not just tone"],
+    ogilvy: "A CTA is the only sentence on the page that has to work. Everything else is setup."
+  },
+  hook: {
+    title: "Opening Hook Generator",
+    slug: "/hook",
+    category: "Campaign Tools",
+    silent: true,
+    desc: "Generates opening hooks designed to create a Pattern Interrupt — the moment the scroll stops. Outputs multiple hook strategies tuned to the topic, audience, and platform.",
+    inputs: ["Topic", "Audience", "Platform"],
+    structure: ["Bold claim hook", "Surprising stat hook", "Provocative question hook", "Story-opening hook", "Counterintuitive statement hook"],
+    rules: ["Never starts with 'In this post…' or 'Today I want to talk about…'", "First sentence must be able to stand alone", "Calibrated to platform — Twitter hook ≠ YouTube hook"],
+    ogilvy: "The headline is everything. If it fails, nothing that follows will be read."
+  },
+  benefit: {
+    title: "Feature → Benefit Transformer",
+    slug: "/benefit",
+    category: "Refinement",
+    silent: true,
+    desc: "Reframes every feature in a brief as a human outcome using the template: '[Feature] means you can [benefit] so that [emotional payoff].' Fixes feature-first copy at the root.",
+    inputs: ["Feature list or feature-focused copy"],
+    structure: ["Feature-by-feature benefit translation", "Template: '[Feature] means you can [benefit] so that [emotional payoff]'", "Benefit-driven copy version output"],
+    rules: ["'Our platform has 200 integrations' is not a benefit — it becomes 'You can connect every tool you already use, so your team never has to leave one dashboard to update another'", "Find the human outcome before picking the words"],
+    ogilvy: "A brief that leads with features hasn't found the product yet. It's only found the engineering spec."
+  },
+  emotion: {
+    title: "Emotional Impact Analyzer",
+    slug: "/emotion",
+    category: "Refinement",
+    silent: true,
+    desc: "Audits the emotional triggers in draft copy, identifies what's missing, and delivers an enhanced version. Covers storytelling structure, language patterns, and emotional resonance gaps.",
+    inputs: ["Draft copy"],
+    structure: ["Emotion audit: current emotional triggers identified", "Gap analysis: what emotions are missing or muted", "Enhancement suggestions: storytelling, language, structure", "Revised copy with emotional amplification"],
+    rules: ["No emotion labeling ('this is sad/exciting') — show it through specifics", "Emotional amplification must serve the brief, not override it"],
+    ogilvy: "People buy on emotion and justify with logic. Write for the feeling. Let them find their own reasons."
+  },
+  credibility: {
+    title: "Credibility Booster",
+    slug: "/credibility",
+    category: "Refinement",
+    silent: true,
+    desc: "Adds credibility layer to any claims or draft copy. Suggests statistics to source, testimonial placement, social proof language, and authority signals. Revised copy with credibility layer output.",
+    inputs: ["Claims or draft copy"],
+    structure: ["Statistics sourcing suggestions", "Testimonial placement recommendations", "Social proof language additions", "Authority signal insertions", "Revised copy with credibility layer"],
+    rules: ["No anonymous testimonials — name, title, company required", "Never fabricate stats — suggest where to source them", "Credibility must fit the platform context"],
+    ogilvy: "The consumer is not a moron. She's your wife. She wants proof, not promises."
+  },
+  seo: {
+    title: "SEO Surgeon",
+    slug: "/seo",
+    category: "Refinement",
+    silent: true,
+    desc: "Integrates SEO keywords naturally into web copy or video descriptions. Primary keyword in the first 25 words. 10–20 long-tail variations woven through. Applies the Golden Keyword Filter: 4+ word phrases, under 40% competition.",
+    inputs: ["Web copy or video description", "Target keywords"],
+    structure: ["Primary keyword placement in first 25 words", "10–20 natural long-tail keyword integrations", "Golden Keyword Filter applied (4+ words, <40% competition)", "Output: SEO-optimized copy with 10–15 keyword tags + 3–5 hashtags"],
+    rules: ["Keyword density must feel natural — never stuffed", "Golden Keyword Filter: 4+ word phrases, <40% competition score preferred"],
+    ogilvy: "Good SEO and good copy are the same thing — say exactly what the reader is looking for in the words they'd use to find it."
+  },
+  edit: {
+    title: "Editing Scalpel",
+    slug: "/edit",
+    category: "Refinement",
+    silent: true,
+    desc: "Full copy refinement pass across clarity, concision, impact, and platform fit. Tracks changes noted. Platform technical constraints applied. Output is polished copy ready for deployment.",
+    inputs: ["Any draft copy"],
+    structure: ["Clarity pass: one message at a time", "Concision pass: cut every unnecessary word", "Impact pass: front-load value", "Platform fit pass: apply technical constraints", "Tracked changes noted in output"],
+    rules: ["No word survives unless it earns its place", "Changes are noted so the writer understands why"],
+    ogilvy: "I do not regard advertising as entertainment or an art form, but as a medium of information. Every word in an ad should count."
+  }
+};
 
-PERSONA — BEHAVIORAL RULES (not adjectives):
-1. Never write a word of copy before you can state the brand's single differentiator in your own words. If you can't state it, you haven't understood the brief yet.
-2. When a brief leads with features, stop and translate to outcomes before proceeding. "Our platform has 200 integrations" is not a benefit — find out what it lets the user do that they couldn't do before.
-3. Treat vague adjectives in a brief ("innovative," "best-in-class," "passionate") as a signal to interrogate, not a license to reproduce them in copy.
-4. If the requested copy contradicts the brand voice on file, name the contradiction before writing. Do not silently paper over it.
-5. The theatrical register — the wit, the "ad man" voice — is a working tool, not decoration. Deploy it when it creates connection. Drop it when precision matters more.
+// Render a command detail panel
+function renderCommand(key) {
+  const c = COMMANDS[key];
+  if (!c) return '';
 
-HARD NOS:
-- Do not write copy where the differentiator is genuinely unclear. Flag it and ask.
-- Do not produce a brand voice summary from a one-word answer intake. Push for real answers.
-- Do not open body copy with the brand name. Ogilvy's rule: earn attention first.
+  let html = `
+    <div class="detail-eyebrow">${c.category}</div>
+    <h2 class="detail-title">${c.title}</h2>
+    <span class="detail-slug">${c.slug}</span>
+    <div class="detail-rule"></div>
+    <div class="detail-meta">
+      <span class="meta-pill cat">${c.category}</span>
+      ${c.silent ? '<span class="meta-pill silent">/silent supported</span>' : ''}
+    </div>
+    <p class="detail-desc">${c.desc}</p>
+  `;
 
-RULES:
-- Never use emoji or checkboxes (✅) in ad copy unless explicitly requested
-- Always append relevant #hashtags and SEO tags to ALL ad copy output
-- When a user has NOT provided a brand voice .md file, ALWAYS run the Brand Voice Intake sequence before writing any copy
-- When a brand voice .md IS provided, extract personality, tone, audience, and differentiators before writing
-- Match copy length, format, and tone to the specific platform requested
-- Follow 2026 platform-specific technical constraints (character limits, hashtag caps, safe zones) at all times
-
-OUTPUT RULE — NON-NEGOTIABLE:
-All outputs of length — rewrites, drafts, scripts, briefs, assembled content, any response longer than a few sentences — must be written in full. Short confirmations and clarifying questions are the only exceptions.
-
-SILENT MODIFIER RULE:
-If the user appends "silent" to any command (e.g., /tweet silent, /reel silent), execute immediately. No intake. No pushback. No phase gates. Clean output only.
-
-INTERACTIVE MODE RULE (default — no modifier needed):
-Without /silent, Ogilvy is fully present. Ask before acting. Push back on weak briefs in Ogilvy's voice. Never skip a phase gate. Never produce copy you don't believe in.
-
-START every new session with the full Ogilvy Welcome Menu.
-
-WELCOME MENU (trigger on session start or /help):
----
-*adjusts spectacles and clears throat*
-
-Why hello there! Ogilvy here — the Sultan of Sell, the Hemingway of Headlines, your personal Copywriting Coach.
-
-Ready to write copy that doesn't just inform, but SEDUCES? Here's your menu:
-
-**BRAND FOUNDATION**
-/brandvoice   — Generate or load your brand voice profile
-/audience     — Customer empathy check
-/jargon       — Translate industry speak into plain English
-
-**COPY CREATION**
-/youtube      — Full YouTube video script (voice-over)
-/shorts       — YouTube Shorts script (30–60 sec)
-/description  — YouTube video description (SEO-optimized)
-/walkthru     — Product demo video production brief (bullet-point shot guide)
-/tweet        — X/Twitter post (standard or thread)
-/reel         — Instagram Reel caption + hook
-/story        — Instagram/Facebook Story copy
-/carousel     — Instagram/Facebook carousel copy
-/facebook     — Facebook feed post
-/linkedin     — LinkedIn post
-/blurb        — General social media blurb (specify platform)
-/crowdfund    — Crowdfunding campaign copy (Kickstarter/GoFundMe)
-/byline       — Writer's byline (one-line, short, and full paragraph variants)
-/urso         — 30-second voice-over teaser script from a Substack article
-/vercel       — Generate a clear, one-paragraph tool description from a prompt set
-
-**CAMPAIGN TOOLS**
-/tagline      — Catchphrase and tagline creator
-/cta          — Call-to-action optimizer
-/hook         — Opening hook generator
-
-**COPY REFINEMENT**
-/benefit      — Transform features into benefits
-/emotion      — Emotional impact analyzer
-/credibility  — Add stats, testimonials, social proof
-/seo          — SEO keyword integration
-/edit         — Full copy refinement pass
-
-**NAVIGATION**
-/list         — Full command reference table
-/show         — Live demo: silent vs. interactive mode side by side
-/silent       — Append to any command for clean output, no questions, no pushback
-
-Type any command or just paste your content and tell me the platform.
-Note: /silent skips intake and pushback for any command — use it when you know exactly what you need. Without it, I'm fully in the room.
-*winks and adjusts bowtie*
----
-
-BRAND VOICE INTAKE: When user requests any copy without a brand voice file, ask these 10 questions before writing any copy:
-1. Brand name and one-sentence description of what you do
-2. Three adjectives that describe your brand's personality
-3. Who is your ideal customer? (age, lifestyle, pain points, desires)
-4. What is your single biggest differentiator from competitors?
-5. What brands do you ADMIRE and why?
-6. What brands do you NEVER want to sound like?
-7. What tone is OFF-LIMITS?
-8. What does your customer fear most? What do they dream about?
-9. What platforms are most important to your brand?
-10. What is the ONE action you most want your audience to take?
-
-PUSHBACK LAYER (always active in interactive mode):
-1. FLAGS WEAK INPUT — Name the specific gap in copywriter's language before acting
-2. NAMES ASSUMPTIONS — Surface embedded assumptions and ask if they hold
-3. REFRAMES LIMITING QUESTIONS — Offer the better question with explanation
-4. DISAGREES DIRECTLY — Name strategic problems plainly and offer a path forward
-Every pushback ends with a question or path forward. Never a dead end.
-
-PHASE GATES (interactive mode — do not skip):
-Phase 1: Brand Foundation → confirm brand voice before any copy
-Phase 2: Copy Creation → confirm core message before refinement
-Phase 3: Refinement → confirm polish before finalization
-Phase 4: Finalization → deliver final output
-
-UNIVERSAL OUTPUT RULE:
-ALL copy outputs must end with:
----
-TAGS: [10–15 SEO keyword tags, comma-separated]
-HASHTAGS: [platform-appropriate count — max 2 for X, max 5 for Instagram, 3–5 for others]
----`;
-
-// ─────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────
-const conversationHistory = [];
-let isLoading = false;
-
-// ─────────────────────────────────────────
-// DOM REFS
-// ─────────────────────────────────────────
-const messagesEl = document.getElementById('messages');
-const inputEl    = document.getElementById('user-input');
-const sendBtn    = document.getElementById('send-btn');
-
-// ─────────────────────────────────────────
-// MARKDOWN → HTML (lightweight)
-// ─────────────────────────────────────────
-function renderMarkdown(text) {
-  // Escape HTML first for safety
-  function esc(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  if (c.ogilvy) {
+    html += `
+      <div class="quote-block">
+        <p>"${c.ogilvy}"</p>
+      </div>
+    `;
   }
 
-  let lines = text.split('\n');
-  let html = '';
-  let i = 0;
-  let inCode = false;
-  let codeBuffer = '';
-  let codeLang = '';
-  let inTable = false;
-  let tableRows = [];
-
-  function flushTable() {
-    if (!tableRows.length) return;
-    let th = '';
-    let tb = '';
-    // header row
-    const hcells = tableRows[0];
-    th = '<tr>' + hcells.map(c => `<th>${c}</th>`).join('') + '</tr>';
-    // body rows (skip separator row)
-    for (let r = 1; r < tableRows.length; r++) {
-      const row = tableRows[r];
-      // skip separator rows like |---|---|
-      if (row.every(c => /^[-: ]+$/.test(c))) continue;
-      tb += '<tr>' + row.map(c => `<td>${c}</td>`).join('') + '</tr>';
-    }
-    html += `<table><thead>${th}</thead><tbody>${tb}</tbody></table>`;
-    tableRows = [];
-    inTable = false;
+  if (c.inputs && c.inputs.length) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Input required</div>
+      <ul class="input-list">${c.inputs.map(i => `<li>${i}</li>`).join('')}</ul>
+    </div>`;
   }
 
-  while (i < lines.length) {
-    const line = lines[i];
-
-    // ── fenced code block
-    if (!inCode && /^```/.test(line)) {
-      inCode = true;
-      codeLang = line.slice(3).trim();
-      codeBuffer = '';
-      i++; continue;
-    }
-    if (inCode) {
-      if (/^```/.test(line)) {
-        html += `<pre><code>${esc(codeBuffer.replace(/\n$/,''))}</code></pre>`;
-        inCode = false; codeBuffer = ''; codeLang = '';
-      } else {
-        codeBuffer += line + '\n';
-      }
-      i++; continue;
-    }
-
-    // ── table
-    if (/^\|/.test(line)) {
-      if (!inTable) inTable = true;
-      const cells = line.split('|').slice(1,-1).map(c => c.trim());
-      // convert inline md in cells
-      const rendered = cells.map(c => inlineRender(c));
-      tableRows.push(rendered);
-      i++; continue;
-    } else if (inTable) {
-      flushTable();
-    }
-
-    // ── headings
-    const h3 = line.match(/^### (.+)/);
-    const h2 = line.match(/^## (.+)/);
-    const h1 = line.match(/^# (.+)/);
-    if (h3) { html += `<h3>${inlineRender(h3[1])}</h3>`; i++; continue; }
-    if (h2) { html += `<h2>${inlineRender(h2[1])}</h2>`; i++; continue; }
-    if (h1) { html += `<h1>${inlineRender(h1[1])}</h1>`; i++; continue; }
-
-    // ── hr
-    if (/^---+$/.test(line.trim())) { html += '<hr>'; i++; continue; }
-
-    // ── blockquote
-    if (/^> /.test(line)) {
-      html += `<blockquote>${inlineRender(line.slice(2))}</blockquote>`;
-      i++; continue;
-    }
-
-    // ── unordered list
-    if (/^[-*] /.test(line)) {
-      html += '<ul>';
-      while (i < lines.length && /^[-*] /.test(lines[i])) {
-        html += `<li>${inlineRender(lines[i].replace(/^[-*] /,''))}</li>`;
-        i++;
-      }
-      html += '</ul>';
-      continue;
-    }
-
-    // ── ordered list
-    if (/^\d+\. /.test(line)) {
-      html += '<ol>';
-      while (i < lines.length && /^\d+\. /.test(lines[i])) {
-        html += `<li>${inlineRender(lines[i].replace(/^\d+\. /,''))}</li>`;
-        i++;
-      }
-      html += '</ol>';
-      continue;
-    }
-
-    // ── blank line
-    if (line.trim() === '') { i++; continue; }
-
-    // ── paragraph
-    html += `<p>${inlineRender(line)}</p>`;
-    i++;
+  if (c.structure && c.structure.length) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Output structure</div>
+      <ol class="structure-list">${c.structure.map(s => `<li>${s}</li>`).join('')}</ol>
+    </div>`;
   }
 
-  if (inTable) flushTable();
-  if (inCode) html += `<pre><code>${esc(codeBuffer)}</code></pre>`;
+  if (c.rules && c.rules.length) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Behavioral rules</div>
+      <ul class="input-list">${c.rules.map(r => `<li>${r}</li>`).join('')}</ul>
+    </div>`;
+  }
+
+  if (c.variants && c.variants.length) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Variant modes</div>
+      <ul class="input-list">${c.variants.map(v => `<li><code style="font-family:monospace;font-size:0.8em;color:var(--bb-5)">${v.split('—')[0]}</code>${v.includes('—') ? ' — ' + v.split('—')[1] : ''}</li>`).join('')}</ul>
+    </div>`;
+  }
 
   return html;
 }
 
-function inlineRender(text) {
-  function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  let s = esc(text);
-  // bold+italic
-  s = s.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
-  // bold
-  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  // italic
-  s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
-  s = s.replace(/_(.+?)_/g, '<em>$1</em>');
-  // inline code
-  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
-  // links
-  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-  return s;
-}
+// Navigation
+function navigate(cmd) {
+  document.querySelectorAll('.cmd-item').forEach(el => el.classList.remove('active'));
+  const item = document.querySelector(`[data-cmd="${cmd}"]`);
+  if (item) item.classList.add('active');
 
-// ─────────────────────────────────────────
-// RENDER MESSAGES
-// ─────────────────────────────────────────
-function appendMessage(role, content) {
-  const row = document.createElement('div');
-  row.className = `message-row ${role}`;
+  const welcome = document.getElementById('panel-welcome');
+  const freq = document.getElementById('panel-freq');
+  const dynamic = document.getElementById('panel-dynamic');
 
-  if (role === 'user') {
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    bubble.textContent = content;
-    row.appendChild(bubble);
-  } else {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'assistant-wrapper';
+  welcome.classList.add('hidden');
+  freq.classList.add('hidden');
+  dynamic.classList.add('hidden');
 
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    bubble.innerHTML = renderMarkdown(content);
-
-    const copyBtn = document.createElement('button');
-    copyBtn.className = 'copy-btn';
-    copyBtn.innerHTML = `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-      <path d="M8 3a1 1 0 011-1h6a1 1 0 011 1v1h1a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1h1V3zm2 0v1h4V3H10zM5 6v10h10V6H5z"/>
-    </svg>Copy`;
-
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(content).then(() => {
-        copyBtn.textContent = '✓ Copied';
-        copyBtn.classList.add('copied');
-        setTimeout(() => {
-          copyBtn.innerHTML = `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-            <path d="M8 3a1 1 0 011-1h6a1 1 0 011 1v1h1a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1h1V3zm2 0v1h4V3H10zM5 6v10h10V6H5z"/>
-          </svg>Copy`;
-          copyBtn.classList.remove('copied');
-        }, 2000);
-      });
-    });
-
-    wrapper.appendChild(bubble);
-    wrapper.appendChild(copyBtn);
-    row.appendChild(wrapper);
+  if (cmd === 'welcome') {
+    welcome.classList.remove('hidden');
+  } else if (cmd === 'freq') {
+    freq.classList.remove('hidden');
+  } else if (COMMANDS[cmd]) {
+    dynamic.innerHTML = renderCommand(cmd);
+    dynamic.classList.remove('hidden');
   }
 
-  messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+  document.getElementById('mainPanel').scrollTop = 0;
 }
 
-function showTyping() {
-  const row = document.createElement('div');
-  row.className = 'message-row assistant';
-  row.id = 'typing-row';
-  row.innerHTML = `<div class="typing-indicator">
-    <div class="dot-anim"><span></span><span></span><span></span></div>
-    <span style="font-size:12px;color:var(--text-muted);margin-left:4px">Ogilvy is thinking…</span>
-  </div>`;
-  messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
-
-function removeTyping() {
-  const el = document.getElementById('typing-row');
-  if (el) el.remove();
-}
-
-// ─────────────────────────────────────────
-// AUTO-RESIZE TEXTAREA
-// ─────────────────────────────────────────
-inputEl.addEventListener('input', () => {
-  inputEl.style.height = 'auto';
-  inputEl.style.height = Math.min(inputEl.scrollHeight, 140) + 'px';
+document.querySelectorAll('.cmd-item').forEach(el => {
+  el.addEventListener('click', () => navigate(el.dataset.cmd));
 });
 
-// ─────────────────────────────────────────
-// SEND
-// ─────────────────────────────────────────
-async function sendMessage(text) {
-  if (!text.trim() || isLoading) return;
-
-  isLoading = true;
-  sendBtn.disabled = true;
-
-  conversationHistory.push({ role: 'user', content: text });
-  appendMessage('user', text);
-
-  inputEl.value = '';
-  inputEl.style.height = 'auto';
-
-  showTyping();
-
-  try {
-    const response = await fetch('/api/ogilvy', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system: SYSTEM_PROMPT,
-        messages: conversationHistory
-      })
-    });
-
-    if (!response.ok) {
-      const err = await response.text();
-      throw new Error(`API error ${response.status}: ${err}`);
-    }
-
-    const data = await response.json();
-    const reply = data.content
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('\n');
-
-    removeTyping();
-    conversationHistory.push({ role: 'assistant', content: reply });
-    appendMessage('assistant', reply);
-
-  } catch (err) {
-    removeTyping();
-    const msg = `*clears throat awkwardly*\n\nSomething went wrong on my end. Error: ${err.message}\n\nTry again — Ogilvy doesn't give up that easily.`;
-    conversationHistory.push({ role: 'assistant', content: msg });
-    appendMessage('assistant', msg);
-  } finally {
-    isLoading = false;
-    sendBtn.disabled = false;
-    inputEl.focus();
-  }
-}
-
-// ─────────────────────────────────────────
-// EVENT LISTENERS
-// ─────────────────────────────────────────
-sendBtn.addEventListener('click', () => sendMessage(inputEl.value));
-
-inputEl.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage(inputEl.value);
-  }
+// Search
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.toLowerCase().trim();
+  document.querySelectorAll('.cmd-item').forEach(el => {
+    const slug = el.querySelector('.cmd-slug').textContent.toLowerCase();
+    const label = el.querySelector('.cmd-label').textContent.toLowerCase();
+    const cmd = COMMANDS[el.dataset.cmd];
+    const desc = cmd ? cmd.desc.toLowerCase() : '';
+    const matches = !q || slug.includes(q) || label.includes(q) || desc.includes(q);
+    el.style.display = matches ? '' : 'none';
+  });
+  document.querySelectorAll('.sidebar-group').forEach(group => {
+    const visible = [...group.querySelectorAll('.cmd-item')].some(el => el.style.display !== 'none');
+    group.style.display = visible ? '' : 'none';
+  });
 });
-
-// ─────────────────────────────────────────
-// WELCOME MESSAGE ON LOAD
-// ─────────────────────────────────────────
-async function loadWelcome() {
-  isLoading = true;
-  sendBtn.disabled = true;
-  showTyping();
-
-  try {
-    const response = await fetch('/api/ogilvy', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: 'Hello' }]
-      })
-    });
-
-    if (!response.ok) throw new Error(`API error ${response.status}`);
-
-    const data = await response.json();
-    const reply = data.content
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('\n');
-
-    removeTyping();
-    conversationHistory.push({ role: 'user', content: 'Hello' });
-    conversationHistory.push({ role: 'assistant', content: reply });
-    appendMessage('assistant', reply);
-
-  } catch (err) {
-    removeTyping();
-    const fallback = `*adjusts spectacles and clears throat*
-
-Why hello there! Ogilvy here — the Sultan of Sell, the Hemingway of Headlines, your personal Copywriting Coach.
-
-Ready to write copy that doesn't just inform, but SEDUCES? Type **/help** for the full menu or paste a brief to get started.
-
-*winks and adjusts bowtie*`;
-    appendMessage('assistant', fallback);
-  } finally {
-    isLoading = false;
-    sendBtn.disabled = false;
-    inputEl.focus();
-  }
-}
-
-loadWelcome();
 </script>
+
 </body>
 </html>
