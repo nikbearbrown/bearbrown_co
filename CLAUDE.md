@@ -212,6 +212,186 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 - Keep public nav to four items: Home, Tools, About, Contact
 - Do not commit .env.local or credentials to git
 
+## User Guide
+
+### Overview
+
+bearbrown.co is Nik Bear Brown's personal site — part business card, part newsletter archive, part tool directory. It runs on Next.js with Vercel auto-deploy. The public site has no login; the admin dashboard is cookie-protected.
+
+---
+
+### For visitors
+
+**Home page** (`/`) — Landing page with a brief intro, "About Me" and "Contact" buttons, and an embedded Spotify player that randomly showcases one of 13 artist profiles. Click "Another artist" to shuffle.
+
+**About** (`/about`) — Prose-format CV covering academic work at Northeastern, writing and speaking credits, Humanitarians AI, music projects, and contact info.
+
+**Tools** (`/tools`) — Placeholder page. Will contain interactive tool cards (Subby, CRITIQ, etc.) once populated.
+
+**Newsletter** (`/substack`) — Card grid of all Substack newsletter sections. Click a section to see its articles listed chronologically. Click an article to read the full post with original Substack attribution.
+
+**Privacy** (`/privacy`) — Privacy policy covering data collection, third-party services, and cookies.
+
+**Dark/light mode** — Toggle via the sun/moon icon in the top-right header. Defaults to light mode.
+
+---
+
+### For the site admin
+
+#### Initial setup (one-time)
+
+1. **Supabase project** — Create a project at supabase.com. Run this SQL in the SQL Editor:
+
+```sql
+CREATE TABLE IF NOT EXISTS substack_sections (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  description TEXT,
+  substack_url TEXT NOT NULL,
+  article_count INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS substack_articles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  section_id UUID NOT NULL REFERENCES substack_sections(id) ON DELETE CASCADE,
+  slug TEXT NOT NULL,
+  title TEXT NOT NULL,
+  subtitle TEXT,
+  excerpt TEXT,
+  content TEXT,
+  original_url TEXT,
+  published_at TIMESTAMPTZ,
+  display_date TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(section_id, slug)
+);
+
+ALTER TABLE substack_sections ENABLE ROW LEVEL SECURITY;
+ALTER TABLE substack_articles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public_read_sections" ON substack_sections FOR SELECT USING (true);
+CREATE POLICY "public_read_articles" ON substack_articles FOR SELECT USING (true);
+CREATE POLICY "service_role_sections" ON substack_sections FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "service_role_articles" ON substack_articles FOR ALL USING (true) WITH CHECK (true);
+```
+
+2. **Environment variables** — Add to `.env.local` (local dev) and Vercel project settings (production):
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
+NEXT_PUBLIC_SITE_URL=https://bearbrown.co
+```
+
+3. **Admin access** — The admin dashboard is protected by an `admin_session` cookie. There is no login page yet. To access the dashboard:
+   - In your browser, open DevTools → Application → Cookies
+   - Add a cookie named `admin_session` with any non-empty value for the site domain
+   - Navigate to `/admin/dashboard`
+
+#### Managing Substack sections
+
+1. Go to `/admin/dashboard/substack`
+2. Click **"New Section"** to create a newsletter section (e.g., "AI in Education")
+   - **Title**: Display name shown on public pages
+   - **Slug**: Auto-generated from title, used in URLs (e.g., `/substack/ai-in-education`)
+   - **Substack URL**: Link to the original Substack (e.g., `https://nikbearbrown.substack.com`)
+   - **Description**: Shown on the section page hero and section cards
+3. Each section card shows its title, slug badge, article count, and Substack URL
+4. Use the **pencil icon** to edit or the **trash icon** to delete (deletes all articles too)
+
+#### Importing Substack articles
+
+1. Export your Substack archive:
+   - Go to your Substack → Settings → Exports → "Create new export"
+   - Download the ZIP file (contains `posts.csv` + individual `.html` files)
+2. In the admin dashboard, click **"Import ZIP"** on the target section
+3. Select or drag the ZIP file, then click **"Upload & Import"**
+4. The parser reads `posts.csv` for metadata and matches HTML files by slug
+   - Skips drafts and podcast-type posts
+   - Extracts: title, subtitle, slug, content (HTML), published date, canonical URL
+   - Generates a ~200-character plain-text excerpt from each post
+5. Articles are upserted — re-importing the same ZIP updates existing articles by slug
+6. The section's article count updates automatically
+
+#### How articles appear publicly
+
+- `/substack` — All sections as cards with article counts
+- `/substack/[section]` — Section hero with description and "Follow on Substack" button, then a chronological list of articles showing date, title, subtitle, and excerpt
+- `/substack/[section]/[slug]` — Full article page with:
+  - Attribution banner ("Originally published on Substack" + "View original" link)
+  - Back link to the section
+  - Full HTML content rendered as prose
+  - "Subscribe on Substack" CTA at the bottom
+
+#### SEO
+
+- **Sitemap** (`/sitemap.xml`) — Automatically generated. Includes all static pages (`/`, `/tools`, `/about`) plus all dynamic `/substack/*` routes pulled from Supabase. Falls back to static-only if Supabase is not configured.
+- **Robots** (`/robots.txt`) — Allows all crawlers. Blocks `/admin/` and `/api/` paths. Points to the sitemap.
+
+---
+
+### For developers
+
+#### Local development
+
+```bash
+npm install
+npm run dev        # starts at http://localhost:3000
+```
+
+#### Project structure (key paths)
+
+```
+app/
+  page.tsx                          # Home
+  about/page.tsx                    # About / CV
+  tools/page.tsx                    # Tools directory (placeholder)
+  privacy/page.tsx                  # Privacy policy
+  substack/
+    page.tsx                        # Newsletter hub
+    [section]/page.tsx              # Section article list
+    [section]/[slug]/page.tsx       # Full article
+  admin/dashboard/
+    layout.tsx                      # Admin layout with tab nav
+    page.tsx                        # Admin overview (placeholder)
+    substack/page.tsx               # Substack section manager
+  api/admin/substack/
+    sections/route.ts               # GET/POST sections
+    sections/[id]/route.ts          # PUT/DELETE section
+    upload/route.ts                 # POST ZIP import
+  sitemap.ts                        # Dynamic sitemap generator
+  robots.ts                         # Robots.txt generator
+components/
+  Header/Header.tsx                 # Sticky header with nav + social + theme toggle
+  Footer/Footer.tsx                 # Footer with links + copyright
+  SpotifyPlayer/SpotifyPlayer.tsx   # Random artist Spotify embed
+  ThemeToggle.tsx                   # Dark/light mode toggle
+  theme-provider.tsx                # next-themes wrapper
+  ui/                               # 60+ shadcn/ui components
+lib/
+  utils.ts                          # cn() helper (clsx + tailwind-merge)
+  admin-auth.ts                     # admin_session cookie check
+  substack-parser.ts                # Substack ZIP parser (adm-zip)
+  supabase/
+    server.ts                       # Supabase admin client (service role)
+    client.ts                       # Supabase browser client (anon key)
+```
+
+#### Adding content
+
+- **New Substack section**: Use the admin UI at `/admin/dashboard/substack`, or insert directly into the `substack_sections` table
+- **New tool card**: Add an object to the tools data array in `/app/tools/page.tsx` (once built)
+- **New artist to Spotify player**: Add to the `ARTISTS` array in `/components/SpotifyPlayer/SpotifyPlayer.tsx`
+
+#### Deployment
+
+Push to `main` on GitHub → Vercel auto-deploys. Make sure Vercel environment variables match `.env.local`.
+
+---
+
 ## Standing Instructions
 
 After every session, always:
