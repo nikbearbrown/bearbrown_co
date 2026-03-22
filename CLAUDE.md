@@ -13,15 +13,22 @@ Primary audiences:
 ## Tech stack
 - Next.js (App Router)
 - Deployed on Vercel via GitHub repo: nikbearbrown/bearbrown_co
-- Tailwind CSS
+- Tailwind CSS + @tailwindcss/typography (for prose article rendering)
 - TypeScript
 - next-themes for dark/light mode
+- Supabase (PostgreSQL — sections & articles tables)
+- adm-zip (server-side Substack ZIP parsing)
 
-## Site structure — four pages only
+## Site structure
 1. `/` — Home (business card + Spotify player + AI contact assistant)
 2. `/tools` — Tools directory (placeholder — card grid coming)
 3. `/about` — CV / bio page (prose format)
 4. `/privacy` — Privacy policy (static)
+5. `/substack` — Newsletter hub: card grid of all Substack sections
+6. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
+7. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
+8. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
+9. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
 
 ## Persistent layout (every page)
 
@@ -145,8 +152,53 @@ Wrapper around NextThemesProvider. Used in root layout.
 ### UI components (`/components/ui/`)
 60+ shadcn/ui components. PrimaryButton and SecondaryButton exist but home page currently uses inline button styles.
 
+## Substack import system — DONE
+
+### Database (Supabase)
+Two tables: `substack_sections` and `substack_articles`. Sections have title, slug, description, substack_url, article_count. Articles belong to a section and store title, subtitle, slug, excerpt, content (HTML), original_url, published_at, display_date. RLS enabled with public read + service role write.
+
+### ZIP parser (`lib/substack-parser.ts`)
+Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack export ZIP. Returns parsed posts with title, subtitle, slug, content, publishedAt, displayDate, excerpt (~200 chars plain text), canonicalUrl. Skips drafts and podcasts.
+
+### API routes (all admin-protected via `admin_session` cookie)
+- `GET/POST /api/admin/substack/sections` — list & create sections
+- `PUT/DELETE /api/admin/substack/sections/[id]` — update & delete sections
+- `POST /api/admin/substack/upload` — multipart formData (zip + sectionId), parses ZIP, upserts articles, updates article_count
+
+### Admin UI (`/app/admin/dashboard/substack/page.tsx`)
+- Section list with title, slug badge, article count, Substack URL
+- "New Section" button → dialog form (title, auto-slug, substack URL, description)
+- "Import ZIP" button per section → file upload dialog with drag area
+- Edit and delete per section
+
+### Public pages
+- `/substack` — hero + card grid of sections (force-dynamic, graceful fallback if Supabase not configured)
+- `/substack/[section]` — section hero + "Follow on Substack" CTA + article list
+- `/substack/[section]/[slug]` — attribution banner, prose content via `dangerouslySetInnerHTML`, subscribe CTA
+
+### Supabase clients
+- `lib/supabase/server.ts` — `getSupabaseAdmin()` uses service role key (server-side only)
+- `lib/supabase/client.ts` — `getSupabaseClient()` uses anon key (browser-safe)
+
+### Admin auth
+- `lib/admin-auth.ts` — checks for `admin_session` cookie via `cookies()` from `next/headers`
+- All `/api/admin/*` routes check this before proceeding
+
+## SEO — DONE
+- `app/sitemap.ts` — dynamic sitemap: static pages + all `/substack/*` routes from Supabase. Falls back to static-only if Supabase not configured.
+- `app/robots.ts` — allows all, disallows `/admin/` and `/api/`, points to `/sitemap.xml`
+
+## Admin dashboard (`/app/admin/dashboard/`) — DONE
+- Layout with tabbed nav (Overview, Substack)
+- Protected pages — requires `admin_session` cookie to use API routes
+- Currently only has Substack management; overview is placeholder
+
 ## Environment variables
 ```
+NEXT_PUBLIC_SUPABASE_URL=        # Supabase project URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY=   # Supabase anon/public key
+SUPABASE_SERVICE_ROLE_KEY=       # Supabase service role key (server-side only)
+NEXT_PUBLIC_SITE_URL=https://bearbrown.co  # Used in sitemap generation
 NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 ```
 
@@ -155,12 +207,20 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 - Domain: bearbrown.co
 
 ## What NOT to do
-- Do not add pages beyond the four listed without asking
 - Do not use localStorage — use React state or sessionStorage
 - Do not add analytics or tracking beyond what's already present
-- Keep nav to four items: Home, Tools, About, Contact
+- Keep public nav to four items: Home, Tools, About, Contact
+- Do not commit .env.local or credentials to git
+
+## Standing Instructions
+
+After every session, always:
+1. Update CLAUDE.md to reflect any changes made — check `git log` and `git diff` to see exactly what was changed, do not ask.
+2. Commit and push all changes to main with a descriptive commit message.
 
 ## Remaining work (in priority order)
 1. Populate tools page with Subby + CRITIQ cards (data-driven)
 2. Build AI contact assistant widget on home page
 3. Flesh out About page (Substack, musinique.com, Bear Brown LLC, publications)
+4. Add admin login page (currently admin_session cookie must be set manually)
+5. Add Substack link to site nav or About page
