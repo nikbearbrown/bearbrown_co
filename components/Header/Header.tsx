@@ -20,6 +20,7 @@ const SOCIAL_LINKS = [
   { name: 'GitHub', href: 'https://github.com/nikbearbrown' },
   { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
   { name: 'Spotify', href: 'https://open.spotify.com/artist/0hSpFCJodAYMP2cWK72zI6' },
+  { name: 'Substack', href: 'https://bearbrownco.substack.com/' },
 ]
 
 const buttonStyles =

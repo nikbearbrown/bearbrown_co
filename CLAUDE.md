@@ -23,27 +23,31 @@ Primary audiences:
 1. `/` — Home (business card + Spotify player + AI contact assistant)
 2. `/tools` — Tools directory (placeholder — card grid coming)
 3. `/about` — CV / bio page (prose format)
-4. `/privacy` — Privacy policy (static)
-5. `/substack` — Newsletter hub: card grid of all Substack sections
-6. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
-7. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
-8. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
-9. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
+4. `/privacy` — Privacy Policy for Bear Brown LLC (includes Cookie Policy at #cookies)
+5. `/terms-of-service` — Terms of Service for Bear Brown LLC
+6. `/substack` — Newsletter hub: card grid of all Substack sections
+7. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
+8. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
+9. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
+10. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
 
 ## Persistent layout (every page)
 
 ### Header (`/components/Header/Header.tsx`) — DONE
 - Logo: theme-aware SVG (white for dark, black for light)
 - Nav: Home (`/`) | Tools (`/tools`) | About (`/about`) | Contact (`mailto:bear@bearbrown.co`)
-- Social buttons (top right): GitHub, YouTube, Spotify — black button style
+- Social buttons (top right): GitHub, YouTube, Spotify, Substack — black button style
 - Dark/light mode toggle (ThemeToggle component)
 - Mobile hamburger menu with backdrop (lg breakpoint)
 - Sticky, z-50, backdrop-blur
 
 ### Footer (`/components/Footer/Footer.tsx`) — DONE
-- Social links: GitHub, YouTube, Spotify (text links, not icons)
-- Privacy Policy link
-- Copyright: Bear Brown, LLC
+Four-column grid layout:
+- **Company Info:** Bear Brown LLC, 30 N Gould St Ste N, Sheridan WY 82801, bear@bearbrown.co, EIN: 41-4226710
+- **Publications:** Links to all 5 Substack publications (Bear Brown Co, Skepticism AI, Theorist AI, Hypothetical AI, Musinique)
+- **Connect:** GitHub, YouTube, Spotify, Substack (text links)
+- **Legal:** Privacy Policy, Cookie Policy, Terms of Service
+- Bottom bar: copyright
 
 ### Root layout (`/app/layout.tsx`) — DONE
 - ThemeProvider: defaultTheme="light", enableSystem
@@ -82,7 +86,13 @@ Prose-forward CV format with sections:
 Still needs: Substack link, musinique.com links, Bear Brown LLC details, publications list.
 
 ## Privacy Policy (`/app/privacy/page.tsx`) — DONE
-Covers: info collection (contact assistant, analytics), third-party services (Vercel, Spotify, Anthropic), cookies (theme only), rights, contact.
+Full privacy policy for Bear Brown LLC (Nik Bear Brown, Sole Member). References company address (30 N Gould St Ste N, Sheridan WY 82801), EIN (41-4226710), and AI consulting services. Sections: who we are, info collection, usage, sharing, third-party services (Vercel, Supabase, Spotify, Substack, Anthropic), cookie policy (#cookies anchor), data retention, your rights, children's privacy, changes, contact. Nav links to Home and Terms of Service.
+
+## Cookie Policy — DONE
+Integrated as section 6 within `/privacy` page, accessible via `/privacy#cookies`. Covers: theme preference cookie, admin session cookie, no advertising/tracking cookies, third-party embed cookies (Spotify, Substack), browser cookie management.
+
+## Terms of Service (`/app/terms-of-service/page.tsx`) — DONE
+Full terms for Bear Brown LLC. References company details, AI consulting services, Wyoming governing law. Sections: intro, services, AI consulting, intellectual property, use license, user conduct, third-party services, newsletter content, disclaimer of warranties, limitation of liability, indemnification, governing law (Wyoming), changes, contact. Nav links to Privacy Policy and Home.
 
 ## AI Contact Assistant (Home page) — NOT YET BUILT
 - Embedded Claude-powered chat widget
@@ -349,7 +359,8 @@ app/
   page.tsx                          # Home
   about/page.tsx                    # About / CV
   tools/page.tsx                    # Tools directory (placeholder)
-  privacy/page.tsx                  # Privacy policy
+  privacy/page.tsx                  # Privacy Policy (includes Cookie Policy at #cookies)
+  terms-of-service/page.tsx         # Terms of Service
   substack/
     page.tsx                        # Newsletter hub
     [section]/page.tsx              # Section article list
@@ -366,7 +377,7 @@ app/
   robots.ts                         # Robots.txt generator
 components/
   Header/Header.tsx                 # Sticky header with nav + social + theme toggle
-  Footer/Footer.tsx                 # Footer with links + copyright
+  Footer/Footer.tsx                 # 4-column footer (company, publications, social, legal)
   SpotifyPlayer/SpotifyPlayer.tsx   # Random artist Spotify embed
   ThemeToggle.tsx                   # Dark/light mode toggle
   theme-provider.tsx                # next-themes wrapper
@@ -403,4 +414,4 @@ After every session, always:
 2. Build AI contact assistant widget on home page
 3. Flesh out About page (Substack, musinique.com, Bear Brown LLC, publications)
 4. Add admin login page (currently admin_session cookie must be set manually)
-5. Add Substack link to site nav or About page
+5. Add Substack nav link to public header or About page (Substack button already in social links)

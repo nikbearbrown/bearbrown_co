@@ -1,112 +1,182 @@
-import type { Metadata } from "next"
-import Link from "next/link"
+import type { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: "Terms of Service - Humanitarians AI",
-  description: "Terms of Service for Humanitarians AI website and services",
+  title: 'Terms of Service - Bear Brown LLC',
+  description: 'Terms of Service for Bear Brown LLC and bearbrown.co',
 }
 
 export default function TermsOfServicePage() {
   return (
     <div className="container px-4 md:px-6 mx-auto py-12">
-      <div className="max-w-4xl mx-auto">
-        {/* Hero Section */}
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Terms of Service</h1>
-          <p className="text-sm text-muted-foreground">Last Updated: June 16, 2025</p>
-        </div>
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-4xl font-bold tracking-tighter mb-2">Terms of Service</h1>
+        <p className="text-sm text-muted-foreground mb-8">Last updated: March 2026</p>
 
-        {/* Main Content */}
         <div className="prose prose-lg dark:prose-invert max-w-none">
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">1. Introduction</h2>
+            <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
             <p>
-              Welcome to Humanitarians AI's website. By accessing or using our website, you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our website.
+              Welcome to <strong>bearbrown.co</strong>, operated by <strong>Bear Brown LLC</strong> (Nik Bear Brown, Sole Member),
+              a Wyoming limited liability company. By accessing or using this website, you agree to be bound by these
+              Terms of Service (&ldquo;Terms&rdquo;). If you do not agree, please do not use this website.
+            </p>
+            <ul className="list-none pl-0 mt-4 space-y-1 text-base">
+              <li><strong>Company:</strong> Bear Brown LLC</li>
+              <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
+              <li><strong>Email:</strong>{' '}
+                <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
+              </li>
+              <li><strong>EIN:</strong> 41-4226710</li>
+            </ul>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">2. Services</h2>
+            <p>
+              Bear Brown LLC provides AI consulting services, educational content, and related resources.
+              This website serves as an informational resource, newsletter archive, and tool directory.
+              The content is provided for general informational purposes and does not constitute professional advice.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">2. Website Purpose</h2>
+            <h2 className="text-2xl font-semibold mb-4">3. AI Consulting Services</h2>
             <p>
-              The Humanitarians AI website is provided for informational purposes only. The content on our website is intended to provide general information about our organization, mission, programs, and activities. Our website functions primarily as a digital business card and information resource.
+              AI consulting engagements are governed by separate written agreements between Bear Brown LLC and the client.
+              These Terms apply to use of this website only and do not supersede any consulting engagement agreement.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">3. Intellectual Property</h2>
+            <h2 className="text-2xl font-semibold mb-4">4. Intellectual Property</h2>
             <p>
-              All content on this website, including text, graphics, logos, images, and software, is the property of Humanitarians AI and is protected by United States and international copyright laws. The compilation of all content on this website is the exclusive property of Humanitarians AI and is protected by United States and international copyright laws.
+              All content on this website — including text, graphics, logos, images, audio, newsletter articles, and software —
+              is the property of Bear Brown LLC or its content suppliers and is protected by United States and international
+              copyright laws.
+            </p>
+            <p className="mt-4">
+              Newsletter content originally published on Substack is displayed with attribution. Original publication
+              rights and any applicable Creative Commons licenses are noted on individual articles.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">4. Use License</h2>
+            <h2 className="text-2xl font-semibold mb-4">5. Use License</h2>
             <p>
-              You are granted a limited, non-exclusive, non-transferable license to access and use our website for informational purposes. This license does not include:
+              You are granted a limited, non-exclusive, non-transferable license to access and view the content
+              on this website for personal, non-commercial informational purposes. This license does not include:
             </p>
-            <ul className="list-disc ml-6 space-y-2">
-              <li>Modifying or copying the materials</li>
-              <li>Using the materials for any commercial purpose</li>
-              <li>Attempting to decompile or reverse engineer any software contained on the website</li>
-              <li>Removing any copyright or other proprietary notations from the materials</li>
-              <li>Transferring the materials to another person or "mirroring" the materials on any other server</li>
+            <ul className="list-disc pl-6 mt-4 space-y-2">
+              <li>Modifying or copying the materials for redistribution</li>
+              <li>Using the materials for any commercial purpose without written permission</li>
+              <li>Attempting to decompile or reverse engineer any software on the website</li>
+              <li>Removing any copyright or proprietary notations</li>
+              <li>Scraping, crawling, or bulk downloading content beyond what robots.txt permits</li>
             </ul>
             <p className="mt-4">
-              This license shall automatically terminate if you violate any of these restrictions and may be terminated by Humanitarians AI at any time.
+              This license terminates automatically if you violate any of these restrictions.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">5. Disclaimer</h2>
+            <h2 className="text-2xl font-semibold mb-4">6. User Conduct</h2>
+            <p>When using this website, including any interactive features such as the contact assistant, you agree not to:</p>
+            <ul className="list-disc pl-6 mt-4 space-y-2">
+              <li>Submit false or misleading information</li>
+              <li>Attempt to gain unauthorized access to any part of the website or its systems</li>
+              <li>Use the website to transmit harmful code, spam, or malicious content</li>
+              <li>Interfere with or disrupt the website's infrastructure</li>
+              <li>Use automated tools to access the website beyond normal browser usage</li>
+            </ul>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">7. Third-Party Services and Links</h2>
             <p>
-              The materials on Humanitarians AI's website are provided "as is." Humanitarians AI makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+              This website integrates with and links to third-party services including Spotify, Substack, GitHub,
+              YouTube, Vercel, Supabase, and Anthropic. Bear Brown LLC is not responsible for the content, privacy
+              practices, or availability of these external services. Your use of third-party services is governed
+              by their respective terms.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">6. Limitations</h2>
+            <h2 className="text-2xl font-semibold mb-4">8. Newsletter Content</h2>
             <p>
-              In no event shall Humanitarians AI be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Humanitarians AI's website, even if Humanitarians AI or a Humanitarians AI authorized representative has been notified orally or in writing of the possibility of such damage.
+              Newsletter articles displayed on this website are imported from Substack publications operated by
+              Nik Bear Brown. These articles are provided for convenient reading and are attributed to their
+              original Substack source. For the most current version of any article, refer to the original
+              Substack publication linked on each article page.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">7. External Links</h2>
+            <h2 className="text-2xl font-semibold mb-4">9. Disclaimer of Warranties</h2>
             <p>
-              Humanitarians AI's website may contain links to external websites that are not provided or maintained by or in any way affiliated with Humanitarians AI. Please note that Humanitarians AI does not guarantee the accuracy, relevance, timeliness, or completeness of any information on these external websites.
+              This website and all content are provided &ldquo;as is&rdquo; and &ldquo;as available&rdquo; without warranties of any kind,
+              either express or implied, including but not limited to implied warranties of merchantability,
+              fitness for a particular purpose, or non-infringement.
+            </p>
+            <p className="mt-4">
+              Bear Brown LLC does not warrant that the website will be uninterrupted, error-free, or free of
+              harmful components. AI-related content and tools are provided for informational purposes and
+              should not be relied upon as the sole basis for business decisions.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">8. Revisions and Errata</h2>
+            <h2 className="text-2xl font-semibold mb-4">10. Limitation of Liability</h2>
             <p>
-              The materials appearing on Humanitarians AI's website could include technical, typographical, or photographic errors. Humanitarians AI does not warrant that any of the materials on its website are accurate, complete, or current. Humanitarians AI may make changes to the materials contained on its website at any time without notice.
+              To the fullest extent permitted by law, Bear Brown LLC shall not be liable for any indirect, incidental,
+              special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly
+              or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from:
+            </p>
+            <ul className="list-disc pl-6 mt-4 space-y-2">
+              <li>Your use or inability to use the website</li>
+              <li>Any content obtained from the website</li>
+              <li>Unauthorized access to or alteration of your transmissions or data</li>
+            </ul>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">11. Indemnification</h2>
+            <p>
+              You agree to indemnify and hold harmless Bear Brown LLC, its sole member, and its affiliates from any
+              claims, damages, losses, or expenses (including reasonable attorneys' fees) arising from your use of
+              the website or violation of these Terms.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">9. Modifications to Terms of Service</h2>
+            <h2 className="text-2xl font-semibold mb-4">12. Governing Law</h2>
             <p>
-              Humanitarians AI may revise these Terms of Service for its website at any time without notice. By using this website, you are agreeing to be bound by the then-current version of these Terms of Service.
+              These Terms shall be governed by and construed in accordance with the laws of the State of Wyoming,
+              without regard to conflict of law principles. Any disputes arising under these Terms shall be subject
+              to the exclusive jurisdiction of the state and federal courts located in Wyoming.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">10. Governing Law</h2>
+            <h2 className="text-2xl font-semibold mb-4">13. Changes to These Terms</h2>
             <p>
-              These Terms shall be governed and construed in accordance with the laws of the United States, without regard to its conflict of law provisions. Any disputes relating to these Terms shall be subject to the exclusive jurisdiction of the courts of the United States.
+              Bear Brown LLC may revise these Terms at any time by updating this page. Changes take effect immediately
+              upon posting. Your continued use of the website after changes are posted constitutes acceptance of the
+              revised Terms. We encourage you to review this page periodically.
             </p>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">11. Contact</h2>
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">14. Contact</h2>
             <p>
-              If you have any questions about these Terms, please{" "}
-              <Link href="/contact" className="text-primary underline hover:no-underline">
-                contact us
-              </Link>
-              .
+              If you have any questions about these Terms, contact Bear Brown LLC:
             </p>
+            <ul className="list-none pl-0 mt-4 space-y-1 text-base">
+              <li>
+                <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
+              </li>
+              <li>30 N Gould St Ste N, Sheridan, WY 82801</li>
+            </ul>
           </section>
         </div>
 
@@ -116,12 +186,12 @@ export default function TermsOfServicePage() {
             <Link href="/privacy" className="text-primary hover:underline">
               ← Privacy Policy
             </Link>
-            <Link href="/contact" className="text-primary hover:underline">
-              Contact Us →
+            <Link href="/" className="text-primary hover:underline">
+              Home →
             </Link>
           </div>
         </div>
       </div>
     </div>
   )
-} 
+}
