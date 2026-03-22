@@ -453,7 +453,15 @@ CREATE POLICY "service_role_sections" ON substack_sections FOR ALL USING (true) 
 CREATE POLICY "service_role_articles" ON substack_articles FOR ALL USING (true) WITH CHECK (true);
 ```
 
-2. **Environment variables** — Add to `.env.local` (local dev) and Vercel project settings (production):
+2. **Pending migrations** — Run these in Neon SQL Editor if you haven't already (safe to re-run):
+
+```sql
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS byline TEXT;
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS tags TEXT[] DEFAULT '{}';
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS cover_image TEXT;
+```
+
+3. **Environment variables** — Add to `.env.local` (local dev) and Vercel project settings (production):
 
 ```
 DATABASE_URL=postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require

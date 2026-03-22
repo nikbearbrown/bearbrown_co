@@ -10,7 +10,8 @@ export async function GET() {
       ORDER BY published_at DESC
     `
     return NextResponse.json(data)
-  } catch {
+  } catch (err) {
+    console.error('[api/blog] Failed to fetch posts:', err)
     return NextResponse.json([])
   }
 }

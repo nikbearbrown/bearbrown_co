@@ -30,7 +30,8 @@ interface Tool {
 async function getTools(): Promise<Tool[]> {
   try {
     return await sql`SELECT * FROM tools ORDER BY created_at DESC`
-  } catch {
+  } catch (err) {
+    console.error('[tools/page] Failed to fetch tools:', err)
     return []
   }
 }
