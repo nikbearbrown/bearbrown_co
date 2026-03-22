@@ -3,6 +3,27 @@
 @tailwind utilities;
 @layer base {
   :root {
+    /* Bear Brown palette — swap these to rebrand the entire site */
+    --bb-1: #1a0a00;
+    --bb-2: #8B3A0F;
+    --bb-3: #A52A1A;
+    --bb-4: #E8A020;
+    --bb-5: #B5420A;
+    --bb-6: #B8860B;
+    --bb-7: #C8A96E;
+    --bb-8: #F0E6D0;
+
+    /* Semantic aliases */
+    --color-text:        var(--bb-1);
+    --color-accent:      var(--bb-2);
+    --color-danger:      var(--bb-3);
+    --color-highlight:   var(--bb-4);
+    --color-secondary:   var(--bb-5);
+    --color-muted:       var(--bb-6);
+    --color-border:      var(--bb-7);
+    --color-background:  var(--bb-8);
+
+    /* shadcn/ui variables */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;

@@ -1,0 +1,24 @@
+{
+  "name": "Bear Brown",
+  "description": "Warm earth palette — one continuous arc from near-black to cream. All text/background pairings meet WCAG AA contrast.",
+  "colors": {
+    "--bb-1": "#1a0a00",
+    "--bb-2": "#8B3A0F",
+    "--bb-3": "#A52A1A",
+    "--bb-4": "#E8A020",
+    "--bb-5": "#B5420A",
+    "--bb-6": "#B8860B",
+    "--bb-7": "#C8A96E",
+    "--bb-8": "#F0E6D0"
+  },
+  "semantic": {
+    "text":       "--bb-1",
+    "accent":     "--bb-2",
+    "danger":     "--bb-3",
+    "highlight":  "--bb-4",
+    "secondary":  "--bb-5",
+    "muted":      "--bb-6",
+    "border":     "--bb-7",
+    "background": "--bb-8"
+  }
+}

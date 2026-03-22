@@ -299,13 +299,43 @@ const ARTISTS = [
 - Muzack: spotify/4V8CzlAfk1VipGmOx5Hv7o
 - Cletus Bear Spuckler: spotify/2hmp7X5Qx3K1PZAIm2ciUB
 
+## Theming (Beary Bear template)
+
+The color palette lives in three places that must stay in sync:
+- `lib/theme.ts` — TypeScript source of truth
+- `public/theme.json` — machine-readable for Indiana and Dev doc generators
+- `app/globals.css` — CSS variables (`--bb-1` through `--bb-8`) that drive the actual site
+
+### Bear Brown palette
+| Var | Hex | Role | WCAG on bb8 |
+|-----|-----|------|-------------|
+| bb1 | #1a0a00 | near black — primary text | 15.6:1 |
+| bb2 | #8B3A0F | burnt orange — primary accent | 6.3:1 |
+| bb3 | #A52A1A | deep crimson — danger/emphasis | 5.8:1 |
+| bb4 | #E8A020 | amber — highlight/callout | 8.7:1 (on bb1) |
+| bb5 | #B5420A | burnt sienna — secondary accent | 4.5:1 |
+| bb6 | #B8860B | dark goldenrod — muted accent | — |
+| bb7 | #C8A96E | warm tan — borders, subtle bg | — |
+| bb8 | #F0E6D0 | cream — page background | — |
+
+### To rebrand a new deployment
+1. Edit the hex values in all three files (`lib/theme.ts`, `public/theme.json`, `app/globals.css`)
+2. The entire site repaints — no component changes needed
+3. Indiana and Dev read `public/theme.json` to match HTML output
+
+### Design principles
+- Minimal and editorial by default — white space is the primary design element
+- Color used for accent, hierarchy, and accessibility — not decoration
+- Never use color for pure aesthetics — every color use must serve readability or navigation
+- WCAG AA contrast minimum for all text/background combinations
+- No purple gradients, no generic AI aesthetics
+
 ## Design direction
 - Light mode default (dark mode toggle available)
 - Clean, editorial — not a portfolio showoff site
 - Typography: Inter font (headings bold tracking-tighter, body clean)
-- Color: restrained — chocolate brown primary, crimson red accent, ink/paper palette
+- Color: driven by the BB palette above — use `var(--color-accent)` etc.
 - Black button style: `bg-black text-white hover:bg-gray-800` (dark mode: border outline with accent hover)
-- No purple gradients, no generic AI aesthetics
 
 ## Existing components (do not rebuild)
 
