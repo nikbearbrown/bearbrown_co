@@ -61,7 +61,7 @@ export async function syncArtifacts(): Promise<{ added: string[]; skipped: strin
     } catch {}
 
     await sql`
-      INSERT INTO tools (name, slug, description, tool_type, url)
+      INSERT INTO tools (name, slug, description, tool_type, claude_url)
       VALUES (${name}, ${slug}, '', 'link', ${'/artifacts/' + file})
     `
     added.push(slug)

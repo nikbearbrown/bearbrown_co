@@ -12,13 +12,13 @@ export async function PUT(
 
   const { id } = await params
   const body = await req.json()
-  const { name, slug, description, tool_type, url, artifact_id, artifact_embed_code, tags } = body
+  const { name, slug, description, tool_type, claude_url, artifact_id, artifact_embed_code, tags } = body
 
   try {
     const rows = await sql`
       UPDATE tools SET
         name = ${name}, slug = ${slug}, description = ${description || null},
-        tool_type = ${tool_type || 'link'}, url = ${url || null},
+        tool_type = ${tool_type || 'link'}, claude_url = ${claude_url || null},
         artifact_id = ${artifact_id || null}, artifact_embed_code = ${artifact_embed_code || null},
         tags = ${tags || []}, updated_at = NOW()
       WHERE id = ${id}

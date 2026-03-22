@@ -98,7 +98,8 @@ CREATE TABLE IF NOT EXISTS tools (
   slug TEXT UNIQUE NOT NULL,
   description TEXT,
   tool_type TEXT DEFAULT 'link',  -- 'link' | 'artifact'
-  url TEXT,                        -- external URL (for link tools, or fallback for artifacts)
+  claude_url TEXT,                  -- external URL (for link tools, or fallback for artifacts)
+  chatgpt_url TEXT,                 -- optional ChatGPT URL for the tool
   artifact_id TEXT,                -- Claude artifact UUID
   artifact_embed_code TEXT,        -- raw iframe embed (overrides artifact_id if set)
   tags TEXT[],                     -- category tags stored as array

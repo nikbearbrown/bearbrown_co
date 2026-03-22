@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json()
-  const { name, slug, description, tool_type, url, artifact_id, artifact_embed_code, tags } = body
+  const { name, slug, description, tool_type, claude_url, artifact_id, artifact_embed_code, tags } = body
 
   if (!name || !slug) {
     return NextResponse.json({ error: 'Name and slug are required' }, { status: 400 })
@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const rows = await sql`
-      INSERT INTO tools (name, slug, description, tool_type, url, artifact_id, artifact_embed_code, tags)
-      VALUES (${name}, ${slug}, ${description || null}, ${tool_type || 'link'}, ${url || null}, ${artifact_id || null}, ${artifact_embed_code || null}, ${tags || []})
+      INSERT INTO tools (name, slug, description, tool_type, claude_url, artifact_id, artifact_embed_code, tags)
+      VALUES (${name}, ${slug}, ${description || null}, ${tool_type || 'link'}, ${claude_url || null}, ${artifact_id || null}, ${artifact_embed_code || null}, ${tags || []})
       RETURNING *
     `
     return NextResponse.json(rows[0])

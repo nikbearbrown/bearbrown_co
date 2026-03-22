@@ -29,7 +29,7 @@ interface Tool {
   slug: string
   description: string | null
   tool_type: 'link' | 'artifact'
-  url: string | null
+  claude_url: string | null
   artifact_id: string | null
   artifact_embed_code: string | null
   tags: string[]
@@ -48,7 +48,7 @@ const EMPTY_FORM = {
   slug: '',
   description: '',
   tool_type: 'link' as 'link' | 'artifact',
-  url: '',
+  claude_url: '',
   artifact_id: '',
   artifact_embed_code: '',
   tags_input: '',
@@ -112,7 +112,7 @@ export default function ToolsAdminPage() {
       slug: t.slug,
       description: t.description || '',
       tool_type: t.tool_type,
-      url: t.url || '',
+      claude_url: t.claude_url || '',
       artifact_id: t.artifact_id || '',
       artifact_embed_code: t.artifact_embed_code || '',
       tags_input: (t.tags || []).join(', '),
@@ -134,7 +134,7 @@ export default function ToolsAdminPage() {
         slug: form.slug,
         description: form.description,
         tool_type: form.tool_type,
-        url: form.url || null,
+        claude_url: form.claude_url || null,
         artifact_id: form.artifact_id || null,
         artifact_embed_code: form.artifact_embed_code || null,
         tags,
@@ -252,11 +252,11 @@ export default function ToolsAdminPage() {
                       Artifact ID: <code className="text-xs bg-muted px-1 rounded">{t.artifact_id}</code>
                     </p>
                   )}
-                  {t.url && (
+                  {t.claude_url && (
                     <p className="flex items-center gap-1">
                       <ExternalLink className="h-3.5 w-3.5" />
-                      <a href={t.url} target="_blank" rel="noopener noreferrer" className="underline">
-                        {t.url}
+                      <a href={t.claude_url} target="_blank" rel="noopener noreferrer" className="underline">
+                        {t.claude_url}
                       </a>
                     </p>
                   )}
@@ -346,11 +346,11 @@ export default function ToolsAdminPage() {
             {/* Link fields */}
             {form.tool_type === 'link' && (
               <div className="space-y-2">
-                <Label htmlFor="tool-url">URL</Label>
+                <Label htmlFor="tool-claude-url">URL</Label>
                 <Input
-                  id="tool-url"
-                  value={form.url}
-                  onChange={(e) => setForm((prev) => ({ ...prev, url: e.target.value }))}
+                  id="tool-claude-url"
+                  value={form.claude_url}
+                  onChange={(e) => setForm((prev) => ({ ...prev, claude_url: e.target.value }))}
                   placeholder="https://..."
                 />
               </div>
@@ -385,11 +385,11 @@ export default function ToolsAdminPage() {
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="tool-url-artifact">Fallback URL (optional)</Label>
+                  <Label htmlFor="tool-claude-url-artifact">Fallback URL (optional)</Label>
                   <Input
-                    id="tool-url-artifact"
-                    value={form.url}
-                    onChange={(e) => setForm((prev) => ({ ...prev, url: e.target.value }))}
+                    id="tool-claude-url-artifact"
+                    value={form.claude_url}
+                    onChange={(e) => setForm((prev) => ({ ...prev, claude_url: e.target.value }))}
                     placeholder="https://... (external link if artifact fails)"
                   />
                 </div>

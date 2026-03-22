@@ -23,7 +23,7 @@ interface Tool {
   slug: string
   description: string | null
   tool_type: 'link' | 'artifact'
-  url: string | null
+  claude_url: string | null
   tags: string[]
 }
 
@@ -55,7 +55,7 @@ export default async function ToolsPage() {
           <div className="grid gap-6 sm:grid-cols-2">
             {tools.map((tool) => {
               const isArtifact = tool.tool_type === 'artifact'
-              const href = isArtifact ? `/tools/${tool.slug}` : tool.url
+              const href = isArtifact ? `/tools/${tool.slug}` : tool.claude_url
 
               const cardContent = (
                 <Card className="h-full transition-shadow hover:shadow-md">

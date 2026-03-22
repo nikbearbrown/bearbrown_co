@@ -49,7 +49,7 @@ export async function POST() {
       } catch {}
 
       await sql`
-        INSERT INTO tools (name, slug, description, tool_type, url)
+        INSERT INTO tools (name, slug, description, tool_type, claude_url)
         VALUES (${name}, ${slug}, '', 'link', ${'/artifacts/' + file})
       `
       added++
