@@ -34,7 +34,8 @@ export async function PUT(
 
   const { id } = await params
   const body = await req.json()
-  const { title, subtitle, slug, byline, content, excerpt, published } = body
+  const { title, subtitle, slug, byline, content, excerpt, published, tags } = body
+  const tagsArray = Array.isArray(tags) ? tags : []
 
   try {
     // Check if we need to set published_at on first publish
@@ -55,6 +56,7 @@ export async function PUT(
         content = ${content},
         excerpt = ${excerpt || null},
         published = ${published ?? false},
+        tags = ${tagsArray},
         published_at = COALESCE(${publishedAt ?? null}::timestamptz, published_at),
         updated_at = NOW()
       WHERE id = ${id}

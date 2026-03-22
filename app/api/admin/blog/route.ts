@@ -9,7 +9,7 @@ export async function GET() {
 
   try {
     const data = await sql`
-      SELECT id, title, subtitle, slug, excerpt, published, published_at, created_at, updated_at
+      SELECT id, title, subtitle, slug, excerpt, published, published_at, tags, created_at, updated_at
       FROM blog_posts
       ORDER BY created_at DESC
     `
@@ -26,16 +26,18 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json()
-  const { title, subtitle, slug, byline, content, excerpt, published } = body
+  const { title, subtitle, slug, byline, content, excerpt, published, tags } = body
 
   if (!title || !slug || !content) {
     return NextResponse.json({ error: 'Title, slug, and content are required' }, { status: 400 })
   }
 
+  const tagsArray = Array.isArray(tags) ? tags : []
+
   try {
     const rows = await sql`
-      INSERT INTO blog_posts (title, subtitle, slug, byline, content, excerpt, published, published_at)
-      VALUES (${title}, ${subtitle || null}, ${slug}, ${byline || null}, ${content}, ${excerpt || null}, ${published || false}, ${published ? new Date().toISOString() : null})
+      INSERT INTO blog_posts (title, subtitle, slug, byline, content, excerpt, published, published_at, tags)
+      VALUES (${title}, ${subtitle || null}, ${slug}, ${byline || null}, ${content}, ${excerpt || null}, ${published || false}, ${published ? new Date().toISOString() : null}, ${tagsArray})
       RETURNING *
     `
     return NextResponse.json(rows[0])

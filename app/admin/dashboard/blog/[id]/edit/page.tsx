@@ -15,6 +15,7 @@ export default function EditBlogPostPage({
     subtitle: string
     slug: string
     byline: string
+    tags: string[]
     content: string
     published: boolean
   } | null>(null)
@@ -33,6 +34,7 @@ export default function EditBlogPostPage({
           subtitle: data.subtitle || '',
           slug: data.slug || '',
           byline: data.byline || '',
+          tags: Array.isArray(data.tags) ? data.tags : [],
           content: data.content || '',
           published: data.published || false,
         })

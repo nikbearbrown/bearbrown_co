@@ -1,16 +1,26 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Pencil, Trash2, Plus } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Pencil, Trash2, Plus, Upload, Download, X } from 'lucide-react'
 
 interface Post {
   id: string
@@ -19,6 +29,7 @@ interface Post {
   slug: string
   published: boolean
   published_at: string | null
+  tags: string[] | null
   created_at: string
 }
 
@@ -35,6 +46,14 @@ export default function BlogAdminPage() {
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [activeTag, setActiveTag] = useState<string | null>(null)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+
+  // Export dialog
+  const [exportOpen, setExportOpen] = useState(false)
+  const [exportTags, setExportTags] = useState('')
+  const [exportCount, setExportCount] = useState<number | null>(null)
+  const [loadingCount, setLoadingCount] = useState(false)
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -52,6 +71,34 @@ export default function BlogAdminPage() {
     fetchPosts()
   }, [fetchPosts])
 
+  // Collect all unique tags
+  const allTags = useMemo(() => {
+    const tagSet = new Set<string>()
+    for (const post of posts) {
+      if (post.tags) {
+        for (const tag of post.tags) tagSet.add(tag)
+      }
+    }
+    return Array.from(tagSet).sort()
+  }, [posts])
+
+  // Filter posts by active tag
+  const filteredPosts = useMemo(() => {
+    if (!activeTag) return posts
+    return posts.filter(p => p.tags?.includes(activeTag))
+  }, [posts, activeTag])
+
+  // Select all filtered
+  const allFilteredSelected = filteredPosts.length > 0 && filteredPosts.every(p => selectedIds.has(p.id))
+
+  function toggleSelectAll() {
+    if (allFilteredSelected) {
+      setSelectedIds(new Set())
+    } else {
+      setSelectedIds(new Set(filteredPosts.map(p => p.id)))
+    }
+  }
+
   async function deletePost(id: string) {
     if (!confirm('Delete this post?')) return
     try {
@@ -63,6 +110,44 @@ export default function BlogAdminPage() {
     }
   }
 
+  async function bulkDelete() {
+    if (selectedIds.size === 0) return
+    if (!confirm(`Delete ${selectedIds.size} selected posts?`)) return
+    for (const id of selectedIds) {
+      await fetch(`/api/admin/blog/${id}`, { method: 'DELETE' })
+    }
+    setSelectedIds(new Set())
+    fetchPosts()
+  }
+
+  // Export: fetch count preview
+  useEffect(() => {
+    if (!exportOpen) return
+    setLoadingCount(true)
+    const tags = exportTags
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean)
+
+    // Count matching posts client-side from loaded posts
+    if (tags.length === 0) {
+      setExportCount(posts.length)
+    } else {
+      setExportCount(posts.filter(p => p.tags && tags.some(t => p.tags!.includes(t))).length)
+    }
+    setLoadingCount(false)
+  }, [exportOpen, exportTags, posts])
+
+  function downloadExport() {
+    const tags = exportTags
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean)
+    const params = tags.length > 0 ? `?tags=${encodeURIComponent(tags.join(','))}` : ''
+    window.open(`/api/admin/blog/export${params}`, '_blank')
+    setExportOpen(false)
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -72,13 +157,70 @@ export default function BlogAdminPage() {
             Create and manage blog posts
           </p>
         </div>
-        <Link href="/admin/dashboard/blog/new">
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            New Post
+        <div className="flex gap-2">
+          <Link href="/admin/dashboard/blog/import">
+            <Button variant="outline" className="gap-2">
+              <Upload className="h-4 w-4" />
+              Import
+            </Button>
+          </Link>
+          <Button variant="outline" className="gap-2" onClick={() => setExportOpen(true)}>
+            <Download className="h-4 w-4" />
+            Export
           </Button>
-        </Link>
+          <Link href="/admin/dashboard/blog/new">
+            <Button className="gap-2">
+              <Plus className="h-4 w-4" />
+              New Post
+            </Button>
+          </Link>
+        </div>
       </div>
+
+      {/* Tag filter bar */}
+      {allTags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 items-center">
+          <span className="text-xs text-muted-foreground mr-1">Filter:</span>
+          {activeTag && (
+            <button
+              onClick={() => setActiveTag(null)}
+              className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-0.5"
+            >
+              <X className="h-3 w-3" /> Clear
+            </button>
+          )}
+          {allTags.map(tag => (
+            <Badge
+              key={tag}
+              variant={activeTag === tag ? 'default' : 'outline'}
+              className="cursor-pointer text-xs"
+              onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+            >
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
+
+      {/* Bulk actions */}
+      {filteredPosts.length > 0 && (
+        <div className="flex items-center gap-3">
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={allFilteredSelected}
+              onChange={toggleSelectAll}
+              className="rounded"
+            />
+            Select all {activeTag ? 'filtered' : ''} ({filteredPosts.length})
+          </label>
+          {selectedIds.size > 0 && (
+            <Button variant="destructive" size="sm" onClick={bulkDelete}>
+              Delete {selectedIds.size} selected
+            </Button>
+          )}
+        </div>
+      )}
 
       {error && (
         <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
@@ -88,27 +230,52 @@ export default function BlogAdminPage() {
 
       {loading ? (
         <p className="text-muted-foreground">Loading…</p>
-      ) : posts.length === 0 ? (
-        <p className="text-muted-foreground">No posts yet. Create one to get started.</p>
+      ) : filteredPosts.length === 0 ? (
+        <p className="text-muted-foreground">
+          {activeTag ? `No posts with tag "${activeTag}".` : 'No posts yet. Create one to get started.'}
+        </p>
       ) : (
         <div className="grid gap-3">
-          {posts.map((post) => (
+          {filteredPosts.map((post) => (
             <Card key={post.id}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4">
-                <div className="space-y-1 min-w-0 flex-1">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    {post.title}
-                    <Badge variant={post.published ? 'default' : 'secondary'}>
-                      {post.published ? 'Published' : 'Draft'}
-                    </Badge>
-                  </CardTitle>
-                  <CardDescription>
-                    {post.published
-                      ? `Published ${formatDate(post.published_at)}`
-                      : `Created ${formatDate(post.created_at)}`}
-                    {' · '}
-                    <span className="font-mono text-xs">/blog/{post.slug}</span>
-                  </CardDescription>
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(post.id)}
+                    onChange={(e) => {
+                      const next = new Set(selectedIds)
+                      if (e.target.checked) next.add(post.id)
+                      else next.delete(post.id)
+                      setSelectedIds(next)
+                    }}
+                    className="rounded shrink-0"
+                  />
+                  <div className="space-y-1 min-w-0 flex-1">
+                    <CardTitle className="text-base flex items-center gap-2 flex-wrap">
+                      {post.title}
+                      <Badge variant={post.published ? 'default' : 'secondary'}>
+                        {post.published ? 'Published' : 'Draft'}
+                      </Badge>
+                      {post.tags?.map(tag => (
+                        <Badge
+                          key={tag}
+                          variant="outline"
+                          className="text-[10px] cursor-pointer"
+                          onClick={() => setActiveTag(tag)}
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </CardTitle>
+                    <CardDescription>
+                      {post.published
+                        ? `Published ${formatDate(post.published_at)}`
+                        : `Created ${formatDate(post.created_at)}`}
+                      {' · '}
+                      <span className="font-mono text-xs">/blog/{post.slug}</span>
+                    </CardDescription>
+                  </div>
                 </div>
                 <div className="flex gap-2 ml-4">
                   <Link href={`/admin/dashboard/blog/${post.id}/edit`}>
@@ -129,6 +296,43 @@ export default function BlogAdminPage() {
           ))}
         </div>
       )}
+
+      {/* Export dialog */}
+      <Dialog open={exportOpen} onOpenChange={setExportOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Export Blog Posts</DialogTitle>
+            <DialogDescription>
+              Download posts as a ZIP file (posts.json + individual HTML files).
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <Label>Filter by tags (optional, comma-separated)</Label>
+              <Input
+                value={exportTags}
+                onChange={(e) => setExportTags(e.target.value)}
+                placeholder="ai, education"
+              />
+            </div>
+            <p className="text-sm text-muted-foreground">
+              {loadingCount
+                ? 'Counting…'
+                : exportCount !== null
+                  ? `${exportCount} post${exportCount !== 1 ? 's' : ''} match${exportCount === 1 ? 'es' : ''}`
+                  : ''}
+            </p>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setExportOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={downloadExport} disabled={exportCount === 0}>
+              Download ZIP
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

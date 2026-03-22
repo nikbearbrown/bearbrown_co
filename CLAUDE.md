@@ -39,8 +39,9 @@ Primary audiences:
 15. `/admin/dashboard/blog` — Manage blog posts (list, create, edit, delete)
 16. `/admin/dashboard/blog/new` — New post editor
 17. `/admin/dashboard/blog/[id]/edit` — Edit existing post
-18. `/admin/dashboard/tools` — Manage tools (link and artifact types)
-19. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
+18. `/admin/dashboard/blog/import` — Import posts (Substack ZIP or blog export ZIP)
+19. `/admin/dashboard/tools` — Manage tools (link and artifact types)
+20. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
 
 ## Persistent layout (every page)
 
@@ -145,6 +146,7 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   excerpt TEXT,
   published BOOLEAN DEFAULT false,
   published_at TIMESTAMPTZ,
+  tags TEXT[] DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -152,21 +154,26 @@ CREATE TABLE IF NOT EXISTS blog_posts (
 RLS: public can read published posts only, service role has full access.
 
 ### API routes
-- `GET/POST /api/admin/blog` — admin: list all posts / create post
+- `GET/POST /api/admin/blog` — admin: list all posts (with tags) / create post
 - `GET/PUT/DELETE /api/admin/blog/[id]` — admin: get / update / delete post
 - `GET /api/blog` — public: list published posts
 - `GET /api/blog/[slug]` — public: single published post
+- `POST /api/admin/blog/import-substack` — import Substack ZIP as blog drafts with tags
+- `POST /api/admin/blog/import-json` — import blog export ZIP (posts.json) as drafts
+- `GET /api/admin/blog/export?tags=a,b` — export matching posts as ZIP (posts.json + .html files)
 
 ### Admin UI
-- `/admin/dashboard/blog` — Post list with title, Draft/Published badge, date, edit/delete buttons, "New Post" link
+- `/admin/dashboard/blog` — Post list with tag badges, tag filter bar, select-all checkbox, bulk delete, Import/Export buttons
 - `/admin/dashboard/blog/new` — New post editor
 - `/admin/dashboard/blog/[id]/edit` — Edit existing post
+- `/admin/dashboard/blog/import` — Import page: Substack ZIP or blog export ZIP, tag assignment, source label, results summary
 
 ### Blog Editor (`/components/BlogEditor/BlogEditor.tsx`)
 Tiptap (ProseMirror-based) rich text editor, Substack-style:
 - Large title input (no label, headline style)
 - Italic subtitle input ("Add a subtitle...")
 - Byline textarea (pre-populated with default author bio, saved per post)
+- Tags input (comma-separated, stored as PostgreSQL text array)
 - Auto-generated slug from title (editable)
 - Tiptap WYSIWYG editor with toolbar:
   - Text: Bold, Italic, Underline, Strikethrough, Inline Code, Code Block
@@ -183,6 +190,12 @@ Tiptap (ProseMirror-based) rich text editor, Substack-style:
 - `lib/viz/ai-ecosystem-graph.ts` — D3 force-directed graph ("The AI Ecosystem 2025"), interactive: drag nodes, hover/click to highlight connections, tooltips, color-coded groups
 - `components/BlogVizHydrator/BlogVizHydrator.tsx` — client component that renders HTML via `dangerouslySetInnerHTML`, then hydrates any `[data-viz]` elements by looking up the registry and dynamically importing the renderer
 - To add a new viz: create `lib/viz/<name>.ts` exporting `default (el: HTMLElement) => void`, add entry to `registry.ts`
+
+### Blog import/export system
+- **Substack-to-blog import** (`/admin/dashboard/blog/import`): Upload a Substack ZIP, assign tags (comma-separated) and a source label (auto-prefixed as `source:name`). Posts are inserted as drafts into `blog_posts`, skipping existing slugs. Uses the existing `lib/substack-parser.ts`.
+- **Blog export** (`GET /api/admin/blog/export?tags=a,b`): Returns a ZIP with `posts.json` (full post data) and individual `.html` files per post. Tag filtering optional.
+- **Blog import** (`POST /api/admin/blog/import-json`): Accepts a blog export ZIP, inserts posts as drafts, skips existing slugs. Enables cross-site transfer between instances of the same codebase.
+- **Workflow**: Export Substack → import as drafts with tags → edit in Tiptap → export → import on another site
 
 ### Public pages
 - `/blog` — Clean feed: published posts newest first, title + subtitle + excerpt + date + "Read →"
@@ -485,15 +498,19 @@ app/
     layout.tsx                      # Admin layout with tab nav
     login/page.tsx                  # Admin login (password form)
     page.tsx                        # Admin overview (placeholder)
-    blog/page.tsx                   # Blog post list
+    blog/page.tsx                   # Blog post list (tag filter, bulk ops, export dialog)
     blog/new/page.tsx               # New post editor
     blog/[id]/edit/page.tsx         # Edit post editor
+    blog/import/page.tsx            # Import: Substack ZIP or blog export ZIP
     tools/page.tsx                  # Tools manager (link + artifact types)
     substack/page.tsx               # Substack section manager
   api/admin/login/route.ts          # POST: validate password, set session cookie
   api/admin/blog/
-    route.ts                        # GET/POST blog posts (admin)
+    route.ts                        # GET/POST blog posts (admin, with tags)
     [id]/route.ts                   # GET/PUT/DELETE blog post (admin)
+    import-substack/route.ts        # POST: Substack ZIP → blog drafts with tags
+    import-json/route.ts            # POST: blog export ZIP → blog drafts
+    export/route.ts                 # GET: export posts as ZIP (optional tag filter)
   api/blog/
     route.ts                        # GET published posts (public)
     [slug]/route.ts                 # GET single published post (public)

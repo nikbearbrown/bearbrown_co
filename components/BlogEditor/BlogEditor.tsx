@@ -39,6 +39,7 @@ interface BlogPost {
   subtitle: string
   slug: string
   byline: string
+  tags: string[]
   content: string
   published: boolean
 }
@@ -103,6 +104,7 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
   const [title, setTitle] = useState(post?.title || '')
   const [subtitle, setSubtitle] = useState(post?.subtitle || '')
   const [byline, setByline] = useState(post?.byline ?? DEFAULT_BYLINE)
+  const [tagsInput, setTagsInput] = useState((post?.tags || []).join(', '))
   const [slug, setSlug] = useState(post?.slug || '')
   const [slugEdited, setSlugEdited] = useState(!!post)
   const [saving, setSaving] = useState(false)
@@ -169,11 +171,16 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
     setError('')
 
     const excerpt = extractExcerpt(content)
+    const tags = tagsInput
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean)
     const payload = {
       title: title.trim(),
       subtitle: subtitle.trim() || null,
       slug: slug.trim() || slugify(title),
       byline: byline.trim() || null,
+      tags,
       content,
       excerpt,
       published: publish,
@@ -275,6 +282,17 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
           placeholder="Author byline..."
           rows={4}
           className="w-full text-sm border rounded-md p-3 bg-background resize-y focus:outline-none focus:ring-1 focus:ring-ring"
+        />
+      </div>
+
+      {/* Tags */}
+      <div className="space-y-1">
+        <Label className="text-xs text-muted-foreground">Tags (comma-separated)</Label>
+        <Input
+          value={tagsInput}
+          onChange={(e) => setTagsInput(e.target.value)}
+          placeholder="ai, education, source:skepticism-ai"
+          className="text-sm h-8"
         />
       </div>
 
