@@ -16,6 +16,7 @@ Primary audiences:
 - Tailwind CSS + @tailwindcss/typography (for prose article rendering)
 - TypeScript
 - next-themes for dark/light mode
+- Vercel Blob (@vercel/blob) for image uploads
 - Neon (serverless PostgreSQL via @neondatabase/serverless)
 - Tiptap (ProseMirror-based rich text editor for blog)
 - D3.js (data visualizations embedded in blog posts)
@@ -142,6 +143,7 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   subtitle TEXT,
   slug TEXT NOT NULL UNIQUE,
   byline TEXT,
+  cover_image TEXT,
   content TEXT NOT NULL,
   excerpt TEXT,
   published BOOLEAN DEFAULT false,
@@ -161,6 +163,7 @@ RLS: public can read published posts only, service role has full access.
 - `POST /api/admin/blog/import-substack` — import Substack ZIP as blog drafts with tags
 - `POST /api/admin/blog/import-json` — import blog export ZIP (posts.json) as drafts
 - `GET /api/admin/blog/export?tags=a,b` — export matching posts as ZIP (posts.json + .html files)
+- `POST /api/admin/upload` — upload image to Vercel Blob, returns `{ url }` (admin-protected, images only)
 
 ### Admin UI
 - `/admin/dashboard/blog` — Post list with tag badges, tag filter bar, select-all checkbox, bulk delete, Import/Export buttons
@@ -172,13 +175,14 @@ RLS: public can read published posts only, service role has full access.
 Tiptap (ProseMirror-based) rich text editor, Substack-style:
 - Large title input (no label, headline style)
 - Italic subtitle input ("Add a subtitle...")
+- Cover image upload (drag/drop or click, uploads to Vercel Blob, preview with remove button)
 - Byline textarea (pre-populated with default author bio, saved per post)
 - Tags input (comma-separated, stored as PostgreSQL text array)
 - Auto-generated slug from title (editable)
 - Tiptap WYSIWYG editor with toolbar:
   - Text: Bold, Italic, Underline, Strikethrough, Inline Code, Code Block
   - Structure: H2, H3, Bullet List, Ordered List, Blockquote, Horizontal Rule
-  - Embeds: Link, Image (URL prompt), YouTube (via @tiptap/extension-youtube), Spotify (URL → iframe), D3 Viz (inserts `data-viz` placeholder)
+  - Embeds: Link, Image (upload to Vercel Blob via drag/drop/paste/button), YouTube (via @tiptap/extension-youtube), Spotify (URL → iframe), D3 Viz (inserts `data-viz` placeholder)
 - Preview toggle renders HTML via BlogVizHydrator (D3 vizzes work in preview)
 - Output is clean HTML via `editor.getHTML()`, stored in `content` column
 - Actions: "Save Draft", "Publish" (sets published=true + published_at), "Unpublish" (for published posts)
@@ -198,8 +202,8 @@ Tiptap (ProseMirror-based) rich text editor, Substack-style:
 - **Workflow**: Export Substack → import as drafts with tags → edit in Tiptap → export → import on another site
 
 ### Public pages
-- `/blog` — Clean feed: published posts newest first, title + subtitle + excerpt + date + "Read →"
-- `/blog/[slug]` — Full post with title, subtitle, date, HTML prose content (hydrated via BlogVizHydrator for embedded D3 charts), byline footer, back link
+- `/blog` — Blog feed with search bar, cover image thumbnails, published posts newest first, title + subtitle + excerpt + date + "Read →"
+- `/blog/[slug]` — Full post: cover image hero, title, subtitle, date + reading time, HTML prose content (hydrated via BlogVizHydrator), byline footer, previous/next navigation, og:image + twitter:card meta tags
 
 ## About page (`/app/about/page.tsx`) — DONE
 Prose-forward CV format with sections:
@@ -339,6 +343,7 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 DATABASE_URL=                    # Neon PostgreSQL connection string (from Vercel marketplace or Neon dashboard)
 ADMIN_PASSWORD=                  # Password for /admin/login — set a strong value in production
 NEXT_PUBLIC_SITE_URL=https://bearbrown.co  # Used in sitemap generation
+BLOB_READ_WRITE_TOKEN=           # Vercel Blob token (from Vercel dashboard → Storage → Blob)
 NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 ```
 
@@ -483,7 +488,8 @@ npm run dev        # starts at http://localhost:3000
 app/
   page.tsx                          # Home
   about/page.tsx                    # About / CV
-  blog/page.tsx                     # Blog feed (published posts)
+  blog/page.tsx                     # Blog feed (server component, fetches posts)
+  blog/BlogFeed.tsx                 # Client component: search + post cards with cover images
   blog/[slug]/page.tsx              # Individual blog post
   tools/page.tsx                    # Tools directory (card grid)
   tools/[slug]/page.tsx             # Artifact tool embed page
@@ -517,6 +523,7 @@ app/
   api/admin/tools/
     route.ts                        # GET/POST tools
     [id]/route.ts                   # PUT/DELETE tool
+  api/admin/upload/route.ts         # POST: image upload to Vercel Blob
   api/admin/substack/
     sections/route.ts               # GET/POST sections
     sections/[id]/route.ts          # PUT/DELETE section
@@ -535,7 +542,7 @@ components/
   theme-provider.tsx                # next-themes wrapper
   ui/                               # 60+ shadcn/ui components
 lib/
-  utils.ts                          # cn() helper (clsx + tailwind-merge)
+  utils.ts                          # cn() helper + getReadingTime()
   admin-auth.ts                     # admin_session cookie check
   substack-parser.ts                # Substack ZIP parser (adm-zip)
   db.ts                             # Neon PostgreSQL client (sql tagged template)

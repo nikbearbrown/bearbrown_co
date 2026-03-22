@@ -47,6 +47,7 @@ export async function PUT(
     const subtitle = body.subtitle !== undefined ? (body.subtitle || null) : current.subtitle
     const slug = body.slug ?? current.slug
     const byline = body.byline !== undefined ? (body.byline || null) : current.byline
+    const cover_image = body.cover_image !== undefined ? (body.cover_image || null) : current.cover_image
     const content = body.content ?? current.content
     const excerpt = body.excerpt !== undefined ? (body.excerpt || null) : current.excerpt
     const published = body.published ?? current.published
@@ -65,6 +66,7 @@ export async function PUT(
         subtitle = ${subtitle},
         slug = ${slug},
         byline = ${byline},
+        cover_image = ${cover_image},
         content = ${content},
         excerpt = ${excerpt},
         published = ${published},

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -31,6 +31,8 @@ import {
   Music,
   BarChart,
   Braces,
+  Upload,
+  X,
 } from 'lucide-react'
 
 interface BlogPost {
@@ -40,6 +42,7 @@ interface BlogPost {
   slug: string
   byline: string
   tags: string[]
+  cover_image?: string
   content: string
   published: boolean
 }
@@ -64,10 +67,21 @@ function extractExcerpt(html: string): string {
 }
 
 function parseSpotifyUrl(url: string): { type: string; id: string } | null {
-  // Handles: https://open.spotify.com/track/ID, /album/ID, /playlist/ID, /episode/ID
   const match = url.match(/open\.spotify\.com\/(track|album|playlist|episode|show)\/([a-zA-Z0-9]+)/)
   if (match) return { type: match[1], id: match[2] }
   return null
+}
+
+async function uploadFile(file: File): Promise<string> {
+  const formData = new FormData()
+  formData.append('file', file)
+  const res = await fetch('/api/admin/upload', { method: 'POST', body: formData })
+  if (!res.ok) {
+    const data = await res.json()
+    throw new Error(data.error || 'Upload failed')
+  }
+  const data = await res.json()
+  return data.url
 }
 
 function ToolbarButton({
@@ -101,12 +115,15 @@ function ToolbarSep() {
 
 export default function BlogEditor({ post }: { post?: BlogPost }) {
   const router = useRouter()
+  const coverRef = useRef<HTMLInputElement>(null)
   const [title, setTitle] = useState(post?.title || '')
   const [subtitle, setSubtitle] = useState(post?.subtitle || '')
   const [byline, setByline] = useState(post?.byline ?? DEFAULT_BYLINE)
   const [tagsInput, setTagsInput] = useState((post?.tags || []).join(', '))
   const [slug, setSlug] = useState(post?.slug || '')
   const [slugEdited, setSlugEdited] = useState(!!post)
+  const [coverImage, setCoverImage] = useState(post?.cover_image || '')
+  const [coverUploading, setCoverUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [showPreview, setShowPreview] = useState(false)
@@ -139,6 +156,36 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
         class:
           'min-h-[400px] prose prose-neutral dark:prose-invert max-w-none p-6 focus:outline-none prose-headings:font-bold prose-headings:tracking-tighter prose-a:text-foreground prose-a:underline prose-img:rounded-lg',
       },
+      handleDrop: (view, event, _slice, moved) => {
+        if (moved || !event.dataTransfer?.files.length) return false
+        const file = event.dataTransfer.files[0]
+        if (!file.type.startsWith('image/')) return false
+        event.preventDefault()
+        uploadFile(file).then(url => {
+          const { schema } = view.state
+          const node = schema.nodes.image.create({ src: url })
+          const pos = view.posAtCoords({ left: event.clientX, top: event.clientY })?.pos
+          if (pos !== undefined) {
+            const tr = view.state.tr.insert(pos, node)
+            view.dispatch(tr)
+          }
+        })
+        return true
+      },
+      handlePaste: (view, event) => {
+        const files = event.clipboardData?.files
+        if (!files?.length) return false
+        const file = files[0]
+        if (!file.type.startsWith('image/')) return false
+        event.preventDefault()
+        uploadFile(file).then(url => {
+          const { schema } = view.state
+          const node = schema.nodes.image.create({ src: url })
+          const tr = view.state.tr.replaceSelectionWith(node)
+          view.dispatch(tr)
+        })
+        return true
+      },
     },
   })
 
@@ -151,6 +198,19 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
     },
     [slugEdited],
   )
+
+  async function handleCoverUpload(file: File) {
+    if (!file.type.startsWith('image/')) return
+    setCoverUploading(true)
+    try {
+      const url = await uploadFile(file)
+      setCoverImage(url)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Cover upload failed')
+    } finally {
+      setCoverUploading(false)
+    }
+  }
 
   function getContent(): string {
     return editor?.getHTML() || ''
@@ -181,6 +241,7 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
       slug: slug.trim() || slugify(title),
       byline: byline.trim() || null,
       tags,
+      cover_image: coverImage || null,
       content,
       excerpt,
       published: publish,
@@ -225,11 +286,21 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
     editor?.chain().focus().setYoutubeVideo({ src: url }).run()
   }
 
-  function insertImage() {
-    const url = window.prompt('Image URL:')
-    if (!url) return
-    const alt = window.prompt('Alt text (optional):') || ''
-    editor?.chain().focus().setImage({ src: url, alt }).run()
+  async function insertImageFromUpload() {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/*'
+    input.onchange = async () => {
+      const file = input.files?.[0]
+      if (!file) return
+      try {
+        const url = await uploadFile(file)
+        editor?.chain().focus().setImage({ src: url }).run()
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Image upload failed')
+      }
+    }
+    input.click()
   }
 
   function insertLink() {
@@ -254,6 +325,49 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
           {error}
         </div>
       )}
+
+      {/* Cover Image */}
+      <div>
+        {coverImage ? (
+          <div className="relative rounded-lg overflow-hidden">
+            <img src={coverImage} alt="Cover" className="w-full h-48 object-cover" />
+            <button
+              type="button"
+              onClick={() => setCoverImage('')}
+              className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1 hover:bg-black/80 transition-colors"
+              title="Remove cover image"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ) : (
+          <div
+            className="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer hover:border-foreground/30 transition-colors"
+            onClick={() => coverRef.current?.click()}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => {
+              e.preventDefault()
+              const file = e.dataTransfer.files[0]
+              if (file) handleCoverUpload(file)
+            }}
+          >
+            <Upload className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">
+              {coverUploading ? 'Uploading…' : 'Add cover image — drag or click'}
+            </p>
+            <input
+              ref={coverRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) handleCoverUpload(file)
+              }}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Title */}
       <input
@@ -359,7 +473,7 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
         <ToolbarButton onClick={insertLink} active={editor?.isActive('link')} title="Link">
           <LinkIcon className="h-4 w-4" />
         </ToolbarButton>
-        <ToolbarButton onClick={insertImage} title="Image">
+        <ToolbarButton onClick={insertImageFromUpload} title="Upload image">
           <ImageIcon className="h-4 w-4" />
         </ToolbarButton>
         <ToolbarButton onClick={insertYoutube} title="YouTube embed">
