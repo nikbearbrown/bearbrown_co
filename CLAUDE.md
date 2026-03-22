@@ -26,7 +26,9 @@ Primary audiences:
 1. `/` — Home (business card + Spotify player + AI contact assistant)
 2. `/tools` — Tools directory (card grid, Neon-driven)
 3. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
-4. `/blog` — Blog feed: published posts newest first, clean card list
+4. `/dev` — Dev docs browser (searchable card grid, filesystem-driven)
+5. `/dev/[slug]` — Full-viewport iframe of a dev doc HTML file
+6. `/blog` — Blog feed: published posts newest first, clean card list
 5. `/blog/[slug]` — Individual blog post with prose content
 6. `/about` — CV / bio page (prose format)
 7. `/privacy` — Privacy Policy for Bear Brown LLC
@@ -48,7 +50,7 @@ Primary audiences:
 
 ### Header (`/components/Header/Header.tsx`) — DONE
 - Logo: theme-aware SVG (white for dark, black for light)
-- Nav: Home (`/`) | Tools (`/tools`) | About (`/about`) | Blog (`/blog`)
+- Nav: Home (`/`) | Tools (`/tools`) | Dev (`/dev`) | About (`/about`) | Blog (`/blog`)
 - Social buttons (top right): GitHub, YouTube, Spotify, Substack — black button style
 - Dark/light mode toggle (ThemeToggle component)
 - Mobile hamburger menu with backdrop (lg breakpoint)
@@ -140,6 +142,26 @@ CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (tru
 ### Initial tools to add via admin:
 1. **Subby** — Substack writing assistant (artifact_id: `6dc0c6cf-32e0-4f53-94b9-f6d01cc4df9c`)
 2. **CRITIQ** — Peer review & paper development protocol (artifact_id: `a53d969f-5aaf-45f6-9992-2c6a00a4122f`)
+
+## Dev Docs system
+
+### Adding new dev docs
+1. Build the HTML doc (use Claude Project with the dev docs prompt)
+2. Drop into `public/dev/`
+3. Ensure the HTML has `<title>`, `<meta name="description">`, and `<meta name="keywords">` tags
+4. It appears automatically on `/dev` — no database, no sync needed
+5. Filesystem is the source of truth
+
+### Public pages
+- `/dev` — searchable card browser of all docs in `public/dev/` with tag filtering
+- `/dev/[slug]` — full-viewport iframe of the doc
+
+### Admin
+- `/admin/dashboard` → Dev tab — lists all files with title, filename, tags, description, open/delete buttons
+- "Sync Dev Docs" button refreshes the list from the filesystem
+
+### Shared utility
+- `lib/html-meta.ts` — `scanHtmlDir(dir)` reads all `.html` files from a directory and extracts `<title>`, `<meta name="description">`, `<meta name="keywords">` tags. Returns `HtmlDocMeta[]`. Used by both `/dev` pages and admin.
 
 ## Blog system — DONE
 
@@ -363,7 +385,7 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 ## What NOT to do
 - Do not use localStorage — use React state or sessionStorage
 - Do not add analytics or tracking beyond what's already present
-- Keep public nav to four items: Home, Tools, About, Blog
+- Keep public nav to five items: Home, Tools, Dev, About, Blog
 - Do not commit .env.local or credentials to git
 
 ## User Guide
@@ -502,6 +524,10 @@ app/
   blog/[slug]/page.tsx              # Individual blog post
   tools/page.tsx                    # Tools directory (card grid)
   tools/[slug]/page.tsx             # Artifact tool embed page
+  dev/
+    page.tsx                        # Dev docs browser (server component, reads filesystem)
+    DevBrowser.tsx                  # Client component: search + tag filter + card grid
+    [slug]/page.tsx                 # Full-viewport iframe for a dev doc
   privacy/page.tsx                  # Privacy Policy
   privacy/cookies/page.tsx          # Cookie Policy (dedicated page)
   terms-of-service/page.tsx         # Terms of Service
@@ -518,6 +544,7 @@ app/
     blog/[id]/edit/page.tsx         # Edit post editor
     blog/import/page.tsx            # Import: Substack ZIP or blog export ZIP
     tools/page.tsx                  # Tools manager (link + artifact types)
+    dev/page.tsx                    # Dev docs list (filesystem browser)
     substack/page.tsx               # Substack section manager
   api/admin/login/route.ts          # POST: validate password, set session cookie
   api/admin/blog/
@@ -534,6 +561,7 @@ app/
     [id]/route.ts                   # PUT/DELETE tool
     sync-artifacts/route.ts         # POST: scan public/artifacts/, register missing tools
   api/admin/upload/route.ts         # POST: image upload to Vercel Blob
+  api/admin/dev/sync/route.ts      # POST: scan public/dev/, return doc metadata
   api/admin/substack/
     sections/route.ts               # GET/POST sections
     sections/[id]/route.ts          # PUT/DELETE section
@@ -553,6 +581,7 @@ components/
   ui/                               # 60+ shadcn/ui components
 lib/
   utils.ts                          # cn() helper + getReadingTime()
+  html-meta.ts                      # scanHtmlDir() — extract title/desc/keywords from HTML files
   admin-auth.ts                     # admin_session cookie check
   substack-parser.ts                # Substack ZIP parser (adm-zip)
   db.ts                             # Neon PostgreSQL client (sql tagged template)

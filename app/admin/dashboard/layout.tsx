@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { name: 'Overview', href: '/admin/dashboard' },
   { name: 'Blog', href: '/admin/dashboard/blog' },
   { name: 'Tools', href: '/admin/dashboard/tools' },
+  { name: 'Dev', href: '/admin/dashboard/dev' },
   { name: 'Substack', href: '/admin/dashboard/substack' },
 ]
 

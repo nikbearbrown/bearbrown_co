@@ -12,6 +12,7 @@ import { useTheme } from 'next-themes'
 const NAV_ITEMS = [
   { name: 'Home', href: '/' },
   { name: 'Tools', href: '/tools' },
+  { name: 'Dev', href: '/dev' },
   { name: 'About', href: '/about' },
   { name: 'Blog', href: '/blog' },
 ]
