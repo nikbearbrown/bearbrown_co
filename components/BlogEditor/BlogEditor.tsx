@@ -15,6 +15,7 @@ import {
   Heading3,
   List,
   ListOrdered,
+  BarChart,
 } from 'lucide-react'
 
 interface BlogPost {
@@ -236,6 +237,28 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
             <btn.icon className="h-4 w-4" />
           </button>
         ))}
+        <button
+          type="button"
+          onClick={() => {
+            const name = window.prompt('Viz name (e.g. ai-adoption-bars):')
+            if (!name) return
+            const ta = textareaRef.current
+            if (!ta) return
+            const tag = `<div data-viz="${name}"></div>`
+            const pos = ta.selectionStart
+            const updated = content.slice(0, pos) + tag + content.slice(ta.selectionEnd)
+            setContent(updated)
+            requestAnimationFrame(() => {
+              ta.focus()
+              const cursor = pos + tag.length
+              ta.setSelectionRange(cursor, cursor)
+            })
+          }}
+          title="Insert Viz"
+          className="h-8 w-8 inline-flex items-center justify-center rounded hover:bg-muted transition-colors"
+        >
+          <BarChart className="h-4 w-4" />
+        </button>
         <div className="ml-auto">
           <button
             type="button"

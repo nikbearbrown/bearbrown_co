@@ -166,13 +166,20 @@ Substack-simple editor:
 - Italic subtitle input ("Add a subtitle...")
 - Byline textarea (pre-populated with default author bio, saved per post)
 - Auto-generated slug from title (editable)
-- HTML textarea editor with toolbar: Bold, Italic, Strikethrough, Code, Link, H2, H3, Bullet list, Numbered list + Preview toggle
+- HTML textarea editor with toolbar: Bold, Italic, Strikethrough, Code, Link, H2, H3, Bullet list, Numbered list, Insert Viz (BarChart icon) + Preview toggle
+- "Insert Viz" prompts for a viz name and inserts `<div data-viz="name"></div>` at cursor
 - Actions: "Save Draft", "Publish" (sets published=true + published_at), "Unpublish" (for published posts)
 - Auto-generates excerpt (first 200 chars plain text)
 
+### Blog viz system
+- `lib/viz/registry.ts` — maps `data-viz` names to lazy-loaded render functions
+- `lib/viz/ai-adoption-bars.ts` — D3 horizontal bar chart ("AI Adoption by Sector"), chocolate brown bars, responsive
+- `components/BlogVizHydrator/BlogVizHydrator.tsx` — client component that renders HTML via `dangerouslySetInnerHTML`, then hydrates any `[data-viz]` elements by looking up the registry and dynamically importing the renderer
+- To add a new viz: create `lib/viz/<name>.ts` exporting `default (el: HTMLElement) => void`, add entry to `registry.ts`
+
 ### Public pages
 - `/blog` — Clean feed: published posts newest first, title + subtitle + excerpt + date + "Read →"
-- `/blog/[slug]` — Full post with title, subtitle, date, HTML prose content, byline footer, back link
+- `/blog/[slug]` — Full post with title, subtitle, date, HTML prose content (hydrated via BlogVizHydrator for embedded D3 charts), byline footer, back link
 
 ## About page (`/app/about/page.tsx`) — DONE
 Prose-forward CV format with sections:
@@ -497,7 +504,8 @@ components/
   Header/Header.tsx                 # Sticky header with nav + social + theme toggle
   Footer/Footer.tsx                 # 4-column footer (company, publications, social, legal)
   ArtistCarousel/ArtistCarousel.tsx  # Rotating artist carousel with Spotify/Apple/Musinique links
-  BlogEditor/BlogEditor.tsx         # Rich text blog editor (contentEditable + toolbar)
+  BlogEditor/BlogEditor.tsx         # HTML textarea blog editor with toolbar + Insert Viz
+  BlogVizHydrator/BlogVizHydrator.tsx # Client component: hydrates data-viz elements with D3 charts
   SpotifyPlayer/SpotifyPlayer.tsx   # Random artist Spotify embed (legacy, still available)
   ThemeToggle.tsx                   # Dark/light mode toggle
   theme-provider.tsx                # next-themes wrapper
@@ -507,6 +515,9 @@ lib/
   admin-auth.ts                     # admin_session cookie check
   substack-parser.ts                # Substack ZIP parser (adm-zip)
   db.ts                             # Neon PostgreSQL client (sql tagged template)
+  viz/
+    registry.ts                     # data-viz name → lazy import map
+    ai-adoption-bars.ts             # D3 horizontal bar chart (AI Adoption by Sector)
 ```
 
 #### Adding content

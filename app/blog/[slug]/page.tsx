@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { sql } from '@/lib/db'
+import BlogVizHydrator from '@/components/BlogVizHydrator/BlogVizHydrator'
 
 export const dynamic = 'force-dynamic'
 
@@ -55,10 +56,9 @@ export default async function BlogPostPage({
           {post.subtitle && <p className="text-xl text-muted-foreground mt-3">{post.subtitle}</p>}
           {post.published_at && <time className="text-sm text-muted-foreground mt-4 block">{formatDate(post.published_at)}</time>}
         </header>
-        <div
-          className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tighter prose-a:text-foreground prose-a:underline prose-img:rounded-lg"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+        <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tighter prose-a:text-foreground prose-a:underline prose-img:rounded-lg">
+          <BlogVizHydrator html={post.content} />
+        </div>
         {post.byline && (
           <div className="mt-12 pt-8 border-t text-sm text-muted-foreground whitespace-pre-line">
             {post.byline}
