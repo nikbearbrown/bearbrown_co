@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 import { isAdmin } from '@/lib/admin-auth'
 
 export async function GET(
@@ -11,18 +11,17 @@ export async function GET(
   }
 
   const { id } = await params
-  const supabase = getSupabaseAdmin()
-  const { data, error } = await supabase
-    .from('blog_posts')
-    .select('*')
-    .eq('id', id)
-    .single()
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  try {
+    const rows = await sql`SELECT * FROM blog_posts WHERE id = ${id}`
+    if (rows.length === 0) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    }
+    return NextResponse.json(rows[0])
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  return NextResponse.json(data)
 }
 
 export async function PUT(
@@ -37,43 +36,37 @@ export async function PUT(
   const body = await req.json()
   const { title, subtitle, slug, content, excerpt, published } = body
 
-  const updates: Record<string, unknown> = {
-    title,
-    subtitle: subtitle || null,
-    slug,
-    content,
-    excerpt: excerpt || null,
-    published: published ?? false,
-    updated_at: new Date().toISOString(),
-  }
-
-  // Set published_at on first publish
-  if (published) {
-    const supabase = getSupabaseAdmin()
-    const { data: existing } = await supabase
-      .from('blog_posts')
-      .select('published_at')
-      .eq('id', id)
-      .single()
-
-    if (!existing?.published_at) {
-      updates.published_at = new Date().toISOString()
+  try {
+    // Check if we need to set published_at on first publish
+    let publishedAt = undefined
+    if (published) {
+      const existing = await sql`SELECT published_at FROM blog_posts WHERE id = ${id}`
+      if (existing.length > 0 && !existing[0].published_at) {
+        publishedAt = new Date().toISOString()
+      }
     }
+
+    const rows = await sql`
+      UPDATE blog_posts SET
+        title = ${title},
+        subtitle = ${subtitle || null},
+        slug = ${slug},
+        content = ${content},
+        excerpt = ${excerpt || null},
+        published = ${published ?? false},
+        published_at = COALESCE(${publishedAt ?? null}::timestamptz, published_at),
+        updated_at = NOW()
+      WHERE id = ${id}
+      RETURNING *
+    `
+    if (rows.length === 0) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    }
+    return NextResponse.json(rows[0])
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  const supabase = getSupabaseAdmin()
-  const { data, error } = await supabase
-    .from('blog_posts')
-    .update(updates)
-    .eq('id', id)
-    .select()
-    .single()
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
-  }
-
-  return NextResponse.json(data)
 }
 
 export async function DELETE(
@@ -85,15 +78,12 @@ export async function DELETE(
   }
 
   const { id } = await params
-  const supabase = getSupabaseAdmin()
-  const { error } = await supabase
-    .from('blog_posts')
-    .delete()
-    .eq('id', id)
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  try {
+    await sql`DELETE FROM blog_posts WHERE id = ${id}`
+    return NextResponse.json({ success: true })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  return NextResponse.json({ success: true })
 }

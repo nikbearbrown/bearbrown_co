@@ -16,12 +16,12 @@ Primary audiences:
 - Tailwind CSS + @tailwindcss/typography (for prose article rendering)
 - TypeScript
 - next-themes for dark/light mode
-- Supabase (PostgreSQL — sections & articles tables)
+- Neon (serverless PostgreSQL via @neondatabase/serverless)
 - adm-zip (server-side Substack ZIP parsing)
 
 ## Site structure
 1. `/` — Home (business card + Spotify player + AI contact assistant)
-2. `/tools` — Tools directory (card grid, Supabase-driven)
+2. `/tools` — Tools directory (card grid, Neon-driven)
 3. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
 4. `/blog` — Blog feed: published posts newest first, clean card list
 5. `/blog/[slug]` — Individual blog post with prose content
@@ -83,7 +83,7 @@ Client component. Shows one artist at a time with:
 
 ## Tools system — DONE
 
-### Database (`tools` table in Supabase)
+### Database (`tools` table in Neon PostgreSQL)
 ```sql
 CREATE TABLE IF NOT EXISTS tools (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -130,7 +130,7 @@ CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (tru
 
 ## Blog system — DONE
 
-### Database (`blog_posts` table in Supabase)
+### Database (`blog_posts` table in Neon PostgreSQL)
 ```sql
 CREATE TABLE IF NOT EXISTS blog_posts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -186,7 +186,7 @@ Still needs: Substack link, musinique.com links, Bear Brown LLC details, publica
 All three pages follow the Humanitarians AI structural template, rewritten for Bear Brown LLC. Each references: Bear Brown LLC (Nik Bear Brown, Sole Member), 30 N Gould St Ste N, Sheridan WY 82801, bear@bearbrown.co, EIN 41-4226710, AI consulting services.
 
 ### Privacy Policy (`/app/privacy/page.tsx`)
-Sections: introduction, information we collect (contact data, inquiry content, consulting engagement data, analytics), how we use info, sharing (consent, legitimate interests, contract, legal, vital interests), third-party services (Vercel, Supabase, Spotify, Substack, Anthropic, GitHub, YouTube), cookies reference (links to Cookie Policy page), data security, data retention, your privacy rights, children's privacy, changes, contact. Nav: Terms of Service ← → Cookie Policy.
+Sections: introduction, information we collect (contact data, inquiry content, consulting engagement data, analytics), how we use info, sharing (consent, legitimate interests, contract, legal, vital interests), third-party services (Vercel, Neon, Spotify, Substack, Anthropic, GitHub, YouTube), cookies reference (links to Cookie Policy page), data security, data retention, your privacy rights, children's privacy, changes, contact. Nav: Terms of Service ← → Cookie Policy.
 
 ### Cookie Policy (`/app/privacy/cookies/page.tsx`)
 Separate dedicated page at `/privacy/cookies`. Sections: what are cookies, cookies we use (table: theme + admin_session), cookies we do NOT use (advertising, remarketing, cross-site tracking, social pixels, individual analytics), third-party cookies (Spotify, Substack, Claude.site with links to their policies), how to manage cookies (browser-specific instructions), Do Not Track, changes, contact. Nav: Privacy Policy ← → Terms of Service.
@@ -257,8 +257,8 @@ Wrapper around NextThemesProvider. Used in root layout.
 
 ## Substack import system — DONE
 
-### Database (Supabase)
-Two tables: `substack_sections` and `substack_articles`. Sections have title, slug, description, substack_url, article_count. Articles belong to a section and store title, subtitle, slug, excerpt, content (HTML), original_url, published_at, display_date. RLS enabled with public read + service role write.
+### Database (Neon PostgreSQL)
+Two tables: `substack_sections` and `substack_articles`. Sections have title, slug, description, substack_url, article_count. Articles belong to a section and store title, subtitle, slug, excerpt, content (HTML), original_url, published_at, display_date.
 
 ### ZIP parser (`lib/substack-parser.ts`)
 Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack export ZIP. Returns parsed posts with title, subtitle, slug, content, publishedAt, displayDate, excerpt (~200 chars plain text), canonicalUrl. Skips drafts and podcasts.
@@ -275,20 +275,19 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 - Edit and delete per section
 
 ### Public pages
-- `/substack` — hero + card grid of sections (force-dynamic, graceful fallback if Supabase not configured)
+- `/substack` — hero + card grid of sections (force-dynamic, graceful fallback if DB not configured)
 - `/substack/[section]` — section hero + "Follow on Substack" CTA + article list
 - `/substack/[section]/[slug]` — attribution banner, prose content via `dangerouslySetInnerHTML`, subscribe CTA
 
-### Supabase clients
-- `lib/supabase/server.ts` — `getSupabaseAdmin()` uses service role key (server-side only)
-- `lib/supabase/client.ts` — `getSupabaseClient()` uses anon key (browser-safe)
+### Database client
+- `lib/db.ts` — exports `sql` tagged template literal from `@neondatabase/serverless`. Lazily initialized from `DATABASE_URL` env var. Used in all API routes and server components.
 
 ### Admin auth
 - `lib/admin-auth.ts` — checks for `admin_session` cookie via `cookies()` from `next/headers`
 - All `/api/admin/*` routes check this before proceeding
 
 ## SEO — DONE
-- `app/sitemap.ts` — dynamic sitemap: static pages + all `/substack/*` routes from Supabase. Falls back to static-only if Supabase not configured.
+- `app/sitemap.ts` — dynamic sitemap: static pages + all `/blog/*`, `/tools/*`, `/substack/*` routes from Neon. Falls back to static-only if DB not configured.
 - `app/robots.ts` — allows all, disallows `/admin/` and `/api/`, points to `/sitemap.xml`
 
 ## Admin dashboard (`/app/admin/dashboard/`) — DONE
@@ -301,9 +300,7 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 
 ## Environment variables
 ```
-NEXT_PUBLIC_SUPABASE_URL=        # Supabase project URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY=   # Supabase anon/public key
-SUPABASE_SERVICE_ROLE_KEY=       # Supabase service role key (server-side only)
+DATABASE_URL=                    # Neon PostgreSQL connection string (from Vercel marketplace or Neon dashboard)
 NEXT_PUBLIC_SITE_URL=https://bearbrown.co  # Used in sitemap generation
 NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 ```
@@ -346,7 +343,7 @@ bearbrown.co is Nik Bear Brown's personal site — part business card, part news
 
 #### Initial setup (one-time)
 
-1. **Supabase project** — Create a project at supabase.com. Run this SQL in the SQL Editor:
+1. **Neon database** — Create a project at neon.tech (or add via Vercel marketplace). Run this SQL in the SQL Editor:
 
 ```sql
 CREATE TABLE IF NOT EXISTS substack_sections (
@@ -386,9 +383,7 @@ CREATE POLICY "service_role_articles" ON substack_articles FOR ALL USING (true) 
 2. **Environment variables** — Add to `.env.local` (local dev) and Vercel project settings (production):
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
-SUPABASE_SERVICE_ROLE_KEY=eyJ...
+DATABASE_URL=postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require
 NEXT_PUBLIC_SITE_URL=https://bearbrown.co
 ```
 
@@ -434,7 +429,7 @@ NEXT_PUBLIC_SITE_URL=https://bearbrown.co
 
 #### SEO
 
-- **Sitemap** (`/sitemap.xml`) — Automatically generated. Includes all static pages (`/`, `/tools`, `/about`) plus all dynamic `/substack/*` routes pulled from Supabase. Falls back to static-only if Supabase is not configured.
+- **Sitemap** (`/sitemap.xml`) — Automatically generated. Includes all static pages plus all dynamic `/blog/*`, `/tools/*`, `/substack/*` routes from Neon. Falls back to static-only if DB is not configured.
 - **Robots** (`/robots.txt`) — Allows all crawlers. Blocks `/admin/` and `/api/` paths. Points to the sitemap.
 
 ---
@@ -501,14 +496,12 @@ lib/
   utils.ts                          # cn() helper (clsx + tailwind-merge)
   admin-auth.ts                     # admin_session cookie check
   substack-parser.ts                # Substack ZIP parser (adm-zip)
-  supabase/
-    server.ts                       # Supabase admin client (service role)
-    client.ts                       # Supabase browser client (anon key)
+  db.ts                             # Neon PostgreSQL client (sql tagged template)
 ```
 
 #### Adding content
 
-- **New Substack section**: Use the admin UI at `/admin/dashboard/substack`, or insert directly into the `substack_sections` table
+- **New Substack section**: Use the admin UI at `/admin/dashboard/substack`, or insert directly into the database
 - **New tool**: Use the admin UI at `/admin/dashboard/tools`. Choose "Link Tool" for external URLs or "Claude Artifact" to embed an artifact at `/tools/[slug]`
 - **New artist to Spotify player**: Add to the `ARTISTS` array in `/components/SpotifyPlayer/SpotifyPlayer.tsx`
 

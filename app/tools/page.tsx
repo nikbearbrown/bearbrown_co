@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 import {
   Card,
   CardContent,
@@ -29,12 +29,7 @@ interface Tool {
 
 async function getTools(): Promise<Tool[]> {
   try {
-    const supabase = getSupabaseAdmin()
-    const { data } = await supabase
-      .from('tools')
-      .select('*')
-      .order('created_at', { ascending: false })
-    return data ?? []
+    return await sql`SELECT * FROM tools ORDER BY created_at DESC`
   } catch {
     return []
   }

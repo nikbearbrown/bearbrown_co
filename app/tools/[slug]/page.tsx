@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,17 +11,11 @@ export async function generateMetadata({
 }) {
   const { slug } = await params
   try {
-    const supabase = getSupabaseAdmin()
-    const { data: tool } = await supabase
-      .from('tools')
-      .select('name, description')
-      .eq('slug', slug)
-      .single()
-
-    if (tool) {
+    const rows = await sql`SELECT name, description FROM tools WHERE slug = ${slug}`
+    if (rows.length > 0) {
       return {
-        title: `${tool.name} - Bear Brown Tools`,
-        description: tool.description || `${tool.name} — AI tool by Bear Brown`,
+        title: `${rows[0].name} - Bear Brown Tools`,
+        description: rows[0].description || `${rows[0].name} — AI tool by Bear Brown`,
       }
     }
   } catch {}
@@ -37,15 +31,10 @@ export default async function ToolPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const supabase = getSupabaseAdmin()
+  const rows = await sql`SELECT * FROM tools WHERE slug = ${slug}`
 
-  const { data: tool } = await supabase
-    .from('tools')
-    .select('*')
-    .eq('slug', slug)
-    .single()
-
-  if (!tool) notFound()
+  if (rows.length === 0) notFound()
+  const tool = rows[0]
 
   // Build iframe src
   let iframeSrc = ''

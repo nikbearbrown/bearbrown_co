@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 import { isAdmin } from '@/lib/admin-auth'
 
 export async function PUT(
@@ -14,19 +14,22 @@ export async function PUT(
   const body = await req.json()
   const { title, slug, description, substack_url } = body
 
-  const supabase = getSupabaseAdmin()
-  const { data, error } = await supabase
-    .from('substack_sections')
-    .update({ title, slug, description, substack_url, updated_at: new Date().toISOString() })
-    .eq('id', id)
-    .select()
-    .single()
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  try {
+    const rows = await sql`
+      UPDATE substack_sections SET
+        title = ${title}, slug = ${slug}, description = ${description || null},
+        substack_url = ${substack_url}, updated_at = NOW()
+      WHERE id = ${id}
+      RETURNING *
+    `
+    if (rows.length === 0) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    }
+    return NextResponse.json(rows[0])
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  return NextResponse.json(data)
 }
 
 export async function DELETE(
@@ -38,15 +41,12 @@ export async function DELETE(
   }
 
   const { id } = await params
-  const supabase = getSupabaseAdmin()
-  const { error } = await supabase
-    .from('substack_sections')
-    .delete()
-    .eq('id', id)
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  try {
+    await sql`DELETE FROM substack_sections WHERE id = ${id}`
+    return NextResponse.json({ success: true })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  return NextResponse.json({ success: true })
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 import { isAdmin } from '@/lib/admin-auth'
 
 export async function GET() {
@@ -7,17 +7,13 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const supabase = getSupabaseAdmin()
-  const { data, error } = await supabase
-    .from('substack_sections')
-    .select('*')
-    .order('created_at', { ascending: false })
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  try {
+    const data = await sql`SELECT * FROM substack_sections ORDER BY created_at DESC`
+    return NextResponse.json(data)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  return NextResponse.json(data)
 }
 
 export async function POST(req: NextRequest) {
@@ -32,16 +28,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
-  const supabase = getSupabaseAdmin()
-  const { data, error } = await supabase
-    .from('substack_sections')
-    .insert({ title, slug, description, substack_url })
-    .select()
-    .single()
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  try {
+    const rows = await sql`
+      INSERT INTO substack_sections (title, slug, description, substack_url)
+      VALUES (${title}, ${slug}, ${description || null}, ${substack_url})
+      RETURNING *
+    `
+    return NextResponse.json(rows[0])
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  return NextResponse.json(data)
 }

@@ -1,35 +1,12 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Blog - Bear Brown',
   description: 'Writing on AI, startups, education, and technology by Nik Bear Brown.',
-}
-
-interface Post {
-  id: string
-  title: string
-  subtitle: string | null
-  slug: string
-  excerpt: string | null
-  published_at: string | null
-}
-
-async function getPosts(): Promise<Post[]> {
-  try {
-    const supabase = getSupabaseAdmin()
-    const { data } = await supabase
-      .from('blog_posts')
-      .select('id, title, subtitle, slug, excerpt, published_at')
-      .eq('published', true)
-      .order('published_at', { ascending: false })
-    return data ?? []
-  } catch {
-    return []
-  }
 }
 
 function formatDate(dateStr: string | null): string {
@@ -42,7 +19,14 @@ function formatDate(dateStr: string | null): string {
 }
 
 export default async function BlogPage() {
-  const posts = await getPosts()
+  let posts: { id: string; title: string; subtitle: string | null; slug: string; excerpt: string | null; published_at: string | null }[] = []
+  try {
+    posts = await sql`
+      SELECT id, title, subtitle, slug, excerpt, published_at
+      FROM blog_posts WHERE published = true
+      ORDER BY published_at DESC
+    `
+  } catch {}
 
   return (
     <div className="container px-4 md:px-6 mx-auto py-12">

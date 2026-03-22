@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { createClient } from '@supabase/supabase-js'
+import { neon } from '@neondatabase/serverless'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bearbrown.co'
 
@@ -16,82 +16,61 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    )
-
-    // Tools with slugs (artifact tools have their own pages)
-    const { data: tools } = await supabase
-      .from('tools')
-      .select('slug, updated_at')
-      .eq('tool_type', 'artifact')
-
-    if (tools) {
-      for (const t of tools) {
-        entries.push({
-          url: `${BASE_URL}/tools/${t.slug}`,
-          lastModified: t.updated_at ? new Date(t.updated_at) : new Date(),
-          changeFrequency: 'weekly',
-          priority: 0.7,
-        })
-      }
-    }
+    const db = neon(process.env.DATABASE_URL!)
 
     // Blog posts
-    const { data: blogPosts } = await supabase
-      .from('blog_posts')
-      .select('slug, published_at, updated_at')
-      .eq('published', true)
+    const blogPosts = await db`
+      SELECT slug, published_at, updated_at FROM blog_posts WHERE published = true
+    `
+    for (const p of blogPosts) {
+      entries.push({
+        url: `${BASE_URL}/blog/${p.slug}`,
+        lastModified: p.updated_at ? new Date(p.updated_at) : p.published_at ? new Date(p.published_at) : new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.8,
+      })
+    }
 
-    if (blogPosts) {
-      for (const p of blogPosts) {
-        entries.push({
-          url: `${BASE_URL}/blog/${p.slug}`,
-          lastModified: p.updated_at ? new Date(p.updated_at) : p.published_at ? new Date(p.published_at) : new Date(),
-          changeFrequency: 'weekly',
-          priority: 0.8,
-        })
-      }
+    // Tools (artifact type have their own pages)
+    const tools = await db`
+      SELECT slug, updated_at FROM tools WHERE tool_type = 'artifact'
+    `
+    for (const t of tools) {
+      entries.push({
+        url: `${BASE_URL}/tools/${t.slug}`,
+        lastModified: t.updated_at ? new Date(t.updated_at) : new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.7,
+      })
     }
 
     // Substack sections
-    const { data: sections } = await supabase
-      .from('substack_sections')
-      .select('id, slug, updated_at')
+    const sections = await db`SELECT id, slug, updated_at FROM substack_sections`
+    for (const s of sections) {
+      entries.push({
+        url: `${BASE_URL}/substack/${s.slug}`,
+        lastModified: new Date(s.updated_at),
+        changeFrequency: 'weekly',
+        priority: 0.7,
+      })
+    }
 
-    if (sections) {
-      for (const s of sections) {
+    // Substack articles
+    const articles = await db`SELECT slug, published_at, section_id FROM substack_articles`
+    const idToSlug = new Map(sections.map((s: { id: string; slug: string }) => [s.id, s.slug]))
+    for (const a of articles) {
+      const sectionSlug = idToSlug.get(a.section_id)
+      if (sectionSlug) {
         entries.push({
-          url: `${BASE_URL}/substack/${s.slug}`,
-          lastModified: new Date(s.updated_at),
-          changeFrequency: 'weekly',
-          priority: 0.7,
+          url: `${BASE_URL}/substack/${sectionSlug}/${a.slug}`,
+          lastModified: a.published_at ? new Date(a.published_at) : new Date(),
+          changeFrequency: 'monthly',
+          priority: 0.6,
         })
-      }
-
-      const idToSlug = new Map(sections.map((s) => [s.id, s.slug]))
-
-      const { data: articles } = await supabase
-        .from('substack_articles')
-        .select('slug, published_at, section_id')
-
-      if (articles) {
-        for (const a of articles) {
-          const sectionSlug = idToSlug.get(a.section_id)
-          if (sectionSlug) {
-            entries.push({
-              url: `${BASE_URL}/substack/${sectionSlug}/${a.slug}`,
-              lastModified: a.published_at ? new Date(a.published_at) : new Date(),
-              changeFrequency: 'monthly',
-              priority: 0.6,
-            })
-          }
-        }
       }
     }
   } catch {
-    // If Supabase is not configured, just return static pages
+    // If database is not configured, just return static pages
   }
 
   return entries

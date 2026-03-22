@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 import {
   Card,
   CardContent,
@@ -22,12 +22,7 @@ interface Section {
 
 async function getSections(): Promise<Section[]> {
   try {
-    const supabase = getSupabaseAdmin()
-    const { data } = await supabase
-      .from('substack_sections')
-      .select('*')
-      .order('created_at', { ascending: false })
-    return data ?? []
+    return await sql`SELECT * FROM substack_sections ORDER BY created_at DESC`
   } catch {
     return []
   }

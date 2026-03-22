@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 
 export async function GET(
   _req: NextRequest,
@@ -7,19 +7,13 @@ export async function GET(
 ) {
   try {
     const { slug } = await params
-    const supabase = getSupabaseAdmin()
-    const { data, error } = await supabase
-      .from('blog_posts')
-      .select('*')
-      .eq('slug', slug)
-      .eq('published', true)
-      .single()
-
-    if (error || !data) {
+    const rows = await sql`
+      SELECT * FROM blog_posts WHERE slug = ${slug} AND published = true
+    `
+    if (rows.length === 0) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 })
     }
-
-    return NextResponse.json(data)
+    return NextResponse.json(rows[0])
   } catch {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }

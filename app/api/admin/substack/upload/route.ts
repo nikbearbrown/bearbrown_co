@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 import { isAdmin } from '@/lib/admin-auth'
 import { parseSubstackZip } from '@/lib/substack-parser'
 
@@ -30,39 +30,33 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'No posts found in ZIP' }, { status: 400 })
   }
 
-  const supabase = getSupabaseAdmin()
+  try {
+    // Upsert articles one by one (Neon doesn't have bulk upsert syntax like Supabase)
+    for (const p of posts) {
+      await sql`
+        INSERT INTO substack_articles (section_id, slug, title, subtitle, excerpt, content, original_url, published_at, display_date)
+        VALUES (${sectionId}, ${p.slug}, ${p.title}, ${p.subtitle || null}, ${p.excerpt || null}, ${p.content || null}, ${p.canonicalUrl || null}, ${p.publishedAt}, ${p.displayDate || null})
+        ON CONFLICT (section_id, slug) DO UPDATE SET
+          title = EXCLUDED.title, subtitle = EXCLUDED.subtitle, excerpt = EXCLUDED.excerpt,
+          content = EXCLUDED.content, original_url = EXCLUDED.original_url,
+          published_at = EXCLUDED.published_at, display_date = EXCLUDED.display_date
+      `
+    }
 
-  // Upsert articles
-  const rows = posts.map((p) => ({
-    section_id: sectionId,
-    slug: p.slug,
-    title: p.title,
-    subtitle: p.subtitle || null,
-    excerpt: p.excerpt || null,
-    content: p.content || null,
-    original_url: p.canonicalUrl || null,
-    published_at: p.publishedAt,
-    display_date: p.displayDate || null,
-  }))
+    // Update article count
+    const countResult = await sql`
+      SELECT COUNT(*)::int as count FROM substack_articles WHERE section_id = ${sectionId}
+    `
+    const total = countResult[0]?.count ?? 0
 
-  const { error: upsertError } = await supabase
-    .from('substack_articles')
-    .upsert(rows, { onConflict: 'section_id,slug' })
+    await sql`
+      UPDATE substack_sections SET article_count = ${total}, updated_at = NOW()
+      WHERE id = ${sectionId}
+    `
 
-  if (upsertError) {
-    return NextResponse.json({ error: upsertError.message }, { status: 500 })
+    return NextResponse.json({ imported: posts.length, total })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  // Update article count
-  const { count } = await supabase
-    .from('substack_articles')
-    .select('*', { count: 'exact', head: true })
-    .eq('section_id', sectionId)
-
-  await supabase
-    .from('substack_sections')
-    .update({ article_count: count ?? 0, updated_at: new Date().toISOString() })
-    .eq('id', sectionId)
-
-  return NextResponse.json({ imported: posts.length, total: count ?? 0 })
 }

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
+import { sql } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,24 +10,16 @@ export default async function ArticlePage({
   params: Promise<{ section: string; slug: string }>
 }) {
   const { section, slug } = await params
-  const supabase = getSupabaseAdmin()
 
-  const { data: sectionData } = await supabase
-    .from('substack_sections')
-    .select('*')
-    .eq('slug', section)
-    .single()
+  const sectionRows = await sql`SELECT * FROM substack_sections WHERE slug = ${section}`
+  if (sectionRows.length === 0) notFound()
+  const sectionData = sectionRows[0]
 
-  if (!sectionData) notFound()
-
-  const { data: article } = await supabase
-    .from('substack_articles')
-    .select('*')
-    .eq('section_id', sectionData.id)
-    .eq('slug', slug)
-    .single()
-
-  if (!article) notFound()
+  const articleRows = await sql`
+    SELECT * FROM substack_articles WHERE section_id = ${sectionData.id} AND slug = ${slug}
+  `
+  if (articleRows.length === 0) notFound()
+  const article = articleRows[0]
 
   return (
     <div className="flex flex-col w-full">
