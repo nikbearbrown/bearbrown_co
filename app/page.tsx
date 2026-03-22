@@ -1,8 +1,15 @@
 import { Brain, Rocket, Users } from 'lucide-react'
-import SpotifyPlayer from '@/components/SpotifyPlayer/SpotifyPlayer'
+import ArtistCarousel from '@/components/ArtistCarousel/ArtistCarousel'
 
 const buttonStyles =
   'inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-black text-white shadow hover:bg-gray-800 dark:border dark:border-input dark:bg-background dark:text-foreground dark:shadow-sm dark:hover:bg-accent dark:hover:text-accent-foreground'
+
+const PUBLICATIONS = [
+  { name: 'skepticism.ai', href: 'https://www.skepticism.ai/' },
+  { name: 'Musinique', href: 'https://www.musinique.net/' },
+  { name: 'Theorist', href: 'https://www.theorist.ai/' },
+  { name: 'Hypothetical', href: 'https://www.hypothetical.ai/' },
+]
 
 const SERVICES = [
   {
@@ -54,18 +61,28 @@ export default function Home() {
                 (equity for expertise), and a connector to top recent engineering grads
                 at entry-level prices.
               </p>
-              <div className="flex flex-col gap-3 min-[400px]:flex-row pt-2">
+              <div className="flex flex-col gap-3 pt-2">
                 <a href="mailto:bear@bearbrown.co" className={buttonStyles}>
                   Work With Me
                 </a>
-                <a
-                  href="https://bearbrownco.substack.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={buttonStyles}
-                >
-                  Read My Writing
-                </a>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2 font-medium uppercase tracking-wider">
+                    Read My Writing
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {PUBLICATIONS.map((pub) => (
+                      <a
+                        key={pub.name}
+                        href={pub.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={buttonStyles}
+                      >
+                        {pub.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
             <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
@@ -141,18 +158,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Spotify Section */}
+      {/* Music Section */}
       <section className="w-full py-16 md:py-24">
         <div className="container px-4 md:px-6 mx-auto">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl text-center mb-2">
-              Nik Bear Brown — Poet and Songwriter
-            </h2>
-            <p className="text-center text-muted-foreground mb-8">
-              Music and spoken word across genres and collaborations.
-            </p>
-            <SpotifyPlayer />
-          </div>
+          <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl text-center mb-2">
+            Music from the Bear Brown Family &amp; Friends
+          </h2>
+          <p className="text-center text-muted-foreground mb-10">
+            Poetry, songwriting, and spoken word across genres and collaborations.
+          </p>
+          <ArtistCarousel />
         </div>
       </section>
     </div>

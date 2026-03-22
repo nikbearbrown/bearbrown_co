@@ -61,10 +61,20 @@ Four-column grid layout:
 
 ## Home page (`/app/page.tsx`) — DONE
 Four sections, alternating white/muted/dark backgrounds:
-1. **Hero** (two-column): Left — name (h1), subtitle "AI Consultant, Angel Advisor & Talent Connector", body text, "Work With Me" (mailto) + "Read My Writing" (Substack) buttons. Right — YouTube embed (GN7yQntWJHU).
+1. **Hero** (two-column): Left — name (h1), subtitle "AI Consultant, Angel Advisor & Talent Connector", body text, "Work With Me" (mailto) button + "Read My Writing" label with 4 publication buttons (skepticism.ai, Musinique, Theorist, Hypothetical). Right — YouTube embed (GN7yQntWJHU).
 2. **What I Do** (3-column cards, muted bg): AI Consulting (Brain icon), Angel Advising (Rocket icon), Talent Connector (Users icon). Each with description + mailto link.
 3. **Connect** (centered, dark bg foreground/background inverted): "Let's Collaborate" heading, subtext, buttons for Substack, YouTube, GitHub, Humanitarians AI.
-4. **Spotify** (white bg): "Nik Bear Brown — Poet and Songwriter" title, uses existing SpotifyPlayer component with random artist shuffle.
+4. **Music** (white bg): "Music from the Bear Brown Family & Friends" heading, ArtistCarousel component showing 13 artists with Spotify embeds, prev/next arrows, dot indicators, and per-artist links (Spotify, Apple Music, Musinique).
+
+## ArtistCarousel (`/components/ArtistCarousel/ArtistCarousel.tsx`) — DONE
+Client component. Shows one artist at a time with:
+- Artist name + tagline
+- Spotify embed iframe (352px height, rounded-xl)
+- Links row: Spotify icon + Apple Music icon + Musinique/website (where available)
+- Prev/next arrow buttons on sides
+- Dot indicators below (clickable to jump)
+- Auto-rotates every 8 seconds, pauses on hover
+- 13 artists with full link data (Spotify, Apple Music, Musinique URLs)
 
 ## Tools system — DONE
 
@@ -421,7 +431,8 @@ app/
 components/
   Header/Header.tsx                 # Sticky header with nav + social + theme toggle
   Footer/Footer.tsx                 # 4-column footer (company, publications, social, legal)
-  SpotifyPlayer/SpotifyPlayer.tsx   # Random artist Spotify embed
+  ArtistCarousel/ArtistCarousel.tsx  # Rotating artist carousel with Spotify/Apple/Musinique links
+  SpotifyPlayer/SpotifyPlayer.tsx   # Random artist Spotify embed (legacy, still available)
   ThemeToggle.tsx                   # Dark/light mode toggle
   theme-provider.tsx                # next-themes wrapper
   ui/                               # 60+ shadcn/ui components
