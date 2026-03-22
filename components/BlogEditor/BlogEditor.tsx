@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -43,34 +43,34 @@ function extractExcerpt(html: string): string {
   return text.slice(0, 200).replace(/\s\S*$/, '') + '…'
 }
 
-const TOOLBAR_BUTTONS = [
-  { command: 'bold', icon: Bold, label: 'Bold' },
-  { command: 'italic', icon: Italic, label: 'Italic' },
-  { command: 'strikeThrough', icon: Strikethrough, label: 'Strikethrough' },
-  { command: 'code', icon: Code, label: 'Code', value: undefined, custom: true },
-  { command: 'createLink', icon: LinkIcon, label: 'Link', prompt: true },
-  { command: 'formatBlock', icon: Heading2, label: 'H2', value: 'h2' },
-  { command: 'formatBlock', icon: Heading3, label: 'H3', value: 'h3' },
-  { command: 'insertUnorderedList', icon: List, label: 'Bullet list' },
-  { command: 'insertOrderedList', icon: ListOrdered, label: 'Numbered list' },
+type WrapAction =
+  | { type: 'wrap'; before: string; after: string }
+  | { type: 'line'; prefix: string }
+  | { type: 'link' }
+
+const TOOLBAR: { icon: typeof Bold; label: string; action: WrapAction }[] = [
+  { icon: Bold, label: 'Bold', action: { type: 'wrap', before: '<strong>', after: '</strong>' } },
+  { icon: Italic, label: 'Italic', action: { type: 'wrap', before: '<em>', after: '</em>' } },
+  { icon: Strikethrough, label: 'Strikethrough', action: { type: 'wrap', before: '<s>', after: '</s>' } },
+  { icon: Code, label: 'Code', action: { type: 'wrap', before: '<code>', after: '</code>' } },
+  { icon: LinkIcon, label: 'Link', action: { type: 'link' } },
+  { icon: Heading2, label: 'H2', action: { type: 'line', prefix: '<h2>' } },
+  { icon: Heading3, label: 'H3', action: { type: 'line', prefix: '<h3>' } },
+  { icon: List, label: 'Bullet list', action: { type: 'line', prefix: '<li>' } },
+  { icon: ListOrdered, label: 'Numbered list', action: { type: 'line', prefix: '<li>' } },
 ]
 
 export default function BlogEditor({ post }: { post?: BlogPost }) {
   const router = useRouter()
-  const editorRef = useRef<HTMLDivElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [title, setTitle] = useState(post?.title || '')
   const [subtitle, setSubtitle] = useState(post?.subtitle || '')
   const [slug, setSlug] = useState(post?.slug || '')
   const [slugEdited, setSlugEdited] = useState(!!post)
+  const [content, setContent] = useState(post?.content || '')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
-
-  // Set initial content
-  useEffect(() => {
-    if (editorRef.current && post?.content) {
-      editorRef.current.innerHTML = post.content
-    }
-  }, [post?.content])
+  const [showPreview, setShowPreview] = useState(false)
 
   const handleTitleChange = useCallback(
     (value: string) => {
@@ -82,42 +82,50 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
     [slugEdited],
   )
 
-  function execCommand(command: string, value?: string) {
-    document.execCommand(command, false, value)
-    editorRef.current?.focus()
-  }
+  function applyAction(action: WrapAction) {
+    const ta = textareaRef.current
+    if (!ta) return
 
-  function handleToolbar(btn: (typeof TOOLBAR_BUTTONS)[0]) {
-    if (btn.custom && btn.command === 'code') {
-      // Wrap selection in <code>
-      const selection = window.getSelection()
-      if (selection && selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0)
-        const code = document.createElement('code')
-        code.className = 'bg-muted px-1.5 py-0.5 rounded text-sm font-mono'
-        range.surroundContents(code)
-      }
-      return
-    }
-    if (btn.prompt) {
+    const start = ta.selectionStart
+    const end = ta.selectionEnd
+    const selected = content.slice(start, end)
+
+    let newContent: string
+    let cursorPos: number
+
+    if (action.type === 'wrap') {
+      const wrapped = `${action.before}${selected || 'text'}${action.after}`
+      newContent = content.slice(0, start) + wrapped + content.slice(end)
+      cursorPos = start + action.before.length + (selected ? selected.length : 4)
+    } else if (action.type === 'line') {
+      const closing = action.prefix === '<h2>' ? '</h2>' : action.prefix === '<h3>' ? '</h3>' : '</li>'
+      const wrapped = `${action.prefix}${selected || ''}${closing}`
+      newContent = content.slice(0, start) + wrapped + content.slice(end)
+      cursorPos = start + action.prefix.length + (selected ? selected.length : 0)
+    } else {
+      // link
       const url = window.prompt('Enter URL:')
-      if (url) execCommand(btn.command, url)
-      return
+      if (!url) return
+      const linkText = selected || 'link text'
+      const wrapped = `<a href="${url}">${linkText}</a>`
+      newContent = content.slice(0, start) + wrapped + content.slice(end)
+      cursorPos = start + wrapped.length
     }
-    if (btn.value) {
-      execCommand(btn.command, btn.value)
-      return
-    }
-    execCommand(btn.command)
+
+    setContent(newContent)
+    // Restore focus and cursor after React re-render
+    requestAnimationFrame(() => {
+      ta.focus()
+      ta.setSelectionRange(cursorPos, cursorPos)
+    })
   }
 
   async function save(publish: boolean) {
-    const content = editorRef.current?.innerHTML || ''
     if (!title.trim()) {
       setError('Title is required')
       return
     }
-    if (!content.trim() || content === '<br>') {
+    if (!content.trim()) {
       setError('Content is required')
       return
     }
@@ -199,32 +207,47 @@ export default function BlogEditor({ post }: { post?: BlogPost }) {
       </div>
 
       {/* Toolbar */}
-      <div className="flex flex-wrap gap-1 border rounded-md p-1.5 bg-muted/30 sticky top-16 z-10">
-        {TOOLBAR_BUTTONS.map((btn) => (
+      <div className="flex flex-wrap items-center gap-1 border rounded-md p-1.5 bg-muted/30 sticky top-16 z-10">
+        {TOOLBAR.map((btn) => (
           <button
             key={btn.label}
             type="button"
-            onClick={() => handleToolbar(btn)}
+            onClick={() => applyAction(btn.action)}
             title={btn.label}
             className="h-8 w-8 inline-flex items-center justify-center rounded hover:bg-muted transition-colors"
           >
             <btn.icon className="h-4 w-4" />
           </button>
         ))}
+        <div className="ml-auto">
+          <button
+            type="button"
+            onClick={() => setShowPreview(!showPreview)}
+            className="h-8 px-3 text-xs font-medium rounded hover:bg-muted transition-colors"
+          >
+            {showPreview ? 'Edit' : 'Preview'}
+          </button>
+        </div>
       </div>
 
-      {/* Editor */}
-      <div
-        ref={editorRef}
-        contentEditable
-        className="min-h-[400px] prose prose-neutral dark:prose-invert max-w-none
-          focus:outline-none border rounded-md p-6
-          prose-headings:font-bold prose-headings:tracking-tighter
-          prose-a:text-foreground prose-a:underline
-          prose-img:rounded-lg
-          [&:empty]:before:content-[attr(data-placeholder)] [&:empty]:before:text-muted-foreground/40"
-        data-placeholder="Start writing..."
-      />
+      {/* Editor / Preview */}
+      {showPreview ? (
+        <div
+          className="min-h-[400px] prose prose-neutral dark:prose-invert max-w-none border rounded-md p-6
+            prose-headings:font-bold prose-headings:tracking-tighter
+            prose-a:text-foreground prose-a:underline
+            prose-img:rounded-lg"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      ) : (
+        <textarea
+          ref={textareaRef}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Write your post in HTML..."
+          className="w-full min-h-[400px] font-mono text-sm border rounded-md p-6 bg-background resize-y focus:outline-none focus:ring-1 focus:ring-ring"
+        />
+      )}
 
       {/* Actions */}
       <div className="flex items-center gap-3 border-t pt-6">
