@@ -112,12 +112,20 @@ CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (tru
 - **link** — External URL tool. Card clicks open URL in new tab.
 - **artifact** — Claude Artifact embed. Card clicks go to `/tools/[slug]` which renders the artifact in a full-viewport iframe. Iframe source: `https://claude.site/artifacts/[artifact_id]` or raw `artifact_embed_code` if provided.
 
+### Adding a new artifact tool
+1. Drop the `.html` file into `public/artifacts/`
+2. Go to `/admin/dashboard/tools` → click "Sync Artifacts"
+3. Edit the new tool entry to add description and tags
+4. It appears immediately on `/tools`
+
 ### API routes (admin-protected)
 - `GET/POST /api/admin/tools` — list & create tools
 - `PUT/DELETE /api/admin/tools/[id]` — update & delete tools
+- `POST /api/admin/tools/sync-artifacts` — scan `public/artifacts/*.html`, insert missing tools
 
 ### Admin UI (`/app/admin/dashboard/tools/page.tsx`)
 - Tool list with name, type badge (Link/Artifact), slug, tags, artifact ID or URL
+- "Sync Artifacts" button — scans `public/artifacts/` and registers new HTML files as tools
 - "New Tool" button → dialog form with:
   - Name, slug (auto-generated), description
   - Tool type selector (Link / Claude Artifact)
@@ -524,6 +532,7 @@ app/
   api/admin/tools/
     route.ts                        # GET/POST tools
     [id]/route.ts                   # PUT/DELETE tool
+    sync-artifacts/route.ts         # POST: scan public/artifacts/, register missing tools
   api/admin/upload/route.ts         # POST: image upload to Vercel Blob
   api/admin/substack/
     sections/route.ts               # GET/POST sections

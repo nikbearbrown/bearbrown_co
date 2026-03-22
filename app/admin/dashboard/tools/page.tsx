@@ -21,7 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Pencil, Trash2, Plus, ExternalLink, Box } from 'lucide-react'
+import { Pencil, Trash2, Plus, ExternalLink, Box, RefreshCw } from 'lucide-react'
 
 interface Tool {
   id: string
@@ -59,6 +59,8 @@ export default function ToolsAdminPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
+  const [syncing, setSyncing] = useState(false)
+  const [syncResult, setSyncResult] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingTool, setEditingTool] = useState<Tool | null>(null)
   const [form, setForm] = useState(EMPTY_FORM)
@@ -80,6 +82,22 @@ export default function ToolsAdminPage() {
   useEffect(() => {
     fetchTools()
   }, [fetchTools])
+
+  async function syncArtifacts() {
+    setSyncing(true)
+    setSyncResult('')
+    try {
+      const res = await fetch('/api/admin/tools/sync-artifacts', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Sync failed')
+      setSyncResult(`${data.added} new tool${data.added !== 1 ? 's' : ''} added, ${data.skipped} skipped.`)
+      if (data.added > 0) fetchTools()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Sync failed')
+    } finally {
+      setSyncing(false)
+    }
+  }
 
   function openNew() {
     setEditingTool(null)
@@ -165,15 +183,27 @@ export default function ToolsAdminPage() {
             Manage AI tools and Claude Artifact embeds
           </p>
         </div>
-        <Button onClick={openNew} className="gap-2">
-          <Plus className="h-4 w-4" />
-          New Tool
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={syncArtifacts} disabled={syncing} className="gap-2">
+            <RefreshCw className={`h-4 w-4 ${syncing ? 'animate-spin' : ''}`} />
+            {syncing ? 'Syncing…' : 'Sync Artifacts'}
+          </Button>
+          <Button onClick={openNew} className="gap-2">
+            <Plus className="h-4 w-4" />
+            New Tool
+          </Button>
+        </div>
       </div>
 
       {error && (
         <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
           {error}
+        </div>
+      )}
+
+      {syncResult && (
+        <div className="rounded-md bg-green-500/10 p-3 text-sm text-green-700 dark:text-green-400">
+          {syncResult}
         </div>
       )}
 
