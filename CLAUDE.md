@@ -32,12 +32,13 @@ Primary audiences:
 10. `/substack` — Newsletter hub: card grid of all Substack sections
 11. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
 12. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
-13. `/admin/dashboard` — Admin dashboard (protected via `admin_session` cookie)
-14. `/admin/dashboard/blog` — Manage blog posts (list, create, edit, delete)
-15. `/admin/dashboard/blog/new` — New post editor
-16. `/admin/dashboard/blog/[id]/edit` — Edit existing post
-17. `/admin/dashboard/tools` — Manage tools (link and artifact types)
-18. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
+13. `/admin/login` — Admin login page (password form)
+14. `/admin/dashboard` — Admin dashboard (protected via middleware + `admin_session` cookie)
+15. `/admin/dashboard/blog` — Manage blog posts (list, create, edit, delete)
+16. `/admin/dashboard/blog/new` — New post editor
+17. `/admin/dashboard/blog/[id]/edit` — Edit existing post
+18. `/admin/dashboard/tools` — Manage tools (link and artifact types)
+19. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
 
 ## Persistent layout (every page)
 
@@ -283,16 +284,22 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 - `lib/db.ts` — exports `sql` tagged template literal from `@neondatabase/serverless`. Lazily initialized from `DATABASE_URL` env var. Used in all API routes and server components.
 
 ### Admin auth
-- `lib/admin-auth.ts` — checks for `admin_session` cookie via `cookies()` from `next/headers`
-- All `/api/admin/*` routes check this before proceeding
+- `middleware.ts` — protects all `/admin/dashboard/*` routes; redirects to `/admin/login` if no `admin_session` cookie
+- `app/admin/login/page.tsx` — password login form, POSTs to `/api/admin/login`
+- `app/api/admin/login/route.ts` — validates password against `ADMIN_PASSWORD` env var, sets `admin_session` cookie (httpOnly, secure, 7-day expiry)
+- `app/admin/page.tsx` — redirects to `/admin/dashboard` if authenticated, `/admin/login` if not
+- `lib/admin-auth.ts` — `isAdmin()` helper used by API routes to check `admin_session` cookie
+- All `/api/admin/*` routes check `isAdmin()` before proceeding
 
 ## SEO — DONE
 - `app/sitemap.ts` — dynamic sitemap: static pages + all `/blog/*`, `/tools/*`, `/substack/*` routes from Neon. Falls back to static-only if DB not configured.
 - `app/robots.ts` — allows all, disallows `/admin/` and `/api/`, points to `/sitemap.xml`
 
 ## Admin dashboard (`/app/admin/dashboard/`) — DONE
+- Protected by `middleware.ts` — redirects to `/admin/login` without valid session
+- Login page at `/admin/login` validates against `ADMIN_PASSWORD` env var
+- Session stored as `admin_session` httpOnly cookie (7-day expiry)
 - Layout with tabbed nav (Overview, Blog, Tools, Substack)
-- Protected pages — requires `admin_session` cookie to use API routes
 - Blog management: create/edit/delete posts with rich text editor, publish/unpublish
 - Tools management: create/edit/delete tools with link/artifact type support
 - Substack management: create/edit/delete sections, import ZIP archives
@@ -301,6 +308,7 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 ## Environment variables
 ```
 DATABASE_URL=                    # Neon PostgreSQL connection string (from Vercel marketplace or Neon dashboard)
+ADMIN_PASSWORD=                  # Password for /admin/login — set a strong value in production
 NEXT_PUBLIC_SITE_URL=https://bearbrown.co  # Used in sitemap generation
 NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 ```
@@ -387,10 +395,7 @@ DATABASE_URL=postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmod
 NEXT_PUBLIC_SITE_URL=https://bearbrown.co
 ```
 
-3. **Admin access** — The admin dashboard is protected by an `admin_session` cookie. There is no login page yet. To access the dashboard:
-   - In your browser, open DevTools → Application → Cookies
-   - Add a cookie named `admin_session` with any non-empty value for the site domain
-   - Navigate to `/admin/dashboard`
+3. **Admin access** — Navigate to `/admin` (redirects to `/admin/login`). Enter the password set in `ADMIN_PASSWORD` env var. On success, an `admin_session` cookie is set (httpOnly, 7-day expiry) and you're redirected to the dashboard.
 
 #### Managing Substack sections
 
@@ -462,12 +467,14 @@ app/
     [section]/[slug]/page.tsx       # Full article
   admin/dashboard/
     layout.tsx                      # Admin layout with tab nav
+    login/page.tsx                  # Admin login (password form)
     page.tsx                        # Admin overview (placeholder)
     blog/page.tsx                   # Blog post list
     blog/new/page.tsx               # New post editor
     blog/[id]/edit/page.tsx         # Edit post editor
     tools/page.tsx                  # Tools manager (link + artifact types)
     substack/page.tsx               # Substack section manager
+  api/admin/login/route.ts          # POST: validate password, set session cookie
   api/admin/blog/
     route.ts                        # GET/POST blog posts (admin)
     [id]/route.ts                   # GET/PUT/DELETE blog post (admin)
@@ -483,6 +490,7 @@ app/
     upload/route.ts                 # POST ZIP import
   sitemap.ts                        # Dynamic sitemap generator
   robots.ts                         # Robots.txt generator
+middleware.ts                         # Auth middleware (protects /admin/dashboard)
 components/
   Header/Header.tsx                 # Sticky header with nav + social + theme toggle
   Footer/Footer.tsx                 # 4-column footer (company, publications, social, legal)
@@ -520,5 +528,4 @@ After every session, always:
 ## Remaining work (in priority order)
 1. Add Subby + CRITIQ tools via admin dashboard (artifact IDs in Tools system docs above)
 2. Flesh out About page (Substack, musinique.com, Bear Brown LLC, publications)
-3. Add admin login page (currently admin_session cookie must be set manually)
-4. Consider AI contact assistant widget (currently all CTAs route to mailto)
+3. Consider AI contact assistant widget (currently all CTAs route to mailto)
