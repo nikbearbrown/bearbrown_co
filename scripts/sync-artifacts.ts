@@ -1,7 +1,10 @@
 /**
- * Scan public/artifacts/*.html and auto-register any missing tools in the DB.
+ * DEPRECATED: Artifact tools are now filesystem-driven.
+ * Drop HTML files into public/artifacts/ and they appear on /tools automatically.
+ * No database registration needed.
+ *
+ * This script is kept for backward compatibility but is no longer required.
  * Usage: npx tsx scripts/sync-artifacts.ts
- * Requires DATABASE_URL in .env.local or environment.
  */
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'

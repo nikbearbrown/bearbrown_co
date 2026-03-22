@@ -1,8 +1,19 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { join } from 'path'
+import { existsSync } from 'fs'
 import { sql } from '@/lib/db'
+import { scanHtmlDir } from '@/lib/html-meta'
 
 export const dynamic = 'force-dynamic'
+
+function getArtifactDoc(slug: string) {
+  const dir = join(process.cwd(), 'public', 'artifacts')
+  const filePath = join(dir, `${slug}.html`)
+  if (!existsSync(filePath)) return null
+  const docs = scanHtmlDir(dir)
+  return docs.find(d => d.slug === slug) || null
+}
 
 export async function generateMetadata({
   params,
@@ -10,6 +21,17 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
+
+  // Check filesystem first
+  const doc = getArtifactDoc(slug)
+  if (doc) {
+    return {
+      title: `${doc.title} - Bear Brown Tools`,
+      description: doc.description || `${doc.title} — AI tool by Bear Brown`,
+    }
+  }
+
+  // Fall back to database
   try {
     const rows = await sql`SELECT name, description FROM tools WHERE slug = ${slug}`
     if (rows.length > 0) {
@@ -20,9 +42,7 @@ export async function generateMetadata({
     }
   } catch {}
 
-  return {
-    title: 'Tool - Bear Brown',
-  }
+  return { title: 'Tool - Bear Brown' }
 }
 
 export default async function ToolPage({
@@ -31,12 +51,48 @@ export default async function ToolPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const rows = await sql`SELECT * FROM tools WHERE slug = ${slug}`
 
-  if (rows.length === 0) notFound()
-  const tool = rows[0]
+  // Check filesystem first
+  const doc = getArtifactDoc(slug)
+  if (doc) {
+    return (
+      <div className="flex flex-col w-full" style={{ minHeight: 'calc(100vh - 4rem)' }}>
+        <div className="w-full border-b bg-background">
+          <div className="container px-4 md:px-6 mx-auto py-4">
+            <Link
+              href="/tools"
+              className="text-sm text-muted-foreground hover:text-foreground mb-1 inline-block"
+            >
+              ← Back to Tools
+            </Link>
+            <h1 className="text-2xl font-bold tracking-tighter">{doc.title}</h1>
+            {doc.description && (
+              <p className="text-sm text-muted-foreground mt-1">{doc.description}</p>
+            )}
+          </div>
+        </div>
+        <div className="flex-1 w-full">
+          <iframe
+            src={`/artifacts/${doc.filename}`}
+            title={doc.title}
+            className="w-full border-none"
+            style={{ minHeight: 'calc(100vh - 12rem)' }}
+          />
+        </div>
+      </div>
+    )
+  }
 
-  // Build iframe src
+  // Fall back to database for link tools
+  let tool
+  try {
+    const rows = await sql`SELECT * FROM tools WHERE slug = ${slug}`
+    if (rows.length > 0) tool = rows[0]
+  } catch {}
+
+  if (!tool) notFound()
+
+  // Build iframe src for legacy DB artifacts
   let iframeSrc = ''
   let useRawEmbed = false
 
@@ -48,7 +104,6 @@ export default async function ToolPage({
 
   return (
     <div className="flex flex-col w-full" style={{ minHeight: 'calc(100vh - 4rem)' }}>
-      {/* Title Bar */}
       <div className="w-full border-b bg-background">
         <div className="container px-4 md:px-6 mx-auto py-4 flex items-center justify-between">
           <div>
@@ -75,8 +130,6 @@ export default async function ToolPage({
           )}
         </div>
       </div>
-
-      {/* Iframe */}
       <div className="flex-1 w-full">
         {useRawEmbed ? (
           <div

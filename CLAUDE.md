@@ -112,26 +112,28 @@ CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (tru
 ```
 
 ### Tool types
-- **link** — External URL tool. Card clicks open URL in new tab.
-- **artifact** — Claude Artifact embed. Card clicks go to `/tools/[slug]` which renders the artifact in a full-viewport iframe. Iframe source: `https://claude.site/artifacts/[artifact_id]` or raw `artifact_embed_code` if provided.
+- **link** — External URL tool (database-driven). Card clicks open URL in new tab.
+- **artifact** — HTML file in `public/artifacts/` (filesystem-driven). Card clicks go to `/tools/[slug]` which renders the file in a full-viewport iframe. No database entry needed.
 
 ### Adding a new artifact tool
-1. Drop the `.html` file into `public/artifacts/`
-2. Go to `/admin/dashboard/tools` → click "Sync Artifacts"
-3. Edit the new tool entry to add description and tags
-4. It appears immediately on `/tools`
+1. Build the HTML file with `<title>`, `<meta name="description">`, and `<meta name="keywords">` tags
+2. Drop into `public/artifacts/`
+3. Push to main — Vercel deploys and it appears on `/tools` automatically
+4. No database entry needed — filesystem is the source of truth for artifacts
+
+### Adding a new link tool
+1. Use admin UI at `/admin/dashboard/tools`
+2. Set tool_type to 'link', enter claude_url
+3. Appears on `/tools` immediately
 
 ### API routes (admin-protected)
-- `GET/POST /api/admin/tools` — list & create tools
-- `PUT/DELETE /api/admin/tools/[id]` — update & delete tools
-- `POST /api/admin/tools/sync-artifacts` — scan `public/artifacts/*.html`, insert missing tools
+- `GET/POST /api/admin/tools` — list & create link tools
+- `PUT/DELETE /api/admin/tools/[id]` — update & delete link tools
 
 ### Admin UI (`/app/admin/dashboard/tools/page.tsx`)
-- Tool list with name, type badge (Link/Artifact), slug, tags, artifact ID or URL
-- "Sync Artifacts" button — scans `public/artifacts/` and registers new HTML files as tools
-- "New Tool" button → dialog form with:
+- Link tool list with name, type badge, slug, tags, URL
+- "New Link Tool" button → dialog form with:
   - Name, slug (auto-generated), description
-  - Tool type selector (Link / Claude Artifact)
   - Conditional fields: URL for link tools; artifact_id + embed_code + fallback URL for artifacts
   - Tags (comma-separated input, stored as array)
 - Edit and delete per tool
@@ -531,8 +533,9 @@ app/
   blog/page.tsx                     # Blog feed (server component, fetches posts)
   blog/BlogFeed.tsx                 # Client component: search + post cards with cover images
   blog/[slug]/page.tsx              # Individual blog post
-  tools/page.tsx                    # Tools directory (card grid)
-  tools/[slug]/page.tsx             # Artifact tool embed page
+  tools/page.tsx                    # Tools directory (merges filesystem artifacts + DB link tools)
+  tools/ToolsBrowser.tsx            # Client component: search + tag filter + card grid
+  tools/[slug]/page.tsx             # Tool page (filesystem first, DB fallback)
   dev/
     page.tsx                        # Dev docs browser (server component, reads filesystem)
     DevBrowser.tsx                  # Client component: search + tag filter + card grid
@@ -568,7 +571,7 @@ app/
   api/admin/tools/
     route.ts                        # GET/POST tools
     [id]/route.ts                   # PUT/DELETE tool
-    sync-artifacts/route.ts         # POST: scan public/artifacts/, register missing tools
+    sync-artifacts/route.ts         # DEPRECATED: artifacts are now filesystem-driven
   api/admin/upload/route.ts         # POST: image upload to Vercel Blob
   api/admin/dev/sync/route.ts      # POST: scan public/dev/, return doc metadata
   api/admin/substack/
