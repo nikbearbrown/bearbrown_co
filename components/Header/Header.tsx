@@ -2,15 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import ThemeToggle from '@/components/ThemeToggle'
-import { useTheme } from 'next-themes'
 
 const NAV_ITEMS = [
-  { name: 'Home', href: '/' },
   { name: 'Blog', href: '/blog' },
   { name: 'Books', href: '/books' },
   { name: 'Dev', href: '/dev' },
@@ -31,12 +28,8 @@ const buttonStyles =
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
-  const { theme } = useTheme()
   const menuRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     if (!isMenuOpen) return
@@ -53,18 +46,8 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container px-4 md:px-6 mx-auto flex h-16 items-center justify-between">
         <div className="flex items-center gap-6 md:gap-10">
-          <Link href="/" className="flex items-center space-x-2">
-            {mounted ? (
-              <Image
-                src={theme === 'dark' ? '/svg-logos/NikBearBrown_white_logo.svg' : '/svg-logos/NikBearBrown_black_logo.svg'}
-                alt="Bear Brown"
-                width={240}
-                height={53}
-                className="h-12 w-auto"
-              />
-            ) : (
-              <div className="h-12 w-60 bg-muted animate-pulse rounded" />
-            )}
+          <Link href="/" className="text-xl font-bold tracking-tight hover:text-foreground/80 transition-colors">
+            Bear Brown
           </Link>
           <nav className="hidden lg:flex gap-6">
             {NAV_ITEMS.map((item) => (
