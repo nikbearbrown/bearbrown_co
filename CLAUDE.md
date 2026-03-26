@@ -26,8 +26,10 @@ Primary audiences:
 1. `/` — Home (business card + Spotify player + AI contact assistant)
 2. `/tools` — Tools directory (card grid, Neon-driven)
 3. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
-4. `/dev` — Dev docs browser (searchable card grid, filesystem-driven)
-5. `/dev/[slug]` — Full-viewport iframe of a dev doc HTML file
+4. `/dev` — Dev docs browser (grouped by subdirectory, searchable card grid, filesystem-driven)
+5. `/dev/[...slug]` — Full-viewport iframe of a dev doc HTML file (supports subdirectories)
+5a. `/notes` — Notes browser (grouped by subdirectory, searchable card grid, filesystem-driven)
+5b. `/notes/[...slug]` — Full-viewport iframe of a note HTML file (supports subdirectories)
 6. `/blog` — Blog feed: published posts newest first, clean card list
 5. `/blog/[slug]` — Individual blog post with prose content
 6. `/about` — CV / bio page (prose format)
@@ -50,7 +52,7 @@ Primary audiences:
 
 ### Header (`/components/Header/Header.tsx`) — DONE
 - Logo: theme-aware SVG (white for dark, black for light)
-- Nav: Home (`/`) | Tools (`/tools`) | Dev (`/dev`) | About (`/about`) | Blog (`/blog`)
+- Nav: Home (`/`) | Blog (`/blog`) | Books (`/books`) | Dev (`/dev`) | Notes (`/notes`) | Tools (`/tools`) | About (`/about`)
 - Social buttons (top right): GitHub, YouTube, Spotify, Substack — black button style
 - Dark/light mode toggle (ThemeToggle component)
 - Mobile hamburger menu with backdrop (lg breakpoint)
@@ -150,21 +152,78 @@ CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (tru
 
 ### Adding new dev docs
 1. Build the HTML doc (use Claude Project with the dev docs prompt)
-2. Drop into `public/dev/`
+2. Drop into `public/dev/<subfolder>/` (organized by project/topic)
 3. Ensure the HTML has `<title>`, `<meta name="description">`, and `<meta name="keywords">` tags
 4. It appears automatically on `/dev` — no database, no sync needed
 5. Filesystem is the source of truth
+6. Docs are grouped by subdirectory on the browse page
 
 ### Public pages
-- `/dev` — searchable card browser of all docs in `public/dev/` with tag filtering
-- `/dev/[slug]` — full-viewport iframe of the doc
+- `/dev` — grouped card browser of all docs in `public/dev/` subdirectories with search and tag filtering
+- `/dev/[...slug]` — full-viewport iframe of the doc (catch-all route supports subdirectories)
 
 ### Admin
 - `/admin/dashboard` → Dev tab — lists all files with title, filename, tags, description, open/delete buttons
 - "Sync Dev Docs" button refreshes the list from the filesystem
 
 ### Shared utility
-- `lib/html-meta.ts` — `scanHtmlDir(dir)` reads all `.html` files from a directory and extracts `<title>`, `<meta name="description">`, `<meta name="keywords">` tags. Returns `HtmlDocMeta[]`. Used by both `/dev` pages and admin.
+- `lib/html-meta.ts` — `scanHtmlDir(dir)` reads all `.html` files from a directory and extracts `<title>`, `<meta name="description">`, `<meta name="keywords">` tags. Returns `HtmlDocMeta[]`. Also exports `scanHtmlSubdirs(dir)` which groups docs by subdirectory, returning `GroupedHtmlDocs[]`. Used by `/dev`, `/notes` pages, and admin.
+
+## Notes system — DONE
+
+### Adding new notes
+1. Create an HTML file with `<title>`, `<meta name="description">`, and `<meta name="keywords">` tags
+2. Drop into `public/notes/<subfolder>/` (organized by topic)
+3. It appears automatically on `/notes` — no database needed
+4. Filesystem is the source of truth
+
+### Public pages
+- `/notes` — grouped card browser of all notes in `public/notes/` subdirectories with search and tag filtering
+- `/notes/[...slug]` — full-viewport iframe of the note (catch-all route supports subdirectories)
+
+### Admin
+- `/admin/dashboard` → Notes tab — lists all files with title, filename, tags, description, open/delete buttons
+- "Sync Notes" button refreshes the list from the filesystem
+- API: `POST /api/admin/notes/sync` — scans `public/notes/` and returns doc metadata
+
+## Books system — DONE
+
+### Adding new books
+1. Create a subdirectory in `public/books/<book-slug>/`
+2. Add a `book.json` with metadata (title, subtitle, authors, series, keywords, description, status, parts, etc.)
+3. Add HTML chapter files in the same directory
+4. The book appears automatically on `/books` — filesystem is the source of truth
+
+### `book.json` schema
+```json
+{
+  "title": "Book Title",
+  "subtitle": "Optional subtitle",
+  "authors": ["Author Name"],
+  "publisher": "",
+  "isbn": "",
+  "published": "",
+  "status": "in-progress",
+  "edition": "",
+  "series": { "name": "Series Name", "position": 1 },
+  "description": "Book description",
+  "keywords": ["tag1", "tag2"],
+  "cover": "/books/slug/cover.jpg",
+  "amazonUrl": "",
+  "relatedCourse": "/courses/slug",
+  "parts": [
+    { "title": "Part I", "chapters": ["chapter-slug-1", "chapter-slug-2"] }
+  ]
+}
+```
+
+### Public pages
+- `/books` — existing static books page (preserved)
+- `/books/[slug]` — dynamic book detail page with cover, metadata, and table of contents
+- `/books/[slug]/[...chapter]` — full-viewport iframe of a chapter HTML file
+
+### Library
+- `lib/book-meta.ts` — `scanBooks(dir)` reads all subdirectories with `book.json`, scans HTML chapter files, returns `BookMeta[]` sorted by series position
 
 ## Blog system — DONE
 
@@ -395,7 +454,7 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 - Protected by `middleware.ts` — redirects to `/admin/login` without valid session
 - Login page at `/admin/login` validates against `ADMIN_PASSWORD` env var
 - Session stored as `admin_session` httpOnly cookie (7-day expiry)
-- Layout with tabbed nav (Overview, Blog, Tools, Substack)
+- Layout with tabbed nav (Overview, Blog, Tools, Dev, Notes, Substack)
 - Blog management: create/edit/delete posts with rich text editor, publish/unpublish
 - Tools management: create/edit/delete tools with link/artifact type support
 - Substack management: create/edit/delete sections, import ZIP archives
@@ -418,7 +477,7 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 ## What NOT to do
 - Do not use localStorage — use React state or sessionStorage
 - Do not add analytics or tracking beyond what's already present
-- Keep public nav to five items: Home, Tools, Dev, About, Blog
+- Keep public nav to seven items: Home, Blog, Books, Dev, Notes, Tools, About
 - Do not commit .env.local or credentials to git
 
 ## User Guide
@@ -566,10 +625,19 @@ app/
   tools/page.tsx                    # Tools directory (merges filesystem artifacts + DB link tools)
   tools/ToolsBrowser.tsx            # Client component: search + tag filter + card grid
   tools/[slug]/page.tsx             # Tool page (filesystem first, DB fallback)
+  books/
+    page.tsx                        # Static books page (preserved)
+    BooksBrowser.tsx                # Client component: search + tag filter + card grid
+    [slug]/page.tsx                 # Dynamic book detail with TOC
+    [slug]/[...chapter]/page.tsx    # Chapter viewer (full-viewport iframe)
   dev/
-    page.tsx                        # Dev docs browser (server component, reads filesystem)
-    DevBrowser.tsx                  # Client component: search + tag filter + card grid
-    [slug]/page.tsx                 # Full-viewport iframe for a dev doc
+    page.tsx                        # Dev docs browser (grouped by subdirectory)
+    DevBrowser.tsx                  # Client component: grouped search + tag filter
+    [...slug]/page.tsx              # Full-viewport iframe for a dev doc (catch-all)
+  notes/
+    page.tsx                        # Notes browser (grouped by subdirectory)
+    NotesBrowser.tsx                # Client component: grouped search + tag filter
+    [...slug]/page.tsx              # Full-viewport iframe for a note (catch-all)
   privacy/page.tsx                  # Privacy Policy
   privacy/cookies/page.tsx          # Cookie Policy (dedicated page)
   terms-of-service/page.tsx         # Terms of Service
@@ -587,6 +655,7 @@ app/
     blog/import/page.tsx            # Import: Substack ZIP or blog export ZIP
     tools/page.tsx                  # Tools manager (link + artifact types)
     dev/page.tsx                    # Dev docs list (filesystem browser)
+    notes/page.tsx                  # Notes list (filesystem browser)
     substack/page.tsx               # Substack section manager
   api/admin/login/route.ts          # POST: validate password, set session cookie
   api/admin/blog/
@@ -604,6 +673,7 @@ app/
     sync-artifacts/route.ts         # DEPRECATED: artifacts are now filesystem-driven
   api/admin/upload/route.ts         # POST: image upload to Vercel Blob
   api/admin/dev/sync/route.ts      # POST: scan public/dev/, return doc metadata
+  api/admin/notes/sync/route.ts    # POST: scan public/notes/, return doc metadata
   api/admin/substack/
     sections/route.ts               # GET/POST sections
     sections/[id]/route.ts          # PUT/DELETE section
@@ -623,7 +693,8 @@ components/
   ui/                               # 60+ shadcn/ui components
 lib/
   utils.ts                          # cn() helper + getReadingTime()
-  html-meta.ts                      # scanHtmlDir() — extract title/desc/keywords from HTML files
+  book-meta.ts                      # scanBooks() — scan public/books/ for book.json + HTML chapters
+  html-meta.ts                      # scanHtmlDir() + scanHtmlSubdirs() — extract metadata from HTML files
   admin-auth.ts                     # admin_session cookie check
   substack-parser.ts                # Substack ZIP parser (adm-zip)
   db.ts                             # Neon PostgreSQL client (sql tagged template)

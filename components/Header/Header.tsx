@@ -11,10 +11,12 @@ import { useTheme } from 'next-themes'
 
 const NAV_ITEMS = [
   { name: 'Home', href: '/' },
-  { name: 'Tools', href: '/tools' },
-  { name: 'Dev', href: '/dev' },
-  { name: 'About', href: '/about' },
   { name: 'Blog', href: '/blog' },
+  { name: 'Books', href: '/books' },
+  { name: 'Dev', href: '/dev' },
+  { name: 'Notes', href: '/notes' },
+  { name: 'Tools', href: '/tools' },
+  { name: 'About', href: '/about' },
 ]
 
 const SOCIAL_LINKS = [
