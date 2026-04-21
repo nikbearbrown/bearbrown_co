@@ -87,12 +87,13 @@ export default function Home() {
             </div>
             <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
               <iframe
-                src="https://www.youtube.com/embed/GN7yQntWJHU"
-                title="Nik Bear Brown"
+                src="https://www.youtube.com/embed/FaGdcI-ApMc?si=psFawo8rvk635_UD"
+                title="YouTube video player"
                 width="100%"
                 height="100%"
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
                 className="w-full h-full"
               />
