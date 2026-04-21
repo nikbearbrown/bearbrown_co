@@ -17,21 +17,21 @@ const SERVICES = [
     title: 'AI Consulting',
     description:
       'Direct AI consulting for startups and enterprises. Strategy, implementation, and hands-on build support.',
-    link: { label: 'Get in touch →', href: 'mailto:bear@bearbrown.co' },
+    link: { label: 'bear@bearbrown.co', href: 'mailto:bear@bearbrown.co' },
   },
   {
     icon: Rocket,
     title: 'Angel Advising',
     description:
       'I advise early-stage startups in exchange for equity. Deep AI expertise, network access, and long-term skin in the game.',
-    link: { label: 'Learn more →', href: 'mailto:bear@bearbrown.co' },
+    link: { label: 'bear@bearbrown.co', href: 'mailto:bear@bearbrown.co' },
   },
   {
     icon: Users,
     title: 'Talent Connector',
     description:
       'I connect startups with exceptional recent engineering grads — top-tier talent at entry-level prices.',
-    link: { label: 'Find talent →', href: 'mailto:bear@bearbrown.co' },
+    link: { label: 'bear@bearbrown.co', href: 'mailto:bear@bearbrown.co' },
   },
 ]
 
