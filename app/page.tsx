@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import HeroVideo from '@/components/HeroVideo/HeroVideo'
 
 const TOC_GROUPS = [
   {
@@ -137,21 +138,7 @@ export default function Home() {
         </div>
 
         {/* Right — video */}
-        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9' }}>
-          <iframe
-            src="https://www.youtube.com/embed/JcAFZuSDw80?si=iDD6XLUEWmMehmdG"
-            title="Bear Brown"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{
-              position: 'absolute',
-              top: 0, left: 0,
-              width: '100%', height: '100%',
-              border: 'none',
-              borderRadius: '6px',
-            }}
-          />
-        </div>
+        <HeroVideo />
       </section>
 
       {hr}
