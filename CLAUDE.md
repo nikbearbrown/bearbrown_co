@@ -459,7 +459,7 @@ The color palette lives in three places that must stay in sync:
 | bb5 | #B5420A | burnt sienna — secondary accent | 4.5:1 |
 | bb6 | #B8860B | dark goldenrod — muted accent | — |
 | bb7 | #C8A96E | warm tan — borders, subtle bg | — |
-| bb8 | #F0E6D0 | cream — page background | — |
+| bb8 | #F0E6D0 | cream — dark mode text | — |
 
 ### Manifesto CSS variables (`app/globals.css`)
 Applied globally; dark-mode-first (bb1 near-black bg), light mode is pure white.
