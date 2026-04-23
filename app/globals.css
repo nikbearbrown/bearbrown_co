@@ -1,29 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* Manifesto theme — dark default, warm light */
+/* Manifesto theme */
 :root {
-  --m-bg:             #1a0a00;
-  --m-bg-surface:     #1f0e02;
-  --m-text-primary:   #F0E6D0;
-  --m-text-secondary: rgba(240, 230, 208, 0.55);
-  --m-text-tertiary:  rgba(240, 230, 208, 0.30);
+  --m-bg:             #2C1A0E;
+  --m-bg-surface:     #3a2210;
+  --m-text-primary:   #FFFFFF;
+  --m-text-secondary: rgba(255, 255, 255, 0.55);
+  --m-text-tertiary:  rgba(255, 255, 255, 0.30);
   --m-accent:         #E8A020;
-  --m-border:         rgba(240, 230, 208, 0.08);
-  --m-border-strong:  rgba(240, 230, 208, 0.16);
+  --m-border:         rgba(255, 255, 255, 0.08);
+  --m-border-strong:  rgba(255, 255, 255, 0.18);
   --font-serif: var(--font-garamond), Georgia, 'Times New Roman', serif;
   --font-sans:  var(--font-inter), system-ui, sans-serif;
 }
 
 .light {
-  --m-bg:             #F0E6D0;
-  --m-bg-surface:     #e8d9bf;
-  --m-text-primary:   #1a0a00;
-  --m-text-secondary: rgba(26, 10, 0, 0.55);
-  --m-text-tertiary:  rgba(26, 10, 0, 0.30);
+  --m-bg:             #FFFFFF;
+  --m-bg-surface:     #F5F5F5;
+  --m-text-primary:   #2C1A0E;
+  --m-text-secondary: rgba(44, 26, 14, 0.55);
+  --m-text-tertiary:  rgba(44, 26, 14, 0.35);
   --m-accent:         #8B3A0F;
-  --m-border:         rgba(26, 10, 0, 0.10);
-  --m-border-strong:  rgba(26, 10, 0, 0.18);
+  --m-border:         rgba(44, 26, 14, 0.10);
+  --m-border-strong:  rgba(44, 26, 14, 0.20);
 }
 
 @layer base {
@@ -97,7 +97,8 @@
   }
 }
 /* TOC row hover */
-.toc-row-link:hover .toc-title-text {
+.toc-row-link:hover .toc-title-text,
+.toc-row-link:hover span:first-child {
   color: var(--m-text-primary) !important;
 }
 

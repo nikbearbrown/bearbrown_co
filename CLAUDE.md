@@ -466,14 +466,14 @@ Applied globally; dark-mode-first (near-black bg, cream text), light mode swaps 
 
 | Variable | Dark | Light | Role |
 |----------|------|-------|------|
-| `--m-bg` | #1a0a00 (bb1) | #F0E6D0 (bb8) | Page background |
-| `--m-bg-surface` | #1f0e02 | #e8d9bf | Elevated surfaces |
-| `--m-text-primary` | #F0E6D0 (bb8) | #1a0a00 (bb1) | Primary text |
-| `--m-text-secondary` | bb8 @55% | bb1 @55% | Body text |
-| `--m-text-tertiary` | bb8 @30% | bb1 @30% | Labels, eyebrows |
+| `--m-bg` | #2C1A0E (rich dark brown) | #FFFFFF (pure white) | Page background |
+| `--m-bg-surface` | #3a2210 | #F5F5F5 | Elevated surfaces |
+| `--m-text-primary` | #FFFFFF | #2C1A0E | Primary text |
+| `--m-text-secondary` | white @55% | #2C1A0E @55% | Body text |
+| `--m-text-tertiary` | white @30% | #2C1A0E @35% | Labels, eyebrows |
 | `--m-accent` | #E8A020 (bb4) | #8B3A0F (bb2) | Links, CTAs |
-| `--m-border` | bb8 @8% | bb1 @10% | Subtle dividers |
-| `--m-border-strong` | bb8 @16% | bb1 @18% | Pill borders |
+| `--m-border` | white @8% | #2C1A0E @10% | Subtle dividers |
+| `--m-border-strong` | white @18% | #2C1A0E @20% | Pill borders |
 
 ### Manifesto fonts
 - `--font-serif`: EB Garamond (`--font-garamond` CSS variable, loaded via `next/font/google`)
@@ -493,7 +493,7 @@ Both variables are applied to `<html>` in `app/layout.tsx`.
 - No purple gradients, no generic AI aesthetics
 
 ## Design direction
-- Light mode default (dark mode toggle available) — light renders as warm cream (bb8), dark as near-black (bb1)
+- Dark mode default (`defaultTheme="dark"`, `enableSystem={false}`) — dark = rich dark brown #2C1A0E, light = pure white #FFFFFF
 - Clean, editorial — not a portfolio showoff site
 - Typography: EB Garamond for headlines/display, Inter for UI/body
 - Color: driven by the BB palette and `--m-*` manifesto variables

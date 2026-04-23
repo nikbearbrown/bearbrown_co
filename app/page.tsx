@@ -79,7 +79,7 @@ export default function Home() {
         </p>
         <h1 style={{
           fontFamily: 'var(--font-serif)',
-          fontSize: 'clamp(52px, 8vw, 96px)',
+          fontSize: 'clamp(64px, 10vw, 112px)',
           fontWeight: 400,
           lineHeight: 1.0,
           color: 'var(--m-text-primary)',
@@ -126,71 +126,78 @@ export default function Home() {
 
       {hr}
 
-      {/* Section B — TOC + Video/Bio */}
+      {/* Section B — TOC (full width) */}
+      <section style={{ padding: '72px clamp(24px, 5vw, 80px)' }}>
+        {TOC_GROUPS.map((group, gi) => (
+          <div key={group.label}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '24px',
+              padding: '32px 0 20px',
+              borderTop: gi === 0 ? 'none' : '1px solid var(--m-border)',
+            }}>
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '10px',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: 'var(--m-text-tertiary)',
+                fontWeight: 500,
+                whiteSpace: 'nowrap',
+              }}>
+                {group.label}
+              </p>
+              <div style={{ flex: 1, borderTop: '1px dashed var(--m-border)' }} />
+            </div>
+
+            {group.entries.map((entry) => (
+              <Link
+                key={entry.slug}
+                href={`/method/${entry.slug}`}
+                className="toc-row-link"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'baseline',
+                  padding: '14px 0',
+                  borderBottom: '1px solid rgba(255,255,255,0.05)',
+                  textDecoration: 'none',
+                }}
+              >
+                <span style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: 'clamp(20px, 2.5vw, 26px)',
+                  fontWeight: 400,
+                  color: 'var(--m-text-secondary)',
+                  transition: 'color 0.15s',
+                }}>
+                  {entry.title}
+                </span>
+                <span style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '12px',
+                  color: 'var(--m-text-tertiary)',
+                  letterSpacing: '0.08em',
+                }}>
+                  {entry.num}
+                </span>
+              </Link>
+            ))}
+          </div>
+        ))}
+      </section>
+
+      {hr}
+
+      {/* Section B2 — Video + Bio */}
       <section>
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
         }}>
-          {/* Left — TOC */}
-          <div style={{ padding: 'clamp(60px, 7vw, 80px) clamp(24px, 5vw, 80px)' }}>
-            {TOC_GROUPS.map((group) => (
-              <div key={group.label} style={{ marginBottom: '48px' }}>
-                <p style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '10px',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: 'var(--m-text-tertiary)',
-                  fontWeight: 500,
-                  marginBottom: '16px',
-                }}>
-                  {group.label}
-                </p>
-                {group.entries.map((entry, i) => (
-                  <Link
-                    key={entry.slug}
-                    href={`/method/${entry.slug}`}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'baseline',
-                      padding: '10px 0',
-                      borderBottom: i < group.entries.length - 1 ? '1px dashed var(--m-border)' : 'none',
-                      textDecoration: 'none',
-                    }}
-                    className="toc-row-link"
-                  >
-                    <span style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: '20px',
-                      fontWeight: 400,
-                      color: 'var(--m-text-secondary)',
-                      transition: 'color 0.15s',
-                    }}
-                    className="toc-title-text"
-                    >
-                      {entry.title}
-                    </span>
-                    <span style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '11px',
-                      color: 'var(--m-text-tertiary)',
-                      letterSpacing: '0.06em',
-                    }}>
-                      {entry.num}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            ))}
-          </div>
-
-          {/* Right — Watch + Bio */}
-          <div style={{
-            padding: 'clamp(60px, 7vw, 80px) clamp(24px, 5vw, 80px)',
-            borderLeft: '1px solid var(--m-border)',
-          }}>
+          {/* Left — Watch */}
+          <div style={{ padding: 'clamp(48px, 6vw, 72px) clamp(24px, 5vw, 80px)' }}>
             <p style={{
               fontFamily: 'var(--font-sans)',
               fontSize: '10px',
@@ -202,76 +209,74 @@ export default function Home() {
             }}>
               WATCH
             </p>
-            <div style={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '16/9',
-              marginBottom: '40px',
-            }}>
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9' }}>
               <iframe
                 src="https://www.youtube.com/embed/GN7yQntWJHU"
-                title="Bear Brown — Build This or Want to Build an AI App?"
+                title="Bear Brown"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  border: 'none',
-                  borderRadius: '6px',
+                  position: 'absolute', top: 0, left: 0,
+                  width: '100%', height: '100%',
+                  border: 'none', borderRadius: '6px',
                 }}
               />
             </div>
+          </div>
 
-            <div style={{ borderTop: '1px solid var(--m-border)', paddingTop: '40px' }}>
-              <p style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '10px',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: 'var(--m-text-tertiary)',
-                fontWeight: 500,
-                marginBottom: '16px',
-              }}>
-                NIK BEAR BROWN
-              </p>
-              <p style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: '17px',
-                color: 'var(--m-text-secondary)',
-                lineHeight: 1.7,
-                marginBottom: '24px',
-              }}>
-                Professor at Northeastern University. Founder of Humanitarians AI.
-                Co-founder of Medhavy AI. Writing at skepticism.ai, Theorist,
-                Hypothetical, and Musinique.
-              </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {PUBS.map((pub) => (
-                  <a
-                    key={pub.label}
-                    href={pub.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="pub-pill"
-                    style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '11px',
-                      letterSpacing: '0.05em',
-                      color: 'var(--m-text-tertiary)',
-                      textDecoration: 'none',
-                      border: '1px solid var(--m-border-strong)',
-                      padding: '4px 10px',
-                      borderRadius: '4px',
-                      transition: 'color 0.15s, border-color 0.15s',
-                    }}
-                  >
-                    {pub.label}
-                  </a>
-                ))}
-              </div>
+          {/* Right — Bio */}
+          <div style={{
+            padding: 'clamp(48px, 6vw, 72px) clamp(24px, 5vw, 80px)',
+            borderLeft: '1px solid var(--m-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+          }}>
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '10px',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--m-text-tertiary)',
+              fontWeight: 500,
+              marginBottom: '16px',
+            }}>
+              NIK BEAR BROWN
+            </p>
+            <p style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: '20px',
+              color: 'var(--m-text-secondary)',
+              lineHeight: 1.7,
+              marginBottom: '28px',
+            }}>
+              Professor at Northeastern University. Founder of Humanitarians AI.
+              Co-founder of Medhavy AI. Writing at skepticism.ai, Theorist,
+              Hypothetical, and Musinique.
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {PUBS.map((pub) => (
+                <a
+                  key={pub.label}
+                  href={pub.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pub-pill"
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '11px',
+                    letterSpacing: '0.05em',
+                    color: 'var(--m-text-tertiary)',
+                    textDecoration: 'none',
+                    border: '1px solid var(--m-border-strong)',
+                    padding: '5px 12px',
+                    borderRadius: '4px',
+                    transition: 'color 0.15s, border-color 0.15s',
+                  }}
+                >
+                  {pub.label}
+                </a>
+              ))}
             </div>
           </div>
         </div>
