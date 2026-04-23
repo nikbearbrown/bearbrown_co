@@ -450,16 +450,16 @@ The color palette lives in three places that must stay in sync:
 - `app/globals.css` — CSS variables (`--bb-1` through `--bb-8`) that drive the actual site
 
 ### Bear Brown palette
-| Var | Hex | Role | WCAG on bb8 |
-|-----|-----|------|-------------|
-| bb1 | #1a0a00 | near black — primary text | 15.6:1 |
-| bb2 | #8B3A0F | burnt orange — primary accent | 6.3:1 |
-| bb3 | #A52A1A | deep crimson — danger/emphasis | 5.8:1 |
-| bb4 | #E8A020 | amber — highlight/callout | 8.7:1 (on bb1) |
-| bb5 | #B5420A | burnt sienna — secondary accent | 4.5:1 |
-| bb6 | #B8860B | dark goldenrod — muted accent | — |
-| bb7 | #C8A96E | warm tan — borders, subtle bg | — |
-| bb8 | #F0E6D0 | cream — dark mode text | — |
+| Var | Hex | Role | WCAG on #FFFFFF |
+|-----|-----|------|-----------------|
+| bb1 | #1a0a00 | near black — primary text | 19.2:1 ✓ AAA |
+| bb2 | #8B3A0F | burnt orange — primary accent | 7.4:1 ✓ AAA |
+| bb3 | #A52A1A | deep crimson — danger/emphasis | 6.8:1 ✓ AA |
+| bb4 | #E8A020 | amber — highlight/callout | 2.4:1 ✗ (use on bb1 only — 8.7:1 AAA) |
+| bb5 | #B5420A | burnt sienna — secondary accent | 5.3:1 ✓ AA |
+| bb6 | #B8860B | dark goldenrod — muted accent | 3.1:1 ✗ (use on bb1 only — 4.6:1 AA large) |
+| bb7 | #C8A96E | warm tan — borders, subtle bg | 2.1:1 ✗ decorative only |
+| bb8 | #F0E6D0 | cream — dark mode text | 15.6:1 ✓ AAA (on bb1) |
 
 ### Manifesto CSS variables (`app/globals.css`)
 Applied globally; dark-mode-first (bb1 near-black bg), light mode is pure white.
