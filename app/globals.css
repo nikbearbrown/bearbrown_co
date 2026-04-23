@@ -1,6 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Manifesto theme — dark default, warm light */
+:root {
+  --m-bg:             #1a0a00;
+  --m-bg-surface:     #1f0e02;
+  --m-text-primary:   #F0E6D0;
+  --m-text-secondary: rgba(240, 230, 208, 0.55);
+  --m-text-tertiary:  rgba(240, 230, 208, 0.30);
+  --m-accent:         #E8A020;
+  --m-border:         rgba(240, 230, 208, 0.08);
+  --m-border-strong:  rgba(240, 230, 208, 0.16);
+  --font-serif: var(--font-garamond), Georgia, 'Times New Roman', serif;
+  --font-sans:  var(--font-inter), system-ui, sans-serif;
+}
+
+.light {
+  --m-bg:             #F0E6D0;
+  --m-bg-surface:     #e8d9bf;
+  --m-text-primary:   #1a0a00;
+  --m-text-secondary: rgba(26, 10, 0, 0.55);
+  --m-text-tertiary:  rgba(26, 10, 0, 0.30);
+  --m-accent:         #8B3A0F;
+  --m-border:         rgba(26, 10, 0, 0.10);
+  --m-border-strong:  rgba(26, 10, 0, 0.18);
+}
+
 @layer base {
   :root {
     /* Bear Brown palette — swap these to rebrand the entire site */
@@ -71,6 +96,22 @@
     --highlight-foreground: 210 40% 98%;
   }
 }
+/* TOC row hover */
+.toc-row-link:hover .toc-title-text {
+  color: var(--m-text-primary) !important;
+}
+
+/* Pub pill hover */
+.pub-pill:hover {
+  color: var(--m-text-primary) !important;
+  border-color: var(--m-text-tertiary) !important;
+}
+
+/* Method next card hover */
+.method-next-card:hover {
+  border-color: var(--m-border-strong) !important;
+}
+
 @layer base {
   * {
     @apply border-border;

@@ -1,176 +1,391 @@
-import { Brain, Rocket, Users } from 'lucide-react'
-import ArtistCarousel from '@/components/ArtistCarousel/ArtistCarousel'
+import Link from 'next/link'
 
-const buttonStyles =
-  'inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-black text-white shadow hover:bg-gray-800 dark:border dark:border-input dark:bg-background dark:text-foreground dark:shadow-sm dark:hover:bg-accent dark:hover:text-accent-foreground'
-
-const PUBLICATIONS = [
-  { name: 'skepticism.ai', href: 'https://www.skepticism.ai/' },
-  { name: 'Musinique', href: 'https://www.musinique.net/' },
-  { name: 'Theorist', href: 'https://www.theorist.ai/' },
-  { name: 'Hypothetical', href: 'https://www.hypothetical.ai/' },
-]
-
-const SERVICES = [
+const TOC_GROUPS = [
   {
-    icon: Brain,
-    title: 'AI Consulting',
-    description:
-      'Direct AI consulting for startups and enterprises. Strategy, implementation, and hands-on build support.',
-    link: { label: 'bear@bearbrown.co', href: 'mailto:bear@bearbrown.co' },
+    label: 'THE BELIEF',
+    entries: [
+      { title: 'Irreducibly human',             num: '1.1', slug: 'irreducibly-human' },
+      { title: 'The solve–verify asymmetry',    num: '1.2', slug: 'solve-verify-asymmetry' },
+      { title: 'What AI can and cannot do',     num: '1.3', slug: 'what-ai-cannot-do' },
+    ],
   },
   {
-    icon: Rocket,
-    title: 'Angel Advising',
-    description:
-      'I advise early-stage startups in exchange for equity. Deep AI expertise, network access, and long-term skin in the game.',
-    link: { label: 'bear@bearbrown.co', href: 'mailto:bear@bearbrown.co' },
+    label: 'THREE WAYS TO WORK',
+    entries: [
+      { title: 'Build',   num: '2.1', slug: 'build' },
+      { title: 'Advise',  num: '2.2', slug: 'advise' },
+      { title: 'Connect', num: '2.3', slug: 'connect' },
+    ],
   },
   {
-    icon: Users,
-    title: 'Talent Connector',
-    description:
-      'I connect startups with exceptional recent engineering grads — top-tier talent at entry-level prices.',
-    link: { label: 'bear@bearbrown.co', href: 'mailto:bear@bearbrown.co' },
+    label: "WHAT WE'VE BUILT",
+    entries: [
+      { title: 'Medhavy — cancer nanomedicine AI',  num: '3.1', slug: 'medhavy' },
+      { title: 'Humanitarians AI',                  num: '3.2', slug: 'humanitarians-ai' },
+      { title: 'Irreducibly Human curriculum',      num: '3.3', slug: 'irreducibly-human-curriculum' },
+      { title: 'Boondoggling',                      num: '3.4', slug: 'boondoggling' },
+    ],
   },
 ]
 
-const CONNECT_LINKS = [
-  { name: 'Substack', href: 'https://bearbrownco.substack.com/' },
-  { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
-  { name: 'GitHub', href: 'https://github.com/nikbearbrown' },
-  { name: 'Humanitarians AI', href: 'https://humanitarians.ai' },
+const PUBS = [
+  { label: 'skepticism.ai',  href: 'https://skepticism.ai' },
+  { label: 'Musinique',      href: 'https://musinique.com' },
+  { label: 'Theorist',       href: 'https://theorist.substack.com' },
+  { label: 'Hypothetical',   href: 'https://hypothetical.substack.com' },
 ]
+
+const WORK_CARDS = [
+  {
+    num: '2.1',
+    title: 'Build',
+    body: 'Bespoke AI development for organizations that know what they believe and need a system that reflects it.\n\nRecent grad developers supervised by Bear Brown. Entry-level prices. No lock-in. No placement fee if you hire the developer. $35/hr development. $200/hr Bear Brown time, when needed.',
+  },
+  {
+    num: '2.2',
+    title: 'Advise',
+    body: 'Early-stage AI strategy for founders entering new categories. Bear Brown takes equity for expertise — long-term skin in the game, not a consulting invoice.',
+  },
+  {
+    num: '2.3',
+    title: 'Connect',
+    body: 'Top recent engineering graduates, Bear Brown-vetted, matched to organizations that need exceptional talent at honest prices.',
+  },
+]
+
+const sectionPad: React.CSSProperties = {
+  padding: 'clamp(80px, 10vw, 120px) clamp(24px, 5vw, 80px) 80px',
+}
+
+const hr = (
+  <hr style={{ border: 'none', borderTop: '1px solid var(--m-border)', margin: 0 }} />
+)
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-full">
-      {/* Hero Section */}
-      <section className="w-full py-16 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6 mx-auto">
-          <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
-            <div className="flex flex-col justify-center space-y-6">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Nik Bear Brown
-              </h1>
-              <p className="text-xl font-medium text-foreground/80">
-                AI Consultant, Angel Advisor &amp; Talent Connector
-              </p>
-              <p className="max-w-[540px] text-lg text-muted-foreground leading-relaxed">
-                I help startups move faster with AI — as a consultant, an angel advisor
-                (equity for expertise), and a connector to top recent engineering grads
-                at entry-level prices.
-              </p>
-              <div className="flex flex-col gap-3 pt-2">
-                <a href="mailto:bear@bearbrown.co" className={buttonStyles}>
-                  Work With Me
-                </a>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-2 font-medium uppercase tracking-wider">
-                    Read My Writing
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {PUBLICATIONS.map((pub) => (
-                      <a
-                        key={pub.name}
-                        href={pub.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={buttonStyles}
-                      >
-                        {pub.name}
-                      </a>
-                    ))}
-                  </div>
-                </div>
+    <div style={{ background: 'var(--m-bg)', minHeight: '100vh' }}>
+
+      {/* Section A — Hero */}
+      <section style={sectionPad}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: 'var(--m-text-tertiary)',
+          marginBottom: '32px',
+        }}>
+          THE BEAR BROWN METHOD
+        </p>
+        <h1 style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: 'clamp(52px, 8vw, 96px)',
+          fontWeight: 400,
+          lineHeight: 1.0,
+          color: 'var(--m-text-primary)',
+          letterSpacing: '-0.01em',
+          marginBottom: '40px',
+        }}>
+          We handle<br />
+          the AI. You<br />
+          handle the<br />
+          humanity.
+        </h1>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '16px',
+          lineHeight: 1.65,
+          color: 'var(--m-text-secondary)',
+          maxWidth: '520px',
+          marginBottom: '48px',
+        }}>
+          Bear Brown builds AI infrastructure for people who have something
+          human to say — and need the technology to stay out of the way
+          while they say it.
+        </p>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '13px',
+          color: 'var(--m-text-tertiary)',
+          letterSpacing: '0.04em',
+        }}>
+          {'→ '}
+          <a
+            href="mailto:bear@bearbrown.co"
+            style={{
+              color: 'var(--m-text-primary)',
+              textDecoration: 'none',
+              borderBottom: '1px solid var(--m-border-strong)',
+              paddingBottom: '1px',
+            }}
+          >
+            bear@bearbrown.co
+          </a>
+        </p>
+      </section>
+
+      {hr}
+
+      {/* Section B — TOC + Video/Bio */}
+      <section>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        }}>
+          {/* Left — TOC */}
+          <div style={{ padding: 'clamp(60px, 7vw, 80px) clamp(24px, 5vw, 80px)' }}>
+            {TOC_GROUPS.map((group) => (
+              <div key={group.label} style={{ marginBottom: '48px' }}>
+                <p style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '10px',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'var(--m-text-tertiary)',
+                  fontWeight: 500,
+                  marginBottom: '16px',
+                }}>
+                  {group.label}
+                </p>
+                {group.entries.map((entry, i) => (
+                  <Link
+                    key={entry.slug}
+                    href={`/method/${entry.slug}`}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'baseline',
+                      padding: '10px 0',
+                      borderBottom: i < group.entries.length - 1 ? '1px dashed var(--m-border)' : 'none',
+                      textDecoration: 'none',
+                    }}
+                    className="toc-row-link"
+                  >
+                    <span style={{
+                      fontFamily: 'var(--font-serif)',
+                      fontSize: '20px',
+                      fontWeight: 400,
+                      color: 'var(--m-text-secondary)',
+                      transition: 'color 0.15s',
+                    }}
+                    className="toc-title-text"
+                    >
+                      {entry.title}
+                    </span>
+                    <span style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '11px',
+                      color: 'var(--m-text-tertiary)',
+                      letterSpacing: '0.06em',
+                    }}>
+                      {entry.num}
+                    </span>
+                  </Link>
+                ))}
               </div>
-            </div>
-            <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+            ))}
+          </div>
+
+          {/* Right — Watch + Bio */}
+          <div style={{
+            padding: 'clamp(60px, 7vw, 80px) clamp(24px, 5vw, 80px)',
+            borderLeft: '1px solid var(--m-border)',
+          }}>
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '10px',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--m-text-tertiary)',
+              fontWeight: 500,
+              marginBottom: '16px',
+            }}>
+              WATCH
+            </p>
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              aspectRatio: '16/9',
+              marginBottom: '40px',
+            }}>
               <iframe
-                src="https://www.youtube.com/embed/FaGdcI-ApMc?si=psFawo8rvk635_UD"
-                title="YouTube video player"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
+                src="https://www.youtube.com/embed/GN7yQntWJHU"
+                title="Bear Brown — Build This or Want to Build an AI App?"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="w-full h-full"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  borderRadius: '6px',
+                }}
               />
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* What I Do Section */}
-      <section className="w-full py-16 md:py-24 bg-muted/40">
-        <div className="container px-4 md:px-6 mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-              What I Do
-            </h2>
-          </div>
-          <div className="grid gap-8 md:grid-cols-3">
-            {SERVICES.map((service) => (
-              <div
-                key={service.title}
-                className="rounded-lg border bg-card p-8 shadow-sm flex flex-col"
-              >
-                <service.icon className="h-10 w-10 mb-4 text-foreground" strokeWidth={1.5} />
-                <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                <p className="text-muted-foreground leading-relaxed flex-1">
-                  {service.description}
-                </p>
-                <a
-                  href={service.link.href}
-                  className="mt-6 text-sm font-medium text-foreground hover:underline"
-                >
-                  {service.link.label}
-                </a>
+            <div style={{ borderTop: '1px solid var(--m-border)', paddingTop: '40px' }}>
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '10px',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: 'var(--m-text-tertiary)',
+                fontWeight: 500,
+                marginBottom: '16px',
+              }}>
+                NIK BEAR BROWN
+              </p>
+              <p style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: '17px',
+                color: 'var(--m-text-secondary)',
+                lineHeight: 1.7,
+                marginBottom: '24px',
+              }}>
+                Professor at Northeastern University. Founder of Humanitarians AI.
+                Co-founder of Medhavy AI. Writing at skepticism.ai, Theorist,
+                Hypothetical, and Musinique.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {PUBS.map((pub) => (
+                  <a
+                    key={pub.label}
+                    href={pub.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pub-pill"
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '11px',
+                      letterSpacing: '0.05em',
+                      color: 'var(--m-text-tertiary)',
+                      textDecoration: 'none',
+                      border: '1px solid var(--m-border-strong)',
+                      padding: '4px 10px',
+                      borderRadius: '4px',
+                      transition: 'color 0.15s, border-color 0.15s',
+                    }}
+                  >
+                    {pub.label}
+                  </a>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Connect Section */}
-      <section className="w-full py-16 md:py-24 bg-foreground text-background">
-        <div className="container px-4 md:px-6 mx-auto text-center">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-4">
-            Let&apos;s Collaborate
-          </h2>
-          <p className="max-w-[600px] mx-auto text-background/70 text-lg mb-8">
-            Whether you need AI strategy, a technical advisor on your cap table,
-            or your next great hire — let&apos;s talk.
+      {hr}
+
+      {/* Section C — The Belief */}
+      <section style={sectionPad}>
+        {[
+          'AI can generate the ideas. It cannot care which one matters.',
+          'AI can write the code. It cannot decide what is worth building.',
+          'AI can produce the output. It cannot be accountable for it.',
+          'AI can optimize the decision. It cannot live with the consequences.',
+        ].map((line) => (
+          <p key={line} style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(20px, 3vw, 30px)',
+            fontWeight: 400,
+            lineHeight: 1.6,
+            color: 'var(--m-text-secondary)',
+            marginBottom: '4px',
+          }}>
+            {line}
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            {CONNECT_LINKS.map((link) => (
+        ))}
+        <p style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: 'clamp(20px, 3vw, 30px)',
+          fontWeight: 400,
+          color: 'var(--m-text-primary)',
+          marginTop: '40px',
+          paddingTop: '40px',
+          borderTop: '1px solid var(--m-border)',
+        }}>
+          Bear Brown exists for the rest.
+        </p>
+      </section>
+
+      {hr}
+
+      {/* Section D — Three ways to work */}
+      <section style={sectionPad}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: 'var(--m-text-tertiary)',
+          marginBottom: '40px',
+        }}>
+          THREE WAYS TO WORK
+        </p>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: '24px',
+        }}>
+          {WORK_CARDS.map((card) => (
+            <div
+              key={card.num}
+              style={{
+                border: '1px solid var(--m-border)',
+                borderRadius: '6px',
+                padding: '32px 28px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+              }}
+            >
+              <span style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '11px',
+                letterSpacing: '0.08em',
+                color: 'var(--m-text-tertiary)',
+              }}>
+                {card.num}
+              </span>
+              <span style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: '26px',
+                fontWeight: 400,
+                color: 'var(--m-text-primary)',
+                lineHeight: 1.1,
+              }}>
+                {card.title}
+              </span>
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '14px',
+                lineHeight: 1.7,
+                color: 'var(--m-text-secondary)',
+                flex: 1,
+                whiteSpace: 'pre-line',
+              }}>
+                {card.body}
+              </p>
               <a
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors border border-background/30 text-background hover:bg-background/10"
+                href="mailto:bear@bearbrown.co"
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '13px',
+                  color: 'var(--m-accent)',
+                  textDecoration: 'none',
+                  letterSpacing: '0.03em',
+                }}
               >
-                {link.name}
+                → bear@bearbrown.co
               </a>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Music Section */}
-      <section className="w-full py-16 md:py-24">
-        <div className="container px-4 md:px-6 mx-auto">
-          <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl text-center mb-2">
-            Music from the Bear Brown Family &amp; Friends
-          </h2>
-          <p className="text-center text-muted-foreground mb-10">
-            Poetry, songwriting, and spoken word across genres and collaborations.
-          </p>
-          <ArtistCarousel />
-        </div>
-      </section>
     </div>
   )
 }

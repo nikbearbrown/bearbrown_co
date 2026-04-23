@@ -23,44 +23,47 @@ Primary audiences:
 - adm-zip (server-side Substack ZIP parsing)
 
 ## Site structure
-1. `/` — Home (business card + Spotify player + AI contact assistant)
-2. `/tools` — Tools directory (card grid, Neon-driven)
-3. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
-4. `/dev` — Dev docs browser (grouped by subdirectory, searchable card grid, filesystem-driven)
-5. `/dev/[...slug]` — Full-viewport iframe of a dev doc HTML file (supports subdirectories)
-5a. `/notes` — Notes browser (grouped by subdirectory, searchable card grid, filesystem-driven)
-5b. `/notes/[...slug]` — Full-viewport iframe of a note HTML file (supports subdirectories)
-6. `/blog` — Blog feed: published posts newest first, clean card list
-5. `/blog/[slug]` — Individual blog post with prose content
-6. `/about` — CV / bio page (prose format)
-7. `/privacy` — Privacy Policy for Bear Brown LLC
-8. `/privacy/cookies` — Cookie Policy for Bear Brown LLC (dedicated page)
-9. `/terms-of-service` — Terms of Service for Bear Brown LLC
-10. `/videos` — Videos page: pinned featured videos + paginated list with search and tag filtering
-11. `/substack` — Newsletter hub: card grid of all Substack sections
-12. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
-13. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
-14. `/talks` — Talks browser (grouped by subdirectory, searchable card grid, filesystem-driven)
-15. `/talks/[...slug]` — Full-viewport iframe of a talk HTML file (supports subdirectories)
-16. `/admin/login` — Admin login page (password form)
-15. `/admin/dashboard` — Admin dashboard (protected via middleware + `admin_session` cookie)
-16. `/admin/dashboard/blog` — Manage blog posts (list, create, edit, delete)
-17. `/admin/dashboard/blog/new` — New post editor
-18. `/admin/dashboard/blog/[id]/edit` — Edit existing post
-19. `/admin/dashboard/blog/import` — Import posts (Substack ZIP or blog export ZIP)
-20. `/admin/dashboard/tools` — Manage tools (link and artifact types)
-21. `/admin/dashboard/videos` — Manage videos (create, edit, delete, pin, publish/unpublish)
-22. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
+1. `/` — Home (manifesto layout: hero headline, TOC, bio/video, belief statements, three-ways-to-work cards)
+2. `/method/[slug]` — Method content pages (10 entries: 1.1–3.4, breadcrumb + serif headline + prose + next-card nav)
+3. `/projects` — Projects page (alias/re-export of `/videos`)
+4. `/tools` — Tools directory (card grid, Neon-driven)
+5. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
+6. `/dev` — Dev docs browser (grouped by subdirectory, searchable card grid, filesystem-driven)
+7. `/dev/[...slug]` — Full-viewport iframe of a dev doc HTML file (supports subdirectories)
+8. `/notes` — Notes browser (grouped by subdirectory, searchable card grid, filesystem-driven)
+9. `/notes/[...slug]` — Full-viewport iframe of a note HTML file (supports subdirectories)
+10. `/blog` — Blog feed: published posts newest first, clean card list
+11. `/blog/[slug]` — Individual blog post with prose content
+12. `/about` — CV / bio page (prose format)
+13. `/privacy` — Privacy Policy for Bear Brown LLC
+14. `/privacy/cookies` — Cookie Policy for Bear Brown LLC (dedicated page)
+15. `/terms-of-service` — Terms of Service for Bear Brown LLC
+16. `/videos` — Videos page: pinned featured videos + paginated list with search and tag filtering
+17. `/substack` — Newsletter hub: card grid of all Substack sections
+18. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
+19. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
+20. `/talks` — Talks browser (grouped by subdirectory, searchable card grid, filesystem-driven)
+21. `/talks/[...slug]` — Full-viewport iframe of a talk HTML file (supports subdirectories)
+22. `/admin/login` — Admin login page (password form)
+23. `/admin/dashboard` — Admin dashboard (protected via middleware + `admin_session` cookie)
+24. `/admin/dashboard/blog` — Manage blog posts (list, create, edit, delete)
+25. `/admin/dashboard/blog/new` — New post editor
+26. `/admin/dashboard/blog/[id]/edit` — Edit existing post
+27. `/admin/dashboard/blog/import` — Import posts (Substack ZIP or blog export ZIP)
+28. `/admin/dashboard/tools` — Manage tools (link and artifact types)
+29. `/admin/dashboard/videos` — Manage videos (create, edit, delete, pin, publish/unpublish)
+30. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
 
 ## Persistent layout (every page)
 
 ### Header (`/components/Header/Header.tsx`) — DONE
-- Logo: theme-aware SVG (white for dark, black for light)
-- Nav: Home (`/`) | Blog (`/blog`) | Videos (`/videos`) | Tools (`/tools`)
-- Social buttons (top right): GitHub, YouTube, Spotify, Substack — black button style
+- Logo: text "Bear Brown" in EB Garamond 18px — links to `/`
+- Nav: Blog (`/blog`) | Projects (`/projects`) | Tools (`/tools`)
+- Social buttons (top right): GitHub, YouTube, Spotify, Substack — manifesto pill style (uppercase, small, bordered)
 - Dark/light mode toggle (ThemeToggle component)
 - Mobile hamburger menu with backdrop (lg breakpoint)
 - Sticky, z-50, backdrop-blur
+- Background: `var(--m-bg)`, border-bottom: `var(--m-border)`
 
 ### Footer (`/components/Footer/Footer.tsx`) — DONE
 Four-column grid layout:
@@ -72,17 +75,18 @@ Four-column grid layout:
 
 ### Root layout (`/app/layout.tsx`) — DONE
 - ThemeProvider: defaultTheme="light", enableSystem
-- Inter font
+- Fonts: EB Garamond (`--font-garamond`, serif) + Inter (`--font-inter`, sans-serif) — both applied as CSS variables to `<html>`
 - Header + main + Footer
 - Vercel Analytics
 - Muzak component removed from layout
 
-## Home page (`/app/page.tsx`) — DONE
-Four sections, alternating white/muted/dark backgrounds:
-1. **Hero** (two-column): Left — name (h1), subtitle "AI Consultant, Angel Advisor & Talent Connector", body text, "Work With Me" (mailto) button + "Read My Writing" label with 4 publication buttons (skepticism.ai, Musinique, Theorist, Hypothetical). Right — YouTube embed (GN7yQntWJHU).
-2. **What I Do** (3-column cards, muted bg): AI Consulting (Brain icon), Angel Advising (Rocket icon), Talent Connector (Users icon). Each with description + mailto link.
-3. **Connect** (centered, dark bg foreground/background inverted): "Let's Collaborate" heading, subtext, buttons for Substack, YouTube, GitHub, Humanitarians AI.
-4. **Music** (white bg): "Music from the Bear Brown Family & Friends" heading, ArtistCarousel component showing 13 artists with Spotify embeds, prev/next arrows, dot indicators, and per-artist links (Spotify, Apple Music, Musinique).
+## Home page (`/app/page.tsx`) — DONE (manifesto redesign)
+Dark editorial layout using manifesto CSS variables. Four sections separated by `<hr>` dividers:
+1. **Hero** — eyebrow "THE BEAR BROWN METHOD", large EB Garamond headline "We handle / the AI. You / handle the / humanity.", subhead, mailto CTA link.
+2. **TOC + Video/Bio** (two-column grid) — Left: numbered table of contents in three groups (The Belief 1.1–1.3, Three Ways to Work 2.1–2.3, What We've Built 3.1–3.4), each entry links to `/method/[slug]`. Right: YouTube embed (GN7yQntWJHU) + bio block with 4 publication pill links.
+3. **The Belief** — four belief statements in large serif, closing line "Bear Brown exists for the rest."
+4. **Three Ways to Work** — three cards (Build 2.1, Advise 2.2, Connect 2.3) in a CSS grid, each with number, title, body, mailto CTA.
+ArtistCarousel and SpotifyPlayer are NOT rendered here — available for other pages.
 
 ## ArtistCarousel (`/components/ArtistCarousel/ArtistCarousel.tsx`) — DONE
 Client component. Shows one artist at a time with:
@@ -457,6 +461,25 @@ The color palette lives in three places that must stay in sync:
 | bb7 | #C8A96E | warm tan — borders, subtle bg | — |
 | bb8 | #F0E6D0 | cream — page background | — |
 
+### Manifesto CSS variables (`app/globals.css`)
+Applied globally; dark-mode-first (near-black bg, cream text), light mode swaps to cream bg and near-black text.
+
+| Variable | Dark | Light | Role |
+|----------|------|-------|------|
+| `--m-bg` | #1a0a00 (bb1) | #F0E6D0 (bb8) | Page background |
+| `--m-bg-surface` | #1f0e02 | #e8d9bf | Elevated surfaces |
+| `--m-text-primary` | #F0E6D0 (bb8) | #1a0a00 (bb1) | Primary text |
+| `--m-text-secondary` | bb8 @55% | bb1 @55% | Body text |
+| `--m-text-tertiary` | bb8 @30% | bb1 @30% | Labels, eyebrows |
+| `--m-accent` | #E8A020 (bb4) | #8B3A0F (bb2) | Links, CTAs |
+| `--m-border` | bb8 @8% | bb1 @10% | Subtle dividers |
+| `--m-border-strong` | bb8 @16% | bb1 @18% | Pill borders |
+
+### Manifesto fonts
+- `--font-serif`: EB Garamond (`--font-garamond` CSS variable, loaded via `next/font/google`)
+- `--font-sans`: Inter (`--font-inter` CSS variable, loaded via `next/font/google`)
+Both variables are applied to `<html>` in `app/layout.tsx`.
+
 ### To rebrand a new deployment
 1. Edit the hex values in all three files (`lib/theme.ts`, `public/theme.json`, `app/globals.css`)
 2. The entire site repaints — no component changes needed
@@ -470,11 +493,11 @@ The color palette lives in three places that must stay in sync:
 - No purple gradients, no generic AI aesthetics
 
 ## Design direction
-- Light mode default (dark mode toggle available)
+- Light mode default (dark mode toggle available) — light renders as warm cream (bb8), dark as near-black (bb1)
 - Clean, editorial — not a portfolio showoff site
-- Typography: Inter font (headings bold tracking-tighter, body clean)
-- Color: driven by the BB palette above — use `var(--color-accent)` etc.
-- Black button style: `bg-black text-white hover:bg-gray-800` (dark mode: border outline with accent hover)
+- Typography: EB Garamond for headlines/display, Inter for UI/body
+- Color: driven by the BB palette and `--m-*` manifesto variables
+- Header uses manifesto variables; rest of site (admin, blog, tools) may use Tailwind/shadcn variables
 
 ## Existing components (do not rebuild)
 

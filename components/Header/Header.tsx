@@ -8,19 +8,17 @@ import { cn } from '@/lib/utils'
 import ThemeToggle from '@/components/ThemeToggle'
 
 const NAV_ITEMS = [
-  { name: 'Videos', href: '/videos' },
-  { name: 'Tools', href: '/tools' },
+  { name: 'Blog',     href: '/blog' },
+  { name: 'Projects', href: '/projects' },
+  { name: 'Tools',    href: '/tools' },
 ]
 
 const SOCIAL_LINKS = [
-  { name: 'GitHub', href: 'https://github.com/nikbearbrown' },
-  { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
-  { name: 'Spotify', href: 'https://open.spotify.com/artist/0hSpFCJodAYMP2cWK72zI6' },
+  { name: 'GitHub',   href: 'https://github.com/nikbearbrown' },
+  { name: 'YouTube',  href: 'https://www.youtube.com/@NikBearBrown' },
+  { name: 'Spotify',  href: 'https://open.spotify.com/artist/0hSpFCJodAYMP2cWK72zI6' },
   { name: 'Substack', href: 'https://bearbrownco.substack.com/' },
 ]
-
-const buttonStyles =
-  'inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-black text-white shadow hover:bg-gray-800 dark:border dark:border-input dark:bg-background dark:text-foreground dark:shadow-sm dark:hover:bg-accent dark:hover:text-accent-foreground'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -39,10 +37,26 @@ export default function Header() {
   }, [isMenuOpen])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container px-4 md:px-6 mx-auto flex h-16 items-center justify-between">
-        <div className="flex items-center gap-6 md:gap-10">
-          <Link href="/" className="text-xl font-bold tracking-tight hover:text-foreground/80 transition-colors">
+    <header
+      className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-opacity-95"
+      style={{
+        background: 'var(--m-bg)',
+        borderBottom: '1px solid var(--m-border)',
+      }}
+    >
+      <div className="container px-4 md:px-6 mx-auto flex h-14 items-center justify-between">
+        <div className="flex items-center gap-8">
+          <Link
+            href="/"
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: '18px',
+              fontWeight: 400,
+              letterSpacing: '0.02em',
+              color: 'var(--m-text-primary)',
+              textDecoration: 'none',
+            }}
+          >
             Bear Brown
           </Link>
           <nav className="hidden lg:flex gap-6">
@@ -50,10 +64,16 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={cn(
-                  'text-sm font-medium transition-colors hover:text-foreground/80',
-                  pathname === item.href ? 'text-foreground' : 'text-foreground/60',
-                )}
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '13px',
+                  letterSpacing: '0.02em',
+                  color: pathname === item.href ? 'var(--m-text-primary)' : 'var(--m-text-tertiary)',
+                  textDecoration: 'none',
+                  transition: 'color 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--m-text-primary)')}
+                onMouseLeave={e => (e.currentTarget.style.color = pathname === item.href ? 'var(--m-text-primary)' : 'var(--m-text-tertiary)')}
               >
                 {item.name}
               </Link>
@@ -61,15 +81,37 @@ export default function Header() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden lg:flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2">
             {SOCIAL_LINKS.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={buttonStyles}
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '11px',
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  color: 'var(--m-text-tertiary)',
+                  border: '1px solid var(--m-border-strong)',
+                  background: 'transparent',
+                  borderRadius: '4px',
+                  padding: '4px 10px',
+                  textDecoration: 'none',
+                  transition: 'color 0.15s, border-color 0.15s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.color = 'var(--m-text-primary)'
+                  e.currentTarget.style.borderColor = 'var(--m-text-tertiary)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.color = 'var(--m-text-tertiary)'
+                  e.currentTarget.style.borderColor = 'var(--m-border-strong)'
+                }}
               >
                 {link.name}
               </a>
@@ -77,11 +119,12 @@ export default function Header() {
           </div>
           <ThemeToggle />
           <button
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring lg:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring lg:hidden"
+            style={{ color: 'var(--m-text-tertiary)' }}
             aria-label="Toggle menu"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
@@ -89,30 +132,42 @@ export default function Header() {
       {isMenuOpen && (
         <div className="lg:hidden">
           <div
-            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
+            className="fixed inset-0 z-50 backdrop-blur-sm"
+            style={{ background: 'rgba(26,10,0,0.7)' }}
             onClick={() => setIsMenuOpen(false)}
           />
-          <div ref={menuRef} className="fixed inset-x-0 top-16 z-50 mt-px bg-background border-b p-6 shadow-lg">
+          <div
+            ref={menuRef}
+            className="fixed inset-x-0 top-14 z-50 mt-px p-6 shadow-lg"
+            style={{ background: 'var(--m-bg)', borderBottom: '1px solid var(--m-border)' }}
+          >
             <nav className="flex flex-col space-y-4">
               {NAV_ITEMS.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={cn(
-                    'text-base font-medium transition-colors hover:text-foreground/80',
-                    pathname === item.href ? 'text-foreground' : 'text-foreground/60',
-                  )}
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '15px',
+                    color: pathname === item.href ? 'var(--m-text-primary)' : 'var(--m-text-secondary)',
+                    textDecoration: 'none',
+                  }}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="flex flex-col gap-4 mt-4">
+              <div className="flex flex-col gap-3 pt-4" style={{ borderTop: '1px solid var(--m-border)' }}>
                 {SOCIAL_LINKS.map((link) => (
                   <a
                     key={link.name}
                     href={link.href}
-                    className="text-base font-medium"
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '13px',
+                      color: 'var(--m-text-secondary)',
+                      textDecoration: 'none',
+                    }}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setIsMenuOpen(false)}
