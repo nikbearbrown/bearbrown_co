@@ -20,10 +20,12 @@ const TOC_GROUPS = [
   {
     label: "WHAT WE'VE BUILT",
     entries: [
-      { title: 'Medhavy — cancer nanomedicine AI',  num: '3.1', slug: 'medhavy' },
+      { title: 'Medhavy — Adaptive Learning',       num: '3.1', slug: 'medhavy' },
       { title: 'Humanitarians AI',                  num: '3.2', slug: 'humanitarians-ai' },
       { title: 'Irreducibly Human curriculum',      num: '3.3', slug: 'irreducibly-human-curriculum' },
       { title: 'Boondoggling',                      num: '3.4', slug: 'boondoggling' },
+      { title: 'Computational Skepticism',          num: '3.5', slug: 'computational-skepticism' },
+      { title: 'Brutalist',                         num: '3.6', slug: 'brutalist' },
     ],
   },
 ]

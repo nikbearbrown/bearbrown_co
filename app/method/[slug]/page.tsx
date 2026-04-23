@@ -110,12 +110,12 @@ const METHOD_PAGES: Record<string, MethodPage> = {
       the engineer, not with a staffing layer.</p>
       <p>→ <a href="mailto:bear@bearbrown.co">bear@bearbrown.co</a></p>
     `,
-    next: { num: '3.1', title: 'Medhavy — cancer nanomedicine AI', slug: 'medhavy' },
+    next: { num: '3.1', title: 'Medhavy — Adaptive Learning', slug: 'medhavy' },
   },
   'medhavy': {
     num: '3.1',
     group: "What We've Built",
-    title: 'Medhavy — cancer nanomedicine AI',
+    title: 'Medhavy — Adaptive Learning',
     body: `
       <p>Adaptive learning infrastructure deployed inside a federally funded
       cancer nanomedicine training program at Northeastern University, through
@@ -126,6 +126,7 @@ const METHOD_PAGES: Record<string, MethodPage> = {
       stays in the foreground.</p>
       <p>Medhavy is co-founded with the domain expertise anchored in the lab,
       not in the software team.</p>
+      <p>→ <a href="https://www.medhavy.com/" target="_blank" rel="noopener">medhavy.com</a></p>
     `,
     next: { num: '3.2', title: 'Humanitarians AI', slug: 'humanitarians-ai' },
   },
@@ -157,6 +158,7 @@ const METHOD_PAGES: Record<string, MethodPage> = {
       <p>Gru is the first product in the series: a software design document
       consultant that holds the line on problem formulation before a single
       line of code is written.</p>
+      <p>→ <a href="https://www.irreducibly.xyz/" target="_blank" rel="noopener">irreducibly.xyz</a></p>
     `,
     next: { num: '3.4', title: 'Boondoggling', slug: 'boondoggling' },
   },
@@ -175,6 +177,32 @@ const METHOD_PAGES: Record<string, MethodPage> = {
       Every prompt that goes to Claude is a decision about what Claude can be
       trusted to do at this step. Every handoff condition is a decision about
       what "done" means before the next step begins.</p>
+      <p>→ <a href="https://www.boondoggling.ai/" target="_blank" rel="noopener">boondoggling.ai</a></p>
+    `,
+    next: { num: '3.5', title: 'Computational Skepticism', slug: 'computational-skepticism' },
+  },
+  'computational-skepticism': {
+    num: '3.5',
+    group: "What We've Built",
+    title: 'Computational Skepticism',
+    body: `
+      <p>Daily insights on the asymmetry of AI-generated bullshit, practical AI
+      tutorials, research updates for the Humanitarians AI Lab, and guidance for
+      research groups. AI literacy through practice. Understanding the tech.</p>
+      <p>→ <a href="https://www.skepticism.ai/" target="_blank" rel="noopener">skepticism.ai</a></p>
+    `,
+    next: { num: '3.6', title: 'Brutalist', slug: 'brutalist' },
+  },
+  'brutalist': {
+    num: '3.6',
+    group: "What We've Built",
+    title: 'Brutalist',
+    body: `
+      <p>The slide deck is a program, not a canvas.</p>
+      <p>Brutalist builds HTML presentations through conversation. No templates.
+      No canvas. A living, deployable deck — in the time it takes to describe
+      what you need.</p>
+      <p>→ <a href="https://www.brutalist.art/" target="_blank" rel="noopener">brutalist.art</a></p>
     `,
     next: undefined,
   },
