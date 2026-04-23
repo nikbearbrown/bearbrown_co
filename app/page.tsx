@@ -66,62 +66,90 @@ export default function Home() {
     <div style={{ background: 'var(--m-bg)', minHeight: '100vh' }}>
 
       {/* Section A — Hero */}
-      <section style={sectionPad}>
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '11px',
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'var(--m-text-tertiary)',
-          marginBottom: '32px',
-        }}>
-          THE BEAR BROWN METHOD
-        </p>
-        <h1 style={{
-          fontFamily: 'var(--font-serif)',
-          fontSize: 'clamp(64px, 10vw, 112px)',
-          fontWeight: 400,
-          lineHeight: 1.0,
-          color: 'var(--m-text-primary)',
-          letterSpacing: '-0.01em',
-          marginBottom: '40px',
-        }}>
-          We handle<br />
-          the AI. You<br />
-          handle the<br />
-          humanity.
-        </h1>
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '16px',
-          lineHeight: 1.65,
-          color: 'var(--m-text-secondary)',
-          maxWidth: '520px',
-          marginBottom: '48px',
-        }}>
-          Bear Brown builds AI infrastructure for people who have something
-          human to say — and need the technology to stay out of the way
-          while they say it.
-        </p>
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '13px',
-          color: 'var(--m-text-tertiary)',
-          letterSpacing: '0.04em',
-        }}>
-          {'→ '}
-          <a
-            href="mailto:bear@bearbrown.co"
+      <section
+        className="hero-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '48px',
+          padding: 'clamp(64px, 8vw, 100px) clamp(24px, 5vw, 80px)',
+          alignItems: 'center',
+        }}
+      >
+        {/* Left — text */}
+        <div>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '11px',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--m-text-tertiary)',
+            marginBottom: '28px',
+          }}>
+            THE BEAR BROWN METHOD
+          </p>
+          <h1 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(44px, 5.5vw, 72px)',
+            fontWeight: 400,
+            lineHeight: 1.05,
+            color: 'var(--m-text-primary)',
+            letterSpacing: '-0.01em',
+            marginBottom: '32px',
+          }}>
+            We handle the AI.<br />
+            You handle the<br />
+            humanity.
+          </h1>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '16px',
+            lineHeight: 1.65,
+            color: 'var(--m-text-secondary)',
+            maxWidth: '440px',
+            marginBottom: '40px',
+          }}>
+            Bear Brown builds AI infrastructure for people who have something
+            human to say — and need the technology to stay out of the way
+            while they say it.
+          </p>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '13px',
+            color: 'var(--m-text-tertiary)',
+            letterSpacing: '0.04em',
+          }}>
+            {'→ '}
+            <a
+              href="mailto:bear@bearbrown.co"
+              style={{
+                color: 'var(--m-text-primary)',
+                textDecoration: 'none',
+                borderBottom: '1px solid var(--m-border-strong)',
+                paddingBottom: '1px',
+              }}
+            >
+              bear@bearbrown.co
+            </a>
+          </p>
+        </div>
+
+        {/* Right — video */}
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9' }}>
+          <iframe
+            src="https://www.youtube.com/embed/GN7yQntWJHU"
+            title="Bear Brown — Build This or Want to Build an AI App?"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
             style={{
-              color: 'var(--m-text-primary)',
-              textDecoration: 'none',
-              borderBottom: '1px solid var(--m-border-strong)',
-              paddingBottom: '1px',
+              position: 'absolute',
+              top: 0, left: 0,
+              width: '100%', height: '100%',
+              border: 'none',
+              borderRadius: '6px',
             }}
-          >
-            bear@bearbrown.co
-          </a>
-        </p>
+          />
+        </div>
       </section>
 
       {hr}
@@ -190,94 +218,59 @@ export default function Home() {
 
       {hr}
 
-      {/* Section B2 — Video + Bio */}
-      <section>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-        }}>
-          {/* Left — Watch */}
-          <div style={{ padding: 'clamp(48px, 6vw, 72px) clamp(24px, 5vw, 80px)' }}>
-            <p style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '10px',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--m-text-tertiary)',
-              fontWeight: 500,
-              marginBottom: '16px',
-            }}>
-              WATCH
-            </p>
-            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9' }}>
-              <iframe
-                src="https://www.youtube.com/embed/GN7yQntWJHU"
-                title="Bear Brown"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{
-                  position: 'absolute', top: 0, left: 0,
-                  width: '100%', height: '100%',
-                  border: 'none', borderRadius: '6px',
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Right — Bio */}
-          <div style={{
-            padding: 'clamp(48px, 6vw, 72px) clamp(24px, 5vw, 80px)',
-            borderLeft: '1px solid var(--m-border)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
+      {/* Section B2 — Bio (full width) */}
+      <section style={{
+        padding: 'clamp(48px, 6vw, 72px) clamp(24px, 5vw, 80px)',
+        borderTop: '1px solid var(--m-border)',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '48px',
+        alignItems: 'start',
+      }}>
+        <div>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '10px',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--m-text-tertiary)',
+            fontWeight: 500,
+            marginBottom: '16px',
           }}>
-            <p style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '10px',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--m-text-tertiary)',
-              fontWeight: 500,
-              marginBottom: '16px',
-            }}>
-              NIK BEAR BROWN
-            </p>
-            <p style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: '20px',
-              color: 'var(--m-text-secondary)',
-              lineHeight: 1.7,
-              marginBottom: '28px',
-            }}>
-              Professor at Northeastern University. Founder of Humanitarians AI.
-              Co-founder of Medhavy AI. Writing at skepticism.ai, Theorist,
-              Hypothetical, and Musinique.
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {PUBS.map((pub) => (
-                <a
-                  key={pub.label}
-                  href={pub.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="pub-pill"
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '11px',
-                    letterSpacing: '0.05em',
-                    color: 'var(--m-text-tertiary)',
-                    textDecoration: 'none',
-                    border: '1px solid var(--m-border-strong)',
-                    padding: '5px 12px',
-                    borderRadius: '4px',
-                    transition: 'color 0.15s, border-color 0.15s',
-                  }}
-                >
-                  {pub.label}
-                </a>
-              ))}
-            </div>
+            NIK BEAR BROWN
+          </p>
+          <p style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '22px',
+            color: 'var(--m-text-secondary)',
+            lineHeight: 1.7,
+            marginBottom: '28px',
+          }}>
+            Professor at Northeastern University. Founder of Humanitarians AI.
+            Co-founder of Medhavy AI. Writing at skepticism.ai, Theorist,
+            Hypothetical, and Musinique.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {PUBS.map((pub) => (
+              <a
+                key={pub.label}
+                href={pub.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '11px',
+                  letterSpacing: '0.05em',
+                  color: 'var(--m-text-tertiary)',
+                  textDecoration: 'none',
+                  border: '1px solid var(--m-border-strong)',
+                  padding: '5px 12px',
+                  borderRadius: '4px',
+                }}
+              >
+                {pub.label}
+              </a>
+            ))}
           </div>
         </div>
       </section>

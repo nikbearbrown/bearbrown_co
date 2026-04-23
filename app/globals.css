@@ -113,6 +113,12 @@
   border-color: var(--m-border-strong) !important;
 }
 
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
