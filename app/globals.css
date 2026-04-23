@@ -3,27 +3,27 @@
 @tailwind utilities;
 /* Manifesto theme */
 :root {
-  --m-bg:             #2C1A0E;
-  --m-bg-surface:     #3a2210;
-  --m-text-primary:   #FFFFFF;
-  --m-text-secondary: rgba(255, 255, 255, 0.55);
-  --m-text-tertiary:  rgba(255, 255, 255, 0.30);
+  --m-bg:             #1a0a00;
+  --m-bg-surface:     #2a1200;
+  --m-text-primary:   #F0E6D0;
+  --m-text-secondary: #DFC99A;
+  --m-text-tertiary:  #B8860B;
   --m-accent:         #E8A020;
-  --m-border:         rgba(255, 255, 255, 0.08);
-  --m-border-strong:  rgba(255, 255, 255, 0.18);
+  --m-border:         rgba(200, 169, 110, 0.12);
+  --m-border-strong:  rgba(200, 169, 110, 0.25);
   --font-serif: var(--font-garamond), Georgia, 'Times New Roman', serif;
   --font-sans:  var(--font-inter), system-ui, sans-serif;
 }
 
 .light {
-  --m-bg:             #FFFFFF;
-  --m-bg-surface:     #F5F5F5;
-  --m-text-primary:   #2C1A0E;
-  --m-text-secondary: #5C3D20;
-  --m-text-tertiary:  #8B6040;
+  --m-bg:             #F0E6D0;
+  --m-bg-surface:     #e8d9bc;
+  --m-text-primary:   #1a0a00;
+  --m-text-secondary: #5C2008;
+  --m-text-tertiary:  #B5420A;
   --m-accent:         #8B3A0F;
-  --m-border:         rgba(44, 26, 14, 0.12);
-  --m-border-strong:  rgba(44, 26, 14, 0.24);
+  --m-border:         rgba(26, 10, 0, 0.12);
+  --m-border-strong:  rgba(26, 10, 0, 0.25);
 }
 
 @layer base {
