@@ -1,6 +1,6 @@
 export const theme = {
   // Bear Brown default palette — swap these to rebrand the entire site
-  // All pairings meet WCAG AA contrast (4.5:1) against bb8 (cream)
+  // All pairings meet WCAG AA contrast (4.5:1) against bb1 (dark) or white (#FFFFFF)
   colors: {
     bb1: '#1a0a00',   // near black — primary text
     bb2: '#8B3A0F',   // burnt orange — primary accent, headers
@@ -9,7 +9,7 @@ export const theme = {
     bb5: '#B5420A',   // burnt sienna — secondary accent
     bb6: '#B8860B',   // dark goldenrod — muted accent
     bb7: '#C8A96E',   // warm tan — borders, subtle backgrounds
-    bb8: '#F0E6D0',   // cream — page background, light surfaces
+    bb8: '#F0E6D0',   // cream — dark mode text, light surfaces
   },
   // Semantic aliases — use these in components, not raw hex
   semantic: {
