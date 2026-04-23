@@ -19,11 +19,11 @@
   --m-bg:             #FFFFFF;
   --m-bg-surface:     #F5F5F5;
   --m-text-primary:   #2C1A0E;
-  --m-text-secondary: rgba(44, 26, 14, 0.55);
-  --m-text-tertiary:  rgba(44, 26, 14, 0.35);
+  --m-text-secondary: #5C3D20;
+  --m-text-tertiary:  #8B6040;
   --m-accent:         #8B3A0F;
-  --m-border:         rgba(44, 26, 14, 0.10);
-  --m-border-strong:  rgba(44, 26, 14, 0.20);
+  --m-border:         rgba(44, 26, 14, 0.12);
+  --m-border-strong:  rgba(44, 26, 14, 0.24);
 }
 
 @layer base {
