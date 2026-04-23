@@ -156,7 +156,47 @@ export default function Home() {
 
       {hr}
 
-      {/* Section B — TOC (full width) */}
+      {/* Section B — What Bear Brown Does */}
+      <section style={sectionPad}>
+        <p style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: 'clamp(28px, 4vw, 48px)',
+          fontWeight: 400,
+          lineHeight: 1.2,
+          color: 'var(--m-text-primary)',
+          maxWidth: '720px',
+          marginBottom: '40px',
+        }}>
+          Your creativity stays yours. Your judgment stays yours. Your vision stays yours.
+          We handle everything else.
+        </p>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '17px',
+          lineHeight: 1.75,
+          color: 'var(--m-text-secondary)',
+          maxWidth: '600px',
+          marginBottom: '20px',
+        }}>
+          Researchers. Educators. Founders. Investors. They come to Bear Brown with a
+          belief about how something should work — a framework, a pedagogy, a market
+          thesis — and we build the AI infrastructure that makes it real.
+        </p>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '17px',
+          lineHeight: 1.75,
+          color: 'var(--m-text-secondary)',
+          maxWidth: '600px',
+        }}>
+          The AI takes the back seat. Almost invisible. Present when a human needs it.
+          In service of what that human is trying to do.
+        </p>
+      </section>
+
+      {hr}
+
+      {/* Section C — TOC (full width) */}
       <section style={{ padding: '72px clamp(24px, 5vw, 80px)' }}>
         {TOC_GROUPS.map((group, gi) => (
           <div key={group.label}>
@@ -220,100 +260,7 @@ export default function Home() {
 
       {hr}
 
-      {/* Section B2 — Bio (full width) */}
-      <section style={{
-        padding: 'clamp(48px, 6vw, 72px) clamp(24px, 5vw, 80px)',
-        borderTop: '1px solid var(--m-border)',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '48px',
-        alignItems: 'start',
-      }}>
-        <div>
-          <p style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: '10px',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: 'var(--m-text-tertiary)',
-            fontWeight: 500,
-            marginBottom: '16px',
-          }}>
-            NIK BEAR BROWN
-          </p>
-          <p style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: '22px',
-            color: 'var(--m-text-secondary)',
-            lineHeight: 1.7,
-            marginBottom: '28px',
-          }}>
-            Professor at Northeastern University. Founder of Humanitarians AI.
-            Co-founder of Medhavy AI. Writing at skepticism.ai, Theorist,
-            Hypothetical, and Musinique.
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {PUBS.map((pub) => (
-              <a
-                key={pub.label}
-                href={pub.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '11px',
-                  letterSpacing: '0.05em',
-                  color: 'var(--m-text-tertiary)',
-                  textDecoration: 'none',
-                  border: '1px solid var(--m-border-strong)',
-                  padding: '5px 12px',
-                  borderRadius: '4px',
-                }}
-              >
-                {pub.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {hr}
-
-      {/* Section C — The Belief */}
-      <section style={sectionPad}>
-        {[
-          'AI can generate the ideas. It cannot care which one matters.',
-          'AI can write the code. It cannot decide what is worth building.',
-          'AI can produce the output. It cannot be accountable for it.',
-          'AI can optimize the decision. It cannot live with the consequences.',
-        ].map((line) => (
-          <p key={line} style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(20px, 3vw, 30px)',
-            fontWeight: 400,
-            lineHeight: 1.6,
-            color: 'var(--m-text-secondary)',
-            marginBottom: '4px',
-          }}>
-            {line}
-          </p>
-        ))}
-        <p style={{
-          fontFamily: 'var(--font-serif)',
-          fontSize: 'clamp(20px, 3vw, 30px)',
-          fontWeight: 400,
-          color: 'var(--m-text-primary)',
-          marginTop: '40px',
-          paddingTop: '40px',
-          borderTop: '1px solid var(--m-border)',
-        }}>
-          Bear Brown exists for the rest.
-        </p>
-      </section>
-
-      {hr}
-
-      {/* Section D — Three ways to work */}
+      {/* Section D — Three Ways to Work */}
       <section style={sectionPad}>
         <p style={{
           fontFamily: 'var(--font-sans)',
@@ -382,6 +329,115 @@ export default function Home() {
                 → bear@bearbrown.co
               </a>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {hr}
+
+      {/* Section E — The Belief */}
+      <section style={sectionPad}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: 'var(--m-text-tertiary)',
+          marginBottom: '48px',
+        }}>
+          THE BELIEF
+        </p>
+
+        {[
+          'AI can generate the ideas. It cannot care which one matters.',
+          'AI can write the code. It cannot decide what is worth building.',
+          'AI can produce the output. It cannot be accountable for it.',
+          'AI can optimize the decision. It cannot live with the consequences.',
+        ].map((line) => (
+          <p key={line} style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(22px, 3.5vw, 36px)',
+            fontWeight: 400,
+            lineHeight: 1.5,
+            color: 'var(--m-text-secondary)',
+            marginBottom: '8px',
+          }}>
+            {line}
+          </p>
+        ))}
+
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '16px',
+          lineHeight: 1.65,
+          color: 'var(--m-text-secondary)',
+          maxWidth: '560px',
+          marginTop: '32px',
+          paddingTop: '32px',
+          borderTop: '1px solid var(--m-border)',
+        }}>
+          AI can and should do many things. The rest is irreducibly human.
+        </p>
+
+        <p style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: 'clamp(22px, 3.5vw, 36px)',
+          fontWeight: 400,
+          color: 'var(--m-text-primary)',
+          marginTop: '16px',
+        }}>
+          Bear Brown exists for the rest.
+        </p>
+      </section>
+
+      {hr}
+
+      {/* Section F — Who I Am */}
+      <section style={sectionPad}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: 'var(--m-text-tertiary)',
+          fontWeight: 500,
+          marginBottom: '24px',
+        }}>
+          NIK BEAR BROWN
+        </p>
+        <p style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: 'clamp(20px, 2.5vw, 28px)',
+          fontWeight: 400,
+          color: 'var(--m-text-secondary)',
+          lineHeight: 1.7,
+          maxWidth: '640px',
+          marginBottom: '32px',
+        }}>
+          Professor at Northeastern University. Founder of Humanitarians AI.
+          Co-founder of Medhavy AI. Writing at skepticism.ai, Theorist,
+          Hypothetical, and Musinique.
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          {PUBS.map((pub) => (
+            <a
+              key={pub.label}
+              href={pub.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '11px',
+                letterSpacing: '0.05em',
+                color: 'var(--m-text-tertiary)',
+                textDecoration: 'none',
+                border: '1px solid var(--m-border-strong)',
+                padding: '5px 12px',
+                borderRadius: '4px',
+              }}
+            >
+              {pub.label}
+            </a>
           ))}
         </div>
       </section>
