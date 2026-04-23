@@ -83,7 +83,7 @@ Four-column grid layout:
 ## Home page (`/app/page.tsx`) — DONE (manifesto redesign)
 Dark editorial layout using manifesto CSS variables. Four sections separated by `<hr>` dividers:
 1. **Hero** — eyebrow "THE BEAR BROWN METHOD", large EB Garamond headline "We handle / the AI. You / handle the / humanity.", subhead, mailto CTA link.
-2. **TOC + Video/Bio** (two-column grid) — Left: numbered table of contents in three groups (The Belief 1.1–1.3, Three Ways to Work 2.1–2.3, What We've Built 3.1–3.4), each entry links to `/method/[slug]`. Right: YouTube embed (GN7yQntWJHU) + bio block with 4 publication pill links.
+2. **TOC + Video/Bio** (two-column grid) — Left: numbered table of contents in three groups (The Belief 1.1–1.3, Three Ways to Work 2.1–2.3, What We've Built 3.1–3.4), each entry links to `/method/[slug]`. Right: YouTube embed (JcAFZuSDw80) + bio block with 4 publication pill links.
 3. **The Belief** — four belief statements in large serif, closing line "Bear Brown exists for the rest."
 4. **Three Ways to Work** — three cards (Build 2.1, Advise 2.2, Connect 2.3) in a CSS grid, each with number, title, body, mailto CTA.
 ArtistCarousel and SpotifyPlayer are NOT rendered here — available for other pages.

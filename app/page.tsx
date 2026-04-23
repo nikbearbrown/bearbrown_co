@@ -139,8 +139,8 @@ export default function Home() {
         {/* Right — video */}
         <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9' }}>
           <iframe
-            src="https://www.youtube.com/embed/GN7yQntWJHU"
-            title="Bear Brown — Build This or Want to Build an AI App?"
+            src="https://www.youtube.com/embed/JcAFZuSDw80?si=iDD6XLUEWmMehmdG"
+            title="Bear Brown"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             style={{
