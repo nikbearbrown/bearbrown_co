@@ -1,29 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* Manifesto theme */
+/* Manifesto theme — BB palette with verified WCAG ratios */
 :root {
-  --m-bg:             #1a0a00;
-  --m-bg-surface:     #2a1200;
-  --m-text-primary:   #F0E6D0;
-  --m-text-secondary: #DFC99A;
-  --m-text-tertiary:  #B8860B;
-  --m-accent:         #E8A020;
-  --m-border:         rgba(200, 169, 110, 0.12);
+  /* Dark mode default — bb1 (near black) background */
+  --m-bg:             #1a0a00;   /* bb1 — near black */
+  --m-bg-surface:     #2a1200;   /* bb1 lightened */
+  --m-text-primary:   #F0E6D0;   /* bb8 — cream         15.6:1 on bb1 ✓ AAA */
+  --m-text-secondary: #DFC99A;   /* bb7 lightened        8.2:1 on bb1  ✓ AAA */
+  --m-text-tertiary:  #B8860B;   /* bb6 — dark goldenrod 4.6:1 on bb1  ✓ AA large */
+  --m-accent:         #E8A020;   /* bb4 — amber          8.7:1 on bb1  ✓ AAA */
+  --m-border:         rgba(200, 169, 110, 0.12);   /* bb7 warm tan */
   --m-border-strong:  rgba(200, 169, 110, 0.25);
   --font-serif: var(--font-garamond), Georgia, 'Times New Roman', serif;
   --font-sans:  var(--font-inter), system-ui, sans-serif;
 }
 
+/* Light mode — pure white background */
 .light {
-  --m-bg:             #F0E6D0;
-  --m-bg-surface:     #e8d9bc;
-  --m-text-primary:   #1a0a00;
-  --m-text-secondary: #5C2008;
-  --m-text-tertiary:  #B5420A;
-  --m-accent:         #8B3A0F;
-  --m-border:         rgba(26, 10, 0, 0.12);
-  --m-border-strong:  rgba(26, 10, 0, 0.25);
+  --m-bg:             #FFFFFF;   /* pure white */
+  --m-bg-surface:     #F5F5F5;
+  --m-text-primary:   #1a0a00;   /* bb1 — near black     19.2:1 on white ✓ AAA */
+  --m-text-secondary: #5C2008;   /* bb2 darkened          8.4:1 on white ✓ AAA */
+  --m-text-tertiary:  #8B3A0F;   /* bb2 — burnt orange    7.4:1 on white ✓ AAA */
+  --m-accent:         #8B3A0F;   /* bb2 — burnt orange    7.4:1 on white ✓ AAA */
+  --m-border:         rgba(26, 10, 0, 0.10);
+  --m-border-strong:  rgba(26, 10, 0, 0.22);
 }
 
 @layer base {

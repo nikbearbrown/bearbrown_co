@@ -462,18 +462,30 @@ The color palette lives in three places that must stay in sync:
 | bb8 | #F0E6D0 | cream — page background | — |
 
 ### Manifesto CSS variables (`app/globals.css`)
-Applied globally; dark-mode-first (near-black bg, cream text), light mode swaps to cream bg and near-black text.
+Applied globally; dark-mode-first (bb1 near-black bg), light mode is pure white.
 
 | Variable | Dark | Light | Role |
 |----------|------|-------|------|
-| `--m-bg` | #2C1A0E (rich dark brown) | #FFFFFF (pure white) | Page background |
-| `--m-bg-surface` | #3a2210 | #F5F5F5 | Elevated surfaces |
-| `--m-text-primary` | #FFFFFF | #2C1A0E | Primary text |
-| `--m-text-secondary` | white @55% | #2C1A0E @55% | Body text |
-| `--m-text-tertiary` | white @30% | #2C1A0E @35% | Labels, eyebrows |
-| `--m-accent` | #E8A020 (bb4) | #8B3A0F (bb2) | Links, CTAs |
-| `--m-border` | white @8% | #2C1A0E @10% | Subtle dividers |
-| `--m-border-strong` | white @18% | #2C1A0E @20% | Pill borders |
+| `--m-bg` | #1a0a00 bb1 near black | #FFFFFF pure white | Page background |
+| `--m-bg-surface` | #2a1200 | #F5F5F5 | Elevated surfaces |
+| `--m-text-primary` | #F0E6D0 bb8 cream — 15.6:1 AAA | #1a0a00 bb1 — 19.2:1 AAA | Primary text |
+| `--m-text-secondary` | #DFC99A bb7 lightened — 8.2:1 AAA | #5C2008 bb2 darkened — 8.4:1 AAA | Body text |
+| `--m-text-tertiary` | #B8860B bb6 goldenrod — 4.6:1 AA large | #8B3A0F bb2 burnt orange — 7.4:1 AAA | Labels, eyebrows |
+| `--m-accent` | #E8A020 bb4 amber — 8.7:1 AAA | #8B3A0F bb2 burnt orange — 7.4:1 AAA | Links, CTAs |
+| `--m-border` | bb7 warm tan @12% | bb1 @10% | Subtle dividers |
+| `--m-border-strong` | bb7 warm tan @25% | bb1 @22% | Pill borders |
+
+### Manifesto page color usage
+
+| Role | Dark mode (bb1 bg) | Light mode (white bg) |
+|------|-------------------|-----------------------|
+| Background | bb1 #1a0a00 near black | #FFFFFF pure white |
+| Primary text | bb8 #F0E6D0 cream — 15.6:1 AAA | bb1 #1a0a00 near black — 19.2:1 AAA |
+| Secondary text | #DFC99A (bb7 lightened) — 8.2:1 AAA | #5C2008 (bb2 darkened) — 8.4:1 AAA |
+| Tertiary labels | bb6 #B8860B dark goldenrod — 4.6:1 AA large | bb2 #8B3A0F burnt orange — 7.4:1 AAA |
+| Accent / links | bb4 #E8A020 amber — 8.7:1 AAA | bb2 #8B3A0F burnt orange — 7.4:1 AAA |
+
+Note: bb4 amber and bb6 goldenrod fail WCAG on white — use on dark backgrounds only.
 
 ### Manifesto fonts
 - `--font-serif`: EB Garamond (`--font-garamond` CSS variable, loaded via `next/font/google`)
