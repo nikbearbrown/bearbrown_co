@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
       <div className="max-w-4xl mx-auto">
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Privacy Policy</h1>
-          <p className="text-sm text-muted-foreground">Last updated: March 2026</p>
+          <p className="text-sm text-muted-foreground">Last updated: July 2026</p>
         </div>
 
         <div className="prose prose-lg dark:prose-invert max-w-none">
@@ -107,6 +107,23 @@ export default function PrivacyPolicyPage() {
             <p className="mt-4">
               We encourage you to review the privacy policies of these third-party services. Bear Brown LLC is not
               responsible for the privacy practices of external services.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">YouTube API Services</h2>
+            <p>
+              Our internal publishing tools use YouTube API Services to upload our own videos, captions, and
+              playlists to our YouTube channel,{' '}
+              <a href="https://www.youtube.com/@NikBearBrown" className="text-primary hover:underline">youtube.com/@NikBearBrown</a>,
+              under our own authorization. No data belonging to other users is accessed or stored; the only data
+              retained is a local record of our own uploaded video IDs, kept to prevent duplicate uploads and
+              deleted when no longer needed. By using these features we agree to the{' '}
+              <a href="https://www.youtube.com/t/terms" className="text-primary hover:underline">YouTube Terms of Service</a>{' '}
+              and the{' '}
+              <a href="https://policies.google.com/privacy" className="text-primary hover:underline">Google Privacy Policy</a>.
+              You can revoke this tool&apos;s access to your Google account at any time via the{' '}
+              <a href="https://security.google.com/settings/security/permissions" className="text-primary hover:underline">Google security settings page</a>.
             </p>
           </section>
 
