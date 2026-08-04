@@ -1,104 +1,166 @@
 # CLAUDE.md — bearbrown.co
 
-## Who this site is for
-Nik Bear Brown — professor, educator, artist, musician, and AI innovator at Northeastern University. Owner of Bear Brown LLC (AI consulting) and connector of organizations to recent engineering grads.
+## What the site is
 
-Primary audiences:
-- Educators and instructional leaders looking for AI tools
-- Conference organizers and editors considering him as a speaker or contributor
-- Artists and students he collaborates with
-- Organizations seeking AI consulting or engineering talent
-- General public who found him via Substack, EdSurge, ISTE+ASCD, or YouTube
+A curated Claude plugin/skill directory — a few dozen entries that earned their place, every listing tested, every verdict shown — with the consulting business as an interior page. The verdicts are the product; the listings are where the verdicts live.
 
 ## Tech stack
-- Next.js (App Router)
+- Next.js 15 (App Router)
 - Deployed on Vercel via GitHub repo: nikbearbrown/bearbrown_co
-- Tailwind CSS + @tailwindcss/typography (for prose article rendering)
+- Tailwind CSS + @tailwindcss/typography
 - TypeScript
-- next-themes for dark/light mode
+- next-themes (defaultTheme="light", enableSystem=false)
+- Fuse.js (client-side catalog search)
 - Vercel Blob (@vercel/blob) for image uploads
-- Neon (serverless PostgreSQL via @neondatabase/serverless)
-- Tiptap (ProseMirror-based rich text editor for blog)
+- Neon (serverless PostgreSQL via @neondatabase/serverless) — blog, tools, videos, substack
+- Tiptap (ProseMirror rich text editor for blog)
 - D3.js (data visualizations embedded in blog posts)
 - adm-zip (server-side Substack ZIP parsing)
 
-## Site structure
-1. `/` — Home (manifesto layout: hero headline, TOC, bio/video, belief statements, three-ways-to-work cards)
-2. `/method/[slug]` — Method content pages (10 entries: 1.1–3.4, breadcrumb + serif headline + prose + next-card nav)
-3. `/projects` — Projects page (alias/re-export of `/videos`)
-4. `/tools` — Tools directory (card grid, Neon-driven)
-5. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
-6. `/dev` — Dev docs browser (grouped by subdirectory, searchable card grid, filesystem-driven)
-7. `/dev/[...slug]` — Full-viewport iframe of a dev doc HTML file (supports subdirectories)
-8. `/notes` — Notes browser (grouped by subdirectory, searchable card grid, filesystem-driven)
-9. `/notes/[...slug]` — Full-viewport iframe of a note HTML file (supports subdirectories)
-10. `/blog` — Blog feed: published posts newest first, clean card list
-11. `/blog/[slug]` — Individual blog post with prose content
-12. `/about` — CV / bio page (prose format)
-13. `/privacy` — Privacy Policy for Bear Brown LLC
-14. `/privacy/cookies` — Cookie Policy for Bear Brown LLC (dedicated page)
-15. `/terms-of-service` — Terms of Service for Bear Brown LLC
-16. `/videos` — Videos page: pinned featured videos + paginated list with search and tag filtering
-17. `/substack` — Newsletter hub: card grid of all Substack sections
-18. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
-19. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
-20. `/talks` — Talks browser (grouped by subdirectory, searchable card grid, filesystem-driven)
-21. `/talks/[...slug]` — Full-viewport iframe of a talk HTML file (supports subdirectories)
-22. `/admin/login` — Admin login page (password form)
-23. `/admin/dashboard` — Admin dashboard (protected via middleware + `admin_session` cookie)
-24. `/admin/dashboard/blog` — Manage blog posts (list, create, edit, delete)
-25. `/admin/dashboard/blog/new` — New post editor
-26. `/admin/dashboard/blog/[id]/edit` — Edit existing post
-27. `/admin/dashboard/blog/import` — Import posts (Substack ZIP or blog export ZIP)
-28. `/admin/dashboard/tools` — Manage tools (link and artifact types)
-29. `/admin/dashboard/videos` — Manage videos (create, edit, delete, pin, publish/unpublish)
-30. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
+## Information architecture
 
-## Persistent layout (every page)
+| Route | What it is |
+|---|---|
+| `/` | **THE DIRECTORY** — thesis hero, real stats bar, card grid with Fuse.js search and tier/kind filters |
+| `/plugins/[slug]` | **Verdict page** — what it is, tier WITH RECEIPTS (sha, date, each check), install command with copy button, repo link |
+| `/criteria` | **Listing criteria** — what we test, what fails, why breadth is not the goal. The trust signal no big directory can copy. |
+| `/consulting` | **Consulting** — the manifesto (Bear Brown Method, The Belief, Three Ways to Work, method TOC). Was the old home. |
+| `/essays` | **Essays** — surface for the five Substack publications |
+| `/videos` | Videos from @NikBearBrown (Neon-driven) |
+| `/blog` | Blog feed (Neon-driven, Tiptap editor) |
+| `/about` | CV / bio |
+| `/method/[slug]` | Method content pages (linked from /consulting) |
+| `/tools` | Tools directory (Neon + filesystem artifacts) |
+| `/notes` | Notes browser (filesystem-driven) |
+| `/dev` | Dev docs browser (filesystem-driven) |
+| `/talks` | Talks browser (filesystem-driven) |
+| `/books` | Books browser (filesystem-driven) |
+| `/substack/[section]/[slug]` | Substack articles (Neon-driven) |
+| `/admin/*` | Admin dashboard (password-protected) |
 
-### Header (`/components/Header/Header.tsx`) — DONE
-- Logo: text "Bear Brown" in EB Garamond 18px — links to `/`
-- Nav: Blog (`/blog`) | Projects (`/projects`) | Tools (`/tools`)
-- Social buttons (top right): GitHub, YouTube, Spotify, Substack — manifesto pill style (uppercase, small, bordered)
-- Dark/light mode toggle (ThemeToggle component)
-- Mobile hamburger menu with backdrop (lg breakpoint)
-- Sticky, z-50, backdrop-blur
-- Background: `var(--m-bg)`, border-bottom: `var(--m-border)`
+## Persistent layout
 
-### Footer (`/components/Footer/Footer.tsx`) — DONE
-Four-column grid layout:
-- **Company Info:** Bear Brown LLC, 30 N Gould St Ste N, Sheridan WY 82801, bear@bearbrown.co, EIN: 41-4226710
-- **Publications:** Links to all 5 Substack publications (Bear Brown Co, Skepticism AI, Theorist AI, Hypothetical AI, Musinique)
-- **Connect:** GitHub, YouTube, Spotify, Substack (text links)
-- **Legal:** Privacy Policy, Cookie Policy, Terms of Service
-- Bottom bar: copyright
+### Header (`/components/Header/Header.tsx`)
+Primary nav: **Plugins** (`/`) | **Criteria** (`/criteria`) | **Videos** (`/videos`) | **Essays** (`/essays`) | **Consulting** (`/consulting`)
+Secondary: divider + **Blog** (`/blog`)
+Right: GitHub, YouTube, Substack pills · ThemeToggle · mobile hamburger
+Uses `--p-bg` background, `--p-border` border-bottom.
 
-### Root layout (`/app/layout.tsx`) — DONE
-- ThemeProvider: defaultTheme="light", enableSystem
-- Fonts: EB Garamond (`--font-garamond`, serif) + Inter (`--font-inter`, sans-serif) — both applied as CSS variables to `<html>`
-- Header + main + Footer
-- Vercel Analytics
-- Muzak component removed from layout
+### Footer (`/components/Footer/Footer.tsx`)
+Four-column grid: Bear Brown LLC address/contact · Publications (5 Substack links) · Connect (GitHub, YouTube, Spotify, Substack) · Legal (Privacy, Cookies, ToS)
+Uses shadcn/ui variables (bg-background, text-muted-foreground) which pick up the new light-mode cream values.
 
-## Home page (`/app/page.tsx`) — DONE (manifesto redesign)
-Dark editorial layout using manifesto CSS variables. Four sections separated by `<hr>` dividers:
-1. **Hero** — eyebrow "THE BEAR BROWN METHOD", large EB Garamond headline "We handle / the AI. You / handle the / humanity.", subhead, mailto CTA link.
-2. **TOC + Video/Bio** (two-column grid) — Left: numbered table of contents in three groups (The Belief 1.1–1.3, Three Ways to Work 2.1–2.3, What We've Built 3.1–3.4), each entry links to `/method/[slug]`. Right: YouTube embed (JcAFZuSDw80) + bio block with 4 publication pill links.
-3. **The Belief** — four belief statements in large serif, closing line "Bear Brown exists for the rest."
-4. **Three Ways to Work** — three cards (Build 2.1, Advise 2.2, Connect 2.3) in a CSS grid, each with number, title, body, mailto CTA.
-ArtistCarousel and SpotifyPlayer are NOT rendered here — available for other pages.
+## Design system
 
-## ArtistCarousel (`/components/ArtistCarousel/ArtistCarousel.tsx`) — DONE
-Client component. Shows one artist at a time with:
-- Artist name + tagline
-- Spotify embed iframe (352px height, rounded-xl)
-- Links row: Spotify icon + Apple Music icon + Musinique/website (where available)
-- Prev/next arrow buttons on sides
-- Dot indicators below (clickable to jump)
-- Auto-rotates every 8 seconds, pauses on hover
-- 13 artists with full link data (Spotify, Apple Music, Musinique URLs)
+The site uses two CSS variable families, both defined in `app/globals.css`.
 
-## Tools system — DONE
+### `--p-*` — Print design system (directory, catalog pages)
+Light is the brand default. Cream page, warm ink, terracotta as decoration.
+
+| Variable | Light value | Dark value | Role | WCAG on cream |
+|---|---|---|---|---|
+| `--p-bg` | #FAF9F5 | #1a0a00 | Page background | — |
+| `--p-bg-card` | #F3EBDD | #2a1200 | Card surface | — |
+| `--p-ink` | #3D3929 | #F0E6D0 | Primary text | 12.8:1 ✓ AAA |
+| `--p-ink-soft` | #6B6047 | #DFC99A | Secondary text | 6.1:1 ✓ AA |
+| `--p-ink-muted` | #9E8C6C | #B8860B | Labels, tertiary | 3.4:1 ✓ AA large only |
+| `--p-terra` | #D97757 | #D97757 | **DECORATION ONLY** | 2.96:1 ✗ below 3:1 |
+| `--p-blue` | #0072B2 | #4DAAF0 | Meaning color | 4.92:1 ✓ AA |
+| `--p-vermilion` | #D55E00 | #E07040 | Meaning color | 3.67:1 ✓ AA large |
+| `--p-border` | rgba(61,57,41,0.12) | rgba(200,169,110,0.14) | Subtle dividers | — |
+| `--p-border-strong` | rgba(61,57,41,0.24) | rgba(200,169,110,0.28) | Stronger borders | — |
+
+**Terracotta rule:** `--p-terra` (#D97757) is measured at 2.96:1 on cream — below the 3:1 WCAG graphic/UI-component threshold. It is used only for decoration: eyebrow labels, hover states, left-border accents, the verdict rule. It **never** carries meaning alone. Every use that needs to mean something uses a real WCAG-passing color OR accompanies a text label.
+
+**Greyscale gate (build requirement):** After any design change, desaturate a rendered page. If tier badges (Excellent/Strong/Promising) or pass/fail check marks become ambiguous, the design fails. Shape + label always accompany color — ◆ EXCELLENT / ● STRONG / ▲ PROMISING are the canonical tier identifiers.
+
+**Meaning colors (tier badges, pass/fail marks):**
+- Excellent ◆: `--p-blue` #0072B2 (4.92:1) — with border
+- Strong ●: `--p-ink` #3D3929 (12.8:1) — with border
+- Promising ▲: `--p-vermilion` #D55E00 (3.67:1) — with border
+- Pass ✓: `--p-blue`
+- Fail ✗: `--p-vermilion`
+- Note →: `--p-ink-muted`
+
+### `--m-*` — Manifesto variables (consulting, method pages)
+Legacy family. Picked up by: `/consulting`, `/method/[slug]`, and any other manifesto-style pages.
+In light mode: `--m-bg` = #FAF9F5, `--m-text-primary` = #3D3929, `--m-accent` = #8B3A0F.
+In dark mode: `--m-bg` = #1a0a00, `--m-text-primary` = #F0E6D0.
+
+### Typography
+- Display/serif: EB Garamond (`var(--font-serif)`, `--font-garamond` CSS variable)
+- UI/chrome: Inter (`var(--font-sans)`, `--font-inter` CSS variable)
+Both loaded via `next/font/google` in `app/layout.tsx`.
+
+## The catalog (`data/catalog/`)
+
+The catalog is versioned in the repo. No database — it's TypeScript files.
+
+### Files
+- `data/catalog/types.ts` — TypeScript types for `CatalogEntry`, `Audit`, `Tier`, etc.
+- `data/catalog/entries.ts` — All entries. Exports `getEntries()`, `getEntry(slug)`, `CATALOG_META`.
+
+### `CatalogEntry` schema
+```typescript
+{
+  slug: string
+  name: string
+  repoUrl: string
+  description: string           // one sentence
+  installCommand: string        // the command users run
+  audit: {
+    sha: string                 // full HEAD sha at audit time
+    date: string                // YYYY-MM-DD
+    installs: 'pass' | 'fail'
+    installNote?: string
+    riskScan: 'clean' | 'flagged'
+    riskNote?: string
+    kind: 'code-backed' | 'prompt-only'
+    proseLines: number
+    codeLines: number
+    proseToCodeRatio: number
+  }
+  tier: 'excellent' | 'strong' | 'promising'  // derived from audit, never hand-waved
+  dupes?: { clusterNote: string }
+  video: { youtubeId: string; title: string } | null  // null until teardown ships
+  verdict: string               // 2-4 sentences of plain prose
+  tags: string[]
+}
+```
+
+### Hard rules
+- **No audit, no listing.** An entry with no completed audit does not ship. There is no "pending" tier.
+- **No failed installs.** If the install check fails, find a different entry.
+- **Every quality find gets a teardown video.** The `video` field is ready for the `youtubeId` when each episode ships.
+- Tiers are derived from audit fields. Excellent = clean install + clean/disclosed risk + code-backed + honest claims + maintained.
+
+### Adding an entry
+1. Clone the repo to a temp location
+2. Record HEAD sha: `git rev-parse HEAD`
+3. Record last commit date: `git log -1 --format="%ai"`
+4. Count prose lines: `find . -name "*.md" -o -name "*.txt" | xargs wc -l | tail -1`
+5. Count code lines: `find . -name "*.ts" -o -name "*.js" -o -name "*.py" -o -name "*.sh" | xargs wc -l | tail -1`
+6. Run the install in a sandbox; record pass/fail
+7. Audit all hook scripts for outbound calls, filesystem writes, exec patterns
+8. Write the `CatalogEntry` in `data/catalog/entries.ts`
+
+## Key components
+
+### `CatalogSearch` (`/components/CatalogSearch/CatalogSearch.tsx`)
+Client component. Fuse.js search across name/description/verdict/tags, threshold 0.35. Tier and kind filters as pill buttons. Active state = ink background + cream text (distinguishable in greyscale by fill, not just color). Empty state message varies: "no entries yet" vs "no matches."
+
+### `CatalogCard` (`/components/CatalogCard/CatalogCard.tsx`)
+Displays: name (serif), tier badge (shape+label+color), description, verdict snippet (truncated to 160 chars, left-bordered terracotta), tags, audit date or teardown link. All rendered server-side; no client JS needed.
+
+### `InstallCommand` (`/components/InstallCommand/InstallCommand.tsx`)
+Client component. Dark ink background, monospace command text, "Copy" button that reads "Copied!" for 1.8s. Used on `/plugins/[slug]`.
+
+## Search
+
+At catalog scale (dozens of entries), no infrastructure is needed. `CatalogSearch` is a single client-side component with Fuse.js. It is NOT a full-text search index — it matches against the static catalog entries.
+
+## Tools system (unchanged)
+Neon + filesystem artifacts. See the tools database schema below. Admin at `/admin/dashboard/tools`.
 
 ### Database (`tools` table in Neon PostgreSQL)
 ```sql
@@ -107,148 +169,24 @@ CREATE TABLE IF NOT EXISTS tools (
   name TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   description TEXT,
-  tool_type TEXT DEFAULT 'link',  -- 'link' | 'artifact'
-  claude_url TEXT,                  -- external URL (for link tools, or fallback for artifacts)
-  chatgpt_url TEXT,                 -- optional ChatGPT URL for the tool
-  artifact_id TEXT,                -- Claude artifact UUID
-  artifact_embed_code TEXT,        -- raw iframe embed (overrides artifact_id if set)
-  tags TEXT[],                     -- category tags stored as array
+  tool_type TEXT DEFAULT 'link',
+  claude_url TEXT,
+  chatgpt_url TEXT,
+  artifact_id TEXT,
+  artifact_embed_code TEXT,
+  tags TEXT[],
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
-ALTER TABLE tools ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_read_tools" ON tools FOR SELECT USING (true);
-CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (true);
 ```
 
 ### Tool types
 - **link** — External URL tool (database-driven). Card clicks open URL in new tab.
-- **artifact** — HTML file in `public/artifacts/` (filesystem-driven). Card clicks go to `/tools/[slug]` which renders the file in a full-viewport iframe. No database entry needed.
+- **artifact** — HTML file in `public/artifacts/` (filesystem-driven). No database entry needed.
 
-### Adding a new artifact tool
-1. Build the HTML file with `<title>`, `<meta name="description">`, and `<meta name="keywords">` tags
-2. Drop into `public/artifacts/`
-3. Push to main — Vercel deploys and it appears on `/tools` automatically
-4. No database entry needed — filesystem is the source of truth for artifacts
+## Videos system (unchanged)
+Neon-driven. See the videos database schema:
 
-### Adding a new link tool
-1. Use admin UI at `/admin/dashboard/tools`
-2. Set tool_type to 'link', enter claude_url
-3. Appears on `/tools` immediately
-
-### API routes (admin-protected)
-- `GET/POST /api/admin/tools` — list & create link tools
-- `PUT/DELETE /api/admin/tools/[id]` — update & delete link tools
-
-### Admin UI (`/app/admin/dashboard/tools/page.tsx`)
-- Link tool list with name, type badge, slug, tags, URL
-- "New Link Tool" button → dialog form with:
-  - Name, slug (auto-generated), description
-  - Conditional fields: URL for link tools; artifact_id + embed_code + fallback URL for artifacts
-  - Tags (comma-separated input, stored as array)
-- Edit and delete per tool
-
-### Public pages
-- `/tools` — Card grid of all tools. Artifact tools show "Artifact" badge and link to `/tools/[slug]`. Link tools open in new tab.
-- `/tools/[slug]` — Full-page artifact embed with title bar (name, description, "Back to Tools" link, optional "Open External" button). Iframe takes full viewport height minus header.
-
-### Initial tools to add via admin:
-1. **Subby** — Substack writing assistant (artifact_id: `6dc0c6cf-32e0-4f53-94b9-f6d01cc4df9c`)
-2. **CRITIQ** — Peer review & paper development protocol (artifact_id: `a53d969f-5aaf-45f6-9992-2c6a00a4122f`)
-
-## Dev Docs system
-
-### Adding new dev docs
-1. Build the HTML doc (use Claude Project with the dev docs prompt)
-2. Drop into `public/dev/<subfolder>/` (organized by project/topic)
-3. Ensure the HTML has `<title>`, `<meta name="description">`, and `<meta name="keywords">` tags
-4. It appears automatically on `/dev` — no database, no sync needed
-5. Filesystem is the source of truth
-6. Docs are grouped by subdirectory on the browse page
-
-### Public pages
-- `/dev` — grouped card browser of all docs in `public/dev/` subdirectories with search and tag filtering
-- `/dev/[...slug]` — full-viewport iframe of the doc (catch-all route supports subdirectories)
-
-### Admin
-- `/admin/dashboard` → Dev tab — lists all files with title, filename, tags, description, open/delete buttons
-- "Sync Dev Docs" button refreshes the list from the filesystem
-
-### Shared utility
-- `lib/html-meta.ts` — `scanHtmlDir(dir)` reads all `.html` files from a directory and extracts `<title>`, `<meta name="description">`, `<meta name="keywords">` tags. Returns `HtmlDocMeta[]`. Also exports `scanHtmlSubdirs(dir)` which groups docs by subdirectory, returning `GroupedHtmlDocs[]`. Used by `/dev`, `/notes` pages, and admin.
-
-## Notes system — DONE
-
-### Adding new notes
-1. Create an HTML file with `<title>`, `<meta name="description">`, and `<meta name="keywords">` tags
-2. Drop into `public/notes/<subfolder>/` (organized by topic)
-3. It appears automatically on `/notes` — no database needed
-4. Filesystem is the source of truth
-
-### Public pages
-- `/notes` — grouped card browser of all notes in `public/notes/` subdirectories with search and tag filtering
-- `/notes/[...slug]` — full-viewport iframe of the note (catch-all route supports subdirectories)
-
-### Admin
-- `/admin/dashboard` → Notes tab — lists all files with title, filename, tags, description, open/delete buttons
-- "Sync Notes" button refreshes the list from the filesystem
-- API: `POST /api/admin/notes/sync` — scans `public/notes/` and returns doc metadata
-
-## Talks system — DONE
-
-### Adding new talks
-1. Create an HTML file with `<title>`, `<meta name="description">`, and `<meta name="keywords">` tags
-2. Drop into `public/talks/<subfolder>/` (organized by event or topic)
-3. It appears automatically on `/talks` — no database needed
-4. Filesystem is the source of truth
-5. Optionally add `public/talks/filters.json` (JSON array of tag strings) to define curated filter tags
-
-### Public pages
-- `/talks` — grouped card browser of all talks in `public/talks/` subdirectories with search and tag filtering
-- `/talks/[...slug]` — full-viewport iframe of the talk HTML file with breadcrumb nav and "Full Screen" link
-
-## Books system — DONE
-
-### Adding new books
-1. Create a subdirectory in `public/books/<book-slug>/`
-2. Add a `book.json` with metadata (title, subtitle, authors, series, keywords, description, status, parts, etc.)
-3. Add HTML chapter files in the same directory
-4. The book appears automatically on `/books` — filesystem is the source of truth
-
-### `book.json` schema
-```json
-{
-  "title": "Book Title",
-  "subtitle": "Optional subtitle",
-  "authors": ["Author Name"],
-  "publisher": "",
-  "isbn": "",
-  "published": "",
-  "status": "in-progress",
-  "edition": "",
-  "series": { "name": "Series Name", "position": 1 },
-  "description": "Book description",
-  "keywords": ["tag1", "tag2"],
-  "cover": "/books/slug/cover.jpg",
-  "amazonUrl": "",
-  "relatedCourse": "/courses/slug",
-  "parts": [
-    { "title": "Part I", "chapters": ["chapter-slug-1", "chapter-slug-2"] }
-  ]
-}
-```
-
-### Public pages
-- `/books` — existing static books page (preserved)
-- `/books/[slug]` — dynamic book detail page with cover, metadata, and table of contents
-- `/books/[slug]/[...chapter]` — full-viewport iframe of a chapter HTML file
-
-### Library
-- `lib/book-meta.ts` — `scanBooks(dir)` reads all subdirectories with `book.json`, scans HTML chapter files, returns `BookMeta[]` sorted by series position
-
-## Videos system — DONE
-
-### Database (`videos` table in Neon PostgreSQL)
 ```sql
 CREATE TABLE IF NOT EXISTS videos (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -264,54 +202,9 @@ CREATE TABLE IF NOT EXISTS videos (
 );
 ```
 
-### Features
-- **Pinned videos**: Always shown at the top of the page, separate from pagination
-- **Tag filtering**: Server-side tag filtering via query parameter
-- **Pagination**: 5 videos per page, server-side with limit/offset
-- **Client-side search**: Filter current page results by title, description, or tags
-- **Draft/Published**: Videos can be saved as drafts or published immediately
-- **YouTube import**: Import all videos from a YouTube channel or playlist as drafts
-- **Playlist browser**: Browse a channel's playlists and import any playlist
-- **Bulk operations**: Select multiple videos or filter by tag to bulk publish/unpublish/delete
+## Blog system (unchanged)
+Neon-driven, Tiptap editor. See the blog_posts table:
 
-### YouTube integration (`lib/youtube.ts`)
-- Parses YouTube URLs: channel URLs, @handles, playlist URLs, raw channel/playlist IDs
-- Fetches all videos from a channel (via uploads playlist) or specific playlist
-- Handles pagination (up to 500 videos per import)
-- Skips deleted/private videos automatically
-- Fetches all playlists for a channel with video counts
-- Requires `YOUTUBE_API_KEY` environment variable (YouTube Data API v3)
-
-### API routes
-- `GET /api/videos` — public: paginated videos with pinned support, optional tag filter (`?page=1&limit=5&tag=tutorial`)
-- `GET /api/admin/videos` — admin: list all videos (pinned first, then by date)
-- `POST /api/admin/videos` — admin: create video
-- `PUT /api/admin/videos/[id]` — admin: update video
-- `DELETE /api/admin/videos/[id]` — admin: delete video
-- `POST /api/admin/videos/import-youtube` — admin: import videos from YouTube channel/playlist as drafts (skips duplicates, applies tags)
-- `POST /api/admin/videos/youtube-playlists` — admin: browse channel playlists (returns playlist IDs, titles, video counts)
-- `POST /api/admin/videos/bulk-update` — admin: bulk publish/unpublish videos by IDs or tag
-- `POST /api/admin/videos/bulk-delete` — admin: bulk delete videos by IDs or tag
-
-### Admin UI (`/app/admin/dashboard/videos/page.tsx`)
-- Video list with title, pinned/published badges, YouTube ID, tags, description
-- Inline YouTube preview per video
-- "New Video" button → dialog form with title, YouTube ID, description, tags, pinned/published checkboxes
-- Edit and delete per video
-- **"Import from YouTube"** button → dialog: enter channel/@handle/playlist URL, optional tags and auto-tag name, imports as drafts
-- **"Browse Playlists"** button → dialog: enter channel/@handle, lists all playlists with video counts, click to import
-- **Tag filter bar**: filter video list by tag, with per-tag counts
-- **Bulk selection mode**: select individual videos or select all, then bulk publish/unpublish/delete
-- **Bulk actions by tag**: when filtering by tag, publish/unpublish/delete all videos with that tag
-
-### Public page (`/app/videos/page.tsx`)
-- Server-rendered initial data (pinned + first page of videos)
-- `VideosBrowser` client component handles search, tag filtering, pagination
-- Each video rendered as YouTube iframe embed with title, date, description, tags
-
-## Blog system — DONE
-
-### Database (`blog_posts` table in Neon PostgreSQL)
 ```sql
 CREATE TABLE IF NOT EXISTS blog_posts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -329,261 +222,26 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```
-RLS: public can read published posts only, service role has full access.
 
-### API routes
-- `GET/POST /api/admin/blog` — admin: list all posts (with tags) / create post
-- `GET/PUT/DELETE /api/admin/blog/[id]` — admin: get / update / delete post
-- `GET /api/blog` — public: list published posts
-- `GET /api/blog/[slug]` — public: single published post
-- `POST /api/admin/blog/import-substack` — import Substack ZIP as blog drafts with tags
-- `POST /api/admin/blog/import-json` — import blog export ZIP (posts.json) as drafts
-- `GET /api/admin/blog/export?tags=a,b` — export matching posts as ZIP (posts.json + .html files)
-- `POST /api/admin/upload` — upload image to Vercel Blob, returns `{ url }` (admin-protected, images only)
+## Filesystem-driven systems (unchanged internals)
+- `/dev` — grouped browser of `public/dev/` HTML files
+- `/notes` — grouped browser of `public/notes/` HTML files
+- `/talks` — grouped browser of `public/talks/` HTML files
+- `/books` — browser of `public/books/*/book.json` + chapter HTML files
+- All use `lib/html-meta.ts` (`scanHtmlDir`, `scanHtmlSubdirs`) to extract title/description/keywords
 
-### Admin UI
-- `/admin/dashboard/blog` — Post list with tag badges, tag filter bar, select-all checkbox, bulk delete, Import/Export buttons
-- `/admin/dashboard/blog/new` — New post editor
-- `/admin/dashboard/blog/[id]/edit` — Edit existing post
-- `/admin/dashboard/blog/import` — Import page: Substack ZIP or blog export ZIP, tag assignment, source label, results summary
-
-### Blog Editor (`/components/BlogEditor/BlogEditor.tsx`)
-Tiptap (ProseMirror-based) rich text editor, Substack-style:
-- Large title input (no label, headline style)
-- Italic subtitle input ("Add a subtitle...")
-- Cover image upload (drag/drop or click, uploads to Vercel Blob, preview with remove button)
-- Byline textarea (pre-populated with default author bio, saved per post)
-- Tags input (comma-separated, stored as PostgreSQL text array)
-- Auto-generated slug from title (editable)
-- Tiptap WYSIWYG editor with toolbar:
-  - Text: Bold, Italic, Underline, Strikethrough, Inline Code, Code Block
-  - Structure: H2, H3, Bullet List, Ordered List, Blockquote, Horizontal Rule
-  - Embeds: Link, Image (upload to Vercel Blob via drag/drop/paste/button), YouTube (via @tiptap/extension-youtube), Spotify (URL → iframe), D3 Viz (inserts `data-viz` placeholder)
-- Preview toggle renders HTML via BlogVizHydrator (D3 vizzes work in preview)
-- Output is clean HTML via `editor.getHTML()`, stored in `content` column
-- Actions: "Save Draft", "Publish" (sets published=true + published_at), "Unpublish" (for published posts)
-- Auto-generates excerpt (first 200 chars plain text)
-
-### Blog viz system
-- `lib/viz/registry.ts` — maps `data-viz` names to lazy-loaded render functions
-- `lib/viz/ai-adoption-bars.ts` — D3 horizontal bar chart ("AI Adoption by Sector"), chocolate brown bars, responsive
-- `lib/viz/ai-ecosystem-graph.ts` — D3 force-directed graph ("The AI Ecosystem 2025"), interactive: drag nodes, hover/click to highlight connections, tooltips, color-coded groups
-- `components/BlogVizHydrator/BlogVizHydrator.tsx` — client component that renders HTML via `dangerouslySetInnerHTML`, then hydrates any `[data-viz]` elements by looking up the registry and dynamically importing the renderer
-- To add a new viz: create `lib/viz/<name>.ts` exporting `default (el: HTMLElement) => void`, add entry to `registry.ts`
-
-### Blog import/export system
-- **Substack-to-blog import** (`/admin/dashboard/blog/import`): Upload a Substack ZIP, assign tags (comma-separated) and a source label (auto-prefixed as `source:name`). Posts are inserted as drafts into `blog_posts`, skipping existing slugs. Uses the existing `lib/substack-parser.ts`.
-- **Blog export** (`GET /api/admin/blog/export?tags=a,b`): Returns a ZIP with `posts.json` (full post data) and individual `.html` files per post. Tag filtering optional.
-- **Blog import** (`POST /api/admin/blog/import-json`): Accepts a blog export ZIP, inserts posts as drafts, skips existing slugs. Enables cross-site transfer between instances of the same codebase.
-- **Workflow**: Export Substack → import as drafts with tags → edit in Tiptap → export → import on another site
-
-### Public pages
-- `/blog` — Blog feed with search bar, cover image thumbnails, published posts newest first, title + subtitle + excerpt + date + "Read →"
-- `/blog/[slug]` — Full post: cover image hero, title, subtitle, date + reading time, HTML prose content (hydrated via BlogVizHydrator), byline footer, previous/next navigation, og:image + twitter:card meta tags
-
-## About page (`/app/about/page.tsx`) — DONE
-Prose-forward CV format with sections:
-- Bio intro (professor at NEU, AI/ML/prompt engineering)
-- Academic Role
-- Writing & Speaking (EdSurge, ISTE+ASCD)
-- Humanitarians AI (501c3, Fellows Program)
-- Music & Art (Spotify link)
-- Connect (email, GitHub/YouTube/Spotify buttons)
-
-Still needs: Substack link, musinique.com links, Bear Brown LLC details, publications list.
-
-## Legal Pages — DONE
-All three pages follow the Humanitarians AI structural template, rewritten for Bear Brown LLC. Each references: Bear Brown LLC (Nik Bear Brown, Sole Member), 30 N Gould St Ste N, Sheridan WY 82801, bear@bearbrown.co, EIN 41-4226710, AI consulting services.
-
-### Privacy Policy (`/app/privacy/page.tsx`)
-Sections: introduction, information we collect (contact data, inquiry content, consulting engagement data, analytics), how we use info, sharing (consent, legitimate interests, contract, legal, vital interests), third-party services (Vercel, Neon, Spotify, Substack, Anthropic, GitHub, YouTube), cookies reference (links to Cookie Policy page), data security, data retention, your privacy rights, children's privacy, changes, contact. Nav: Terms of Service ← → Cookie Policy.
-
-### Cookie Policy (`/app/privacy/cookies/page.tsx`)
-Separate dedicated page at `/privacy/cookies`. Sections: what are cookies, cookies we use (table: theme + admin_session), cookies we do NOT use (advertising, remarketing, cross-site tracking, social pixels, individual analytics), third-party cookies (Spotify, Substack, Claude.site with links to their policies), how to manage cookies (browser-specific instructions), Do Not Track, changes, contact. Nav: Privacy Policy ← → Terms of Service.
-
-### Terms of Service (`/app/terms-of-service/page.tsx`)
-15 sections: introduction, website purpose, AI consulting services, intellectual property, use license, user conduct, newsletter content (lists all 5 Substack publications), third-party services and links, disclaimer, limitations, indemnification, revisions and errata, governing law (Wyoming), modifications, contact. Nav: Privacy Policy ← → Home.
-
-## Spotify player (`/components/SpotifyPlayer/SpotifyPlayer.tsx`) — DONE
-Client component. Randomly picks one artist on mount via `pickRandom()` helper.
-"Another artist" button shuffles without repeating. Uses `key={artist.id}` on iframe to force reload.
-
-### All 13 artist IDs:
-```typescript
-const ARTISTS = [
-  { name: 'Nik Bear Brown',         id: '0hSpFCJodAYMP2cWK72zI6' },
-  { name: 'Mayfield King',          id: '6vpw3aw6hEJRPHgYGrN3kX' },
-  { name: 'Liam Bear Brown',        id: '4SSyKsRubysg99cAIs82uI' },
-  { name: 'Tuzi Brown',             id: '5DvRo9Gtg5bxsUUbKQBdg6' },
-  { name: 'Newton Willams Brown',   id: '7Ec9DTFD4EMsxdpiiGos2p' },
-  { name: 'Parvati Patel Brown',    id: '0tYk1RYgGD7k9MN0bd1p8u' },
-  { name: 'Dijit Arjun Bear Brown', id: '55YYr6d7P8x8LVZWaOd5SZ' },
-  { name: 'Prarthana Maha Brown',   id: '1sPHt959TSCSgctMB5Xdop' },
-  { name: 'Marley Bear Brown',      id: '09UwgY1zJ63aJUkM4xgOb1' },
-  { name: 'Humanitarians AI',       id: '3cj3R4pDpYQHaWx0MM2vFV' },
-  { name: 'Jingle Yankel',          id: '3T20r0SBgeL2xUUNCRJZHG' },
-  { name: 'Muzack',                 id: '4V8CzlAfk1VipGmOx5Hv7o' },
-  { name: 'Cletus Bear Spuckler',   id: '2hmp7X5Qx3K1PZAIm2ciUB' },
-];
-```
-
-## Artist profile links (for About page or footer)
-- Nik Bear Brown: spotify/0hSpFCJodAYMP2cWK72zI6 · apple/1779725275 · nikbear.musinique.com
-- Mayfield King: spotify/6vpw3aw6hEJRPHgYGrN3kX · apple/1846526759 · mayfield.musinique.com
-- Liam Bear Brown: spotify/4SSyKsRubysg99cAIs82uI · apple/1780970474 · liam.musinique.com
-- Tuzi Brown: spotify/5DvRo9Gtg5bxsUUbKQBdg6 · apple/1838852692 · tuzi.musinique.com
-- Newton Willams Brown: spotify/7Ec9DTFD4EMsxdpiiGos2p · apple/1781653273 · newton.musinique.com
-- Parvati Patel Brown: spotify/0tYk1RYgGD7k9MN0bd1p8u · apple/1781528271 · parvati.musinique.com
-- Dijit Arjun Bear Brown: spotify/55YYr6d7P8x8LVZWaOd5SZ · apple/1842722191 · dijit.musinique.com
-- Prarthana Maha Brown: spotify/1sPHt959TSCSgctMB5Xdop · apple/1840725199 · prarthana.musinique.com
-- Marley Bear Brown: spotify/09UwgY1zJ63aJUkM4xgOb1 · apple/1835745524 · marley.musinique.com
-- Humanitarians AI: spotify/3cj3R4pDpYQHaWx0MM2vFV · apple/1781414009 · humanitarians.ai
-- Jingle Yankel: spotify/3T20r0SBgeL2xUUNCRJZHG · mayfield.musinique.com
-- Muzack: spotify/4V8CzlAfk1VipGmOx5Hv7o
-- Cletus Bear Spuckler: spotify/2hmp7X5Qx3K1PZAIm2ciUB
-
-## Theming (Beary Bear template)
-
-The color palette lives in three places that must stay in sync:
-- `lib/theme.ts` — TypeScript source of truth
-- `public/theme.json` — machine-readable for Indiana and Dev doc generators
-- `app/globals.css` — CSS variables (`--bb-1` through `--bb-8`) that drive the actual site
-
-### Bear Brown palette
-| Var | Hex | Role | WCAG on #FFFFFF |
-|-----|-----|------|-----------------|
-| bb1 | #1a0a00 | near black — primary text | 19.2:1 ✓ AAA |
-| bb2 | #8B3A0F | burnt orange — primary accent | 7.4:1 ✓ AAA |
-| bb3 | #A52A1A | deep crimson — danger/emphasis | 6.8:1 ✓ AA |
-| bb4 | #E8A020 | amber — highlight/callout | 2.4:1 ✗ (use on bb1 only — 8.7:1 AAA) |
-| bb5 | #B5420A | burnt sienna — secondary accent | 5.3:1 ✓ AA |
-| bb6 | #B8860B | dark goldenrod — muted accent | 3.1:1 ✗ (use on bb1 only — 4.6:1 AA large) |
-| bb7 | #C8A96E | warm tan — borders, subtle bg | 2.1:1 ✗ decorative only |
-| bb8 | #F0E6D0 | warm off-white — dark mode text | 15.6:1 ✓ AAA (on bb1) |
-
-### Manifesto CSS variables (`app/globals.css`)
-Applied globally; dark-mode-first (bb1 near-black bg), light mode is pure white.
-
-| Variable | Dark | Light | Role |
-|----------|------|-------|------|
-| `--m-bg` | #1a0a00 bb1 near black | #FFFFFF pure white | Page background |
-| `--m-bg-surface` | #2a1200 | #F5F5F5 | Elevated surfaces |
-| `--m-text-primary` | #F0E6D0 bb8 — 15.6:1 AAA | #1a0a00 bb1 — 19.2:1 AAA | Primary text |
-| `--m-text-secondary` | #DFC99A bb7 lightened — 8.2:1 AAA | #5C2008 bb2 darkened — 8.4:1 AAA | Body text |
-| `--m-text-tertiary` | #B8860B bb6 goldenrod — 4.6:1 AA large | #8B3A0F bb2 burnt orange — 7.4:1 AAA | Labels, eyebrows |
-| `--m-accent` | #E8A020 bb4 amber — 8.7:1 AAA | #8B3A0F bb2 burnt orange — 7.4:1 AAA | Links, CTAs |
-| `--m-border` | bb7 warm tan @12% | bb1 @10% | Subtle dividers |
-| `--m-border-strong` | bb7 warm tan @25% | bb1 @22% | Pill borders |
-
-### Manifesto page color usage
-
-| Role | Dark mode (bb1 bg) | Light mode (white bg) |
-|------|-------------------|-----------------------|
-| Background | bb1 #1a0a00 near black | #FFFFFF pure white |
-| Primary text | bb8 #F0E6D0 — 15.6:1 AAA | bb1 #1a0a00 near black — 19.2:1 AAA |
-| Secondary text | #DFC99A (bb7 lightened) — 8.2:1 AAA | #5C2008 (bb2 darkened) — 8.4:1 AAA |
-| Tertiary labels | bb6 #B8860B dark goldenrod — 4.6:1 AA large | bb2 #8B3A0F burnt orange — 7.4:1 AAA |
-| Accent / links | bb4 #E8A020 amber — 8.7:1 AAA | bb2 #8B3A0F burnt orange — 7.4:1 AAA |
-
-Note: bb4 amber and bb6 goldenrod fail WCAG on white — use on dark backgrounds only.
-
-### Manifesto fonts
-- `--font-serif`: EB Garamond (`--font-garamond` CSS variable, loaded via `next/font/google`)
-- `--font-sans`: Inter (`--font-inter` CSS variable, loaded via `next/font/google`)
-Both variables are applied to `<html>` in `app/layout.tsx`.
-
-### To rebrand a new deployment
-1. Edit the hex values in all three files (`lib/theme.ts`, `public/theme.json`, `app/globals.css`)
-2. The entire site repaints — no component changes needed
-3. Indiana and Dev read `public/theme.json` to match HTML output
-
-### Design principles
-- Minimal and editorial by default — white space is the primary design element
-- Color used for accent, hierarchy, and accessibility — not decoration
-- Never use color for pure aesthetics — every color use must serve readability or navigation
-- WCAG AA contrast minimum for all text/background combinations
-- No purple gradients, no generic AI aesthetics
-
-## Design direction
-- Dark mode default (`defaultTheme="dark"`, `enableSystem={false}`) — dark = rich dark brown #2C1A0E, light = pure white #FFFFFF
-- Clean, editorial — not a portfolio showoff site
-- Typography: EB Garamond for headlines/display, Inter for UI/body
-- Color: driven by the BB palette and `--m-*` manifesto variables
-- Header uses manifesto variables; rest of site (admin, blog, tools) may use Tailwind/shadcn variables
-
-## Existing components (do not rebuild)
-
-### ThemeToggle.tsx (`/components/ThemeToggle.tsx`)
-Sun/Moon toggle using next-themes. Import and use as-is.
-
-### theme-provider.tsx (`/components/theme-provider.tsx`)
-Wrapper around NextThemesProvider. Used in root layout.
-
-### Logo paths (in `/public/svg-logos/`)
-- Dark mode: NikBearBrown_white_logo.svg
-- Light mode: NikBearBrown_black_logo.svg
-
-### UI components (`/components/ui/`)
-60+ shadcn/ui components. PrimaryButton and SecondaryButton exist but home page currently uses inline button styles.
-
-## Substack import system — DONE
-
-### Database (Neon PostgreSQL)
-Two tables: `substack_sections` and `substack_articles`. Sections have title, slug, description, substack_url, article_count. Articles belong to a section and store title, subtitle, slug, excerpt, content (HTML), original_url, published_at, display_date.
-
-### ZIP parser (`lib/substack-parser.ts`)
-Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack export ZIP. Returns parsed posts with title, subtitle, slug, content, publishedAt, displayDate, excerpt (~200 chars plain text), canonicalUrl. Skips drafts and podcasts.
-
-### API routes (all admin-protected via `admin_session` cookie)
-- `GET/POST /api/admin/substack/sections` — list & create sections
-- `PUT/DELETE /api/admin/substack/sections/[id]` — update & delete sections
-- `POST /api/admin/substack/upload` — multipart formData (zip + sectionId), parses ZIP, upserts articles, updates article_count
-
-### Admin UI (`/app/admin/dashboard/substack/page.tsx`)
-- Section list with title, slug badge, article count, Substack URL
-- "New Section" button → dialog form (title, auto-slug, substack URL, description)
-- "Import ZIP" button per section → file upload dialog with drag area
-- Edit and delete per section
-
-### Public pages
-- `/substack` — hero + card grid of sections (force-dynamic, graceful fallback if DB not configured)
-- `/substack/[section]` — section hero + "Follow on Substack" CTA + article list
-- `/substack/[section]/[slug]` — attribution banner, prose content via `dangerouslySetInnerHTML`, subscribe CTA
-
-### Database client
-- `lib/db.ts` — exports `sql` tagged template literal from `@neondatabase/serverless`. Lazily initialized from `DATABASE_URL` env var. Used in all API routes and server components.
-
-### Admin auth
-- `middleware.ts` — protects all `/admin/dashboard/*` routes; redirects to `/admin/login` if no `admin_session` cookie
-- `app/admin/login/page.tsx` — password login form, POSTs to `/api/admin/login`
-- `app/api/admin/login/route.ts` — validates password against `ADMIN_PASSWORD` env var, sets `admin_session` cookie (httpOnly, secure, 7-day expiry)
-- `app/admin/page.tsx` — redirects to `/admin/dashboard` if authenticated, `/admin/login` if not
-- `lib/admin-auth.ts` — `isAdmin()` helper used by API routes to check `admin_session` cookie
-- All `/api/admin/*` routes check `isAdmin()` before proceeding
-
-## SEO — DONE
-- `app/sitemap.ts` — dynamic sitemap: static pages + all `/blog/*`, `/tools/*`, `/substack/*` routes from Neon. Falls back to static-only if DB not configured.
-- `app/robots.ts` — allows all, disallows `/admin/` and `/api/`, points to `/sitemap.xml`
-
-## Admin dashboard (`/app/admin/dashboard/`) — DONE
-- Protected by `middleware.ts` — redirects to `/admin/login` without valid session
-- Login page at `/admin/login` validates against `ADMIN_PASSWORD` env var
-- Session stored as `admin_session` httpOnly cookie (7-day expiry)
-- Layout with tabbed nav (Overview, Blog, Tools, Dev, Notes, Videos, Substack)
-- Blog management: create/edit/delete posts with rich text editor, publish/unpublish
-- Tools management: create/edit/delete tools with link/artifact type support
-- Substack management: create/edit/delete sections, import ZIP archives
-- Overview is placeholder
+## Admin (unchanged)
+- Protected by `middleware.ts` — redirects to `/admin/login` without valid `admin_session` cookie
+- Tabs: Overview, Blog, Tools, Dev, Notes, Videos, Substack
 
 ## Environment variables
 ```
-DATABASE_URL=                    # Neon PostgreSQL connection string (from Vercel marketplace or Neon dashboard)
-ADMIN_PASSWORD=                  # Password for /admin/login — set a strong value in production
-NEXT_PUBLIC_SITE_URL=https://bearbrown.co  # Used in sitemap generation
-BLOB_READ_WRITE_TOKEN=           # Vercel Blob token (from Vercel dashboard → Storage → Blob)
-NEXT_PUBLIC_GA_ID=               # Google Analytics measurement ID (optional, e.g. G-XXXXXXXXXX)
-YOUTUBE_API_KEY=                 # YouTube Data API v3 key (for video import from channels/playlists)
-NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
+DATABASE_URL=                    # Neon PostgreSQL connection string
+ADMIN_PASSWORD=                  # Password for /admin/login
+NEXT_PUBLIC_SITE_URL=https://bearbrown.co
+BLOB_READ_WRITE_TOKEN=           # Vercel Blob token
+NEXT_PUBLIC_GA_ID=               # Google Analytics (optional)
+YOUTUBE_API_KEY=                 # YouTube Data API v3 (video import)
 ```
 
 ## Deployment
@@ -591,18 +249,13 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 - Domain: bearbrown.co
 
 ## What NOT to do
-- Do not use localStorage — use React state or sessionStorage
-- Do not add analytics or tracking beyond what's already present
-- Keep public nav to four items: Home, Blog, Videos, Tools
+- Do not add entries to the catalog without a completed audit (sha, date, install check, risk scan)
+- Do not use color alone to convey tier or pass/fail — always pair with shape + label
+- Do not use terracotta (#D97757) for anything meaning-bearing — it is below WCAG 3:1 on cream
+- Do not add a "pending" tier — the site's thesis is verification; an unaudited entry cannot ship
+- Do not rebuild the blog/tools/Neon internals — update their chrome only
 - Do not commit .env.local or credentials to git
+- Do not push without Bear's explicit instruction
 
-## Standing Instructions
-
-After every session, always:
-1. Update CLAUDE.md to reflect any changes made — check `git log` and `git diff` to see exactly what was changed, do not ask.
-2. Commit and push all changes to main with a descriptive commit message.
-
-## Remaining work (in priority order)
-1. Add Subby + CRITIQ tools via admin dashboard (artifact IDs in Tools system docs above)
-2. Flesh out About page (Substack, musinique.com, Bear Brown LLC, publications)
-3. Consider AI contact assistant widget (currently all CTAs route to mailto)
+## Standing instructions
+After every session, update CLAUDE.md to reflect any changes (check `git log` and `git diff` — do not ask).

@@ -1,46 +1,138 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* Manifesto theme — BB palette with verified WCAG ratios */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BEAR BROWN DESIGN SYSTEM — 2026 RELAUNCH
+   Two variable families:
+     --m-*  Legacy manifesto variables (consulting, method pages). Keep in sync.
+     --p-*  Print design system (directory, catalog pages). Cream/warm-ink.
+
+   WCAG notes (all ratios measured against their background):
+     --p-ink      #3D3929 on #FAF9F5 → 12.8:1  ✓ AAA
+     --p-ink-soft #6B6047 on #FAF9F5 →  6.1:1  ✓ AA
+     --p-ink-muted #9E8C6C on #FAF9F5 →  3.4:1  ✓ AA large / decorative only for small text
+     --p-blue     #0072B2 on #FAF9F5 →  4.92:1 ✓ AA (meaning-bearing)
+     --p-vermilion #D55E00 on #FAF9F5 → 3.67:1  ✓ AA large (meaning-bearing)
+     --p-terra    #D97757 on #FAF9F5 →  2.96:1  ✗ BELOW 3:1 graphic threshold
+                  DECORATION ONLY — never use alone to convey meaning
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Dark defaults (applies when .dark class is present or as fallback) */
 :root {
-  /* Dark mode default — bb1 (near black) background */
-  --m-bg:             #1a0a00;   /* bb1 — near black */
-  --m-bg-surface:     #2a1200;   /* bb1 lightened */
-  --m-text-primary:   #F0E6D0;   /* bb8 — cream         15.6:1 on bb1 ✓ AAA */
-  --m-text-secondary: #DFC99A;   /* bb7 lightened        8.2:1 on bb1  ✓ AAA */
-  --m-text-tertiary:  #B8860B;   /* bb6 — dark goldenrod 4.6:1 on bb1  ✓ AA large */
-  --m-accent:         #E8A020;   /* bb4 — amber          8.7:1 on bb1  ✓ AAA */
-  --m-border:         rgba(200, 169, 110, 0.12);   /* bb7 warm tan */
+  /* ── Print design system — dark defaults ── */
+  --p-bg:           #1a0a00;
+  --p-bg-card:      #2a1200;
+  --p-ink:          #F0E6D0;
+  --p-ink-soft:     #DFC99A;
+  --p-ink-muted:    #B8860B;
+  --p-terra:        #D97757;   /* decoration only */
+  --p-blue:         #4DAAF0;   /* 5.1:1 on #1a0a00 */
+  --p-vermilion:    #E07040;   /* 3.8:1 on #1a0a00 */
+  --p-border:       rgba(200, 169, 110, 0.14);
+  --p-border-strong: rgba(200, 169, 110, 0.28);
+
+  /* ── Manifesto variables — dark defaults ── */
+  --m-bg:             #1a0a00;
+  --m-bg-surface:     #2a1200;
+  --m-text-primary:   #F0E6D0;   /* bb8 — 15.6:1 on bb1 ✓ AAA */
+  --m-text-secondary: #DFC99A;   /* bb7 lightened — 8.2:1 ✓ AAA */
+  --m-text-tertiary:  #B8860B;   /* bb6 — 4.6:1 ✓ AA large */
+  --m-accent:         #E8A020;   /* bb4 — 8.7:1 ✓ AAA */
+  --m-border:         rgba(200, 169, 110, 0.12);
   --m-border-strong:  rgba(200, 169, 110, 0.25);
+
+  /* ── Typography ── */
   --font-serif: var(--font-garamond), Georgia, 'Times New Roman', serif;
   --font-sans:  var(--font-inter), system-ui, sans-serif;
+
+  /* ── Bear Brown palette ── */
+  --bb-1: #1a0a00;
+  --bb-2: #8B3A0F;
+  --bb-3: #A52A1A;
+  --bb-4: #E8A020;
+  --bb-5: #B5420A;
+  --bb-6: #B8860B;
+  --bb-7: #C8A96E;
+  --bb-8: #F0E6D0;
+
+  /* ── shadcn/ui variables — light defaults ── */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 25 100% 11%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 25 100% 11%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 25 100% 11%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 68% 42%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 25 100% 11%;
+  --highlight: 0 68% 42%;
+  --highlight-foreground: 210 40% 98%;
+  --radius: 0.5rem;
 }
 
-/* Light mode — pure white background */
+/* Light mode — cream print (the brand default) */
 .light {
-  --m-bg:             #FFFFFF;   /* pure white */
-  --m-bg-surface:     #F5F5F5;
-  --m-text-primary:   #1a0a00;   /* bb1 — near black     19.2:1 on white ✓ AAA */
-  --m-text-secondary: #5C2008;   /* bb2 darkened          8.4:1 on white ✓ AAA */
-  --m-text-tertiary:  #8B3A0F;   /* bb2 — burnt orange    7.4:1 on white ✓ AAA */
-  --m-accent:         #8B3A0F;   /* bb2 — burnt orange    7.4:1 on white ✓ AAA */
-  --m-border:         rgba(26, 10, 0, 0.10);
-  --m-border-strong:  rgba(26, 10, 0, 0.22);
+  /* ── Print design system ── */
+  --p-bg:           #FAF9F5;   /* cream page */
+  --p-bg-card:      #F3EBDD;   /* warm card surface */
+  --p-ink:          #3D3929;   /* warm ink — 12.8:1 ✓ AAA */
+  --p-ink-soft:     #6B6047;   /* secondary — 6.1:1 ✓ AA */
+  --p-ink-muted:    #9E8C6C;   /* muted — 3.4:1, large text only */
+  --p-terra:        #D97757;   /* terracotta — 2.96:1, DECORATION ONLY */
+  --p-blue:         #0072B2;   /* meaning — 4.92:1 ✓ AA */
+  --p-vermilion:    #D55E00;   /* meaning — 3.67:1 ✓ AA large */
+  --p-border:       rgba(61, 57, 41, 0.12);
+  --p-border-strong: rgba(61, 57, 41, 0.24);
+
+  /* ── Manifesto variables ── */
+  --m-bg:             #FAF9F5;   /* cream (was white) */
+  --m-bg-surface:     #F3EBDD;   /* warm cream surface */
+  --m-text-primary:   #3D3929;   /* warm ink — 12.8:1 ✓ AAA */
+  --m-text-secondary: #6B6047;   /* — 6.1:1 ✓ AA */
+  --m-text-tertiary:  #9E8C6C;   /* muted — use on large text only */
+  --m-accent:         #8B3A0F;   /* bb2 burnt orange — 7.4:1 ✓ AAA */
+  --m-border:         rgba(61, 57, 41, 0.10);
+  --m-border-strong:  rgba(61, 57, 41, 0.22);
+
+  /* ── shadcn/ui variables ── */
+  --background: 45 33% 98%;   /* #FAF9F5 approx */
+  --foreground: 37 24% 20%;   /* #3D3929 approx */
+  --card: 38 41% 96%;
+  --card-foreground: 37 24% 20%;
+  --popover: 45 33% 98%;
+  --popover-foreground: 37 24% 20%;
+  --primary: 25 100% 11%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 38 41% 91%;
+  --secondary-foreground: 37 24% 20%;
+  --muted: 38 41% 91%;
+  --muted-foreground: 37 18% 44%;
+  --accent: 25 100% 11%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 68% 42%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 38 30% 84%;
+  --input: 38 30% 84%;
+  --ring: 25 100% 11%;
+  --highlight: 0 68% 42%;
+  --highlight-foreground: 210 40% 98%;
 }
 
+/* Explicit dark class overrides for shadcn components */
 @layer base {
   :root {
-    /* Bear Brown palette — swap these to rebrand the entire site */
-    --bb-1: #1a0a00;
-    --bb-2: #8B3A0F;
-    --bb-3: #A52A1A;
-    --bb-4: #E8A020;
-    --bb-5: #B5420A;
-    --bb-6: #B8860B;
-    --bb-7: #C8A96E;
-    --bb-8: #F0E6D0;
-
-    /* Semantic aliases */
+    /* semantic aliases */
     --color-text:        var(--bb-1);
     --color-accent:      var(--bb-2);
     --color-danger:      var(--bb-3);
@@ -49,30 +141,6 @@
     --color-muted:       var(--bb-6);
     --color-border:      var(--bb-7);
     --color-background:  var(--bb-8);
-
-    /* shadcn/ui variables */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 25 100% 11%; /* Chocolate Brown */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 25 100% 11%; /* Chocolate Brown */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 25 100% 11%; /* Chocolate Brown */
-    --accent-foreground: 210 40% 98%; 
-    --destructive: 0 68% 42%; /* Crimson Red */
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 25 100% 11%; /* Chocolate Brown */
-    --highlight: 0 68% 42%; /* Crimson Red for highlighting */
-    --highlight-foreground: 210 40% 98%;
-    --radius: 0.5rem;
   }
   .dark {
     --background: 222.2 84% 4.9%;
@@ -81,47 +149,34 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 25 70% 30%; /* Lighter Chocolate Brown for dark mode */
+    --primary: 25 70% 30%;
     --primary-foreground: 210 40% 98%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 25 70% 30%; /* Lighter Chocolate Brown for dark mode */
+    --accent: 25 70% 30%;
     --accent-foreground: 210 40% 98%;
-    --destructive: 0 68% 52%; /* Brighter Crimson Red for dark mode */
+    --destructive: 0 68% 52%;
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 25 70% 30%; /* Lighter Chocolate Brown for dark mode */
-    --highlight: 0 68% 52%; /* Brighter Crimson Red for dark mode */
+    --ring: 25 70% 30%;
+    --highlight: 0 68% 52%;
     --highlight-foreground: 210 40% 98%;
+
+    /* Print system overrides for dark mode */
+    --p-bg:           #1a0a00;
+    --p-bg-card:      #2a1200;
+    --p-ink:          #F0E6D0;
+    --p-ink-soft:     #DFC99A;
+    --p-ink-muted:    #B8860B;
+    --p-terra:        #D97757;
+    --p-blue:         #4DAAF0;
+    --p-vermilion:    #E07040;
+    --p-border:       rgba(200, 169, 110, 0.14);
+    --p-border-strong: rgba(200, 169, 110, 0.28);
   }
-}
-/* TOC row hover */
-.toc-row-link:hover .toc-title-text,
-.toc-row-link:hover span:first-child {
-  color: var(--m-text-primary) !important;
-}
-
-/* Pub pill hover */
-.pub-pill:hover {
-  color: var(--m-text-primary) !important;
-  border-color: var(--m-text-tertiary) !important;
-}
-
-/* Method next card hover */
-.method-next-card:hover {
-  border-color: var(--m-border-strong) !important;
-}
-
-@media (max-width: 768px) {
-  .hero-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
@@ -133,5 +188,37 @@
   }
   ::-moz-selection {
     @apply bg-highlight text-highlight-foreground;
+  }
+}
+
+/* ── Interaction helpers ── */
+.toc-row-link:hover .toc-title-text,
+.toc-row-link:hover span:first-child {
+  color: var(--m-text-primary) !important;
+}
+.pub-pill:hover {
+  color: var(--m-text-primary) !important;
+  border-color: var(--m-text-tertiary) !important;
+}
+.method-next-card:hover {
+  border-color: var(--m-border-strong) !important;
+}
+.catalog-card:hover {
+  border-color: var(--p-terra) !important;
+}
+
+/* ── Copy button flash ── */
+@keyframes flash-copied {
+  0%   { background: var(--p-terra); color: #fff; }
+  100% { background: transparent; }
+}
+.copy-flash {
+  animation: flash-copied 0.6s ease-out forwards;
+}
+
+/* ── Responsive helpers ── */
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
   }
 }
