@@ -39,18 +39,21 @@ export default async function ClaudeTypePage({ params }: Props) {
 
       <hr style={{ border: 'none', borderTop: '1px solid var(--p-border)', margin: 0 }} />
 
-      {/* Sample disclaimer */}
+      {/* Starter-page note */}
       <section style={{ padding: '16px clamp(24px, 5vw, 80px)', borderBottom: '1px solid var(--p-border)' }}>
         <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', letterSpacing: '0.02em' }}>
-          Sample entries — a layout preview. These are placeholders, not audited or ranked; real listings replace them once the pipeline covers this type.
+          Five starter examples for reviewing this page template. They illustrate the content shape only and are not audited listings or rankings.
         </p>
       </section>
 
       {/* Grid */}
       <section style={{ padding: 'clamp(32px, 4vw, 56px) clamp(24px, 5vw, 80px)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
-          {t.samples.map((s) => (
+          {t.samples.map((s, index) => (
             <div key={s.name} style={{ background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '24px' }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-terra)', marginBottom: '14px' }}>
+                Example {String(index + 1).padStart(2, '0')}
+              </p>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', marginBottom: '6px' }}>
                 <span style={{ fontFamily: 'var(--font-serif)', fontSize: '20px', color: 'var(--p-ink)', lineHeight: 1.2 }}>{s.name}</span>
                 <span style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.05em', color: 'var(--p-ink-muted)', border: '1px solid var(--p-border-strong)', padding: '2px 7px', borderRadius: '3px', flexShrink: 0 }}>{s.tag}</span>

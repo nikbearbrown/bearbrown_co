@@ -1,6 +1,6 @@
 // Component-type directory data for the "Claude" section.
-// SAMPLES ONLY — a layout preview. Nothing here is audited or ranked;
-// real listings replace these once the pipeline covers each type.
+// Neutral starter content for reviewing the component-type page templates.
+// These examples are illustrative, not listings, audit verdicts, or rankings.
 
 export interface TypeSample {
   name: string
@@ -24,9 +24,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'Capabilities the agent invokes for a task — a SKILL.md plus optional scripts. Find what it does, and whether it is the standard one or a novel one.',
     value: 'Discovery + safety',
     samples: [
-      { name: 'document-skills', source: 'anthropics/skills', description: 'Read, edit, and create Word, Excel, PDF, and PowerPoint files.', tag: 'documents' },
-      { name: 'skill-creator', source: 'anthropics/skills', description: 'Build and iteratively improve skills with an eval loop.', tag: 'meta' },
-      { name: 'pdf-tools', source: 'community', description: 'Extract, split, and fill PDF forms from natural language.', tag: 'documents' },
+      { name: 'Document Builder', description: 'Creates and edits structured documents, with optional rendering scripts for visual checks.', tag: 'files + scripts' },
+      { name: 'Data Workbook', description: 'Builds, analyzes, and validates spreadsheets while preserving formulas and formatting.', tag: 'data' },
+      { name: 'Research Brief', description: 'Turns source material into a concise, cited research brief with a repeatable workflow.', tag: 'research' },
+      { name: 'Skill Evaluator', description: 'Tests whether another skill triggers reliably and produces the intended result.', tag: 'evaluation' },
+      { name: 'Accessibility Review', description: 'Checks interfaces and documents against an accessibility rubric and reports findings.', tag: 'review' },
     ],
   },
   {
@@ -35,9 +37,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'Delegable roles with scoped tool grants. The card shows the role and the tools it can use — over-broad grants get flagged.',
     value: 'Discovery + safety',
     samples: [
-      { name: 'code-reviewer', source: 'wshobson/agents', description: 'Reviews a diff for correctness, security, and style.', tag: 'review' },
-      { name: 'test-writer', source: 'community', description: 'Generates unit tests for a target file.', tag: 'testing' },
-      { name: 'security-auditor', source: 'community', description: 'Flags injection, secrets, and unsafe calls in a change.', tag: 'security' },
+      { name: 'Code Reviewer', description: 'Reviews a diff for correctness, security, maintainability, and project conventions.', tag: 'read-only' },
+      { name: 'Test Engineer', description: 'Designs focused tests for changed behavior and reports gaps without editing production code.', tag: 'testing' },
+      { name: 'Security Auditor', description: 'Inspects code and configuration for injection, secrets, unsafe permissions, and risky defaults.', tag: 'security' },
+      { name: 'Documentation Editor', description: 'Improves technical documentation with scoped read and edit access.', tag: 'docs' },
+      { name: 'Architecture Explorer', description: 'Maps entry points, dependencies, and data flow using read-only repository tools.', tag: 'exploration' },
     ],
   },
   {
@@ -46,9 +50,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'Canned actions you invoke by name. Browse by the task they do; the standard versions cluster, the novel ones stand out.',
     value: 'Discovery',
     samples: [
-      { name: '/commit', source: 'community', description: 'Draft a conventional-commit message from staged changes.', tag: 'git' },
-      { name: '/review', source: 'community', description: 'Summarize and critique the current diff.', tag: 'review' },
-      { name: '/test', source: 'community', description: 'Run the tests and triage the failures.', tag: 'testing' },
+      { name: '/review', description: 'Review the current diff and return prioritized, actionable findings.', tag: 'review' },
+      { name: '/test', description: 'Run the relevant test suite, triage failures, and summarize the evidence.', tag: 'testing' },
+      { name: '/document', description: 'Update project documentation from the current source of truth.', tag: 'docs' },
+      { name: '/release-check', description: 'Check versioning, changelog, tests, and build readiness before a release.', tag: 'release' },
+      { name: '/explain', description: 'Explain a selected file or feature from entry point to output.', tag: 'learning' },
     ],
   },
   {
@@ -57,9 +63,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'Scripts that auto-fire on events. This is a safety-forward type: the card leads with what runs, when, and the sandbox verdict.',
     value: 'Safety first',
     samples: [
-      { name: 'hookify', source: 'community', description: 'Create hooks from natural language.', tag: 'meta' },
-      { name: 'session-guard', source: 'community', description: 'Injects reminders on SessionStart.', tag: 'safety' },
-      { name: 'secret-blocker', source: 'community', description: 'Blocks tool calls that would commit credentials.', tag: 'safety' },
+      { name: 'Session Context', description: 'Loads a short project briefing automatically when a session begins.', tag: 'SessionStart' },
+      { name: 'Secret Guard', description: 'Checks proposed shell commands and file writes for exposed credentials before execution.', tag: 'PreToolUse' },
+      { name: 'Format After Edit', description: 'Runs the project formatter after supported source files change.', tag: 'PostToolUse' },
+      { name: 'Prompt Policy Check', description: 'Checks submitted prompts against project policy before the agent continues.', tag: 'UserPromptSubmit' },
+      { name: 'Session Summary', description: 'Writes a compact work summary when the session ends.', tag: 'SessionEnd' },
     ],
   },
   {
@@ -68,9 +76,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'Connectors to a tool or service. The card shows what it connects to, the tools it exposes, and its credential/egress surface.',
     value: 'Discovery + safety',
     samples: [
-      { name: 'github-mcp', source: 'modelcontextprotocol/servers', description: 'List repos, read files, and open issues over the GitHub API.', tag: 'git' },
-      { name: 'filesystem-mcp', source: 'modelcontextprotocol/servers', description: 'Scoped read/write access to a local directory.', tag: 'files' },
-      { name: 'postgres-mcp', source: 'community', description: 'Query and inspect a Postgres database.', tag: 'data' },
+      { name: 'Git Provider', description: 'Reads repositories, issues, pull requests, and review metadata through a hosted API.', tag: 'credentials' },
+      { name: 'Local Files', description: 'Provides scoped read and write access to explicitly approved directories.', tag: 'local stdio' },
+      { name: 'SQL Database', description: 'Inspects schemas and runs constrained queries against a configured database.', tag: 'data' },
+      { name: 'Team Knowledge', description: 'Searches and retrieves pages from a shared documentation workspace.', tag: 'network' },
+      { name: 'Browser Automation', description: 'Exposes page navigation, inspection, screenshots, and interaction tools.', tag: 'browser' },
     ],
   },
   {
@@ -79,9 +89,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'Language support during a session — completions, diagnostics, go-to-definition. Browse by language and capability.',
     value: 'Discovery',
     samples: [
-      { name: 'pyright-bridge', source: 'community', description: 'Python type-checking and hovers in-session.', tag: 'python' },
-      { name: 'typescript-lsp', source: 'community', description: 'TS/JS completions, diagnostics, and go-to-definition.', tag: 'javascript' },
-      { name: 'rust-analyzer-bridge', source: 'community', description: 'Rust diagnostics and inlay hints.', tag: 'rust' },
+      { name: 'TypeScript', description: 'Provides diagnostics, definitions, references, and type information for JS and TS.', tag: 'JS / TS' },
+      { name: 'Python', description: 'Provides Python type checking, diagnostics, completion, and navigation.', tag: 'Python' },
+      { name: 'Rust', description: 'Provides Rust diagnostics, macro expansion, references, and type information.', tag: 'Rust' },
+      { name: 'Go', description: 'Provides Go diagnostics, completion, formatting, and symbol navigation.', tag: 'Go' },
+      { name: 'Swift', description: 'Provides Swift completion, diagnostics, definitions, and refactoring support.', tag: 'Swift' },
     ],
   },
   {
@@ -90,9 +102,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'A formatting flavor for responses. A visual, discovery-first type — pick by a sample of the look, nothing to audit.',
     value: 'Discovery',
     samples: [
-      { name: 'Concise', source: 'community', description: 'Terse, no-preamble answers.', tag: 'brevity' },
-      { name: 'Tutor', source: 'community', description: 'Explains step by step and checks understanding.', tag: 'teaching' },
-      { name: 'Executive', source: 'community', description: 'Bottom-line-up-front summaries.', tag: 'business' },
+      { name: 'Concise', description: 'Uses short answers, direct recommendations, and minimal preamble.', tag: 'brevity' },
+      { name: 'Teaching', description: 'Explains decisions step by step and introduces unfamiliar concepts as needed.', tag: 'learning' },
+      { name: 'Executive Brief', description: 'Leads with the decision, impact, risks, and recommended next action.', tag: 'business' },
+      { name: 'Evidence First', description: 'Separates verified facts, inferences, uncertainties, and open questions.', tag: 'analysis' },
+      { name: 'Review Findings', description: 'Formats findings by severity with file references and concrete fixes.', tag: 'review' },
     ],
   },
   {
@@ -101,9 +115,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'Color and style only. Pure discovery — pick by the look; there is nothing to audit, and we say so.',
     value: 'Discovery',
     samples: [
-      { name: 'Nebula', source: 'community', description: 'Deep indigo with violet accents.', tag: 'dark' },
-      { name: 'Evergreen', source: 'community', description: 'Forest greens on near-black.', tag: 'dark' },
-      { name: 'Warm Paper', source: 'community', description: 'Cream and terracotta, light.', tag: 'light' },
+      { name: 'Warm Paper', description: 'Cream surfaces, charcoal text, and terracotta accents for a quiet editorial feel.', tag: 'light' },
+      { name: 'Midnight', description: 'Deep navy surfaces with cool blue accents and high-contrast text.', tag: 'dark' },
+      { name: 'Terminal Green', description: 'Near-black background with restrained green status and focus colors.', tag: 'dark' },
+      { name: 'High Contrast', description: 'Maximum text and control contrast with minimal decorative color.', tag: 'accessible' },
+      { name: 'Soft Slate', description: 'Neutral slate surfaces with muted blue highlights for long sessions.', tag: 'neutral' },
     ],
   },
   {
@@ -112,9 +128,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'Background insight during a session. The card shows what it watches and its resource cost, plus a safety verdict.',
     value: 'Safety + utility',
     samples: [
-      { name: 'token-usage', source: 'community', description: 'Live token spend during a session.', tag: 'cost' },
-      { name: 'test-watch', source: 'community', description: 'Re-runs affected tests on file change.', tag: 'testing' },
-      { name: 'build-status', source: 'community', description: 'Surfaces CI status inline.', tag: 'ci' },
+      { name: 'Test Watch', description: 'Watches changed files and surfaces relevant test failures during the session.', tag: 'persistent' },
+      { name: 'Build Health', description: 'Tracks local build status and reports transitions from passing to failing.', tag: 'build' },
+      { name: 'Token Budget', description: 'Reports context growth and warns when the session approaches a configured limit.', tag: 'cost' },
+      { name: 'Service Status', description: 'Watches configured development services and reports outages and recoveries.', tag: 'network' },
+      { name: 'Work Queue', description: 'Streams changes from a local task queue into the active session.', tag: 'events' },
     ],
   },
   {
@@ -123,9 +141,11 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     blurb: 'Multi-step recipes that chain components. Browse by the job they do and the steps they orchestrate.',
     value: 'Discovery',
     samples: [
-      { name: 'spec-to-pr', source: 'community', description: 'Turn a spec into a branch, code, tests, and a PR.', tag: 'automation' },
-      { name: 'research-summarize', source: 'community', description: 'Gather sources and produce a cited brief.', tag: 'research' },
-      { name: 'migrate-framework', source: 'community', description: 'Port a codebase across framework versions.', tag: 'migration' },
+      { name: 'Spec to Pull Request', description: 'Turns an approved specification into a plan, implementation, tests, review, and pull request.', tag: 'delivery' },
+      { name: 'Research and Verify', description: 'Collects sources, drafts a synthesis, then runs an independent evidence check.', tag: 'research' },
+      { name: 'Dependency Upgrade', description: 'Plans an upgrade, edits configuration, runs tests, and documents compatibility changes.', tag: 'maintenance' },
+      { name: 'Incident Triage', description: 'Collects logs, forms hypotheses, tests likely causes, and produces a recovery brief.', tag: 'operations' },
+      { name: 'Release Readiness', description: 'Chains linting, tests, security review, documentation checks, and release notes.', tag: 'release' },
     ],
   },
 ]
