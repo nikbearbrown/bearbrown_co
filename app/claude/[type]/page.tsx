@@ -1,0 +1,68 @@
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { getType, TYPE_SLUGS } from '@/data/claude-types'
+
+interface Props {
+  params: Promise<{ type: string }>
+}
+
+export function generateStaticParams() {
+  return TYPE_SLUGS.map((type) => ({ type }))
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { type } = await params
+  const t = getType(type)
+  if (!t) return {}
+  return { title: `${t.label} — Bear Brown`, description: t.blurb.slice(0, 155) }
+}
+
+export default async function ClaudeTypePage({ params }: Props) {
+  const { type } = await params
+  const t = getType(type)
+  if (!t) notFound()
+
+  return (
+    <div style={{ background: 'var(--p-bg)', minHeight: '100vh' }}>
+      {/* Hero */}
+      <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 5vw, 80px) clamp(28px, 4vw, 44px)', maxWidth: '780px' }}>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--p-terra)', marginBottom: '20px' }}>
+          Claude Tools · {t.value}
+        </p>
+        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 400, lineHeight: 1.1, color: 'var(--p-ink)', letterSpacing: '-0.01em', marginBottom: '20px' }}>
+          {t.label}
+        </h1>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '16px', lineHeight: 1.7, color: 'var(--p-ink-soft)', maxWidth: '580px' }}>
+          {t.blurb}
+        </p>
+      </section>
+
+      <hr style={{ border: 'none', borderTop: '1px solid var(--p-border)', margin: 0 }} />
+
+      {/* Sample disclaimer */}
+      <section style={{ padding: '16px clamp(24px, 5vw, 80px)', borderBottom: '1px solid var(--p-border)' }}>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', letterSpacing: '0.02em' }}>
+          Sample entries — a layout preview. These are placeholders, not audited or ranked; real listings replace them once the pipeline covers this type.
+        </p>
+      </section>
+
+      {/* Grid */}
+      <section style={{ padding: 'clamp(32px, 4vw, 56px) clamp(24px, 5vw, 80px)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+          {t.samples.map((s) => (
+            <div key={s.name} style={{ background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', marginBottom: '6px' }}>
+                <span style={{ fontFamily: 'var(--font-serif)', fontSize: '20px', color: 'var(--p-ink)', lineHeight: 1.2 }}>{s.name}</span>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.05em', color: 'var(--p-ink-muted)', border: '1px solid var(--p-border-strong)', padding: '2px 7px', borderRadius: '3px', flexShrink: 0 }}>{s.tag}</span>
+              </div>
+              {s.source && (
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', marginBottom: '10px' }}>{s.source}</p>
+              )}
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', lineHeight: 1.6, color: 'var(--p-ink-soft)' }}>{s.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}

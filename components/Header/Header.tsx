@@ -15,6 +15,20 @@ const NAV_ITEMS = [
   { name: 'Videos',     href: '/videos' },
 ]
 
+const CLAUDE_MENU = [
+  { name: 'Plugins',       href: '/' },
+  { name: 'Skills',        href: '/claude/skills' },
+  { name: 'Agents',        href: '/claude/agents' },
+  { name: 'Commands',      href: '/claude/commands' },
+  { name: 'Hooks',         href: '/claude/hooks' },
+  { name: 'MCP Servers',   href: '/claude/mcp-servers' },
+  { name: 'LSP Servers',   href: '/claude/lsp-servers' },
+  { name: 'Output Styles', href: '/claude/output-styles' },
+  { name: 'Themes',        href: '/claude/themes' },
+  { name: 'Monitors',      href: '/claude/monitors' },
+  { name: 'Workflows',     href: '/claude/workflows' },
+]
+
 const SECONDARY_ITEMS = [
   { name: 'Blog', href: '/blog' },
 ]
@@ -27,6 +41,7 @@ const SOCIAL_LINKS = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [claudeOpen, setClaudeOpen] = useState(false)
   const pathname = usePathname()
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -71,26 +86,82 @@ export default function Header() {
           </Link>
 
           {/* Primary nav */}
-          <nav className="hidden lg:flex gap-5">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '13px',
-                  letterSpacing: '0.02em',
-                  color: isActive(item.href) ? 'var(--p-ink)' : 'var(--p-ink-soft)',
-                  textDecoration: 'none',
-                  transition: 'color 0.15s',
-                  ...(isActive(item.href) ? { fontWeight: 500 } : {}),
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--p-ink)')}
-                onMouseLeave={e => (e.currentTarget.style.color = isActive(item.href) ? 'var(--p-ink)' : 'var(--p-ink-soft)')}
-              >
-                {item.name}
-              </Link>
-            ))}
+          <nav className="hidden lg:flex gap-5 items-center">
+            {NAV_ITEMS.map((item) =>
+              item.name === 'Claude' ? (
+                <div
+                  key="Claude"
+                  style={{ position: 'relative' }}
+                  onMouseEnter={() => setClaudeOpen(true)}
+                  onMouseLeave={() => setClaudeOpen(false)}
+                >
+                  <Link
+                    href="/"
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '13px',
+                      letterSpacing: '0.02em',
+                      color: isActive('/') || claudeOpen ? 'var(--p-ink)' : 'var(--p-ink-soft)',
+                      textDecoration: 'none',
+                      transition: 'color 0.15s',
+                      ...(isActive('/') ? { fontWeight: 500 } : {}),
+                    }}
+                  >
+                    Claude ▾
+                  </Link>
+                  {claudeOpen && (
+                    <div style={{ position: 'absolute', top: '100%', left: 0, paddingTop: '8px', zIndex: 60 }}>
+                      <div style={{
+                        minWidth: '210px',
+                        background: 'var(--p-bg)',
+                        border: '1px solid var(--p-border-strong)',
+                        borderRadius: '6px',
+                        padding: '8px',
+                        boxShadow: '0 12px 32px rgba(0,0,0,0.18)',
+                      }}>
+                        {CLAUDE_MENU.map((m) => (
+                          <Link
+                            key={m.name}
+                            href={m.href}
+                            style={{
+                              display: 'block',
+                              fontFamily: 'var(--font-sans)',
+                              fontSize: '13px',
+                              color: 'var(--p-ink-soft)',
+                              textDecoration: 'none',
+                              padding: '7px 10px',
+                              borderRadius: '4px',
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.background = 'var(--p-bg-card)'; e.currentTarget.style.color = 'var(--p-ink)' }}
+                            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--p-ink-soft)' }}
+                          >
+                            {m.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '13px',
+                    letterSpacing: '0.02em',
+                    color: isActive(item.href) ? 'var(--p-ink)' : 'var(--p-ink-soft)',
+                    textDecoration: 'none',
+                    transition: 'color 0.15s',
+                    ...(isActive(item.href) ? { fontWeight: 500 } : {}),
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--p-ink)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = isActive(item.href) ? 'var(--p-ink)' : 'var(--p-ink-soft)')}
+                >
+                  {item.name}
+                </Link>
+              )
+            )}
           </nav>
 
           {/* Divider + secondary */}
