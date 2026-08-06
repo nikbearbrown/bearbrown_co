@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getType, TYPE_SLUGS } from '@/data/claude-types'
+import Link from 'next/link'
+import { getType, sampleSlug, TYPE_SLUGS } from '@/data/claude-types'
 
 interface Props {
   params: Promise<{ type: string }>
@@ -50,7 +51,11 @@ export default async function ClaudeTypePage({ params }: Props) {
       <section style={{ padding: 'clamp(32px, 4vw, 56px) clamp(24px, 5vw, 80px)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
           {t.samples.map((s, index) => (
-            <div key={s.name} style={{ background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '24px' }}>
+            <Link
+              key={s.name}
+              href={`/claude/${t.slug}/${sampleSlug(s)}`}
+              style={{ display: 'block', background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '24px', textDecoration: 'none', transition: 'border-color 0.15s, transform 0.15s' }}
+            >
               <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-terra)', marginBottom: '14px' }}>
                 Example {String(index + 1).padStart(2, '0')}
               </p>
@@ -62,7 +67,8 @@ export default async function ClaudeTypePage({ params }: Props) {
                 <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', marginBottom: '10px' }}>{s.source}</p>
               )}
               <p style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', lineHeight: 1.6, color: 'var(--p-ink-soft)' }}>{s.description}</p>
-            </div>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-terra)', marginTop: '18px', letterSpacing: '0.04em' }}>View example →</p>
+            </Link>
           ))}
         </div>
       </section>

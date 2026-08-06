@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { neon } from '@neondatabase/serverless'
+import { CLAUDE_TYPES, sampleSlug } from '@/data/claude-types'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bearbrown.co'
 
@@ -15,6 +16,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/privacy/cookies`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
     { url: `${BASE_URL}/terms-of-service`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
   ]
+
+  for (const type of CLAUDE_TYPES) {
+    entries.push({
+      url: `${BASE_URL}/claude/${type.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    })
+    for (const sample of type.samples) {
+      entries.push({
+        url: `${BASE_URL}/claude/${type.slug}/${sampleSlug(sample)}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.5,
+      })
+    }
+  }
 
   try {
     const db = neon(process.env.DATABASE_URL!)

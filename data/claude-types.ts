@@ -3,6 +3,7 @@
 // These examples are illustrative, not listings, audit verdicts, or rankings.
 
 export interface TypeSample {
+  slug?: string
   name: string
   source?: string
   description: string
@@ -153,4 +154,16 @@ export const CLAUDE_TYPES: ClaudeType[] = [
 export const TYPE_SLUGS = CLAUDE_TYPES.map((t) => t.slug)
 export function getType(slug: string): ClaudeType | undefined {
   return CLAUDE_TYPES.find((t) => t.slug === slug)
+}
+
+export function sampleSlug(sample: TypeSample): string {
+  return sample.slug ?? sample.name
+    .toLowerCase()
+    .replace(/^\//, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
+export function getTypeSample(typeSlug: string, entrySlug: string): TypeSample | undefined {
+  return getType(typeSlug)?.samples.find((sample) => sampleSlug(sample) === entrySlug)
 }
