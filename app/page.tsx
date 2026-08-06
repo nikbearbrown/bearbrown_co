@@ -3,8 +3,8 @@ import { getEntries, CATALOG_META } from '@/data/catalog/entries'
 import CatalogSearch from '@/components/CatalogSearch/CatalogSearch'
 
 export const metadata: Metadata = {
-  title: 'Bear Brown — Claude Plugin Directory',
-  description: 'A curated Claude plugin directory. A few dozen entries that earned their place — every listing tested, every verdict shown.',
+  title: 'Bear Brown — Claude Tools Directory',
+  description: 'A curated Claude tools directory. A few dozen entries that earned their place — every listing tested, every verdict shown.',
 }
 
 const sectionPad: React.CSSProperties = {
@@ -35,7 +35,7 @@ export default function Home() {
           color: 'var(--p-terra)',
           marginBottom: '20px',
         }}>
-          Claude Plugin Directory · Bear Brown
+          Claude Tools Directory · Bear Brown
         </p>
         <h1 style={{
           fontFamily: 'var(--font-serif)',
@@ -46,7 +46,7 @@ export default function Home() {
           letterSpacing: '-0.01em',
           marginBottom: '24px',
         }}>
-          A few dozen Claude plugins that earned their place.
+          A few dozen Claude tools that earned their place.
           Every listing tested. Every verdict shown.
         </h1>
         <p style={{
