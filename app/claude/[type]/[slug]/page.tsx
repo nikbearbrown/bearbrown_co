@@ -122,7 +122,7 @@ export default async function ClaudeExamplePage({ params }: Props) {
 
   return (
     <div style={{ background: 'var(--p-bg)', minHeight: '100vh' }}>
-      <main style={{ maxWidth: '820px', margin: '0 auto', padding: 'clamp(44px, 7vw, 84px) clamp(24px, 5vw, 48px)' }}>
+      <main style={{ maxWidth: '1120px', margin: '0 auto', padding: 'clamp(44px, 7vw, 84px) clamp(24px, 5vw, 48px)' }}>
         <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', marginBottom: '32px' }}>
           <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Claude Tools</Link>
           {' / '}
@@ -132,28 +132,87 @@ export default async function ClaudeExamplePage({ params }: Props) {
 
         <p style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--p-terra)', marginBottom: '16px' }}>Illustrative {guide.unit}</p>
         <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 400, lineHeight: 1.05, color: 'var(--p-ink)', marginBottom: '20px' }}>{entry.name}</h1>
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '17px', lineHeight: 1.7, color: 'var(--p-ink-soft)', maxWidth: '680px', marginBottom: '28px' }}>{entry.description}</p>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '17px', lineHeight: 1.7, color: 'var(--p-ink-soft)', maxWidth: '760px', marginBottom: '28px' }}>{entry.description}</p>
         <span style={{ display: 'inline-block', fontFamily: 'var(--font-sans)', fontSize: '11px', letterSpacing: '0.06em', color: 'var(--p-ink-muted)', border: '1px solid var(--p-border-strong)', padding: '4px 10px', borderRadius: '3px', marginBottom: '40px' }}>{entry.tag}</span>
 
-        <div style={{ background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '18px 20px', marginBottom: '12px' }}>
-          <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', lineHeight: 1.6, color: 'var(--p-ink-muted)', margin: 0 }}>Template example — this page demonstrates the content and audit structure for a future listing. It is not an installable component or an audit verdict.</p>
+        <div style={{ background: 'var(--p-bg-card)', border: '1px solid var(--p-border-strong)', borderRadius: '6px', overflow: 'hidden', marginBottom: '32px' }}>
+          <div style={{ display: 'flex', gap: '6px', padding: '10px 14px', borderBottom: '1px solid var(--p-border)', background: 'var(--p-bg)' }}>
+            {['Preview', 'Source shape', 'Audit notes'].map((tab, index) => <span key={tab} style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.05em', color: index === 0 ? 'var(--p-ink)' : 'var(--p-ink-muted)', border: index === 0 ? '1px solid var(--p-border-strong)' : '1px solid transparent', borderRadius: '3px', padding: '4px 8px' }}>{tab}</span>)}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 18px' }}>
+            <span style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', color: 'var(--p-ink-muted)', fontSize: '13px' }}>$</span>
+            <code style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', color: 'var(--p-ink-soft)', fontSize: '12px', overflowWrap: 'anywhere' }}>starter/{type}/{slug}</code>
+          </div>
         </div>
 
-        <Section eyebrow="Anatomy" title="What it contains">
-          <ul style={listStyle}>{guide.contents.map((item) => <li key={item}>{item}</li>)}</ul>
-        </Section>
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-10 items-start">
+          <div>
+            <div style={{ marginBottom: '28px' }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '12px' }}>Template signals</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '10px' }}>
+                {[['Status', 'Draft'], ['Audit', 'Not run'], ['Collection', typeInfo.label]].map(([label, value]) => (
+                  <div key={label} style={{ border: '1px solid var(--p-border)', background: 'var(--p-bg-card)', borderRadius: '6px', padding: '15px' }}>
+                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '9px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '8px' }}>{label}</p>
+                    <p style={{ fontFamily: 'var(--font-serif)', fontSize: '20px', color: 'var(--p-ink)', margin: 0 }}>{value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-        <Section eyebrow="Lifecycle" title="How it works">
-          <ol style={listStyle}>{guide.flow.map((item) => <li key={item}>{item}</li>)}</ol>
-        </Section>
+            <Section eyebrow="Anatomy" title="What it contains">
+              <ul style={listStyle}>{guide.contents.map((item) => <li key={item}>{item}</li>)}</ul>
+            </Section>
 
-        <Section eyebrow="Audit lens" title="What Bear Brown would check">
-          <ul style={listStyle}>{guide.audit.map((item) => <li key={item}>{item}</li>)}</ul>
-        </Section>
+            <Section eyebrow="Lifecycle" title="How it works">
+              <ol style={listStyle}>{guide.flow.map((item) => <li key={item}>{item}</li>)}</ol>
+            </Section>
 
-        <Section eyebrow="Illustrative configuration" title="What a source file might look like">
-          <pre style={{ background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '20px', overflowX: 'auto', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '12px', lineHeight: 1.65, color: 'var(--p-ink-soft)', whiteSpace: 'pre-wrap' }}><code>{guide.example}</code></pre>
-        </Section>
+            <Section eyebrow="Audit lens" title="What Bear Brown would check">
+              <ul style={listStyle}>{guide.audit.map((item) => <li key={item}>{item}</li>)}</ul>
+            </Section>
+
+            <Section eyebrow="Content preview" title={type === 'skills' ? 'SKILL.md' : type === 'agents' ? 'Agent content' : type === 'commands' ? 'Command content' : type === 'hooks' ? 'Configuration' : type === 'workflows' ? 'Workflow script' : 'Example configuration'}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', marginBottom: '10px' }}>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink-muted)' }}>Editable starter content</span>
+                <span style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '10px', color: 'var(--p-ink-muted)' }}>{guide.example.split('\n').length} lines</span>
+              </div>
+              <pre style={{ background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '20px', overflowX: 'auto', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '12px', lineHeight: 1.65, color: 'var(--p-ink-soft)', whiteSpace: 'pre-wrap' }}><code>{guide.example}</code></pre>
+            </Section>
+
+            <Section eyebrow="Related" title={`More ${typeInfo.label}`}>
+              <div style={{ display: 'grid', gap: '10px' }}>
+                {typeInfo.samples.filter((sample) => sampleSlug(sample) !== slug).slice(0, 3).map((sample) => (
+                  <Link key={sample.name} href={`/claude/${type}/${sampleSlug(sample)}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', padding: '14px 16px', border: '1px solid var(--p-border)', borderRadius: '5px', textDecoration: 'none', background: 'var(--p-bg-card)' }}>
+                    <span style={{ fontFamily: 'var(--font-serif)', fontSize: '17px', color: 'var(--p-ink)' }}>{sample.name}</span>
+                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', color: 'var(--p-ink-muted)' }}>{sample.tag}</span>
+                  </Link>
+                ))}
+              </div>
+            </Section>
+          </div>
+
+          <aside className="lg:sticky lg:top-24" style={{ display: 'grid', gap: '14px' }}>
+            <div style={{ border: '1px solid var(--p-border)', borderRadius: '6px', background: 'var(--p-bg-card)', padding: '18px' }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '16px' }}>Details</p>
+              {[['Type', typeInfo.label], ['Shape', guide.unit], ['Status', 'Starter example'], ['Audit', 'Pending']].map(([label, value]) => (
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', padding: '9px 0', borderBottom: '1px solid var(--p-border)' }}>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink-muted)' }}>{label}</span>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink)', textAlign: 'right' }}>{value}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ border: '1px solid var(--p-border)', borderRadius: '6px', background: 'var(--p-bg-card)', padding: '18px' }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '14px' }}>Tags</p>
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                {[entry.tag, 'example', typeInfo.value.toLowerCase()].map((tag) => <span key={tag} style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', color: 'var(--p-ink-muted)', border: '1px solid var(--p-border-strong)', borderRadius: '3px', padding: '4px 7px' }}>{tag}</span>)}
+              </div>
+            </div>
+            <div style={{ border: '1px solid var(--p-border)', borderRadius: '6px', padding: '18px' }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '10px' }}>Next editorial step</p>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', lineHeight: 1.6, color: 'var(--p-ink-soft)', margin: 0 }}>Replace this neutral example with a real listing, then attach installation, source, adoption, and audit evidence.</p>
+            </div>
+          </aside>
+        </div>
 
         <p style={{ marginTop: '28px' }}><Link href={`/claude/${type}`} style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--p-terra)', textDecoration: 'none' }}>← Back to {typeInfo.label}</Link></p>
       </main>

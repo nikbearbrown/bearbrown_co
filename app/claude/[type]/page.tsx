@@ -47,6 +47,16 @@ export default async function ClaudeTypePage({ params }: Props) {
         </p>
       </section>
 
+      {/* Directory controls — visual starter state */}
+      <section style={{ padding: '20px clamp(24px, 5vw, 80px)', borderBottom: '1px solid var(--p-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          {['All examples', ...Array.from(new Set(t.samples.map((sample) => sample.tag))).slice(0, 3)].map((filter, index) => (
+            <span key={filter} style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: index === 0 ? 'var(--p-bg)' : 'var(--p-ink-soft)', background: index === 0 ? 'var(--p-ink)' : 'transparent', border: '1px solid var(--p-border-strong)', borderRadius: '3px', padding: '6px 10px' }}>{filter}</span>
+          ))}
+        </div>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink-muted)', margin: 0 }}>5 examples · starter content</p>
+      </section>
+
       {/* Grid */}
       <section style={{ padding: 'clamp(32px, 4vw, 56px) clamp(24px, 5vw, 80px)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
@@ -54,7 +64,7 @@ export default async function ClaudeTypePage({ params }: Props) {
             <Link
               key={s.name}
               href={`/claude/${t.slug}/${sampleSlug(s)}`}
-              style={{ display: 'block', background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '24px', textDecoration: 'none', transition: 'border-color 0.15s, transform 0.15s' }}
+              style={{ display: 'flex', flexDirection: 'column', minHeight: '238px', background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '24px', textDecoration: 'none', transition: 'border-color 0.15s, transform 0.15s' }}
             >
               <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-terra)', marginBottom: '14px' }}>
                 Example {String(index + 1).padStart(2, '0')}
@@ -67,7 +77,10 @@ export default async function ClaudeTypePage({ params }: Props) {
                 <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', marginBottom: '10px' }}>{s.source}</p>
               )}
               <p style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', lineHeight: 1.6, color: 'var(--p-ink-soft)' }}>{s.description}</p>
-              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-terra)', marginTop: '18px', letterSpacing: '0.04em' }}>View example →</p>
+              <div style={{ marginTop: 'auto', paddingTop: '22px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', borderTop: '1px solid var(--p-border)' }}>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', color: 'var(--p-ink-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Editable sample</span>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-terra)', letterSpacing: '0.04em' }}>View full page →</span>
+              </div>
             </Link>
           ))}
         </div>
