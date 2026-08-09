@@ -16,6 +16,7 @@ const NAV_ITEMS = [
 
 const CLAUDE_MENU = [
   { name: 'Plugins',       href: '/' },
+  { name: 'Artifacts',     href: '/claude/artifacts' },
   { name: 'Skills',        href: '/claude/skills' },
   { name: 'Agents',        href: '/claude/agents' },
   { name: 'Commands',      href: '/claude/commands' },

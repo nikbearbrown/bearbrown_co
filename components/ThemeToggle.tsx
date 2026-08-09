@@ -22,6 +22,7 @@ export default function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
+      style={{ color: 'var(--p-ink-soft)', position: 'relative' }}
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
     >

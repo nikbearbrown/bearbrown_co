@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CLAUDE_TYPES, getType, getTypeSample, sampleSlug } from '@/data/claude-types'
+import { getAllAuditEntries, getAuditEntry } from '@/lib/ingest'
+import type { AuditEntry, AuditTest } from '@/data/catalog/audit-entry'
 
 interface Props {
   params: Promise<{ type: string; slug: string }>
@@ -88,18 +90,38 @@ const GUIDES: Record<string, TypeGuide> = {
   },
 }
 
-export function generateStaticParams() {
-  return CLAUDE_TYPES.flatMap((type) =>
+// ── Static params: real audit entries + illustrative samples ──────────────────
+
+export async function generateStaticParams() {
+  const illustrative = CLAUDE_TYPES.flatMap((type) =>
     type.samples.map((sample) => ({ type: type.slug, slug: sampleSlug(sample) })),
   )
+
+  const auditEntries = await getAllAuditEntries().catch(() => [])
+  const real = auditEntries.map(e => ({ type: e.typeSlug, slug: e.urlSlug }))
+
+  return [...illustrative, ...real]
 }
+
+// ── Metadata ──────────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { type, slug } = await params
+
+  const auditEntry = await getAuditEntry(type, slug)
+  if (auditEntry) {
+    return {
+      title: `${auditEntry.name} — ${getType(type)?.label ?? type} — Bear Brown`,
+      description: auditEntry.description.slice(0, 155),
+    }
+  }
+
   const entry = getTypeSample(type, slug)
   if (!entry) return {}
   return { title: `${entry.name} — ${getType(type)?.label} Example — Bear Brown`, description: entry.description }
 }
+
+// ── Shared layout helpers ─────────────────────────────────────────────────────
 
 function Section({ eyebrow, title, children }: { eyebrow: string; title: string; children: React.ReactNode }) {
   return (
@@ -111,13 +133,257 @@ function Section({ eyebrow, title, children }: { eyebrow: string; title: string;
   )
 }
 
-const listStyle: React.CSSProperties = { fontFamily: 'var(--font-sans)', fontSize: '14px', lineHeight: 1.75, color: 'var(--p-ink-soft)', paddingLeft: '20px', margin: 0 }
+const listStyle: React.CSSProperties = {
+  fontFamily: 'var(--font-sans)', fontSize: '14px', lineHeight: 1.75,
+  color: 'var(--p-ink-soft)', paddingLeft: '20px', margin: 0,
+}
 
-export default async function ClaudeExamplePage({ params }: Props) {
+// ── Real audit entry detail page ──────────────────────────────────────────────
+
+function testStateColor(state: AuditTest['state']): string {
+  if (state === 'ran')      return 'var(--p-blue)'
+  if (state === 'deferred') return 'var(--p-ink-muted)'
+  return 'var(--p-ink-muted)'
+}
+
+function testStateLabel(state: AuditTest['state']): string {
+  if (state === 'ran')      return 'ran'
+  if (state === 'deferred') return 'deferred'
+  return 'n/a'
+}
+
+function coverageColor(label: string): string {
+  if (label.startsWith('CLEARED')) return 'var(--p-blue)'
+  if (label.startsWith('QUARANTINE')) return 'var(--p-vermilion)'
+  return 'var(--p-ink-muted)'
+}
+
+function portabilityLabel(p: string): string {
+  if (p === 'agent-agnostic') return 'Agent-agnostic (works beyond Claude)'
+  if (p === 'mcp-portable')   return 'MCP-portable'
+  return 'Claude-only'
+}
+
+function AuditDetailPage({ entry, typeInfo }: { entry: AuditEntry; typeInfo: NonNullable<ReturnType<typeof getType>> }) {
+  const passedTests  = entry.tests.filter(t => t.state === 'ran').length
+  const totalTests   = entry.tests.length
+
+  return (
+    <div style={{ background: 'var(--p-bg)', minHeight: '100vh' }}>
+      <main style={{ maxWidth: '1120px', margin: '0 auto', padding: 'clamp(44px, 7vw, 84px) clamp(24px, 5vw, 48px)' }}>
+
+        {/* Breadcrumb */}
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', marginBottom: '32px' }}>
+          <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Claude Tools</Link>
+          {' / '}
+          <Link href={`/claude/${entry.typeSlug}`} style={{ color: 'inherit', textDecoration: 'none' }}>{typeInfo.label}</Link>
+          {' / '}{entry.name}
+        </p>
+
+        {/* Header */}
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--p-terra)', marginBottom: '16px' }}>
+          {typeInfo.label} · {entry.owner}/{entry.repo}
+        </p>
+        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 400, lineHeight: 1.05, color: 'var(--p-ink)', marginBottom: '20px' }}>
+          {entry.name}
+        </h1>
+        {entry.description && (
+          <p style={{ fontFamily: 'var(--font-sans)', fontSize: '17px', lineHeight: 1.7, color: 'var(--p-ink-soft)', maxWidth: '760px', marginBottom: '28px' }}>
+            {entry.description}
+          </p>
+        )}
+
+        {/* Coverage badge + meta chips */}
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '40px', alignItems: 'center' }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', letterSpacing: '0.06em', color: coverageColor(entry.coverage.label), border: `1px solid ${coverageColor(entry.coverage.label)}`, padding: '4px 10px', borderRadius: '3px' }}>
+            {entry.coverage.label}
+          </span>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink-muted)', border: '1px solid var(--p-border-strong)', padding: '4px 10px', borderRadius: '3px' }}>
+            {entry.portability}
+          </span>
+          {entry.version && (
+            <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink-muted)', border: '1px solid var(--p-border-strong)', padding: '4px 10px', borderRadius: '3px' }}>
+              v{entry.version}
+            </span>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-10 items-start">
+          <div>
+
+            {/* Stats row */}
+            <div style={{ marginBottom: '28px' }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '12px' }}>Pipeline results</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '10px' }}>
+                {[
+                  ['Coverage', entry.coverage.label],
+                  ['Tests run', `${passedTests} / ${totalTests}`],
+                  ['Portability', portabilityLabel(entry.portability)],
+                  ['Type', typeInfo.label],
+                ].map(([label, value]) => (
+                  <div key={label} style={{ border: '1px solid var(--p-border)', background: 'var(--p-bg-card)', borderRadius: '6px', padding: '15px' }}>
+                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '9px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '8px' }}>{label}</p>
+                    <p style={{ fontFamily: 'var(--font-serif)', fontSize: '18px', color: 'var(--p-ink)', margin: 0, lineHeight: 1.2 }}>{value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tests table */}
+            <Section eyebrow="Tests &amp; results" title="What the pipeline checked">
+              <div style={{ border: '1px solid var(--p-border)', borderRadius: '6px', overflow: 'hidden' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '140px 80px 1fr', background: 'var(--p-bg-card)', borderBottom: '1px solid var(--p-border)', padding: '10px 16px', gap: '12px' }}>
+                  {['Test', 'State', 'Result or reason'].map(h => (
+                    <span key={h} style={{ fontFamily: 'var(--font-sans)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--p-ink-muted)' }}>{h}</span>
+                  ))}
+                </div>
+                {entry.tests.map((test, i) => (
+                  <div key={test.name} style={{ display: 'grid', gridTemplateColumns: '140px 80px 1fr', gap: '12px', padding: '12px 16px', borderBottom: i < entry.tests.length - 1 ? '1px solid var(--p-border)' : 'none', alignItems: 'start' }}>
+                    <span style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '12px', color: 'var(--p-ink)' }}>{test.name}</span>
+                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: testStateColor(test.state) }}>{testStateLabel(test.state)}</span>
+                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-soft)', lineHeight: 1.55 }}>{test.result_or_reason}</span>
+                  </div>
+                ))}
+              </div>
+            </Section>
+
+            {/* Components */}
+            {entry.components.length > 0 && (
+              <Section eyebrow="What&apos;s inside" title="Components found">
+                <div style={{ display: 'grid', gap: '8px' }}>
+                  {entry.components.map((c, i) => (
+                    <div key={i} style={{ border: '1px solid var(--p-border)', borderRadius: '5px', padding: '12px 16px', background: 'var(--p-bg-card)', display: 'flex', justifyContent: 'space-between', gap: '16px', alignItems: 'center' }}>
+                      <div>
+                        <span style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '12px', color: 'var(--p-ink)' }}>{c.path}</span>
+                        {c.description && (
+                          <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-soft)', margin: '4px 0 0', lineHeight: 1.5 }}>{c.description}</p>
+                        )}
+                      </div>
+                      <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+                        <span style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', color: 'var(--p-ink-muted)', border: '1px solid var(--p-border-strong)', padding: '2px 6px', borderRadius: '3px' }}>{c.type}</span>
+                        <span style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', color: 'var(--p-ink-muted)', border: '1px solid var(--p-border-strong)', padding: '2px 6px', borderRadius: '3px' }}>{c.confidence}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Section>
+            )}
+
+            {/* Coverage gaps (not_assessed) */}
+            {entry.coverage.not_assessed.length > 0 && (
+              <Section eyebrow="Coverage" title="Not assessed">
+                <ul style={listStyle}>
+                  {entry.coverage.not_assessed.map((item, i) => <li key={i}>{item}</li>)}
+                </ul>
+              </Section>
+            )}
+
+            {/* README excerpt */}
+            {entry.readmeHead && (
+              <Section eyebrow="README" title="From the repository">
+                <div style={{ background: 'var(--p-bg-card)', border: '1px solid var(--p-border)', borderRadius: '6px', padding: '20px' }}>
+                  <pre style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', lineHeight: 1.7, color: 'var(--p-ink-soft)', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', margin: 0 }}>
+                    {entry.readmeHead.replace(/<[^>]+>/g, '').slice(0, 1200)}
+                    {entry.readmeHead.length > 1200 && '…'}
+                  </pre>
+                </div>
+              </Section>
+            )}
+
+          </div>
+
+          {/* Sidebar */}
+          <aside className="lg:sticky lg:top-24" style={{ display: 'grid', gap: '14px' }}>
+
+            {/* Source */}
+            <div style={{ border: '1px solid var(--p-border)', borderRadius: '6px', background: 'var(--p-bg-card)', padding: '18px' }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '16px' }}>Source</p>
+              <a href={entry.repoUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--p-blue)', textDecoration: 'none', wordBreak: 'break-all' }}>
+                {entry.owner}/{entry.repo} →
+              </a>
+            </div>
+
+            {/* Receipts */}
+            <div style={{ border: '1px solid var(--p-border)', borderRadius: '6px', background: 'var(--p-bg-card)', padding: '18px' }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '16px' }}>Audit receipts</p>
+              {[
+                ['Date',    entry.receipts.audited_date],
+                ['Commit',  entry.receipts.commit_sha ?? 'pending'],
+                ['Sandbox', entry.receipts.sandbox ? 'gVisor' : 'static-only'],
+              ].map(([label, value]) => (
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', padding: '8px 0', borderBottom: '1px solid var(--p-border)' }}>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink-muted)' }}>{label}</span>
+                  <span style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '11px', color: 'var(--p-ink)', textAlign: 'right' }}>{value}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Adoption */}
+            <div style={{ border: '1px solid var(--p-border)', borderRadius: '6px', background: 'var(--p-bg-card)', padding: '18px' }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '16px' }}>Adoption</p>
+              {[
+                ['Forks',       entry.adoption.forks !== null ? String(entry.adoption.forks) : '—'],
+                ['Last commit', entry.adoption.last_commit
+                  ? entry.adoption.last_commit.slice(0, 10)
+                  : '—'],
+              ].map(([label, value]) => (
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', padding: '8px 0', borderBottom: '1px solid var(--p-border)' }}>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink-muted)' }}>{label}</span>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink)', textAlign: 'right' }}>{value}</span>
+                </div>
+              ))}
+              {entry.author && (
+                <div style={{ padding: '8px 0', display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink-muted)' }}>Author</span>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--p-ink)', textAlign: 'right' }}>{entry.author}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Tags */}
+            {entry.tags.length > 0 && (
+              <div style={{ border: '1px solid var(--p-border)', borderRadius: '6px', background: 'var(--p-bg-card)', padding: '18px' }}>
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '14px' }}>Tags</p>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                  {entry.tags.map(tag => (
+                    <span key={tag} style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', color: 'var(--p-ink-muted)', border: '1px solid var(--p-border-strong)', borderRadius: '3px', padding: '4px 7px' }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+          </aside>
+        </div>
+
+        <p style={{ marginTop: '28px' }}>
+          <Link href={`/claude/${entry.typeSlug}`} style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--p-terra)', textDecoration: 'none' }}>
+            ← Back to {typeInfo.label}
+          </Link>
+        </p>
+      </main>
+    </div>
+  )
+}
+
+// ── Page router ───────────────────────────────────────────────────────────────
+
+export default async function ClaudeEntryPage({ params }: Props) {
   const { type, slug } = await params
+
+  // Real audit entry takes priority
+  const auditEntry = await getAuditEntry(type, slug)
+  if (auditEntry) {
+    const typeInfo = getType(type)
+    if (!typeInfo) notFound()
+    return <AuditDetailPage entry={auditEntry} typeInfo={typeInfo} />
+  }
+
+  // Fall back to illustrative sample (existing behavior)
   const typeInfo = getType(type)
-  const entry = getTypeSample(type, slug)
-  const guide = GUIDES[type]
+  const entry    = getTypeSample(type, slug)
+  const guide    = GUIDES[type]
   if (!typeInfo || !entry || !guide) notFound()
 
   return (
