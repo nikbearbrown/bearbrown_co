@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Listing Criteria — Bear Brown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF9F5; --card:#FFFDF8; --ink:#3D3929; --ink-soft:#6E6656;
+    --spark:#D97757; --line:#E9E3D6; --line-2:#DED7C6;
+    --ok:#3F7D5A; --warn:#B07A1E; --bad:#B0472F;
+    --serif:'EB Garamond',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.62}
+  a{color:var(--spark);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:800px;margin:0 auto;padding:0 24px}
+  header.site{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--cream);z-index:5}
+  .site .wrap{max-width:900px;display:flex;align-items:center;gap:18px;height:60px}
+  .brand{font-family:var(--serif);font-size:22px;font-weight:600} .brand b{color:var(--spark)}
+  .nav{margin-left:auto;display:flex;gap:16px;font-size:14px;color:var(--ink-soft)}
+  .nav a{color:var(--ink-soft)} .nav a.active{color:var(--ink);font-weight:600}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:12px}
+  .hero{padding:60px 0 30px;border-bottom:1px solid var(--line)}
+  .hero h1{font-family:var(--serif);font-size:40px;font-weight:600;margin:0 0 16px;line-height:1.08}
+  .hero p{font-size:17px;margin:0}
+  section{padding:34px 0;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  h2{font-family:var(--serif);font-size:26px;font-weight:600;margin:0 0 6px}
+  h3{font-family:var(--serif);font-size:19px;font-weight:600;margin:20px 0 4px}
+  p{margin:0 0 12px}
+  .flow{list-style:none;padding:0;margin:10px 0 0;counter-reset:s}
+  .flow li{position:relative;padding:8px 0 8px 40px;counter-increment:s;font-size:15px}
+  .flow li::before{content:counter(s);position:absolute;left:0;top:7px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--cream);font-family:var(--serif);font-weight:600;display:flex;align-items:center;justify-content:center;font-size:13px}
+  .flow b{font-weight:600}
+  .checks p{font-size:15px}
+  .rule{font-size:14px;margin:6px 0;padding-left:22px;position:relative}
+  .rule::before{position:absolute;left:0;font-weight:700}
+  .ok::before{content:"✓";color:var(--ok)} .arrow::before{content:"→";color:var(--warn)} .bad::before{content:"✗";color:var(--bad)}
+  .verdict{display:grid;grid-template-columns:170px 1fr;gap:0;font-size:14.5px;margin-top:8px}
+  .verdict div{padding:10px 0;border-bottom:1px solid var(--line)}
+  .verdict .k{font-weight:700;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+  .callout{background:#F3EFE6;border-radius:12px;padding:16px 20px;font-size:15px;margin-top:8px}
+  .tools{list-style:none;padding:0;margin:8px 0 0}
+  .tools li{padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+  .tools li:last-child{border-bottom:none}
+  .tools b{font-family:var(--serif);font-size:16px;font-weight:600}
+  .tools .ext{color:var(--ink-soft);font-size:13px}
+  .cta{background:var(--ink);color:var(--cream);border-radius:14px;padding:22px;text-align:center;font-size:15px}
+  .cta a{color:#F0C9B8;font-weight:600}
+  .foot{font-size:12.5px;color:var(--ink-soft);padding:24px 0 60px}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand">bear<b>brown</b>.co</span>
+  <nav class="nav">
+    <a href="#">Claude ▾</a><a href="#">Consulting</a><a href="#" class="active">Criteria</a><a href="#">Talent</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Listing Criteria</div>
+    <h1>What we test, what fails, and why breadth is not the goal.</h1>
+    <p>Every listing is tested against the same checks, at a recorded commit sha, before it goes up. The criteria are public so you can reproduce any audit yourself — and so we have nowhere to hide when we're wrong. We record which checks ran, against which pinned commit, and what they found. We do not claim a plugin is <em>safe</em> — only that it cleared these checks as of that sha, on that date. Human review and curation stay separate gates.</p>
+  </div>
+
+  <section>
+    <h2>How an audit runs</h2>
+    <p>The auditor is a credential-free machine that clones each repo into a sandbox and works through the same sequence. Which checks fire depends on what the repo turns out to contain.</p>
+    <ol class="flow">
+      <li><b>Inventory.</b> Detect every component by its file convention — skills, agents, commands, hooks, MCP servers, LSP servers, output styles, themes, monitors, workflows. A plugin is a bundle of these. Anything the detector can't classify is marked <em>not-assessed</em>, never waved through.</li>
+      <li><b>Eligibility.</b> The repo has to install from a published marketplace source or a documented path. Archived, deleted, or long-abandoned repos are excluded.</li>
+      <li><b>Route &amp; test.</b> Each component runs the checks that fit its kind — prose components get an injection scan, code components get static and sandbox checks, config gets validity checks. External scanners run alongside, pinned and disclosed.</li>
+      <li><b>Verdict with disclosed coverage.</b> We record what ran, what it found, and what was <em>not</em> assessed. Then the record and a human-readable report are pushed to a public trace repository.</li>
+    </ol>
+  </section>
+
+  <section class="checks">
+    <h2>The checks</h2>
+
+    <h3>Install &amp; eligibility</h3>
+    <p>We clone the repo, add it as a marketplace source, and run the install. An entry that cannot be installed does not ship, regardless of how interesting the idea is. We record the HEAD sha at install time, so the audit date tells you exactly which version we tested. Declared Node/Python runtimes must be stated in the README.</p>
+    <div class="rule ok">Installs from a published marketplace source or a documented manual path</div>
+    <div class="rule bad">Install fails silently, or errors in a way the README does not mention</div>
+    <div class="rule bad">Requires credentials at install time without a secure documented path</div>
+
+    <h3>Risk scan — static</h3>
+    <p>We read every hook and script that fires at runtime (SessionStart, UserPromptSubmit, PostToolUse, Stop, and the rest) and look for outbound network calls, filesystem writes outside the plugin's own directory, and exec/eval patterns that could run attacker-controlled code.</p>
+    <div class="rule ok">Entirely local — no outbound calls at runtime</div>
+    <div class="rule arrow">Outbound calls exist but are documented, scoped, and opt-outable — disclosed, not excluded</div>
+    <div class="rule bad">Network calls fire silently without README disclosure</div>
+    <div class="rule bad">Hooks write to arbitrary paths or exec dynamic strings</div>
+
+    <h3>Risk scan — behavioral</h3>
+    <p>For code that is committed-only and dependency-free, we go further than reading it: we run it in a gVisor sandbox with the network disabled and watch what it actually does — egress attempts, files touched, processes spawned. When behavior can't be run safely (it needs install, network, or credentials), we say so and mark it deferred — never assumed clean.</p>
+
+    <h3>Prose-to-code ratio</h3>
+    <p>We count prose lines (<code>.md/.txt</code>) against code lines (<code>.ts/.js/.py/.sh</code>). This is a <em>signal</em>, not a gate: high ratios often mean prompt-heavy plugins with little backing behavior; low ratios often mean code-backed plugins doing real runtime work. We publish the number and let the verdict explain it.</p>
+
+    <h3>Benchmark claims</h3>
+    <p>We read the README for quantitative claims — tokens saved, lines reduced, tasks completed — and check whether the baseline and methodology are stated. An unbacked headline number is an exclusion. A retraction that is honest and well-documented is a positive signal, not a negative one.</p>
+  </section>
+
+  <section>
+    <h2>The verdict is the coverage — not a grade</h2>
+    <p>We do not award a quality tier. A tier is an opinion; coverage is a fact. The record says what was tested, at which sha, and what it found — and that <em>is</em> the verdict. Four outcomes, all disclosed:</p>
+    <div class="verdict">
+      <div class="k">CLEARED_STATIC</div><div>Passed the static and applicable checks at this sha. Behavioral may be deferred; the coverage line says which.</div>
+      <div class="k">DEFERRED</div><div>Could not be fully assessed — unsupported shape, or behavior that needs install/network/credentials. Not a pass, not a reject: needs review.</div>
+      <div class="k">FLAG</div><div>Something is present but disclosed, or needs a human look — a documented network call, an undeclared component. Flagged is disclosed, not excluded.</div>
+      <div class="k">REJECT</div><div>Failed an outright exclusion (below).</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What fails outright</h2>
+    <p>Automatic exclusions — no listing:</p>
+    <div class="rule bad">Install fails or errors in a way the README does not address</div>
+    <div class="rule bad">Silent outbound network calls without README disclosure</div>
+    <div class="rule bad">Hooks that exec dynamic strings or write to arbitrary paths</div>
+    <div class="rule bad">Benchmark headline numbers whose baseline is not stated</div>
+    <div class="rule bad">Repos archived, deleted, or untouched for 18+ months</div>
+  </section>
+
+  <section>
+    <h2>Why breadth is not the goal</h2>
+    <p>The large Claude plugin directories index tens of thousands of repos and call it discovery by volume. Our claim is different: we will list fewer things, and we will be correct about the ones we list. A curated directory with a few completed audits is more useful than an index of fifty thousand repos with no verification. We grow the list when we have time to audit properly — not to fill a grid. If you have a plugin you believe should be listed, we will audit it on the same criteria and publish the results either way.</p>
+  </section>
+
+  <section>
+    <h2>The tests, and the tools behind them</h2>
+    <p>A short account of each check — and the honest part: who actually ran it in the record you're reading. We name a tool here only when the trace shows it ran.</p>
+    <ul class="tools">
+      <li><b>Component detection</b> — inventory what's in the repo so the right tests fire and nothing is silently missed; a miss degrades to <em>not-assessed</em>, never a silent pass. <span class="ext">ours</span></li>
+      <li><b>Eligibility &amp; structure</b> — is it a real, installable Claude plugin, well-formed and honest about what it declares. <span class="ext">ours</span></li>
+      <li><b>Prompt-injection scan</b> — prose components are instructions to a model, and instructions can carry injection. <span class="ext">ours</span></li>
+      <li><b>Secrets scan</b> — committed credentials and tokens, filtered for real hits over lockfile noise. <span class="ext">ours</span></li>
+      <li><b>Static exec / egress</b> — subprocess, eval, and network patterns in code that could run or leak. <span class="ext">ours</span></li>
+      <li><b>Behavioral sandbox</b> — run committed-only zero-dep code in gVisor with no network, and record what it does. <span class="ext">ours</span></li>
+      <li><b>Prose-to-code ratio</b> — line counts of prose vs code, published as a signal (not a gate). <span class="ext">Uses <a href="https://github.com/AlDanial/cloc">cloc</a>.</span></li>
+    </ul>
+    <div class="callout"><b>What we don't yet claim.</b> A layered third-party stack — <a href="https://github.com/semgrep/semgrep">Semgrep</a>, <a href="https://github.com/PyCQA/bandit">Bandit</a>, <a href="https://github.com/Yelp/detect-secrets">detect-secrets</a>, <a href="https://github.com/agent-sh/agnix">agnix</a>, <a href="https://github.com/NVIDIA/SkillSpector">SkillSpector</a> — is pinned and intended, but it is <b>not yet independently recorded per listing</b>, so we don't credit it as run. When a listing's trace names one of these, it'll be linked here with its version and coverage. Today every recorded check is either <b>ours</b> or <b>cloc</b> — and the record says which. We'd rather show the gap than claim a tool the trace can't back.</div>
+  </section>
+
+  <section>
+    <div class="cta">
+      Think a plugin should be listed? We'll audit it on these same criteria and publish the result either way.<br>
+      <a href="mailto:bear@bearbrown.co">bear@bearbrown.co</a> — submit for audit
+    </div>
+  </section>
+
+  <div class="foot">
+    Bear Brown, LLC · every listing tested, every verdict shown · <a href="https://bearbrown.co">bearbrown.co</a>
+  </div>
+
+</div>
+</body>
+</html>

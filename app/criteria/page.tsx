@@ -1,23 +1,21 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Listing Criteria — Bear Brown Plugin Directory',
-  description: 'What we test, what fails, and why breadth is not the goal. Published selection criteria and rejection reasons for the Bear Brown Claude plugin directory.',
+  title: 'Listing Criteria — Bear Brown',
+  description: 'What we test, what fails, and why breadth is not the goal. Published audit criteria for the Bear Brown Claude plugin directory.',
 }
+
+const sans: React.CSSProperties = { fontFamily: 'var(--font-sans)' }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section style={{ marginBottom: '48px' }}>
+    <section style={{ padding: '34px 0', borderBottom: '1px solid var(--p-border)' }}>
       <h2 style={{
         fontFamily: 'var(--font-serif)',
-        fontSize: 'clamp(22px, 2.5vw, 28px)',
-        fontWeight: 400,
+        fontSize: '26px',
+        fontWeight: 600,
+        margin: '0 0 6px',
         color: 'var(--p-ink)',
-        lineHeight: 1.2,
-        marginBottom: '16px',
-        paddingBottom: '12px',
-        borderBottom: '1px solid var(--p-border)',
       }}>
         {title}
       </h2>
@@ -29,180 +27,473 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Body({ children }: { children: React.ReactNode }) {
   return (
     <p style={{
-      fontFamily: 'var(--font-sans)',
-      fontSize: '16px',
-      lineHeight: 1.75,
+      ...sans,
+      fontSize: '15px',
+      lineHeight: 1.65,
       color: 'var(--p-ink-soft)',
-      maxWidth: '660px',
-      marginBottom: '16px',
+      margin: '0 0 12px',
     }}>
       {children}
     </p>
   )
 }
 
-function Check({ result, children }: { result: 'pass' | 'fail' | 'note'; children: React.ReactNode }) {
-  const color = result === 'pass' ? '#0072B2' : result === 'fail' ? '#D55E00' : '#9E8C6C'
-  const icon  = result === 'pass' ? '✓' : result === 'fail' ? '✗' : '→'
+function Rule({ result, children }: { result: 'pass' | 'fail' | 'note'; children: React.ReactNode }) {
+  const colors = { pass: '#3F7D5A', note: '#B07A1E', fail: '#B0472F' }
+  const icons  = { pass: '✓', note: '→', fail: '✗' }
   return (
     <div style={{
-      display: 'flex',
-      gap: '12px',
-      padding: '10px 0',
-      borderBottom: '1px solid var(--p-border)',
+      ...sans,
+      fontSize: '14px',
+      margin: '6px 0',
+      paddingLeft: '22px',
+      position: 'relative',
+      color: 'var(--p-ink-soft)',
     }}>
-      <span style={{ color, fontWeight: 700, flexShrink: 0, width: '16px' }} aria-hidden="true">{icon}</span>
-      <span style={{
-        fontFamily: 'var(--font-sans)',
-        fontSize: '14px',
-        lineHeight: 1.6,
-        color: 'var(--p-ink)',
-      }}>
-        {children}
+      <span
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          left: 0,
+          fontWeight: 700,
+          color: colors[result],
+        }}
+      >
+        {icons[result]}
       </span>
+      {children}
     </div>
   )
 }
+
+const flowItems = [
+  {
+    title: 'Inventory.',
+    body: 'Detect every component by its file convention — skills, agents, commands, hooks, MCP servers, LSP servers, output styles, themes, monitors, workflows. A plugin is a bundle of these. Anything the detector can\'t classify is marked not-assessed, never waved through.',
+  },
+  {
+    title: 'Eligibility.',
+    body: 'The repo has to install from a published marketplace source or a documented path. Archived, deleted, or long-abandoned repos are excluded.',
+  },
+  {
+    title: 'Route & test.',
+    body: 'Each component runs the checks that fit its kind — prose components get an injection scan, code components get static and sandbox checks, config gets validity checks. External scanners run alongside, pinned and disclosed.',
+  },
+  {
+    title: 'Verdict with disclosed coverage.',
+    body: 'We record what ran, what it found, and what was not assessed. Then the record and a human-readable report are pushed to a public trace repository.',
+  },
+]
+
+const verdictRows = [
+  {
+    key: 'CLEARED_STATIC',
+    desc: 'Passed the static and applicable checks at this sha. Behavioral may be deferred; the coverage line says which.',
+  },
+  {
+    key: 'DEFERRED',
+    desc: 'Could not be fully assessed — unsupported shape, or behavior that needs install/network/credentials. Not a pass, not a reject: needs review.',
+  },
+  {
+    key: 'FLAG',
+    desc: 'Something is present but disclosed, or needs a human look — a documented network call, an undeclared component. Flagged is disclosed, not excluded.',
+  },
+  {
+    key: 'REJECT',
+    desc: 'Failed an outright exclusion (below).',
+  },
+]
+
+const tools = [
+  {
+    name: 'Component detection',
+    desc: 'inventory what\'s in the repo so the right tests fire and nothing is silently missed; a miss degrades to not-assessed, never a silent pass.',
+    by: 'ours',
+  },
+  {
+    name: 'Eligibility & structure',
+    desc: 'is it a real, installable Claude plugin, well-formed and honest about what it declares.',
+    by: 'ours',
+  },
+  {
+    name: 'Prompt-injection scan',
+    desc: 'prose components are instructions to a model, and instructions can carry injection.',
+    by: 'ours',
+  },
+  {
+    name: 'Secrets scan',
+    desc: 'committed credentials and tokens, filtered for real hits over lockfile noise.',
+    by: 'ours',
+  },
+  {
+    name: 'Static exec / egress',
+    desc: 'subprocess, eval, and network patterns in code that could run or leak.',
+    by: 'ours',
+  },
+  {
+    name: 'Behavioral sandbox',
+    desc: 'run committed-only zero-dep code in gVisor with no network, and record what it does.',
+    by: 'ours',
+  },
+  {
+    name: 'Prose-to-code ratio',
+    desc: 'line counts of prose vs code, published as a signal (not a gate).',
+    by: 'cloc',
+    byHref: 'https://github.com/AlDanial/cloc',
+  },
+]
 
 export default function CriteriaPage() {
   return (
     <div style={{ background: 'var(--p-bg)', minHeight: '100vh' }}>
       <div style={{
-        maxWidth: '760px',
+        maxWidth: '800px',
         margin: '0 auto',
         padding: 'clamp(48px, 7vw, 96px) clamp(24px, 5vw, 48px)',
       }}>
 
-        {/* Header */}
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '11px',
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'var(--p-terra)',
-          marginBottom: '20px',
-        }}>
-          Listing Criteria
-        </p>
-        <h1 style={{
-          fontFamily: 'var(--font-serif)',
-          fontSize: 'clamp(32px, 5vw, 48px)',
-          fontWeight: 400,
-          color: 'var(--p-ink)',
-          lineHeight: 1.1,
-          marginBottom: '24px',
-        }}>
-          What we test, what fails,<br />and why breadth is not the goal.
-        </h1>
-        <Body>
-          Every listing in this directory has been tested against the same checklist, at a recorded commit sha, before it goes up. The criteria are public so you can reproduce any audit yourself — and so we have nowhere to hide when we're wrong.
-        </Body>
+        {/* Hero */}
+        <div style={{ paddingBottom: '30px', borderBottom: '1px solid var(--p-border)' }}>
+          <p style={{
+            ...sans,
+            fontSize: '12px',
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            color: 'var(--p-ink-soft)',
+            fontWeight: 600,
+            marginBottom: '12px',
+          }}>
+            Listing Criteria
+          </p>
+          <h1 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 'clamp(32px, 4vw, 40px)',
+            fontWeight: 600,
+            margin: '0 0 16px',
+            lineHeight: 1.08,
+            color: 'var(--p-ink)',
+          }}>
+            What we test, what fails, and why breadth is not the goal.
+          </h1>
+          <p style={{
+            ...sans,
+            fontSize: '17px',
+            lineHeight: 1.62,
+            color: 'var(--p-ink-soft)',
+            margin: 0,
+          }}>
+            Every listing is tested against the same checks, at a recorded commit sha, before it goes
+            up. The criteria are public so you can reproduce any audit yourself — and so we have nowhere
+            to hide when we&apos;re wrong. We record which checks ran, against which pinned commit, and what
+            they found. We do not claim a plugin is <em>safe</em> — only that it cleared these checks as
+            of that sha, on that date. Human review and curation stay separate gates.
+          </p>
+        </div>
 
-        <hr style={{ border: 'none', borderTop: '1px solid var(--p-border)', margin: '40px 0' }} />
-
-        <Section title="The install check">
+        {/* How an audit runs */}
+        <Section title="How an audit runs">
           <Body>
-            We clone the repo, add it as a plugin marketplace source, and run the install. An entry that cannot be installed does not ship — regardless of how interesting the idea is. We record the HEAD sha at install time. If the plugin later ships a breaking change, the audit date tells you exactly which version we tested.
+            The auditor is a credential-free machine that clones each repo into a sandbox and works
+            through the same sequence. Which checks fire depends on what the repo turns out to contain.
           </Body>
-          <Body>
-            For plugins that require Node or Python, we verify the declared runtime is available in a standard environment. Plugins that silently degrade without stating so are flagged.
-          </Body>
-          <div style={{ background: 'var(--p-bg-card)', borderRadius: '6px', padding: '0 16px', border: '1px solid var(--p-border)', marginTop: '16px' }}>
-            <Check result="pass">Installs from a published marketplace source or a documented manual path</Check>
-            <Check result="pass">All declared runtime dependencies are stated in the README</Check>
-            <Check result="fail">Install fails silently or produces an error the README does not mention</Check>
-            <Check result="fail">Requires credentials at install time without a secure documented path</Check>
-          </div>
+          <ol style={{ listStyle: 'none', padding: 0, margin: '10px 0 0', counterReset: 'flow' }}>
+            {flowItems.map((item, i) => (
+              <li
+                key={item.title}
+                style={{
+                  position: 'relative',
+                  padding: '8px 0 8px 40px',
+                  counterIncrement: 'flow',
+                  borderBottom: i < flowItems.length - 1 ? '1px solid var(--p-border)' : 'none',
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: '7px',
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    background: 'var(--p-ink)',
+                    color: 'var(--p-bg)',
+                    fontFamily: 'var(--font-serif)',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '13px',
+                    flexShrink: 0,
+                  }}
+                >
+                  {i + 1}
+                </span>
+                <span style={{ ...sans, fontSize: '15px', color: 'var(--p-ink-soft)', lineHeight: 1.62 }}>
+                  <strong style={{ color: 'var(--p-ink)' }}>{item.title}</strong>{' '}{item.body}
+                </span>
+              </li>
+            ))}
+          </ol>
         </Section>
 
-        <Section title="The risk scan">
+        {/* The checks */}
+        <Section title="The checks">
+
+          <h3 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '19px',
+            fontWeight: 600,
+            margin: '20px 0 4px',
+            color: 'var(--p-ink)',
+          }}>
+            Install &amp; eligibility
+          </h3>
           <Body>
-            We read every hook script that fires at runtime (SessionStart, SubagentStart, UserPromptSubmit, PostToolUse, Stop). We look for outbound network calls, filesystem writes outside the plugin's own directory, and any exec or eval patterns that could run attacker-controlled code.
+            We clone the repo, add it as a marketplace source, and run the install. An entry that cannot
+            be installed does not ship, regardless of how interesting the idea is. We record the HEAD sha
+            at install time, so the audit date tells you exactly which version we tested. Declared
+            Node/Python runtimes must be stated in the README.
           </Body>
+          <Rule result="pass">Installs from a published marketplace source or a documented manual path</Rule>
+          <Rule result="fail">Install fails silently, or errors in a way the README does not mention</Rule>
+          <Rule result="fail">Requires credentials at install time without a secure documented path</Rule>
+
+          <h3 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '19px',
+            fontWeight: 600,
+            margin: '20px 0 4px',
+            color: 'var(--p-ink)',
+          }}>
+            Risk scan — static
+          </h3>
           <Body>
-            "Clean" means none of the above. "Flagged" means something is present but disclosed — documented in the README, gated on an env var the user sets, or limited to a specific opt-in command. Flagged is not excluded; it is disclosed. Silent telemetry or undisclosed network calls that we cannot attribute to disclosed behavior result in exclusion.
+            We read every hook and script that fires at runtime (SessionStart, UserPromptSubmit,
+            PostToolUse, Stop, and the rest) and look for outbound network calls, filesystem writes
+            outside the plugin&apos;s own directory, and exec/eval patterns that could run attacker-controlled
+            code.
           </Body>
-          <div style={{ background: 'var(--p-bg-card)', borderRadius: '6px', padding: '0 16px', border: '1px solid var(--p-border)', marginTop: '16px' }}>
-            <Check result="pass">Hooks are entirely local — no outbound calls at runtime</Check>
-            <Check result="note">Outbound calls exist but are documented, scoped, and opt-outable</Check>
-            <Check result="fail">Network calls fire silently without disclosure in the README</Check>
-            <Check result="fail">Hooks write to arbitrary filesystem paths or exec dynamic strings</Check>
-          </div>
+          <Rule result="pass">Entirely local — no outbound calls at runtime</Rule>
+          <Rule result="note">Outbound calls exist but are documented, scoped, and opt-outable — disclosed, not excluded</Rule>
+          <Rule result="fail">Network calls fire silently without README disclosure</Rule>
+          <Rule result="fail">Hooks write to arbitrary paths or exec dynamic strings</Rule>
+
+          <h3 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '19px',
+            fontWeight: 600,
+            margin: '20px 0 4px',
+            color: 'var(--p-ink)',
+          }}>
+            Risk scan — behavioral
+          </h3>
+          <Body>
+            For code that is committed-only and dependency-free, we go further than reading it: we run
+            it in a gVisor sandbox with the network disabled and watch what it actually does — egress
+            attempts, files touched, processes spawned. When behavior can&apos;t be run safely (it needs
+            install, network, or credentials), we say so and mark it deferred — never assumed clean.
+          </Body>
+
+          <h3 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '19px',
+            fontWeight: 600,
+            margin: '20px 0 4px',
+            color: 'var(--p-ink)',
+          }}>
+            Prose-to-code ratio
+          </h3>
+          <Body>
+            We count prose lines (<code style={{ ...sans, fontSize: '13px', background: 'var(--p-bg-card)', padding: '1px 5px', borderRadius: '2px' }}>.md/.txt</code>) against code lines (<code style={{ ...sans, fontSize: '13px', background: 'var(--p-bg-card)', padding: '1px 5px', borderRadius: '2px' }}>.ts/.js/.py/.sh</code>). This is a <em>signal</em>, not a gate: high ratios often mean prompt-heavy plugins with little backing behavior; low ratios often mean code-backed plugins doing real runtime work. We publish the number and let the verdict explain it.
+          </Body>
+
+          <h3 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '19px',
+            fontWeight: 600,
+            margin: '20px 0 4px',
+            color: 'var(--p-ink)',
+          }}>
+            Benchmark claims
+          </h3>
+          <Body>
+            We read the README for quantitative claims — tokens saved, lines reduced, tasks completed —
+            and check whether the baseline and methodology are stated. An unbacked headline number is an
+            exclusion. A retraction that is honest and well-documented is a positive signal, not a
+            negative one.
+          </Body>
         </Section>
 
-        <Section title="Prose-to-code ratio">
+        {/* The verdict is the coverage */}
+        <Section title="The verdict is the coverage — not a grade">
           <Body>
-            We count lines in <code style={{ fontFamily: 'monospace', fontSize: '13px', background: 'var(--p-bg-card)', padding: '1px 5px', borderRadius: '2px' }}>.md/.txt</code> files (prose) and lines in <code style={{ fontFamily: 'monospace', fontSize: '13px', background: 'var(--p-bg-card)', padding: '1px 5px', borderRadius: '2px' }}>.ts/.js/.py/.sh</code> files (code). This number is not a quality gate — it is a signal. High ratios often indicate prompt-heavy plugins with little backing behavior; low ratios often indicate code-backed plugins that do real work in the runtime. We publish the number and let the verdict explain it.
+            We do not award a quality tier. A tier is an opinion; coverage is a fact. The record says
+            what was tested, at which sha, and what it found — and that <em>is</em> the verdict. Four
+            outcomes, all disclosed:
           </Body>
-        </Section>
-
-        <Section title="Benchmark claims">
-          <Body>
-            We read the README for quantitative claims. If a plugin claims a specific improvement — tokens saved, lines reduced, tasks completed — we check whether the baseline and methodology are stated. We note retractions prominently. A retraction that is honest and well-documented is a positive signal, not a negative one.
-          </Body>
-          <Body>
-            Our research background influences what we look for: ensemble signals, technical audit pipelines, cluster verification. We apply those methods to the plugins themselves.
-          </Body>
-        </Section>
-
-        <Section title="Tiers">
-          <Body>
-            Tiers are derived from the audit fields, not hand-waved. We do not award Excellent to a plugin with a failed install check or an undisclosed network call.
-          </Body>
-          <div style={{ background: 'var(--p-bg-card)', borderRadius: '6px', padding: '16px 20px', border: '1px solid var(--p-border)', marginTop: '16px' }}>
-            {[
-              { tier: 'Excellent ◆', color: '#0072B2', desc: 'Clean install, clean or flagged-and-disclosed risk scan, code-backed behavior, honest benchmark claims, actively maintained.' },
-              { tier: 'Strong ●',    color: '#3D3929', desc: 'Clean install, disclosed risk signals if any, useful backing behavior, reliable maintenance signal.' },
-              { tier: 'Promising ▲', color: '#D55E00', desc: 'Installs, passes the risk scan, shows a clear use case — but early, limited scope, or lighter documentation.' },
-            ].map(({ tier, color, desc }) => (
-              <div key={tier} style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid var(--p-border)' }}>
-                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', fontWeight: 700, color, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: '4px' }}>{tier}</p>
-                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', lineHeight: 1.6, color: 'var(--p-ink-soft)', margin: 0 }}>{desc}</p>
+          <div style={{ marginTop: '8px' }}>
+            {verdictRows.map((row, i) => (
+              <div
+                key={row.key}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '170px 1fr',
+                  gap: 0,
+                  borderBottom: i < verdictRows.length - 1 ? '1px solid var(--p-border)' : 'none',
+                }}
+              >
+                <div style={{
+                  ...sans,
+                  fontFamily: 'ui-monospace, Menlo, monospace',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  color: 'var(--p-ink)',
+                  padding: '10px 0',
+                }}>
+                  {row.key}
+                </div>
+                <div style={{
+                  ...sans,
+                  fontSize: '14.5px',
+                  color: 'var(--p-ink-soft)',
+                  padding: '10px 0',
+                  lineHeight: 1.55,
+                }}>
+                  {row.desc}
+                </div>
               </div>
             ))}
-            <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', margin: 0 }}>
-              Tiers coexist with shape + label in every display. The greyscale gate: desaturate any page and tiers must still be distinguishable by shape.
-            </p>
           </div>
         </Section>
 
+        {/* What fails outright */}
         <Section title="What fails outright">
-          <Body>
-            These are automatic exclusions — no tier, no listing:
-          </Body>
-          <div style={{ background: 'var(--p-bg-card)', borderRadius: '6px', padding: '0 16px', border: '1px solid var(--p-border)' }}>
-            <Check result="fail">Install fails or produces an error not addressed by the README</Check>
-            <Check result="fail">Silent outbound network calls without README disclosure</Check>
-            <Check result="fail">Hooks that exec dynamic strings or write to arbitrary paths</Check>
-            <Check result="fail">Benchmark headline numbers whose baseline is not stated</Check>
-            <Check result="fail">Repos that have been archived, deleted, or untouched for 18+ months</Check>
-          </div>
+          <Body>Automatic exclusions — no listing:</Body>
+          <Rule result="fail">Install fails or errors in a way the README does not address</Rule>
+          <Rule result="fail">Silent outbound network calls without README disclosure</Rule>
+          <Rule result="fail">Hooks that exec dynamic strings or write to arbitrary paths</Rule>
+          <Rule result="fail">Benchmark headline numbers whose baseline is not stated</Rule>
+          <Rule result="fail">Repos archived, deleted, or untouched for 18+ months</Rule>
         </Section>
 
+        {/* Why breadth is not the goal */}
         <Section title="Why breadth is not the goal">
           <Body>
-            The large Claude plugin directories index tens of thousands of repos. The claim is discovery by volume. Our claim is different: we will list fewer things, and we will be correct about the ones we list.
+            The large Claude plugin directories index tens of thousands of repos and call it discovery
+            by volume. Our claim is different: we will list fewer things, and we will be correct about
+            the ones we list. A curated directory with a few completed audits is more useful than an
+            index of fifty thousand repos with no verification. We grow the list when we have time to
+            audit properly — not to fill a grid. If you have a plugin you believe should be listed, we
+            will audit it on the same criteria and publish the results either way.
           </Body>
-          <Body>
-            A curated directory with three entries and three completed audits is more useful than an index of fifty thousand repos with no verification. We grow the list when we have time to audit properly — not to fill a grid.
-          </Body>
-          <Body>
-            If you have a plugin that you believe should be listed, we will audit it on the same criteria and publish the results either way.
-          </Body>
-          <p style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: '14px',
-            color: 'var(--p-ink-soft)',
-          }}>
-            <a href="mailto:bear@bearbrown.co" style={{ color: 'var(--p-blue)', textDecoration: 'none' }}>bear@bearbrown.co</a> — submit for audit
-          </p>
         </Section>
 
-        <div style={{ paddingTop: '24px', borderTop: '1px solid var(--p-border)' }}>
-          <Link href="/" style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--p-blue)', textDecoration: 'none' }}>
-            ← Back to directory
-          </Link>
+        {/* The tests, and the tools behind them */}
+        <Section title="The tests, and the tools behind them">
+          <Body>
+            A short account of each check — and the honest part: who actually ran it in the record
+            you&apos;re reading. We name a tool here only when the trace shows it ran.
+          </Body>
+          <ul style={{ listStyle: 'none', padding: 0, margin: '8px 0 0' }}>
+            {tools.map((tool) => (
+              <li
+                key={tool.name}
+                style={{
+                  padding: '12px 0',
+                  borderBottom: '1px solid var(--p-border)',
+                }}
+              >
+                <span style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  color: 'var(--p-ink)',
+                }}>
+                  {tool.name}
+                </span>
+                {' '}
+                <span style={{ ...sans, fontSize: '14.5px', color: 'var(--p-ink-soft)' }}>
+                  — {tool.desc}
+                </span>
+                {' '}
+                <span style={{ ...sans, fontSize: '13px', color: 'var(--p-ink-muted)' }}>
+                  {tool.byHref ? (
+                    <>Uses <a href={tool.byHref} style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>cloc</a>.</>
+                  ) : (
+                    tool.by
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div style={{
+            background: 'var(--p-bg-card)',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            fontSize: '15px',
+            color: 'var(--p-ink-soft)',
+            fontFamily: 'var(--font-sans)',
+            lineHeight: 1.6,
+            marginTop: '8px',
+          }}>
+            <strong style={{ color: 'var(--p-ink)' }}>What we don&apos;t yet claim.</strong>{' '}
+            A layered third-party stack —{' '}
+            <a href="https://github.com/semgrep/semgrep" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>Semgrep</a>,{' '}
+            <a href="https://github.com/PyCQA/bandit" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>Bandit</a>,{' '}
+            <a href="https://github.com/Yelp/detect-secrets" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>detect-secrets</a>,{' '}
+            <a href="https://github.com/agent-sh/agnix" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>agnix</a>,{' '}
+            <a href="https://github.com/NVIDIA/SkillSpector" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>SkillSpector</a>{' '}
+            — is pinned and intended, but it is{' '}
+            <strong>not yet independently recorded per listing</strong>, so we don&apos;t credit it as run.
+            When a listing&apos;s trace names one of these, it&apos;ll be linked here with its version and coverage.
+            Today every recorded check is either <strong>ours</strong> or <strong>cloc</strong> — and the
+            record says which. We&apos;d rather show the gap than claim a tool the trace can&apos;t back.
+          </div>
+        </Section>
+
+        {/* CTA */}
+        <section style={{ padding: '34px 0', borderBottom: '1px solid var(--p-border)' }}>
+          <div style={{
+            background: 'var(--p-ink)',
+            borderRadius: '14px',
+            padding: '22px',
+            textAlign: 'center',
+            fontFamily: 'var(--font-sans)',
+            fontSize: '15px',
+            color: 'var(--p-bg)',
+          }}>
+            Think a plugin should be listed? We&apos;ll audit it on these same criteria and publish the
+            result either way.
+            <br />
+            <a
+              href="mailto:bear@bearbrown.co"
+              style={{ color: '#F0C9B8', fontWeight: 600, textDecoration: 'none' }}
+            >
+              bear@bearbrown.co
+            </a>
+            {' '}— submit for audit
+          </div>
+        </section>
+
+        {/* Footer */}
+        <div style={{ paddingTop: '24px' }}>
+          <p style={{
+            ...sans,
+            fontSize: '12.5px',
+            color: 'var(--p-ink-soft)',
+            margin: 0,
+          }}>
+            Bear Brown, LLC · every listing tested, every verdict shown ·{' '}
+            <a
+              href="https://bearbrown.co"
+              style={{ color: 'var(--p-terra)', textDecoration: 'none' }}
+            >
+              bearbrown.co
+            </a>
+          </p>
         </div>
+
       </div>
     </div>
   )

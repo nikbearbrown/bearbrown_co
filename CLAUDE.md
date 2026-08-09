@@ -242,11 +242,60 @@ NEXT_PUBLIC_SITE_URL=https://bearbrown.co
 BLOB_READ_WRITE_TOKEN=           # Vercel Blob token
 NEXT_PUBLIC_GA_ID=               # Google Analytics (optional)
 YOUTUBE_API_KEY=                 # YouTube Data API v3 (video import)
+GITHUB_READ_TOKEN=               # Read-only PAT for nikbearbrown/github-claude-plugins (audit ingest)
 ```
+
+`GITHUB_READ_TOKEN` must be a fine-grained GitHub PAT scoped to `nikbearbrown/github-claude-plugins`
+with **Contents: Read** permission only. Add it to Vercel project env vars (Production + Preview).
+Without it the `/claude/[type]` pages still render — they show only illustrative examples.
 
 ## Deployment
 - Push to main → auto-deploys to Vercel
 - Domain: bearbrown.co
+
+## Audit ingest system (`lib/ingest/`)
+
+Turns live `schema_version:2` records from the auditor box into page data for `/claude/[type]/[slug]`.
+
+| File | Role |
+|---|---|
+| `scripts/ingest-to-file.mjs` | **Run locally** to regenerate `data/catalog/audit-entries.json` |
+| `data/catalog/audit-entries.json` | **Pre-generated, committed** — primary data source at build time (no API calls) |
+| `lib/ingest/github.ts` | Shard-aware GitHub walk + blob fetch (fallback when JSON file absent) |
+| `lib/ingest/transform.ts` | Raw JSON → `AuditEntry`; keyword field/stack enrichment |
+| `lib/ingest/index.ts` | `getAllAuditEntries()` — reads static file first, falls back to GitHub |
+| `data/catalog/audit-entry.ts` | `AuditEntry` TypeScript type (schema_version:2 shape) |
+
+### Regenerating the catalog
+
+When new audit records have been posted to the results repo, run locally:
+```bash
+node scripts/ingest-to-file.mjs
+```
+This reads `GITHUB_READ_TOKEN` from `.env.local`, walks the newest 3 days of ledger records, filters to `CLEARED_STATIC` grade only (REJECTs and DEFERREDs are excluded — they failed eligibility/dedup/secret gates), and writes `data/catalog/audit-entries.json`. Commit the updated file, then deploy.
+
+### Nightly auto-refresh
+
+`.github/workflows/refresh-audit-entries.yml` runs `ingest-to-file.mjs` at 04:00 UTC daily, commits the updated JSON if it changed, and pushes — triggering a new Vercel deploy. Requires `AUDIT_READ_TOKEN` in the repo's GitHub Actions secrets (same fine-grained PAT as `GITHUB_READ_TOKEN`, scoped to `nikbearbrown/github-claude-plugins` with Contents: Read).
+
+The Vercel build reads the committed JSON file — no GitHub API calls at build time.
+
+### AuditEntry URL mapping
+- Record `id` field: `owner__repo` (double underscore, the auditor's slug separator)
+- URL slug: `__` → `--` (e.g. `gomarble-ai--marketing-agent`)
+- URL type: pluralized (`skill`→`skills`, `mcp-server`→`mcp-servers`, `plugin`→`skills`)
+- Detail URL: `/claude/{typeSlug}/{urlSlug}`
+
+### Pages that consume real entries
+- `/claude/[type]/page.tsx` — shows real entries above illustrative examples
+- `/claude/[type]/[slug]/page.tsx` — real entry detail OR illustrative sample (real wins)
+
+### What NOT to do with the ingest
+- Never hardcode `GITHUB_READ_TOKEN` — read from `process.env.GITHUB_READ_TOKEN` only
+- Never contact the auditor box from the site — read-only from the public results repo
+- Never fabricate fields the record lacks — missing data renders as absent, not invented
+- Never block a build on ingest failure — empty result array is a valid state
+- Never delete `data/catalog/audit-entries.json` — it is the primary data source for the build
 
 ## What NOT to do
 - Do not add entries to the catalog without a completed audit (sha, date, install check, risk scan)

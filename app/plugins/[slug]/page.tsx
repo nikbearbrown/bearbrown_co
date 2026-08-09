@@ -6,9 +6,6 @@ import { getEntry, getEntries } from '@/data/catalog/entries'
 
 interface Props { params: Promise<{ slug: string }> }
 
-const TIER_LABEL: Record<string, string> = { excellent: 'Excellent', strong: 'Strong', promising: 'Promising' }
-const TIER_SHAPE: Record<string, string> = { excellent: '◆', strong: '●', promising: '▲' }
-const TIER_COLOR: Record<string, string> = { excellent: '#0072B2', strong: '#3D3929', promising: '#D55E00' }
 
 export function generateStaticParams() {
   return getEntries().map((entry) => ({ slug: entry.slug }))
@@ -71,14 +68,9 @@ export default async function PluginPage({ params }: Props) {
           <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Plugins</Link>{' / '}{entry.name}
         </p>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '20px', flexWrap: 'wrap' }}>
-          <div style={{ maxWidth: '820px' }}>
-            <p style={{ ...sans, fontSize: '11px', letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--p-terra)', marginBottom: '16px' }}>Audited plugin listing</p>
-            <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 400, lineHeight: 1.05, color: 'var(--p-ink)', marginBottom: '20px' }}>{entry.name}</h1>
-          </div>
-          <span style={{ ...sans, display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '11px', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', padding: '6px 12px', borderRadius: '4px', border: `1px solid ${TIER_COLOR[entry.tier]}`, color: TIER_COLOR[entry.tier] }}>
-            <span aria-hidden="true">{TIER_SHAPE[entry.tier]}</span>{TIER_LABEL[entry.tier]}
-          </span>
+        <div style={{ maxWidth: '820px' }}>
+          <p style={{ ...sans, fontSize: '11px', letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--p-terra)', marginBottom: '16px' }}>Audited plugin listing</p>
+          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 400, lineHeight: 1.05, color: 'var(--p-ink)', marginBottom: '20px' }}>{entry.name}</h1>
         </div>
         <p style={{ ...sans, fontSize: '17px', lineHeight: 1.7, color: 'var(--p-ink-soft)', maxWidth: '800px', marginBottom: '24px' }}>{entry.description}</p>
         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '40px' }}>
@@ -141,7 +133,7 @@ export default async function PluginPage({ params }: Props) {
             {related.length > 0 && (
               <Section eyebrow="Related" title="Similar audited plugins">
                 <div style={{ display: 'grid', gap: '10px' }}>
-                  {related.map((item) => <Link key={item.slug} href={`/plugins/${item.slug}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', padding: '14px 16px', border: '1px solid var(--p-border)', borderRadius: '5px', textDecoration: 'none', background: 'var(--p-bg-card)' }}><span style={{ fontFamily: 'var(--font-serif)', fontSize: '17px', color: 'var(--p-ink)' }}>{item.name}</span><span style={{ ...sans, fontSize: '10px', color: 'var(--p-ink-muted)' }}>{TIER_LABEL[item.tier]}</span></Link>)}
+                  {related.map((item) => <Link key={item.slug} href={`/plugins/${item.slug}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', padding: '14px 16px', border: '1px solid var(--p-border)', borderRadius: '5px', textDecoration: 'none', background: 'var(--p-bg-card)' }}><span style={{ fontFamily: 'var(--font-serif)', fontSize: '17px', color: 'var(--p-ink)' }}>{item.name}</span><span style={{ ...sans, fontSize: '10px', color: 'var(--p-ink-muted)' }}>{'Audited'}</span></Link>)}
                 </div>
               </Section>
             )}
@@ -151,7 +143,6 @@ export default async function PluginPage({ params }: Props) {
             <div style={{ border: '1px solid var(--p-border)', borderRadius: '6px', background: 'var(--p-bg-card)', padding: '18px' }}>
               <p style={{ ...sans, fontSize: '10px', letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--p-ink-muted)', marginBottom: '16px' }}>Details</p>
               <DetailRow label="Type" value="Plugin" />
-              <DetailRow label="Quality" value={TIER_LABEL[entry.tier]} />
               <DetailRow label="Kind" value={audit.kind === 'code-backed' ? 'Code-backed' : 'Prompt-only'} />
               <DetailRow label="Audited" value={audit.date} />
               <DetailRow label="Commit" value={<code style={mono}>{audit.sha.slice(0, 12)}…</code>} />

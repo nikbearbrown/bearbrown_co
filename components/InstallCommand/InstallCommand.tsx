@@ -17,7 +17,7 @@ export default function InstallCommand({ command }: Props) {
 
   return (
     <div style={{
-      background: 'var(--p-ink)',
+      background: '#1e120a',
       borderRadius: '6px',
       padding: '0',
       overflow: 'hidden',

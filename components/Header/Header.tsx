@@ -11,8 +11,7 @@ const NAV_ITEMS = [
   { name: 'Claude',     href: '/' },
   { name: 'Consulting', href: '/consulting' },
   { name: 'Criteria',   href: '/criteria' },
-  { name: 'Essays',     href: '/essays' },
-  { name: 'Videos',     href: '/videos' },
+  { name: 'Talent',     href: '/talent' },
 ]
 
 const CLAUDE_MENU = [
@@ -27,10 +26,7 @@ const CLAUDE_MENU = [
   { name: 'Themes',        href: '/claude/themes' },
   { name: 'Monitors',      href: '/claude/monitors' },
   { name: 'Workflows',     href: '/claude/workflows' },
-]
-
-const SECONDARY_ITEMS = [
-  { name: 'Blog', href: '/blog' },
+  { name: 'Roll your own', href: '/roll-your-own' },
 ]
 
 const SOCIAL_LINKS = [
@@ -164,28 +160,6 @@ export default function Header() {
             )}
           </nav>
 
-          {/* Divider + secondary */}
-          <div className="hidden lg:flex items-center gap-4">
-            <span style={{ width: '1px', height: '14px', background: 'var(--p-border-strong)' }} />
-            {SECONDARY_ITEMS.map(item => (
-              <Link
-                key={item.name}
-                href={item.href}
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '12px',
-                  letterSpacing: '0.02em',
-                  color: 'var(--p-ink-muted)',
-                  textDecoration: 'none',
-                  transition: 'color 0.15s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--p-ink)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--p-ink-muted)')}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -251,7 +225,7 @@ export default function Header() {
             style={{ background: 'var(--p-bg)', borderBottom: '1px solid var(--p-border)' }}
           >
             <nav className="flex flex-col space-y-4">
-              {[...NAV_ITEMS, ...SECONDARY_ITEMS].map((item) => (
+              {NAV_ITEMS.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}

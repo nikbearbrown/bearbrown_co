@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Consulting — Bear Brown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF9F5; --card:#FFFDF8; --ink:#3D3929; --ink-soft:#6E6656;
+    --spark:#D97757; --line:#E9E3D6; --line-2:#DED7C6;
+    --serif:'EB Garamond',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--spark);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+  header.site{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--cream);z-index:5}
+  .site .wrap{max-width:860px;display:flex;align-items:center;gap:18px;height:60px}
+  .brand{font-family:var(--serif);font-size:22px;font-weight:600}
+  .brand b{color:var(--spark)}
+  .nav{margin-left:auto;display:flex;gap:16px;font-size:14px;color:var(--ink-soft)}
+  .nav a{color:var(--ink-soft)}
+  .nav a.active{color:var(--ink);font-weight:600}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:14px}
+  .hero{padding:66px 0 40px;border-bottom:1px solid var(--line)}
+  .hero .statement{font-family:var(--serif);font-size:30px;font-weight:500;line-height:1.28;margin:0}
+  .hero .statement b{color:var(--spark);font-weight:600}
+  section{padding:40px 0;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .body{font-family:var(--serif);font-size:20px;line-height:1.6;color:#423e30}
+  .body .kick{color:var(--spark);font-weight:600}
+  .cta{background:var(--ink);color:var(--cream);border-radius:14px;padding:26px;text-align:center;font-family:var(--sans)}
+  .cta .k{font-family:var(--serif);font-size:24px;margin-bottom:6px}
+  .cta a{color:#F0C9B8;font-weight:600}
+  .foot{font-size:13px;color:var(--ink-soft);padding:26px 0 60px}
+  @media(max-width:640px){.hero .statement{font-size:24px}.body{font-size:18px}}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand">bear<b>brown</b>.co</span>
+  <nav class="nav">
+    <a href="#">Claude ▾</a><a href="#" class="active">Consulting</a><a href="#">Criteria</a>
+    <a href="#">Talent</a><a href="#">Essays</a><a href="#">Videos</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Consulting</div>
+    <p class="statement">Bear Brown builds bespoke AI for startups that need to move — as consultant, equity advisor, and talent connector. <b>No bloated retainers. No generalists. Skin in the game, top-tier engineers, and AI that actually ships.</b></p>
+  </div>
+
+  <section>
+    <p class="body"><span class="kick">Most AI consultants give you a roadmap and send an invoice. Bear Brown takes equity.</span> As founder of Bear Brown &amp; Company and Associate Teaching Professor of Engineering at Northeastern University — where he leads the AI for Education Project and collaborates with the Broad Institute and Harvard Medical School — he brings rare depth to early-stage AI advising: bespoke AI strategy, hands-on build support, and a direct line to exceptional recent engineering graduates at entry-level rates. His research spans machine learning, reinforcement learning, deep learning, and computational biology. His practice spans the gap between research-grade AI and organizations that need it working by next quarter. He holds a Ph.D. in computer science from UCLA, a postdoc from Harvard Medical School, and an MBA — and a career's worth of proof that AI doesn't have to be a black box to be brilliant.</p>
+  </section>
+
+  <section>
+    <div class="cta">
+      <div class="k">Work with him</div>
+      <p>Email Nik at <a href="mailto:bear@bearbrown.co">bear@bearbrown.co</a> — or start at <a href="https://bearbrown.co">bearbrown.co</a>.</p>
+    </div>
+  </section>
+
+  <div class="foot">
+    Nik Bear Brown, PhD · Associate Teaching Professor, College of Engineering, Northeastern University · <a href="https://bearbrown.co">bearbrown.co</a>
+  </div>
+
+</div>
+</body>
+</html>

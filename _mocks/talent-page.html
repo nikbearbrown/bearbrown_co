@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talent — Bear Brown & Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF9F5; --card:#FFFDF8; --ink:#3D3929; --ink-soft:#6E6656;
+    --spark:#D97757; --line:#E9E3D6; --line-2:#DED7C6;
+    --serif:'EB Garamond',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--spark);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+  header.site{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--cream);z-index:5}
+  .site .wrap{display:flex;align-items:center;gap:18px;height:60px}
+  .brand{font-family:var(--serif);font-size:22px;font-weight:600}
+  .brand b{color:var(--spark)}
+  .nav{margin-left:auto;display:flex;gap:16px;font-size:14px;color:var(--ink-soft)}
+  .nav a{color:var(--ink-soft)}
+  .nav a.active{color:var(--ink);font-weight:600}
+  .hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+  .hero h1{font-family:var(--serif);font-size:44px;font-weight:600;margin:0 0 10px;line-height:1.05}
+  .hero .tag{font-family:var(--serif);font-style:italic;font-size:23px;color:var(--spark)}
+  section{padding:38px 0;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  h2{font-family:var(--serif);font-size:28px;font-weight:600;margin:0 0 14px}
+  p{margin:0 0 14px}
+  .lead{font-size:17px}
+  .lanes{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:6px}
+  .lane{background:var(--card);border:1px solid var(--line-2);border-radius:14px;padding:22px}
+  .lane.open{border-top:3px solid var(--spark)}
+  .lane.bespoke{border-top:3px solid var(--ink)}
+  .lane h3{font-family:var(--serif);font-size:22px;margin:0 0 2px}
+  .lane .price{font-weight:700;font-size:15px;color:var(--spark);margin-bottom:4px}
+  .lane.bespoke .price{color:var(--ink)}
+  .lane .who{font-size:14px;color:var(--ink-soft);margin-bottom:14px;font-style:italic}
+  .lane ul{margin:0;padding-left:18px}
+  .lane li{margin-bottom:9px;font-size:14.5px}
+  .sub{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink-soft);margin:-4px 0 16px}
+  ul.plain{padding-left:20px}
+  ul.plain li{margin-bottom:8px}
+  .why h4{font-family:var(--sans);font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--spark);margin:18px 0 4px}
+  .dont{background:#F3EFE6;border-radius:12px;padding:18px 22px;font-size:15px}
+  .cta{background:var(--ink);color:var(--cream);border-radius:14px;padding:26px;text-align:center}
+  .cta h2{color:var(--cream)}
+  .cta a{color:#F0C9B8;font-weight:600}
+  .foot{font-size:13px;color:var(--ink-soft);padding:26px 0 60px}
+  @media(max-width:680px){.lanes{grid-template-columns:1fr}.hero h1{font-size:34px}}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand">bear<b>brown</b>.co</span>
+  <nav class="nav">
+    <a href="#">Claude ▾</a><a href="#">Consulting</a><a href="#">Criteria</a>
+    <a href="#" class="active">Talent</a><a href="#">Essays</a><a href="#">Videos</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1>Bear Brown &amp; Co.</h1>
+    <div class="tag">A professor sees the best. Hire them away, please.</div>
+  </div>
+
+  <section>
+    <h2>What we do</h2>
+    <p class="lead">We build AI-era web apps — interactive tools, dashboards, assessments, wrappers around your models and data — using open-source tools and recent graduates from top AI programs.</p>
+    <p>The code is real work, delivered fast and cheap. But the bigger thing we offer is a structured way to audition top AI talent on a real project. If you want to hire the person who built your app, we'll introduce you. <strong>No placement fee. No non-solicit. That's the point.</strong></p>
+  </section>
+
+  <section>
+    <h2>Two lanes. No middle.</h2>
+    <div class="lanes">
+      <div class="lane open">
+        <h3>Open Lane</h3>
+        <div class="price">$35/hr</div>
+        <div class="who">For the 95% of what most clients need: wrapping your vision in open-source tools so people can actually use it.</div>
+        <ul>
+          <li>Recent grad developers, supervised by Prof. Nik Bear Brown (Northeastern University, College of Engineering)</li>
+          <li>$35/hr, billed weekly</li>
+          <li>Open source only — MIT, Apache, BSD dependencies</li>
+          <li>No NDAs. If your project needs one, it belongs in the Bespoke Lane.</li>
+          <li>Client never shares proprietary IP with us. We build the wrapper; your secret sauce stays yours.</li>
+          <li>Client owns the code and can do whatever they want with it.</li>
+          <li>No warranty period. Bugs get fixed at the hourly rate. Retainers available.</li>
+          <li>Either side can stop at a week boundary. No long-term commitment.</li>
+          <li><strong>Hire the grads.</strong> If you want to bring the developer in-house, we'll introduce you at no cost. If it happens mid-project, we cover the shadowing cost for a clean handoff.</li>
+        </ul>
+      </div>
+      <div class="lane bespoke">
+        <h3>Bespoke Lane</h3>
+        <div class="price">$200+/hr or equity</div>
+        <div class="who">For the 5% that genuinely needs it.</div>
+        <ul>
+          <li>Nik directly, possibly with vetted senior collaborators</li>
+          <li>$200+/hr, equity, or both — priced per engagement</li>
+          <li>NDAs, exclusivity, direct IP handling — all on the table</li>
+          <li>Meaningful engagement size. Not a weekend gig.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="why">
+    <h2>Why this works</h2>
+    <h4>For clients</h4>
+    <p>Essential work done — and a possible first employee. You get a working app at a rate no dev shop can match, built on infrastructure you can maintain yourself, by someone you can hire if they're a fit. The structure of the engagement is itself the interview.</p>
+    <h4>For grads</h4>
+    <p>Real paid project experience, real professional references, and a direct path to a job with a client who's already seen their work.</p>
+    <h4>The moat</h4>
+    <p>The economics only work because Nik teaches hundreds of students a year and knows who the strong ones are. No dev shop can replicate the vetting. That's the moat, stated plainly.</p>
+  </section>
+
+  <section>
+    <h2>What we build</h2>
+    <ul class="plain">
+      <li>Interactive assessment tools (sliders, spider charts, scoring dashboards)</li>
+      <li>Data viz and executive dashboards</li>
+      <li>LLM-wrapper applications over your existing models, data, or workflows</li>
+      <li>Agentic systems — multi-step automations, tool-using agents, workflow orchestration</li>
+      <li>Research tools — literature review, data gathering, analysis pipelines</li>
+      <li>Fine-tuned models on your open data</li>
+      <li>Internal tools, client-facing portals, prototypes</li>
+      <li>Anything where the goal is to make your vision usable by other people</li>
+    </ul>
+    <div class="dont">
+      We don't build your core model. We don't touch your training data. We don't want to see your customer list. We build the part that turns your work into something people can interact with.
+    </div>
+  </section>
+
+  <section>
+    <div class="cta">
+      <h2>How to start</h2>
+      <p>Email Nik at <a href="mailto:bear@bearbrown.co">bear@bearbrown.co</a> with a rough description of what you want to build. We'll scope it in a short call, match you with a grad, and start week one.</p>
+    </div>
+  </section>
+
+  <div class="foot">
+    Nik Bear Brown, PhD · Associate Teaching Professor, College of Engineering, Northeastern University · <a href="https://bearbrown.co">bearbrown.co</a> · <a href="https://nikbearbrown.com">nikbearbrown.com</a>
+  </div>
+
+</div>
+</body>
+</html>

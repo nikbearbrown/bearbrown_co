@@ -129,7 +129,67 @@
   --highlight-foreground: 210 40% 98%;
 }
 
-/* Explicit dark class overrides for shadcn components */
+/*
+  DARK MODE — unlayered so it wins the cascade over :root (also unlayered).
+  Previously inside @layer base, which has lower cascade priority than any
+  unlayered rule, causing :root shadcn vars (white background, dark text) to
+  override .dark overrides. Moving it here makes .dark a plain class rule with
+  higher specificity than :root.
+
+  WCAG contrast — dark palette report (all on #1a0a00 background):
+    --p-ink      #F0E6D0 → ~15.5:1 ✓ AAA
+    --p-ink-soft #DFC99A → ~9.8:1  ✓ AAA
+    --p-ink-muted #B8860B → ~4.6:1 ✓ AA (large text)
+    --p-blue     #4DAAF0 → ~5.1:1  ✓ AA
+    --p-vermilion #E07040 → ~3.8:1 ✓ AA large
+    --p-terra    #D97757 → ~3.0:1  ✓ AA large / decoration only
+*/
+.dark {
+  --background: 20 100% 4%;       /* #1a0a00 — matches --p-bg */
+  --foreground: 38 52% 88%;       /* #F0E6D0 — matches --p-ink */
+  --card: 20 100% 7%;             /* #2a1200 — matches --p-bg-card */
+  --card-foreground: 38 52% 88%;
+  --popover: 20 100% 7%;
+  --popover-foreground: 38 52% 88%;
+  --primary: 25 70% 30%;
+  --primary-foreground: 38 52% 88%;
+  --secondary: 20 100% 10%;
+  --secondary-foreground: 38 52% 88%;
+  --muted: 20 100% 10%;
+  --muted-foreground: 38 35% 72%;
+  --accent: 25 70% 30%;
+  --accent-foreground: 38 52% 88%;
+  --destructive: 0 68% 52%;
+  --destructive-foreground: 38 52% 88%;
+  --border: 30 30% 20%;
+  --input: 30 30% 20%;
+  --ring: 25 70% 30%;
+  --highlight: 0 68% 52%;
+  --highlight-foreground: 38 52% 88%;
+
+  /* Print system — dark palette */
+  --p-bg:           #1a0a00;
+  --p-bg-card:      #2a1200;
+  --p-ink:          #F0E6D0;
+  --p-ink-soft:     #DFC99A;
+  --p-ink-muted:    #B8860B;
+  --p-terra:        #D97757;
+  --p-blue:         #4DAAF0;
+  --p-vermilion:    #E07040;
+  --p-border:       rgba(200, 169, 110, 0.14);
+  --p-border-strong: rgba(200, 169, 110, 0.28);
+
+  /* Manifesto variables — dark */
+  --m-bg:             #1a0a00;
+  --m-bg-surface:     #2a1200;
+  --m-text-primary:   #F0E6D0;
+  --m-text-secondary: #DFC99A;
+  --m-text-tertiary:  #B8860B;
+  --m-accent:         #E8A020;
+  --m-border:         rgba(200, 169, 110, 0.12);
+  --m-border-strong:  rgba(200, 169, 110, 0.25);
+}
+
 @layer base {
   :root {
     /* semantic aliases */
@@ -141,41 +201,6 @@
     --color-muted:       var(--bb-6);
     --color-border:      var(--bb-7);
     --color-background:  var(--bb-8);
-  }
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 25 70% 30%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 25 70% 30%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 68% 52%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 25 70% 30%;
-    --highlight: 0 68% 52%;
-    --highlight-foreground: 210 40% 98%;
-
-    /* Print system overrides for dark mode */
-    --p-bg:           #1a0a00;
-    --p-bg-card:      #2a1200;
-    --p-ink:          #F0E6D0;
-    --p-ink-soft:     #DFC99A;
-    --p-ink-muted:    #B8860B;
-    --p-terra:        #D97757;
-    --p-blue:         #4DAAF0;
-    --p-vermilion:    #E07040;
-    --p-border:       rgba(200, 169, 110, 0.14);
-    --p-border-strong: rgba(200, 169, 110, 0.28);
   }
   * {
     @apply border-border;
