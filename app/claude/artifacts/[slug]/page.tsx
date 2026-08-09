@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import CopyPrompt from '@/components/CopyPrompt'
 import catalog from '@/data/catalog/artifact-pages.json'
+import './artifact-doc.css'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -40,7 +41,7 @@ export default async function ArtifactPage({ params }: Props) {
           ~{(page.tokensApprox / 1000).toFixed(1)}k tokens of context · paste into any Claude chat, or save as Project instructions
         </span>
       </div>
-      <article dangerouslySetInnerHTML={{ __html: page.html }} />
+      <article className="artifact-doc" dangerouslySetInnerHTML={{ __html: page.html }} />
     </main>
   )
 }

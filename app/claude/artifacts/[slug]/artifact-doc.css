@@ -1,0 +1,131 @@
+/* Artifact document typography — structure from the source, presentation from
+   the site's tokens. Scoped to .artifact-doc so nothing leaks. */
+
+.artifact-doc {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--p-ink);
+}
+
+.artifact-doc h1 {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  line-height: 1.15;
+  color: var(--p-ink);
+  margin: 48px 0 12px;
+}
+
+.artifact-doc h2 {
+  font-family: var(--font-serif);
+  font-size: 25px;
+  line-height: 1.2;
+  color: var(--p-ink);
+  margin: 44px 0 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--p-border);
+}
+
+.artifact-doc h3 {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--p-ink);
+  margin: 28px 0 8px;
+}
+
+.artifact-doc h4,
+.artifact-doc h5,
+.artifact-doc h6 {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--p-ink);
+  margin: 20px 0 6px;
+}
+
+.artifact-doc p {
+  margin: 0 0 14px;
+}
+
+.artifact-doc ul,
+.artifact-doc ol {
+  margin: 0 0 16px;
+  padding-left: 22px;
+}
+
+.artifact-doc ul { list-style: disc; }
+.artifact-doc ol { list-style: decimal; }
+.artifact-doc li { margin: 4px 0; }
+
+.artifact-doc table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 20px;
+  font-size: 13px;
+}
+
+.artifact-doc th,
+.artifact-doc td {
+  border: 1px solid var(--p-border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.artifact-doc th {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--p-ink-muted);
+  background: var(--p-bg-card);
+}
+
+.artifact-doc pre {
+  background: var(--p-bg-card);
+  border: 1px solid var(--p-border);
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 8px 0 20px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.artifact-doc code {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.92em;
+  color: var(--p-ink);
+}
+
+.artifact-doc p code,
+.artifact-doc li code,
+.artifact-doc td code {
+  background: var(--p-bg-card);
+  border: 1px solid var(--p-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.artifact-doc hr {
+  border: none;
+  border-top: 1px solid var(--p-border);
+  margin: 32px 0;
+}
+
+.artifact-doc blockquote {
+  border-left: 2px solid var(--p-border-strong);
+  margin: 0 0 16px;
+  padding: 4px 0 4px 16px;
+  color: var(--p-ink-muted);
+}
+
+/* The document's own h1 duplicates the page header — keep it, smaller,
+   as the start of the prompt body rather than a competing page title. */
+.artifact-doc > h1:first-child {
+  margin-top: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--p-border-strong);
+}
