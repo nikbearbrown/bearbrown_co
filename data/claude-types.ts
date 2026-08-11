@@ -33,6 +33,19 @@ export const CLAUDE_TYPES: ClaudeType[] = [
     ],
   },
   {
+    slug: 'plugins',
+    label: 'Plugins',
+    blurb: 'Installable bundles that package skills, agents, commands, hooks, and other components together. Browse what\'s inside each one, and what the audit found.',
+    value: 'Discovery + safety',
+    samples: [
+      { name: 'Dev Toolkit', description: 'Bundles a code reviewer, a test writer, and a docs updater into one installable package.', tag: 'development' },
+      { name: 'Research Suite', description: 'Packages source discovery, citation management, and a fact-check workflow together.', tag: 'research' },
+      { name: 'Data Pipeline', description: 'Combines a schema inspector, query builder, and result formatter into one install.', tag: 'data' },
+      { name: 'Deploy Assistant', description: 'Packages infra inspector, change planner, and rollback checker together.', tag: 'devops' },
+      { name: 'Writing Pack', description: 'Bundles tone checker, style guide enforcer, and readability scorer in one package.', tag: 'writing' },
+    ],
+  },
+  {
     slug: 'agents',
     label: 'Agents',
     blurb: 'Delegable roles with scoped tool grants. The card shows the role and the tools it can use — over-broad grants get flagged.',

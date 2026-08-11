@@ -69,7 +69,7 @@ function Rule({ result, children }: { result: 'pass' | 'fail' | 'note'; children
 const flowItems = [
   {
     title: 'Inventory.',
-    body: 'Detect every component by its file convention — skills, agents, commands, hooks, MCP servers, LSP servers, output styles, themes, monitors, workflows. A plugin is a bundle of these. Anything the detector can\'t classify is marked not-assessed, never waved through.',
+    body: 'Detect repo type and component shape from file conventions — hooks, scripts, and code entry points. Repos the detector cannot classify are currently recorded as type "plugin" by default; that is a known gap being fixed.',
   },
   {
     title: 'Eligibility.',
@@ -77,7 +77,7 @@ const flowItems = [
   },
   {
     title: 'Route & test.',
-    body: 'Each component runs the checks that fit its kind — prose components get an injection scan, code components get static and sandbox checks, config gets validity checks. External scanners run alongside, pinned and disclosed.',
+    body: 'The repo is scanned as a unit — not by component. Lexical scans look for injection patterns in prose files, committed secrets, and egress-call patterns in code. Hooks and code entry points are inspected statically for declared behavior. External scanners (Semgrep, Bandit, detect-secrets, and others) are wired and intended but have run on zero repos to date; they appear in audit records as not-assessed.',
   },
   {
     title: 'Verdict with disclosed coverage.',
@@ -88,7 +88,7 @@ const flowItems = [
 const verdictRows = [
   {
     key: 'CLEARED_STATIC',
-    desc: 'Passed the static and applicable checks at this sha. Behavioral may be deferred; the coverage line says which.',
+    desc: 'Passed the static and applicable checks at this sha. Behavioral assessment has not been performed on any listing to date; the coverage line names what was not assessed.',
   },
   {
     key: 'DEFERRED',
@@ -107,7 +107,7 @@ const verdictRows = [
 const tools = [
   {
     name: 'Component detection',
-    desc: 'inventory what\'s in the repo so the right tests fire and nothing is silently missed; a miss degrades to not-assessed, never a silent pass.',
+    desc: 'inventory what\'s in the repo. All repos run the same gate sequence regardless of detected type; per-component routing is not yet implemented. Unknown types default to "plugin" today — that is a known gap.',
     by: 'ours',
   },
   {
@@ -131,8 +131,8 @@ const tools = [
     by: 'ours',
   },
   {
-    name: 'Behavioral sandbox',
-    desc: 'run committed-only zero-dep code in gVisor with no network, and record what it does.',
+    name: 'Behavioral check',
+    desc: 'inspect committed hooks and code entry points statically — what they declare and what patterns they contain. Sandbox execution of repo code is a known gap; the gate reads intent, not runtime behavior.',
     by: 'ours',
   },
   {
@@ -193,8 +193,10 @@ export default function CriteriaPage() {
         {/* How an audit runs */}
         <Section title="How an audit runs">
           <Body>
-            The auditor is a credential-free machine that clones each repo into a sandbox and works
+            The auditor is a credential-free machine that clones each repo to a host directory and works
             through the same sequence. Which checks fire depends on what the repo turns out to contain.
+            Static scans run on the host as the auditor user; gVisor is available and verified at startup
+            but the clone and scan work runs outside it — that is a known gap.
           </Body>
           <ol style={{ listStyle: 'none', padding: 0, margin: '10px 0 0', counterReset: 'flow' }}>
             {flowItems.map((item, i) => (
@@ -289,10 +291,10 @@ export default function CriteriaPage() {
             Risk scan — behavioral
           </h3>
           <Body>
-            For code that is committed-only and dependency-free, we go further than reading it: we run
-            it in a gVisor sandbox with the network disabled and watch what it actually does — egress
-            attempts, files touched, processes spawned. When behavior can&apos;t be run safely (it needs
-            install, network, or credentials), we say so and mark it deferred — never assumed clean.
+            For code that is committed-only, we inspect hooks and code entry points statically — what
+            they declare and what patterns they contain. We have gVisor available and verified at startup,
+            but we do not currently execute repo code inside it; that is a known gap. When behavior
+            cannot be assessed statically, we mark it deferred — never assumed clean.
           </Body>
 
           <h3 style={{
@@ -444,8 +446,9 @@ export default function CriteriaPage() {
             <a href="https://github.com/Yelp/detect-secrets" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>detect-secrets</a>,{' '}
             <a href="https://github.com/agent-sh/agnix" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>agnix</a>,{' '}
             <a href="https://github.com/NVIDIA/SkillSpector" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>SkillSpector</a>{' '}
-            — is pinned and intended, but it is{' '}
-            <strong>not yet independently recorded per listing</strong>, so we don&apos;t credit it as run.
+            — is wired and intended, but none have run against any repo. Semgrep currently fetches
+            rules live rather than from a pinned local snapshot; that is a second gap. None are{' '}
+            <strong>independently recorded per listing</strong>, so we don&apos;t credit any of them as run.
             When a listing&apos;s trace names one of these, it&apos;ll be linked here with its version and coverage.
             Today every recorded check is either <strong>ours</strong> or <strong>cloc</strong> — and the
             record says which. We&apos;d rather show the gap than claim a tool the trace can&apos;t back.

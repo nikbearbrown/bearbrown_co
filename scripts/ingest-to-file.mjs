@@ -101,7 +101,7 @@ const TYPE_SLUG_MAP = {
   skill: 'skills', agent: 'agents', command: 'commands', hook: 'hooks',
   'mcp-server': 'mcp-servers', 'lsp-server': 'lsp-servers',
   'output-style': 'output-styles', theme: 'themes', monitor: 'monitors',
-  workflow: 'workflows', plugin: 'skills',
+  workflow: 'workflows', plugin: 'plugins',
 }
 
 function detectFields(text) {

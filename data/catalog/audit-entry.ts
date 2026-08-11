@@ -87,7 +87,7 @@ export const TYPE_SLUG_MAP: Record<string, string> = {
   'theme':        'themes',
   'monitor':      'monitors',
   'workflow':     'workflows',
-  'plugin':       'skills',  // multi-type bundles appear under dominant type
+  'plugin':       'plugins',
 }
 
 export function recordTypeToUrlSlug(type: string): string {
