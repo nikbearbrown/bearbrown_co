@@ -55,8 +55,8 @@ export default async function Home() {
           letterSpacing: '-0.01em',
           marginBottom: '24px',
         }}>
-          {fmt(scan.componentsFound)} Claude components found.{' '}
-          {fmt(entriesListed)} that earned a listing.
+          A corpus of {fmt(scan.componentsFound)} Claude components.{' '}
+          A directory of {fmt(entriesListed)}, hand-audited.
         </h1>
         <p style={{
           fontFamily: 'var(--font-sans)',
@@ -68,7 +68,7 @@ export default async function Home() {
           The scanner walks public repositories and inventories what is actually in them:{' '}
           {fmt(scan.componentsFound)} components across {fmt(scan.reposScanned)} repositories
           from {fmt(scan.distinctOwners)} distinct owners — {typeLine}.
-          Every one of those cleared an automated static check.
+          Every one cleared an automated static check. That is all it means.
         </p>
         <p style={{
           fontFamily: 'var(--font-sans)',
@@ -78,10 +78,11 @@ export default async function Home() {
           maxWidth: '580px',
           marginTop: '16px',
         }}>
-          A static clearance is not a recommendation. The {entriesListed} entries in the
-          directory below cleared a further bar: install check, risk scan, prose-to-code
-          ratio, and a plain-prose verdict — signed with the commit sha it ran against.
-          Not indexed from GitHub stars. Not ranked by copy-click counts.
+          The directory is a separate activity. Each of the {entriesListed} entries was
+          sourced and audited by hand: install check, risk scan, prose-to-code ratio,
+          and a plain-prose verdict signed with the commit sha it ran against. One entry
+          (impeccable) also appears in the scan corpus; the other fifteen were sourced
+          independently. Not indexed from GitHub stars. Not ranked by copy-click counts.
         </p>
       </section>
 

@@ -77,7 +77,7 @@ const flowItems = [
   },
   {
     title: 'Route & test.',
-    body: 'The repo is scanned as a unit — not by component. Lexical scans look for injection patterns in prose files, committed secrets, and egress-call patterns in code. Hooks and code entry points are inspected statically for declared behavior. External scanners (Semgrep, Bandit, detect-secrets, and others) are wired and intended but have run on zero repos to date; they appear in audit records as not-assessed.',
+    body: 'The repo is scanned as a unit — not by component. Lexical scans look for injection patterns in prose files, committed secrets, and egress-call patterns in code. Hooks and code entry points are inspected statically for declared behavior. External scanners (Semgrep, Bandit, detect-secrets, SkillSpector, agnix) were switched on partway through the corpus: they ran against 36 of 704 repositories \u2014 every audit from 2026-08-10 onward. The earlier 668 predate them and their records say so. Behavioural assessment has run on zero repositories to date \u2014 it is recorded deferred on 456 and not-applicable on 248, never as clean. Behavioural testing is a planned second pass over the corpus, not a check we are quietly skipping; when it runs, the records it touches will be re-issued with its coverage named.',
   },
   {
     title: 'Verdict with disclosed coverage.',
@@ -132,14 +132,19 @@ const tools = [
   },
   {
     name: 'Behavioral check',
-    desc: 'inspect committed hooks and code entry points statically — what they declare and what patterns they contain. Sandbox execution of repo code is a known gap; the gate reads intent, not runtime behavior.',
-    by: 'ours',
+    desc: 'inspect committed hooks and code entry points statically \u2014 what they declare and what patterns they contain. The gate reads intent, not runtime behaviour, and it has never returned clean: 456 repositories recorded deferred, 248 not-applicable, 0 assessed. Executing repo code in the sandbox is a planned SECOND PASS \u2014 not a check being skipped; records it touches will be re-issued with its coverage named.',
+    by: 'ours \u00b7 second pass pending',
   },
   {
     name: 'Prose-to-code ratio',
-    desc: 'line counts of prose vs code, published as a signal (not a gate).',
+    desc: 'line counts of prose vs code, published as a signal (not a gate). Ran on all 704 repositories.',
     by: 'cloc',
     byHref: 'https://github.com/AlDanial/cloc',
+  },
+  {
+    name: 'Third-party static stack',
+    desc: 'Semgrep, Bandit, detect-secrets, SkillSpector and agnix, run as recorded checks alongside ours. Live since 2026-08-10 \u2014 36 of 704 repositories to date, named per listing in the trace. Semgrep still fetches rules live rather than from a pinned snapshot; SkillSpector\u2019s live OSV lookup is disabled for reproducibility and is recorded not-applicable.',
+    by: 'semgrep \u00b7 bandit \u00b7 detect-secrets \u00b7 skillspector \u00b7 agnix',
   },
 ]
 
@@ -439,19 +444,28 @@ export default function CriteriaPage() {
             lineHeight: 1.6,
             marginTop: '8px',
           }}>
-            <strong style={{ color: 'var(--p-ink)' }}>What we don&apos;t yet claim.</strong>{' '}
+            <strong style={{ color: 'var(--p-ink)' }}>Third-party coverage, and what it does not yet cover.</strong>{' '}
             A layered third-party stack —{' '}
             <a href="https://github.com/semgrep/semgrep" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>Semgrep</a>,{' '}
             <a href="https://github.com/PyCQA/bandit" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>Bandit</a>,{' '}
             <a href="https://github.com/Yelp/detect-secrets" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>detect-secrets</a>,{' '}
             <a href="https://github.com/agent-sh/agnix" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>agnix</a>,{' '}
             <a href="https://github.com/NVIDIA/SkillSpector" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>SkillSpector</a>{' '}
-            — is wired and intended, but none have run against any repo. Semgrep currently fetches
-            rules live rather than from a pinned local snapshot; that is a second gap. None are{' '}
-            <strong>independently recorded per listing</strong>, so we don&apos;t credit any of them as run.
-            When a listing&apos;s trace names one of these, it&apos;ll be linked here with its version and coverage.
-            Today every recorded check is either <strong>ours</strong> or <strong>cloc</strong> — and the
-            record says which. We&apos;d rather show the gap than claim a tool the trace can&apos;t back.
+            — is live, and recorded per listing. It has run against{' '}
+            <strong>36 of 704 repositories</strong> — every audit from 2026-08-10 onward. The other 668
+            were audited before the stack was switched on; their records name only{' '}
+            <strong>ours</strong> and <strong>cloc</strong>, and that is what their coverage line says.
+            On those 36: Semgrep and detect-secrets returned zero findings on every repo, Bandit returned
+            findings on 13, and SkillSpector and agnix returned findings or warnings on all 36 — a hit rate
+            that reads more like uncalibrated signal than 36 unsafe repositories, and we have not yet
+            triaged it. Two gaps remain: Semgrep fetches rules live rather than from a pinned local
+            snapshot, and SkillSpector&apos;s live OSV lookup is disabled for reproducibility (recorded
+            not-applicable, verified network-free). The behavioural gate is the larger gap: it has
+            assessed <strong>0 of 704</strong> repositories, and running repo code in the sandbox is a{' '}
+            <strong>planned second pass</strong> over the whole corpus rather than a check we are
+            skipping quietly. Until it runs, no listing here carries a behavioural result, and every
+            coverage line says so. We&apos;d rather show the gap than claim a tool the trace can&apos;t
+            back — and rather correct this page than leave a disclaimer that flatters us.
           </div>
         </Section>
 
