@@ -131,3 +131,52 @@ export async function getAuditEntry(typeSlug: string, urlSlug: string): Promise<
   const all = await getAllAuditEntries()
   return all.find(e => e.typeSlug === typeSlug && e.urlSlug === urlSlug) ?? null
 }
+
+// ── Scan statistics ──────────────────────────────────────────────────────────
+// Real counts, derived from the audit corpus at build time. Never hardcoded:
+// if the corpus changes, these numbers change with it.
+//
+// NOTE ON HONESTY: every entry in this corpus carries grade CLEARED_STATIC —
+// it passed the automated static clearance. That is NOT the same standard as a
+// directory listing, which additionally has a completed install check, risk
+// scan, and a written verdict. Keep the two numbers separately labelled
+// wherever they are displayed.
+
+export interface ScanStats {
+  reposScanned: number
+  componentsFound: number
+  componentsHighConfidence: number
+  reposByType: { type: string; count: number }[]
+  distinctOwners: number
+  firstAudit: string
+  lastAudit: string
+}
+
+export async function getScanStats(): Promise<ScanStats> {
+  const all = await getAllAuditEntries()
+
+  const components = all.flatMap(e => e.components ?? [])
+
+  const typeCounts = new Map<string, number>()
+  for (const e of all) {
+    typeCounts.set(e.type, (typeCounts.get(e.type) ?? 0) + 1)
+  }
+
+  const dates = all
+    .map(e => e.auditedAt ?? '')
+    .filter(Boolean)
+    .map(d => d.slice(0, 10))
+    .sort()
+
+  return {
+    reposScanned: all.length,
+    componentsFound: components.length,
+    componentsHighConfidence: components.filter(c => c.confidence === 'high').length,
+    reposByType: [...typeCounts.entries()]
+      .map(([type, count]) => ({ type, count }))
+      .sort((a, b) => b.count - a.count),
+    distinctOwners: new Set(all.map(e => e.owner)).size,
+    firstAudit: dates[0] ?? '',
+    lastAudit: dates[dates.length - 1] ?? '',
+  }
+}
