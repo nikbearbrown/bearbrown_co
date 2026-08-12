@@ -1,37 +1,37 @@
 {
-  "total": 7407,
+  "total": 7457,
   "grades": {
-    "REJECT": 4207,
-    "CLEARED_STATIC": 1630,
-    "DEFERRED": 1423,
-    "FLAG": 96,
-    "CONTAINER": 46,
-    "NOT-ASSESSED": 5
+    "REJECT": 4228,
+    "CLEARED_STATIC": 1646,
+    "DEFERRED": 1427,
+    "FLAG": 101,
+    "CONTAINER": 48,
+    "NOT-ASSESSED": 7
   },
   "rejectReasons": [
     {
       "reason": "repo not found (404)",
-      "count": 2733
+      "count": 2757
     },
     {
       "reason": "no manifest",
-      "count": 738
+      "count": 721
     },
     {
       "reason": "no license",
-      "count": 327
+      "count": 330
     },
     {
       "reason": "duplicate",
-      "count": 165
+      "count": 172
     },
     {
       "reason": "leaking secrets",
-      "count": 111
+      "count": 114
     },
     {
       "reason": "missing required fields",
-      "count": 91
+      "count": 92
     },
     {
       "reason": "is a fork",
