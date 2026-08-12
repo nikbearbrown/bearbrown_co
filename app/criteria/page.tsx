@@ -77,7 +77,7 @@ const flowItems = [
   },
   {
     title: 'Route & test.',
-    body: 'The repo is scanned as a unit — not by component. Lexical scans look for injection patterns in prose files, committed secrets, and egress-call patterns in code. Hooks and code entry points are inspected statically for declared behavior. External scanners (Semgrep, Bandit, detect-secrets, SkillSpector, agnix) were switched on partway through the corpus: they ran against 36 of 704 repositories \u2014 every audit from 2026-08-10 onward. The earlier 668 predate them and their records say so. Behavioural assessment has run on zero repositories to date \u2014 it is recorded deferred on 456 and not-applicable on 248, never as clean. Behavioural testing is a planned second pass over the corpus, not a check we are quietly skipping; when it runs, the records it touches will be re-issued with its coverage named.',
+    body: 'The repo is scanned as a unit — not by component. Lexical scans look for injection patterns in prose files, committed secrets, and egress-call patterns in code. Hooks and code entry points are inspected statically for declared behavior. External scanners (Semgrep, Bandit, detect-secrets, SkillSpector, agnix) were switched on partway through the corpus: they ran against 36 repositories \u2014 every audit from 2026-08-10 onward; earlier audits predate them and their records say so. Behavioural assessment has run on zero repositories to date \u2014 it is recorded deferred or not-applicable on every listing, never as clean. Behavioural testing is a planned second pass over the corpus, not a check we are quietly skipping; when it runs, the records it touches will be re-issued with its coverage named.',
   },
   {
     title: 'Verdict with disclosed coverage.',
@@ -93,6 +93,10 @@ const verdictRows = [
   {
     key: 'DEFERRED',
     desc: 'Could not be fully assessed — unsupported shape, or behavior that needs install/network/credentials. Not a pass, not a reject: needs review.',
+  },
+  {
+    key: 'CONTAINER',
+    desc: 'A repository that contains multiple distinct plugins in subdirectories. The container record names each sub-plugin; each sub-plugin is then audited and graded independently.',
   },
   {
     key: 'FLAG',
@@ -132,7 +136,7 @@ const tools = [
   },
   {
     name: 'Behavioral check',
-    desc: 'inspect committed hooks and code entry points statically \u2014 what they declare and what patterns they contain. The gate reads intent, not runtime behaviour, and it has never returned clean: 456 repositories recorded deferred, 248 not-applicable, 0 assessed. Executing repo code in the sandbox is a planned SECOND PASS \u2014 not a check being skipped; records it touches will be re-issued with its coverage named.',
+    desc: 'inspect committed hooks and code entry points statically \u2014 what they declare and what patterns they contain. The gate reads intent, not runtime behaviour, and it has never returned clean: behavioral assessment deferred or not-applicable on every listing, 0 assessed. Executing repo code in the sandbox is a planned SECOND PASS \u2014 not a check being skipped; records it touches will be re-issued with its coverage named.',
     by: 'ours \u00b7 second pass pending',
   },
   {
@@ -143,7 +147,7 @@ const tools = [
   },
   {
     name: 'Third-party static stack',
-    desc: 'Semgrep, Bandit, detect-secrets, SkillSpector and agnix, run as recorded checks alongside ours. Live since 2026-08-10 \u2014 36 of 704 repositories to date, named per listing in the trace. Semgrep still fetches rules live rather than from a pinned snapshot; SkillSpector\u2019s live OSV lookup is disabled for reproducibility and is recorded not-applicable.',
+    desc: 'Semgrep, Bandit, detect-secrets, SkillSpector and agnix, run as recorded checks alongside ours. Live since 2026-08-10 \u2014 36 repositories to date, named per listing in the trace. Semgrep still fetches rules live rather than from a pinned snapshot; SkillSpector\u2019s live OSV lookup is disabled for reproducibility and is recorded not-applicable.',
     by: 'semgrep \u00b7 bandit \u00b7 detect-secrets \u00b7 skillspector \u00b7 agnix',
   },
 ]
@@ -452,20 +456,19 @@ export default function CriteriaPage() {
             <a href="https://github.com/agent-sh/agnix" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>agnix</a>,{' '}
             <a href="https://github.com/NVIDIA/SkillSpector" style={{ color: 'var(--p-terra)', textDecoration: 'none' }}>SkillSpector</a>{' '}
             — is live, and recorded per listing. It has run against{' '}
-            <strong>36 of 704 repositories</strong> — every audit from 2026-08-10 onward. The other 668
-            were audited before the stack was switched on; their records name only{' '}
-            <strong>ours</strong> and <strong>cloc</strong>, and that is what their coverage line says.
-            On those 36: Semgrep and detect-secrets returned zero findings on every repo, Bandit returned
-            findings on 13, and SkillSpector and agnix returned findings or warnings on all 36 — a hit rate
-            that reads more like uncalibrated signal than 36 unsafe repositories, and we have not yet
-            triaged it. Two gaps remain: Semgrep fetches rules live rather than from a pinned local
-            snapshot, and SkillSpector&apos;s live OSV lookup is disabled for reproducibility (recorded
-            not-applicable, verified network-free). The behavioural gate is the larger gap: it has
-            assessed <strong>0 of 704</strong> repositories, and running repo code in the sandbox is a{' '}
-            <strong>planned second pass</strong> over the whole corpus rather than a check we are
-            skipping quietly. Until it runs, no listing here carries a behavioural result, and every
-            coverage line says so. We&apos;d rather show the gap than claim a tool the trace can&apos;t
-            back — and rather correct this page than leave a disclaimer that flatters us.
+            <strong>36 repositories</strong> — every audit from 2026-08-10 onward. Audits before that
+            date name only <strong>ours</strong> and <strong>cloc</strong>, and that is what their
+            coverage line says. On those 36: Semgrep and detect-secrets returned zero findings on every
+            repo, Bandit returned findings on 13, and SkillSpector and agnix returned findings or warnings
+            on all 36 — a hit rate that reads more like uncalibrated signal than 36 unsafe repositories,
+            and we have not yet triaged it. Two gaps remain: Semgrep fetches rules live rather than from
+            a pinned local snapshot, and SkillSpector&apos;s live OSV lookup is disabled for
+            reproducibility (recorded not-applicable, verified network-free). The behavioural gate is the
+            larger gap: it has assessed <strong>0 repositories to date</strong>, and running repo code in
+            the sandbox is a <strong>planned second pass</strong> over the whole corpus rather than a
+            check we are skipping quietly. Until it runs, no listing here carries a behavioural result,
+            and every coverage line says so. We&apos;d rather show the gap than claim a tool the trace
+            can&apos;t back — and rather correct this page than leave a disclaimer that flatters us.
           </div>
         </Section>
 

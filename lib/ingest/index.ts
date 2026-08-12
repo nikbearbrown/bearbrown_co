@@ -132,6 +132,29 @@ export async function getAuditEntry(typeSlug: string, urlSlug: string): Promise<
   return all.find(e => e.typeSlug === typeSlug && e.urlSlug === urlSlug) ?? null
 }
 
+// ── Ledger pipeline statistics ───────────────────────────────────────────────
+// Full-funnel counts from the auditor's ledger.json — how many repos were
+// examined, how many failed each gate, and how many cleared.
+// Pre-generated locally by the same ingest script; committed with the site.
+
+export interface LedgerStats {
+  total: number
+  grades: Record<string, number>
+  rejectReasons: { reason: string; count: number }[]
+  generatedAt: string
+}
+
+const LEDGER_STATS_FILE = path.join(process.cwd(), 'data', 'catalog', 'ledger-stats.json')
+
+export function getLedgerStats(): LedgerStats {
+  try {
+    const raw = fs.readFileSync(LEDGER_STATS_FILE, 'utf-8')
+    return JSON.parse(raw) as LedgerStats
+  } catch {
+    return { total: 0, grades: {}, rejectReasons: [], generatedAt: '' }
+  }
+}
+
 // ── Scan statistics ──────────────────────────────────────────────────────────
 // Real counts, derived from the audit corpus at build time. Never hardcoded:
 // if the corpus changes, these numbers change with it.

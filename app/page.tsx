@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getEntries, CATALOG_META } from '@/data/catalog/entries'
-import { getScanStats } from '@/lib/ingest'
+import { getScanStats, getLedgerStats } from '@/lib/ingest'
 import CatalogSearch from '@/components/CatalogSearch/CatalogSearch'
 
 export const metadata: Metadata = {
@@ -22,6 +22,7 @@ export default async function Home() {
   const entries = getEntries()
   const { entriesListed, entriesTested, lastAuditDate } = CATALOG_META
   const scan = await getScanStats()
+  const ledger = getLedgerStats()
 
   const typeLine = scan.reposByType
     .slice(0, 4)
@@ -137,6 +138,88 @@ export default async function Home() {
           </div>
         ))}
       </section>
+
+      {/* Pipeline funnel — full intake breakdown */}
+      {ledger.total > 0 && (() => {
+        const rr = Object.fromEntries(ledger.rejectReasons.map((r: { reason: string; count: number }) => [r.reason, r.count]))
+        const gone     = rr['repo not found (404)'] ?? 0
+        const noMfst   = rr['no manifest'] ?? 0
+        const noLic    = rr['no license'] ?? 0
+        const dup      = rr['duplicate'] ?? 0
+        const secrets  = rr['leaking secrets'] ?? 0
+        const missFld  = rr['missing required fields'] ?? 0
+        const forkEmp  = (rr['is a fork'] ?? 0) + (rr['empty repo'] ?? 0)
+        const cleared  = ledger.grades['CLEARED_STATIC'] ?? 0
+        const basicProblems = noLic + missFld + forkEmp
+
+        const steps = [
+          { label: 'Examined', value: fmt(ledger.total), note: 'public repos found referencing Claude tools' },
+          { label: 'Gone (404)', value: `−${fmt(gone)}`, note: 'deleted or made private before audit ran' },
+          { label: 'No manifest', value: `−${fmt(noMfst)}`, note: 'no plugin.json or .claude-plugin — not a Claude plugin' },
+          { label: 'Basic problems', value: `−${fmt(basicProblems)}`, note: 'no license, or fork, or missing required manifest fields' },
+          { label: 'Duplicate', value: `−${fmt(dup)}`, note: 'near-identical to another entry already in the corpus' },
+          { label: 'Leaking secrets', value: `−${fmt(secrets)}`, note: 'credentials or tokens committed; flagged, not listed' },
+          { label: 'Cleared basics', value: fmt(cleared), note: 'passed all automated static checks; eligible for the corpus' },
+        ]
+
+        return (
+          <section style={{
+            ...sectionPad,
+            borderBottom: '1px solid var(--p-border)',
+          }}>
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '11px',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--p-terra)',
+              margin: '0 0 24px',
+            }}>
+              Pipeline — how {fmt(ledger.total)} became {fmt(cleared)}
+            </p>
+            <div style={{ display: 'flex', gap: '0', flexWrap: 'wrap' }}>
+              {steps.map((step, i) => (
+                <div key={step.label} style={{
+                  flex: '1 1 160px',
+                  paddingRight: '32px',
+                  paddingBottom: '20px',
+                  borderRight: i < steps.length - 1 ? '1px solid var(--p-border)' : 'none',
+                  marginRight: i < steps.length - 1 ? '32px' : '0',
+                }}>
+                  <p style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '11px',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--p-ink-muted)',
+                    marginBottom: '4px',
+                  }}>
+                    {step.label}
+                  </p>
+                  <p style={{
+                    fontFamily: 'var(--font-serif)',
+                    fontSize: '26px',
+                    fontWeight: 400,
+                    color: i === steps.length - 1 ? 'var(--p-blue)' : 'var(--p-ink)',
+                    lineHeight: 1,
+                    marginBottom: '6px',
+                  }}>
+                    {step.value}
+                  </p>
+                  <p style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '11px',
+                    lineHeight: 1.5,
+                    color: 'var(--p-ink-muted)',
+                  }}>
+                    {step.note}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )
+      })()}
 
       {/* Directory stats — human-audited */}
       <section style={{
