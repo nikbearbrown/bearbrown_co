@@ -561,6 +561,30 @@ export default function CriteriaPage() {
           </Body>
         </section>
 
+        {/* Sibling criteria */}
+        <section style={{ padding: '34px 0 0', borderTop: '1px solid var(--p-border)', marginTop: '34px' }}>
+          <h2 style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '26px',
+            fontWeight: 600,
+            margin: '0 0 6px',
+            color: 'var(--p-ink)',
+          }}>
+            Agentic workflows are checked differently
+          </h2>
+          <Body>
+            Plugins and skills are repositories that install and run. Agentic workflow starters are
+            graph artifacts that are read and never run, so they earn a listing on different tests —
+            whether the wiring resolves, what the graph actually contains, and whether the same idea is
+            already listed under another name.
+          </Body>
+          <Body>
+            <a href="/criteria/workflows" style={{ color: 'var(--p-blue)', fontWeight: 500 }}>
+              Workflow listing criteria →
+            </a>
+          </Body>
+        </section>
+
       </div>
     </div>
   )
