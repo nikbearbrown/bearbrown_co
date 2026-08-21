@@ -35,3 +35,5 @@ next-env.d.ts
 # OS generated files
 Thumbs.db
 ehthumbs.db 
+# local scratch — page backups, draft copy, commit messages
+_scratch/
