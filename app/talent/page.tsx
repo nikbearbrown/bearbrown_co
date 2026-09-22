@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Talent — Bear Brown & Co.',
-  description: 'We build AI-era web apps using recent graduates from top AI programs. A structured way to audition top AI talent on a real project — and hire them away, no placement fee.',
+  description: 'A professor with thousands of students connects AI and STEM graduates to paid project work during the year it takes to land a big-tech job — and connects the people who need software built to the graduates who can build it.',
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -173,6 +173,59 @@ export default function TalentPage() {
 
         <hr style={{ border: 'none', borderTop: '1px solid var(--p-border)', margin: '48px 0' }} />
 
+        {/* The gap */}
+        <Section title="The year, and the gap in it">
+          <Body>
+            I am a professor. I teach thousands of students &mdash; AI, machine learning,
+            data science &mdash; in the College of Engineering at Northeastern. Over a few
+            semesters you stop guessing: you know which ones are actually good, as
+            opposed to which ones interview well. Those are different lists.
+          </Body>
+          <Body>
+            Here is what nobody tells the good ones. Landing a job at a big tech
+            company takes roughly a year, <em>even for the best of them</em>. Application,
+            recruiter screen, take-home, four rounds, team match, offer, a start date
+            another three months out &mdash; and that is the path when it goes well. It is
+            not a verdict on the candidate. It is how the pipeline runs.
+          </Body>
+          <Body>
+            So a genuinely strong AI engineer spends a year underemployed, watching the
+            edge they just spent two years sharpening go dull. Meanwhile there are people
+            with something real to build &mdash; a tool, a dashboard, an agent, a working
+            version of an idea &mdash; who cannot find anyone to build it at a price that
+            makes sense.
+          </Body>
+          <Body>
+            Those two problems are each other&apos;s answer. Temporary, paid, real
+            project work for AI and STEM graduates during the year they are job
+            hunting; working software for the people who need it built. <strong>I am
+            the connector.</strong> I know which students to send, I supervise the work, and if
+            you want to keep the person at the end of it, you keep them.
+          </Body>
+
+          <div style={{
+            background: 'var(--p-bg-card)',
+            border: '1px solid var(--p-border-strong)',
+            borderLeft: '3px solid var(--p-terra)',
+            borderRadius: '4px',
+            padding: '20px 24px',
+            maxWidth: '660px',
+            marginTop: '8px',
+          }}>
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '15px',
+              lineHeight: 1.7,
+              color: 'var(--p-ink-soft)',
+              margin: 0,
+            }}>
+              Temporary is the feature, not the compromise. The work is scoped to the
+              months a graduate is job hunting. If it turns permanent because you hired
+              them, the arrangement did exactly what it was built to do.
+            </p>
+          </div>
+        </Section>
+
         {/* What we do */}
         <Section title="What we do">
           <Body>
@@ -224,10 +277,10 @@ export default function TalentPage() {
             Essential work done — and a possible first employee. You get a working app at a rate no dev shop can match, built on infrastructure you can maintain yourself, by someone you can hire if they're a fit. The structure of the engagement is itself the interview.
           </WhyItem>
           <WhyItem label="For grads:">
-            Real paid project experience, real professional references, and a direct path to a job with a client who's already seen their work.
+            Paid work during the year the big-tech search eats, real project experience instead of a résumé gap, a professional reference, and a direct path to a job with a client who has already watched them work.
           </WhyItem>
           <WhyItem label="The moat:">
-            The economics only work because Nik teaches hundreds of students a year and knows who the strong ones are. No dev shop can replicate the vetting. That&apos;s the moat, stated plainly.
+            The economics only work because Nik teaches thousands of students and knows, first-hand, which ones are strong. No dev shop can replicate that vetting, and no résumé screen can either. That&apos;s the moat, stated plainly.
           </WhyItem>
         </Section>
 

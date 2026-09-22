@@ -1,281 +1,447 @@
 import type { Metadata } from 'next'
-import { getEntries, CATALOG_META } from '@/data/catalog/entries'
-import { getScanStats, getLedgerStats } from '@/lib/ingest'
-import CatalogSearch from '@/components/CatalogSearch/CatalogSearch'
+import Link from 'next/link'
+import {
+  Boxes,
+  ClipboardCheck,
+  Briefcase,
+  Users,
+  ArrowUpRight,
+} from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Bear Brown — Claude Tools Directory',
-  description: 'A curated Claude tools directory built on a corpus-wide scan. Every listing tested, every verdict shown.',
+  title: 'Bear Brown & Co.',
+  description:
+    'Nik Bear Brown — professor, builder, connector. An audited Claude tools corpus, listing criteria you can check, consulting, and AI talent from a program that graduates hundreds a year.',
 }
 
-const sectionPad: React.CSSProperties = {
-  padding: 'clamp(20px, 3vw, 40px) clamp(24px, 5vw, 80px)',
+const sans = 'var(--font-sans)'
+const serif = 'var(--font-serif)'
+
+/* One card per item in the primary menu. */
+const MENU_CARDS = [
+  {
+    name: 'Claude',
+    href: '/corpus',
+    Icon: Boxes,
+    heading: 'The Claude corpus',
+    body:
+      'A corpus-wide scan of public repositories, and a hand-audited directory sitting on top of it. Every listing installed, risk-scanned, and signed with the commit sha it ran against. No stars. No copy-click rankings.',
+    cta: 'Browse the corpus',
+  },
+  {
+    name: 'Criteria',
+    href: '/criteria',
+    Icon: ClipboardCheck,
+    heading: 'Listing criteria',
+    body:
+      'What the checker actually reads, how it routes on discovered capability rather than declared type, and — said plainly — what it does not assess. The part most directories leave out.',
+    cta: 'Read the criteria',
+  },
+  {
+    name: 'Consulting',
+    href: '/consulting',
+    Icon: Briefcase,
+    heading: 'Consulting',
+    body:
+      'Bespoke AI for startups that need to move — as consultant, equity advisor, and talent connector. No bloated retainers, no generalists, no team of five where one will do.',
+    cta: 'How I work',
+  },
+  {
+    name: 'Talent',
+    href: '/talent',
+    Icon: Users,
+    heading: 'Talent',
+    body:
+      'I teach thousands of students. The best of them still spend close to a year landing a big-tech job — and you need something built now. I connect the two ends of that year.',
+    cta: 'Hire them away',
+  },
+]
+
+/* The Claude ▾ submenu, kept in sync with components/Header/Header.tsx */
+const CLAUDE_MENU = [
+  { name: 'Plugins', href: '/corpus' },
+  { name: 'Artifacts', href: '/claude/artifacts' },
+  { name: 'Skills', href: '/claude/skills' },
+  { name: 'Agents', href: '/claude/agents' },
+  { name: 'Commands', href: '/claude/commands' },
+  { name: 'Hooks', href: '/claude/hooks' },
+  { name: 'MCP Servers', href: '/claude/mcp-servers' },
+  { name: 'LSP Servers', href: '/claude/lsp-servers' },
+  { name: 'Output Styles', href: '/claude/output-styles' },
+  { name: 'Themes', href: '/claude/themes' },
+  { name: 'Monitors', href: '/claude/monitors' },
+  { name: 'Workflows', href: '/claude/workflows' },
+  { name: 'Roll your own', href: '/roll-your-own' },
+]
+
+const CONNECT = [
+  { name: 'GitHub', href: 'https://github.com/nikbearbrown' },
+  { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
+  { name: 'Substack', href: 'https://bearbrownco.substack.com/' },
+  { name: 'Humanitarians AI', href: 'https://www.humanitarians.ai/' },
+  { name: 'nikbearbrown.com', href: 'https://nikbearbrown.com' },
+]
+
+const eyebrow: React.CSSProperties = {
+  fontFamily: sans,
+  fontSize: '11px',
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
+  color: 'var(--p-terra)',
+  margin: 0,
 }
 
-const hr = (
-  <hr style={{ border: 'none', borderTop: '1px solid var(--p-border)', margin: 0 }} />
-)
+function Pill({
+  href,
+  children,
+  filled = false,
+}: {
+  href: string
+  children: React.ReactNode
+  filled?: boolean
+}) {
+  const external = href.startsWith('http') || href.startsWith('mailto:')
+  const style: React.CSSProperties = {
+    fontFamily: sans,
+    fontSize: '13px',
+    letterSpacing: '0.02em',
+    padding: '10px 18px',
+    borderRadius: '4px',
+    textDecoration: 'none',
+    display: 'inline-flex',
+    alignItems: 'center',
+    border: '1px solid var(--p-border-strong)',
+    background: filled ? 'var(--p-ink)' : 'transparent',
+    color: filled ? 'var(--p-bg)' : 'var(--p-ink-soft)',
+  }
+  return external ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" style={style}>
+      {children}
+    </a>
+  ) : (
+    <Link href={href} style={style}>
+      {children}
+    </Link>
+  )
+}
 
-const fmt = (n: number) => n.toLocaleString('en-US')
-
-export default async function Home() {
-  const entries = getEntries()
-  const { entriesListed, entriesTested, lastAuditDate } = CATALOG_META
-  const scan = await getScanStats()
-  const ledger = getLedgerStats()
-
-  const typeLine = scan.reposByType
-    .slice(0, 4)
-    .map(t => `${fmt(t.count)} ${t.type}${t.count === 1 ? '' : 's'}`)
-    .join(' · ')
-
+export default function Home() {
   return (
     <div style={{ background: 'var(--p-bg)', minHeight: '100vh' }}>
-
-      {/* Hero */}
-      <section style={{
-        padding: 'clamp(60px, 8vw, 100px) clamp(24px, 5vw, 80px) clamp(40px, 5vw, 60px)',
-        maxWidth: '780px',
-      }}>
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '11px',
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'var(--p-terra)',
-          marginBottom: '20px',
-        }}>
-          Claude Tools Directory · Bear Brown
-        </p>
-        <h1 style={{
-          fontFamily: 'var(--font-serif)',
-          fontSize: 'clamp(32px, 5vw, 56px)',
-          fontWeight: 400,
-          lineHeight: 1.1,
-          color: 'var(--p-ink)',
-          letterSpacing: '-0.01em',
-          marginBottom: '24px',
-        }}>
-          A corpus of {fmt(scan.componentsFound)} Claude components.{' '}
-          A directory of {fmt(entriesListed)}, hand-audited.
-        </h1>
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '16px',
-          lineHeight: 1.7,
-          color: 'var(--p-ink-soft)',
-          maxWidth: '580px',
-        }}>
-          The scanner walks public repositories and inventories what is actually in them:{' '}
-          {fmt(scan.componentsFound)} components across {fmt(scan.reposScanned)} repositories
-          from {fmt(scan.distinctOwners)} distinct owners — {typeLine}.
-          Every one cleared an automated static check. That is all it means.
-        </p>
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '16px',
-          lineHeight: 1.7,
-          color: 'var(--p-ink-soft)',
-          maxWidth: '580px',
-          marginTop: '16px',
-        }}>
-          The directory is a separate activity. Each of the {entriesListed} entries was
-          sourced and audited by hand: install check, risk scan, prose-to-code ratio,
-          and a plain-prose verdict signed with the commit sha it ran against. One entry
-          (impeccable) also appears in the scan corpus; the other fifteen were sourced
-          independently. Not indexed from GitHub stars. Not ranked by copy-click counts.
-        </p>
-      </section>
-
-      {hr}
-
-      {/* Scan stats — corpus-wide, automated */}
-      <section style={{
-        ...sectionPad,
-        display: 'flex',
-        gap: '40px',
-        flexWrap: 'wrap',
-        borderBottom: '1px solid var(--p-border)',
-      }}>
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '11px',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          color: 'var(--p-terra)',
-          width: '100%',
-          margin: 0,
-        }}>
-          Scanned — automated static clearance
-        </p>
-        {[
-          { label: 'Components found', value: fmt(scan.componentsFound) },
-          { label: 'High confidence', value: fmt(scan.componentsHighConfidence) },
-          { label: 'Repositories', value: fmt(scan.reposScanned) },
-          { label: 'Distinct owners', value: fmt(scan.distinctOwners) },
-          { label: 'Stats updated', value: scan.lastAudit || '—' },
-        ].map(stat => (
-          <div key={stat.label}>
-            <p style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '11px',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--p-ink-muted)',
-              marginBottom: '4px',
-            }}>
-              {stat.label}
+      {/* ---------- Hero: the business card ---------- */}
+      <section
+        style={{
+          padding:
+            'clamp(48px, 7vw, 88px) clamp(24px, 5vw, 80px) clamp(40px, 5vw, 64px)',
+        }}
+      >
+        <div
+          style={{
+            gap: 'clamp(28px, 4vw, 48px)',
+            alignItems: 'center',
+            maxWidth: '1180px',
+            margin: '0 auto',
+          }}
+          className="grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]"
+        >
+          <div>
+            <p style={{ ...eyebrow, marginBottom: '20px' }}>
+              Bear Brown &amp; Co. · Boston
             </p>
-            <p style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: '28px',
-              fontWeight: 400,
-              color: 'var(--p-ink)',
-              lineHeight: 1,
-            }}>
-              {stat.value}
+            <h1
+              style={{
+                fontFamily: serif,
+                fontSize: 'clamp(36px, 5.5vw, 60px)',
+                fontWeight: 400,
+                lineHeight: 1.05,
+                letterSpacing: '-0.01em',
+                color: 'var(--p-ink)',
+                margin: '0 0 18px',
+              }}
+            >
+              Nik Bear Brown
+            </h1>
+            <p
+              style={{
+                fontFamily: serif,
+                fontSize: 'clamp(18px, 2vw, 22px)',
+                fontStyle: 'italic',
+                lineHeight: 1.4,
+                color: 'var(--p-ink-soft)',
+                margin: '0 0 20px',
+              }}
+            >
+              Professor. Builder. Connector.
             </p>
-          </div>
-        ))}
-      </section>
-
-      {/* Pipeline funnel — full intake breakdown */}
-      {ledger.total > 0 && (() => {
-        const rr = Object.fromEntries(ledger.rejectReasons.map((r: { reason: string; count: number }) => [r.reason, r.count]))
-        const gone     = rr['repo not found (404)'] ?? 0
-        const noMfst   = rr['no manifest'] ?? 0
-        const noLic    = rr['no license'] ?? 0
-        const dup      = rr['duplicate'] ?? 0
-        const secrets  = rr['leaking secrets'] ?? 0
-        const missFld  = rr['missing required fields'] ?? 0
-        const forkEmp  = (rr['is a fork'] ?? 0) + (rr['empty repo'] ?? 0)
-        const cleared  = ledger.grades['CLEARED_STATIC'] ?? 0
-        const basicProblems = noLic + missFld + forkEmp
-
-        const steps = [
-          { label: 'Examined', value: fmt(ledger.total), note: 'public repos found referencing Claude tools' },
-          { label: 'Gone (404)', value: `−${fmt(gone)}`, note: 'deleted or made private before audit ran' },
-          { label: 'No manifest', value: `−${fmt(noMfst)}`, note: 'no plugin.json or .claude-plugin — not a Claude plugin' },
-          { label: 'Basic problems', value: `−${fmt(basicProblems)}`, note: 'no license, or fork, or missing required manifest fields' },
-          { label: 'Duplicate', value: `−${fmt(dup)}`, note: 'near-identical to another entry already in the corpus' },
-          { label: 'Leaking secrets', value: `−${fmt(secrets)}`, note: 'credentials or tokens committed; flagged, not listed' },
-          { label: 'Cleared basics', value: fmt(cleared), note: 'passed all automated static checks; eligible for the corpus' },
-        ]
-
-        return (
-          <section style={{
-            ...sectionPad,
-            borderBottom: '1px solid var(--p-border)',
-          }}>
-            <p style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '11px',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--p-terra)',
-              margin: '0 0 24px',
-            }}>
-              Pipeline — how {fmt(ledger.total)} became {fmt(cleared)}
+            <p
+              style={{
+                fontFamily: sans,
+                fontSize: '16px',
+                lineHeight: 1.7,
+                color: 'var(--p-ink-soft)',
+                maxWidth: '520px',
+                margin: '0 0 28px',
+              }}
+            >
+              I audit Claude tools and publish the receipts, build AI-era software
+              for people who need it, and hand the best engineering graduates I
+              teach to the companies that should be hiring them. Four doors below —
+              take whichever one you came for.
             </p>
-            <div style={{ display: 'flex', gap: '0', flexWrap: 'wrap' }}>
-              {steps.map((step, i) => (
-                <div key={step.label} style={{
-                  flex: '1 1 160px',
-                  paddingRight: '32px',
-                  paddingBottom: '20px',
-                  borderRight: i < steps.length - 1 ? '1px solid var(--p-border)' : 'none',
-                  marginRight: i < steps.length - 1 ? '32px' : '0',
-                }}>
-                  <p style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '11px',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: 'var(--p-ink-muted)',
-                    marginBottom: '4px',
-                  }}>
-                    {step.label}
-                  </p>
-                  <p style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontSize: '26px',
-                    fontWeight: 400,
-                    color: i === steps.length - 1 ? 'var(--p-blue)' : 'var(--p-ink)',
-                    lineHeight: 1,
-                    marginBottom: '6px',
-                  }}>
-                    {step.value}
-                  </p>
-                  <p style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '11px',
-                    lineHeight: 1.5,
-                    color: 'var(--p-ink-muted)',
-                  }}>
-                    {step.note}
-                  </p>
-                </div>
-              ))}
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <Pill href="/corpus" filled>
+                Browse the corpus
+              </Pill>
+              <Pill href="/talent">Hire AI talent</Pill>
             </div>
-          </section>
-        )
-      })()}
+          </div>
 
-      {/* Directory stats — human-audited */}
-      <section style={{
-        ...sectionPad,
-        display: 'flex',
-        gap: '40px',
-        flexWrap: 'wrap',
-        borderBottom: '1px solid var(--p-border)',
-      }}>
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '11px',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          color: 'var(--p-terra)',
-          width: '100%',
-          margin: 0,
-        }}>
-          Listed — full audit with a written verdict
-        </p>
-        {[
-          { label: 'Entries listed', value: fmt(entriesListed) },
-          { label: 'Entries tested', value: fmt(entriesTested) },
-          { label: 'Last audit', value: lastAuditDate || '—' },
-        ].map(stat => (
-          <div key={stat.label}>
-            <p style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '11px',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--p-ink-muted)',
-              marginBottom: '4px',
-            }}>
-              {stat.label}
-            </p>
-            <p style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: '28px',
+          <div style={{ width: '100%' }}>
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9' }}>
+              <iframe
+                src="https://www.youtube.com/embed/aEjgD65h1mY?si=UX-tdS58VJ5WzIPn"
+                title="Nik Bear Brown — introduction"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  border: '1px solid var(--p-border-strong)',
+                  borderRadius: '6px',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- One card per menu item ---------- */}
+      <section
+        style={{
+          padding: 'clamp(40px, 5vw, 72px) clamp(24px, 5vw, 80px)',
+          background: 'var(--p-bg-card)',
+          borderTop: '1px solid var(--p-border)',
+          borderBottom: '1px solid var(--p-border)',
+        }}
+      >
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          <p style={{ ...eyebrow, marginBottom: '10px' }}>Where to go</p>
+          <h2
+            style={{
+              fontFamily: serif,
+              fontSize: 'clamp(26px, 3.2vw, 36px)',
               fontWeight: 400,
               color: 'var(--p-ink)',
-              lineHeight: 1,
-            }}>
-              {stat.value}
-            </p>
+              lineHeight: 1.15,
+              margin: '0 0 32px',
+              maxWidth: '640px',
+            }}
+          >
+            Four things live here, and they are not the same thing.
+          </h2>
+
+          <div
+            style={{ gap: '20px' }}
+            className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
+          >
+            {MENU_CARDS.map(({ name, href, Icon, heading, body, cta }) => (
+              <Link
+                key={name}
+                href={href}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  background: 'var(--p-bg)',
+                  border: '1px solid var(--p-border-strong)',
+                  borderTop: '3px solid var(--p-terra)',
+                  borderRadius: '6px',
+                  padding: '26px 24px',
+                  textDecoration: 'none',
+                }}
+              >
+                <Icon
+                  size={26}
+                  strokeWidth={1.4}
+                  aria-hidden="true"
+                  style={{ color: 'var(--p-ink)', marginBottom: '16px' }}
+                />
+                <p style={{ ...eyebrow, marginBottom: '8px' }}>{name}</p>
+                <h3
+                  style={{
+                    fontFamily: serif,
+                    fontSize: '21px',
+                    fontWeight: 400,
+                    color: 'var(--p-ink)',
+                    lineHeight: 1.25,
+                    margin: '0 0 12px',
+                  }}
+                >
+                  {heading}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: sans,
+                    fontSize: '14px',
+                    lineHeight: 1.65,
+                    color: 'var(--p-ink-soft)',
+                    margin: '0 0 20px',
+                    flexGrow: 1,
+                  }}
+                >
+                  {body}
+                </p>
+                <span
+                  style={{
+                    fontFamily: sans,
+                    fontSize: '13px',
+                    color: 'var(--p-blue)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  {cta} <span aria-hidden="true">→</span>
+                </span>
+              </Link>
+            ))}
           </div>
-        ))}
+        </div>
       </section>
 
-      {/* Directory grid + search */}
-      <section style={{
-        padding: 'clamp(32px, 4vw, 56px) clamp(24px, 5vw, 80px)',
-      }}>
-        <CatalogSearch entries={entries} />
+      {/* ---------- The Claude submenu, one chip per item ---------- */}
+      <section style={{ padding: 'clamp(40px, 5vw, 72px) clamp(24px, 5vw, 80px)' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          <p style={{ ...eyebrow, marginBottom: '10px' }}>
+            The Claude directory — by component type
+          </p>
+          <p
+            style={{
+              fontFamily: sans,
+              fontSize: '15px',
+              lineHeight: 1.7,
+              color: 'var(--p-ink-soft)',
+              maxWidth: '640px',
+              margin: '0 0 28px',
+            }}
+          >
+            A plugin is just components packaged together. The corpus is sliced by
+            what each component actually is, so you can go straight to the kind you
+            need — or assemble your own bundle and have it audited.
+          </p>
+
+          <div
+            style={{
+              display: 'grid',
+              gap: '12px',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))',
+            }}
+          >
+            {CLAUDE_MENU.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  border: '1px solid var(--p-border-strong)',
+                  borderRadius: '6px',
+                  padding: '16px 18px',
+                  textDecoration: 'none',
+                  background: 'var(--p-bg)',
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: sans,
+                    fontSize: '14px',
+                    color: 'var(--p-ink)',
+                  }}
+                >
+                  {item.name}
+                </span>
+                <ArrowUpRight
+                  size={14}
+                  strokeWidth={1.6}
+                  aria-hidden="true"
+                  style={{ color: 'var(--p-ink-muted)', marginLeft: 'auto', flexShrink: 0 }}
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
+      {/* ---------- Connect ---------- */}
+      <section
+        style={{
+          padding: 'clamp(48px, 6vw, 80px) clamp(24px, 5vw, 80px)',
+          background: 'var(--p-bg-card)',
+          borderTop: '1px solid var(--p-border)',
+        }}
+      >
+        <div style={{ maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ ...eyebrow, marginBottom: '14px' }}>Get in touch</p>
+          <h2
+            style={{
+              fontFamily: serif,
+              fontSize: 'clamp(28px, 3.6vw, 42px)',
+              fontWeight: 400,
+              color: 'var(--p-ink)',
+              lineHeight: 1.15,
+              margin: '0 0 18px',
+            }}
+          >
+            Something to build, or someone to hire?
+          </h2>
+          <p
+            style={{
+              fontFamily: sans,
+              fontSize: '16px',
+              lineHeight: 1.7,
+              color: 'var(--p-ink-soft)',
+              margin: '0 auto 28px',
+              maxWidth: '560px',
+            }}
+          >
+            Email a rough description of what you want built — or of the role you
+            are trying to fill. Short call, honest scope, no pitch deck.
+          </p>
+          <div
+            style={{
+              display: 'flex',
+              gap: '10px',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              marginBottom: '32px',
+            }}
+          >
+            <Pill href="mailto:bear@bearbrown.co" filled>
+              bear@bearbrown.co
+            </Pill>
+            {CONNECT.map((c) => (
+              <Pill key={c.name} href={c.href}>
+                {c.name}
+              </Pill>
+            ))}
+          </div>
+          <p
+            style={{
+              fontFamily: sans,
+              fontSize: '13px',
+              lineHeight: 1.6,
+              color: 'var(--p-ink-muted)',
+              margin: 0,
+            }}
+          >
+            Nik Bear Brown, PhD · Associate Teaching Professor, College of
+            Engineering, Northeastern University
+          </p>
+        </div>
+      </section>
     </div>
   )
 }

@@ -8,14 +8,15 @@ import { cn } from '@/lib/utils'
 import ThemeToggle from '@/components/ThemeToggle'
 
 const NAV_ITEMS = [
-  { name: 'Claude',     href: '/' },
+  { name: 'Home',       href: '/' },
+  { name: 'Claude',     href: '/corpus' },
   { name: 'Consulting', href: '/consulting' },
   { name: 'Criteria',   href: '/criteria' },
   { name: 'Talent',     href: '/talent' },
 ]
 
 const CLAUDE_MENU = [
-  { name: 'Plugins',       href: '/' },
+  { name: 'Plugins',       href: '/corpus' },
   { name: 'Artifacts',     href: '/claude/artifacts' },
   { name: 'Skills',        href: '/claude/skills' },
   { name: 'Agents',        href: '/claude/agents' },
@@ -58,6 +59,14 @@ export default function Header() {
     return pathname.startsWith(href)
   }
 
+  // "Claude ▾" covers the corpus, the component-type pages, plugin verdicts
+  // and roll-your-own — all the destinations in CLAUDE_MENU.
+  const isClaudeSection =
+    pathname.startsWith('/corpus') ||
+    pathname.startsWith('/claude') ||
+    pathname.startsWith('/plugins') ||
+    pathname.startsWith('/roll-your-own')
+
   return (
     <header
       className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-opacity-95"
@@ -93,15 +102,15 @@ export default function Header() {
                   onMouseLeave={() => setClaudeOpen(false)}
                 >
                   <Link
-                    href="/"
+                    href="/corpus"
                     style={{
                       fontFamily: 'var(--font-sans)',
                       fontSize: '13px',
                       letterSpacing: '0.02em',
-                      color: isActive('/') || claudeOpen ? 'var(--p-ink)' : 'var(--p-ink-soft)',
+                      color: isClaudeSection || claudeOpen ? 'var(--p-ink)' : 'var(--p-ink-soft)',
                       textDecoration: 'none',
                       transition: 'color 0.15s',
-                      ...(isActive('/') ? { fontWeight: 500 } : {}),
+                      ...(isClaudeSection ? { fontWeight: 500 } : {}),
                     }}
                   >
                     Claude ▾

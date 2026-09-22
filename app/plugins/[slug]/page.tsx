@@ -64,8 +64,8 @@ export default async function PluginPage({ params }: Props) {
     <div style={{ background: 'var(--p-bg)', minHeight: '100vh' }}>
       <main style={{ maxWidth: '1120px', margin: '0 auto', padding: 'clamp(44px, 7vw, 84px) clamp(24px, 5vw, 48px)' }}>
         <p style={{ ...sans, fontSize: '12px', color: 'var(--p-ink-muted)', marginBottom: '32px' }}>
-          <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Claude Tools</Link>{' / '}
-          <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Plugins</Link>{' / '}{entry.name}
+          <Link href="/corpus" style={{ color: 'inherit', textDecoration: 'none' }}>Claude Tools</Link>{' / '}
+          <Link href="/corpus" style={{ color: 'inherit', textDecoration: 'none' }}>Plugins</Link>{' / '}{entry.name}
         </p>
 
         <div style={{ maxWidth: '820px' }}>
@@ -159,7 +159,7 @@ export default async function PluginPage({ params }: Props) {
         </div>
 
         <div style={{ display: 'flex', gap: '24px', paddingTop: '28px', borderTop: '1px solid var(--p-border)', flexWrap: 'wrap' }}>
-          <Link href="/" style={{ ...sans, fontSize: '13px', color: 'var(--p-terra)', textDecoration: 'none' }}>← All plugins</Link>
+          <Link href="/corpus" style={{ ...sans, fontSize: '13px', color: 'var(--p-terra)', textDecoration: 'none' }}>← All plugins</Link>
           <Link href="/criteria" style={{ ...sans, fontSize: '13px', color: 'var(--p-terra)', textDecoration: 'none' }}>Listing criteria</Link>
         </div>
       </main>

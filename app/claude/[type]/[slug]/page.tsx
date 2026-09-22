@@ -174,7 +174,7 @@ function AuditDetailPage({ entry, typeInfo }: { entry: AuditEntry; typeInfo: Non
 
         {/* Breadcrumb */}
         <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', marginBottom: '32px' }}>
-          <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Claude Tools</Link>
+          <Link href="/corpus" style={{ color: 'inherit', textDecoration: 'none' }}>Claude Tools</Link>
           {' / '}
           <Link href={`/claude/${entry.typeSlug}`} style={{ color: 'inherit', textDecoration: 'none' }}>{typeInfo.label}</Link>
           {' / '}{entry.name}
@@ -390,7 +390,7 @@ export default async function ClaudeEntryPage({ params }: Props) {
     <div style={{ background: 'var(--p-bg)', minHeight: '100vh' }}>
       <main style={{ maxWidth: '1120px', margin: '0 auto', padding: 'clamp(44px, 7vw, 84px) clamp(24px, 5vw, 48px)' }}>
         <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--p-ink-muted)', marginBottom: '32px' }}>
-          <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Claude Tools</Link>
+          <Link href="/corpus" style={{ color: 'inherit', textDecoration: 'none' }}>Claude Tools</Link>
           {' / '}
           <Link href={`/claude/${type}`} style={{ color: 'inherit', textDecoration: 'none' }}>{typeInfo.label}</Link>
           {' / '}{entry.name}
