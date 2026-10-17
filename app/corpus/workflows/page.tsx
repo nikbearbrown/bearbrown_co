@@ -277,7 +277,7 @@ export default function WorkflowCriteriaPage() {
           }}
         >
           Sibling page:{' '}
-          <Link href="/criteria" style={{ color: 'var(--p-blue)' }}>
+          <Link href="/corpus" style={{ color: 'var(--p-blue)' }}>
             plugin and skill listing criteria
           </Link>
           . Different artifacts, different checks, same floor.

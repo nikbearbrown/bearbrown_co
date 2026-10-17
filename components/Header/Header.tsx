@@ -9,14 +9,14 @@ import ThemeToggle from '@/components/ThemeToggle'
 
 const NAV_ITEMS = [
   { name: 'Home',       href: '/' },
-  { name: 'Claude',     href: '/corpus' },
+  { name: 'Claude',     href: '/directory' },
   { name: 'Consulting', href: '/consulting' },
-  { name: 'Criteria',   href: '/criteria' },
+  { name: 'Corpus',     href: '/corpus' },
   { name: 'Talent',     href: '/talent' },
 ]
 
 const CLAUDE_MENU = [
-  { name: 'Plugins',       href: '/corpus' },
+  { name: 'Plugins',       href: '/directory' },
   { name: 'Artifacts',     href: '/claude/artifacts' },
   { name: 'Skills',        href: '/claude/skills' },
   { name: 'Agents',        href: '/claude/agents' },
@@ -62,7 +62,7 @@ export default function Header() {
   // "Claude ▾" covers the corpus, the component-type pages, plugin verdicts
   // and roll-your-own — all the destinations in CLAUDE_MENU.
   const isClaudeSection =
-    pathname.startsWith('/corpus') ||
+    pathname.startsWith('/directory') ||
     pathname.startsWith('/claude') ||
     pathname.startsWith('/plugins') ||
     pathname.startsWith('/roll-your-own')
@@ -102,7 +102,7 @@ export default function Header() {
                   onMouseLeave={() => setClaudeOpen(false)}
                 >
                   <Link
-                    href="/corpus"
+                    href="/directory"
                     style={{
                       fontFamily: 'var(--font-sans)',
                       fontSize: '13px',

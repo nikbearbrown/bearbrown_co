@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join, relative } from 'node:path'
 
 const projectDir = join(dirname(fileURLToPath(import.meta.url)), '..')
-const TARGET = join(projectDir, 'app/criteria/page.tsx')
+const TARGET = join(projectDir, 'app/corpus/page.tsx')
 
 /** Prose allowed to contain a digit. Keep this list short and boring. */
 const ALLOWED = [

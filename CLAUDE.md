@@ -4,7 +4,9 @@
 
 A curated Claude plugin/skill directory — a few dozen entries that earned their place, every listing tested, every verdict shown — with the consulting and talent businesses as interior pages. The verdicts are the product; the listings are where the verdicts live.
 
-`/` is a **business card**, not the directory: hero (video + one-line positioning), one card per primary menu item, a chip grid for the Claude submenu, and a connect block. It is modeled on the nikbearbrown.com front page and carries the same intro video (`aEjgD65h1mY`). The directory lives at **`/corpus`** (moved off `/` on 2026-09-22).
+`/` is a **business card**, not the directory: hero (video + one-line positioning), one card per primary menu item, a chip grid for the Claude submenu, and a connect block. It is modeled on the nikbearbrown.com front page and carries the same intro video (`aEjgD65h1mY`).
+
+**Three routes changed on 2026-09-22 — get these right:** the listings are at **`/directory`**, the method page (formerly `/criteria`) is now called **Corpus** and lives at **`/corpus`**, and `/criteria` 301-redirects there via `next.config.mjs`. `/corpus` briefly meant the directory earlier the same day; it does not any more.
 
 ## Tech stack
 - Next.js 15 (App Router)
@@ -23,10 +25,11 @@ A curated Claude plugin/skill directory — a few dozen entries that earned thei
 
 | Route | What it is |
 |---|---|
-| `/` | **BUSINESS CARD** — hero with intro video, one card per menu item (Claude/Criteria/Consulting/Talent), Claude-submenu chip grid, connect block |
-| `/corpus` | **THE DIRECTORY** — thesis hero, real stats bar, pipeline funnel, card grid with Fuse.js search and tier/kind filters. Was the home page until 2026-09-22 |
+| `/` | **BUSINESS CARD** — hero with intro video, one card per menu item (Claude/Corpus/Consulting/Talent), Claude-submenu chip grid, connect block |
+| `/directory` | **THE LISTINGS** — thesis hero, real stats bar, pipeline funnel, card grid with Fuse.js search and tier/kind filters. Was the home page until 2026-09-22 |
+| `/corpus` | **CORPUS** — what the corpus is (definition card at the top), then the method: gate sequence, checks, what is not assessed. Was `/criteria`; that URL redirects here. Carries **no counts** by design — they belong on `/directory` |
+| `/corpus/workflows` | Workflow-component criteria. Was `/criteria/workflows`; redirected |
 | `/plugins/[slug]` | **Verdict page** — what it is, tier WITH RECEIPTS (sha, date, each check), install command with copy button, repo link |
-| `/criteria` | **Listing criteria** — what we test, what fails, why breadth is not the goal. The trust signal no big directory can copy. |
 | `/consulting` | **Consulting** — the manifesto (Bear Brown Method, The Belief, Three Ways to Work, method TOC). Was the old home. |
 | `/talent` | **Talent** — the year-long big-tech job search, the graduates stuck inside it, the people who need software built, and Bear as the connector. Two lanes (Open $35/hr, Bespoke $200+/hr). No placement fee, no non-solicit. |
 | `/essays` | **Essays** — surface for the five Substack publications |
@@ -45,8 +48,8 @@ A curated Claude plugin/skill directory — a few dozen entries that earned thei
 ## Persistent layout
 
 ### Header (`/components/Header/Header.tsx`)
-Primary nav: **Home** (`/`) | **Claude ▾** (`/corpus`) | **Consulting** (`/consulting`) | **Criteria** (`/criteria`) | **Talent** (`/talent`)
-The Claude ▾ dropdown (`CLAUDE_MENU`) lists Plugins (`/corpus`) plus the eleven component-type pages and Roll your own. `isClaudeSection` marks the trigger active across `/corpus`, `/claude/*`, `/plugins/*` and `/roll-your-own`.
+Primary nav: **Home** (`/`) | **Claude ▾** (`/directory`) | **Consulting** (`/consulting`) | **Corpus** (`/corpus`) | **Talent** (`/talent`)
+The Claude ▾ dropdown (`CLAUDE_MENU`) lists Plugins (`/directory`) plus the eleven component-type pages and Roll your own. `isClaudeSection` marks the trigger active across `/directory`, `/claude/*`, `/plugins/*` and `/roll-your-own`.
 The home page duplicates `CLAUDE_MENU` in `app/page.tsx` — **keep the two lists in sync.**
 Right: GitHub, YouTube, Substack pills · ThemeToggle · mobile hamburger
 Uses `--p-bg` background, `--p-border` border-bottom.
@@ -310,7 +313,8 @@ The Vercel build reads the committed JSON file — no GitHub API calls at build 
 - Do not rebuild the blog/tools/Neon internals — update their chrome only
 - Do not commit .env.local or credentials to git
 - Do not push without Bear's explicit instruction
-- Do not point "the directory" links at `/` — that is the business card. The directory is `/corpus`
+- Do not point "the directory" links at `/` or `/corpus` — that is the business card and the method page. The listings are `/directory`
+- Do not put counts on `/corpus` — the page says in its own Callout that it carries none, and a number there makes it wrong by tomorrow
 
 ## Standing instructions
 After every session, update CLAUDE.md to reflect any changes (check `git log` and `git diff` — do not ask).

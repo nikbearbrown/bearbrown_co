@@ -4,7 +4,7 @@ import { getScanStats, getLedgerStats } from '@/lib/ingest'
 import CatalogSearch from '@/components/CatalogSearch/CatalogSearch'
 
 export const metadata: Metadata = {
-  title: 'Corpus — Claude Tools Directory | Bear Brown',
+  title: 'Directory — Claude Tools | Bear Brown',
   description: 'A curated Claude tools directory built on a corpus-wide scan. Every listing tested, every verdict shown.',
 }
 

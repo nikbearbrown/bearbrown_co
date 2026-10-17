@@ -11,7 +11,7 @@ import {
 export const metadata: Metadata = {
   title: 'Bear Brown & Co.',
   description:
-    'Nik Bear Brown — professor, builder, connector. An audited Claude tools corpus, listing criteria you can check, consulting, and AI talent from a program that graduates hundreds a year.',
+    'Nik Bear Brown — professor, builder, connector. An audited Claude tools directory, a corpus you can check the method of, consulting, and AI talent from a program that graduates thousands.',
 }
 
 const sans = 'var(--font-sans)'
@@ -21,21 +21,21 @@ const serif = 'var(--font-serif)'
 const MENU_CARDS = [
   {
     name: 'Claude',
-    href: '/corpus',
+    href: '/directory',
     Icon: Boxes,
-    heading: 'The Claude corpus',
+    heading: 'The Claude directory',
     body:
-      'A corpus-wide scan of public repositories, and a hand-audited directory sitting on top of it. Every listing installed, risk-scanned, and signed with the commit sha it ran against. No stars. No copy-click rankings.',
-    cta: 'Browse the corpus',
+      'The hand-audited listings, sitting on top of the corpus-wide scan. Every entry installed, risk-scanned, and signed with the commit sha it ran against. No stars. No copy-click rankings.',
+    cta: 'Browse the directory',
   },
   {
-    name: 'Criteria',
-    href: '/criteria',
+    name: 'Corpus',
+    href: '/corpus',
     Icon: ClipboardCheck,
-    heading: 'Listing criteria',
+    heading: 'The corpus',
     body:
-      'What the checker actually reads, how it routes on discovered capability rather than declared type, and — said plainly — what it does not assess. The part most directories leave out.',
-    cta: 'Read the criteria',
+      'What the corpus is, and how a repository gets into it: what the checker reads, how it routes on discovered capability rather than declared type, and — said plainly — what it does not assess. The part most directories leave out.',
+    cta: 'How it works',
   },
   {
     name: 'Consulting',
@@ -59,7 +59,7 @@ const MENU_CARDS = [
 
 /* The Claude ▾ submenu, kept in sync with components/Header/Header.tsx */
 const CLAUDE_MENU = [
-  { name: 'Plugins', href: '/corpus' },
+  { name: 'Plugins', href: '/directory' },
   { name: 'Artifacts', href: '/claude/artifacts' },
   { name: 'Skills', href: '/claude/skills' },
   { name: 'Agents', href: '/claude/agents' },
@@ -189,8 +189,8 @@ export default function Home() {
               take whichever one you came for.
             </p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              <Pill href="/corpus" filled>
-                Browse the corpus
+              <Pill href="/directory" filled>
+                Browse the directory
               </Pill>
               <Pill href="/talent">Hire AI talent</Pill>
             </div>
@@ -327,7 +327,7 @@ export default function Home() {
               margin: '0 0 28px',
             }}
           >
-            A plugin is just components packaged together. The corpus is sliced by
+            A plugin is just components packaged together. The directory is sliced by
             what each component actually is, so you can go straight to the kind you
             need — or assemble your own bundle and have it audited.
           </p>
