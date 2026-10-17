@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 import ThemeToggle from '@/components/ThemeToggle'
 
 const NAV_ITEMS = [
-  { name: 'Home',       href: '/' },
+  { name: 'AI',         href: '/ai' },
   { name: 'Claude',     href: '/directory' },
   { name: 'Consulting', href: '/consulting' },
   { name: 'Corpus',     href: '/corpus' },

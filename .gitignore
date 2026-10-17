@@ -37,3 +37,6 @@ Thumbs.db
 ehthumbs.db 
 # local scratch — page backups, draft copy, commit messages
 _scratch/
+
+# YouTube scrape cache (scripts/youtube/sync.py)
+.cache/

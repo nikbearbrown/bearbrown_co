@@ -33,7 +33,9 @@ A curated Claude plugin/skill directory — a few dozen entries that earned thei
 | `/consulting` | **Consulting** — the manifesto (Bear Brown Method, The Belief, Three Ways to Work, method TOC). Was the old home. |
 | `/talent` | **Talent** — the year-long big-tech job search, the graduates stuck inside it, the people who need software built, and Bear as the connector. Two lanes (Open $35/hr, Bespoke $200+/hr). No placement fee, no non-solicit. |
 | `/essays` | **Essays** — surface for the five Substack publications |
-| `/videos` | Videos from @NikBearBrown (Neon-driven) |
+| `/ai` | **AI** — the "How to AI" playlist of the @NikBearBrown YouTube channel, each video an article too (searchable list). Empty state until the playlist exists |
+| `/ai/[slug]` | One video + its article (video on top, chapters, transcript, related, prev/next) |
+| `/videos` | Videos from @NikBearBrown (Neon-driven). Not in the nav; `/ai` is the video section |
 | `/blog` | Blog feed (Neon-driven, Tiptap editor) |
 | `/about` | CV / bio |
 | `/method/[slug]` | Method content pages (linked from /consulting) |
@@ -48,7 +50,7 @@ A curated Claude plugin/skill directory — a few dozen entries that earned thei
 ## Persistent layout
 
 ### Header (`/components/Header/Header.tsx`)
-Primary nav: **Home** (`/`) | **Claude ▾** (`/directory`) | **Consulting** (`/consulting`) | **Corpus** (`/corpus`) | **Talent** (`/talent`)
+Primary nav: **AI** (`/ai`) | **Claude ▾** (`/directory`) | **Consulting** (`/consulting`) | **Corpus** (`/corpus`) | **Talent** (`/talent`). There is no Home item (2026-10-17): the "Bear Brown" wordmark on the left links to `/`.
 The Claude ▾ dropdown (`CLAUDE_MENU`) lists Plugins (`/directory`) plus the eleven component-type pages and Roll your own. `isClaudeSection` marks the trigger active across `/directory`, `/claude/*`, `/plugins/*` and `/roll-your-own`.
 The home page duplicates `CLAUDE_MENU` in `app/page.tsx` — **keep the two lists in sync.**
 Right: GitHub, YouTube, Substack pills · ThemeToggle · mobile hamburger
@@ -57,6 +59,24 @@ Uses `--p-bg` background, `--p-border` border-bottom.
 ### Footer (`/components/Footer/Footer.tsx`)
 Four-column grid: Bear Brown LLC address/contact · Publications (5 Substack links) · Connect (GitHub, YouTube, Spotify, Substack) · Legal (Privacy, Cookies, ToS)
 Uses shadcn/ui variables (bg-background, text-muted-foreground) which pick up the new light-mode cream values.
+
+## AI: video + article (the How to AI playlist)
+
+**Principle (Bear, 2026-10-17): when we produce something, we produce an article and we produce a video.** `/ai` shows only the videos in ONE playlist of the @NikBearBrown YouTube channel, titled exactly **`How to AI`** (matched by title, no playlist ID needed). Each video is a page at `/ai/<slug>`: video on top, article under it. Modeled on humanitarians.ai `/videos`.
+
+```bash
+python3 scripts/youtube/sync.py                  # 1. yt-dlp scrape -> data/youtube + content/videos/<slug>.md
+#   writes a script FALLBACK article (generated: "fallback", keywords: []) only for NEW slugs; never clobbers
+grep -l '^generated: "fallback"' content/videos/*.md   # 2. these still need a real article
+#   write each from its transcript, in place: 450-900 words, 8 long-tail keywords, generated: "article"
+npx next build                                   # 3. verify, then commit data/, content/
+```
+
+- Until the playlist exists the script prints a NOTICE and writes empty data, and `/ai` shows a short "on the way" message.
+- `ONLY_PLAYLIST` at the top of `scripts/youtube/sync.py` sets the playlist; `--playlist "<title>"` overrides it for a test run (reset afterwards).
+- Only **public** videos are published. Unlisted and private ones get no page. yt-dlp lists at most 100 entries per playlist when logged out.
+- Never edit `data/youtube/*.json` by hand; slugs are pinned.
+- Shared code: `lib/video-articles.ts`, `lib/video-config.ts` (route base `/ai`, `PLAYLIST_PAGES = false`), `components/videos/*`. nikbearbrown.com uses the same files under `/blog`; keep them in step.
 
 ## Design system
 

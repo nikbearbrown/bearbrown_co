@@ -1,12 +1,14 @@
 import { MetadataRoute } from 'next'
 import { neon } from '@neondatabase/serverless'
 import { CLAUDE_TYPES, sampleSlug } from '@/data/claude-types'
+import { getAllVideos } from '@/lib/video-articles'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bearbrown.co'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [
     { url: BASE_URL, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
+    { url: `${BASE_URL}/ai`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/directory`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/corpus`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/corpus/workflows`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
@@ -22,6 +24,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/privacy/cookies`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
     { url: `${BASE_URL}/terms-of-service`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
   ]
+
+  // AI section: the "How to AI" playlist, one article per video (data/youtube)
+  for (const v of getAllVideos()) {
+    entries.push({
+      url: `${BASE_URL}/ai/${v.slug}`,
+      lastModified: v.uploadDate ? new Date(v.uploadDate) : new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    })
+  }
 
   for (const type of CLAUDE_TYPES) {
     entries.push({
