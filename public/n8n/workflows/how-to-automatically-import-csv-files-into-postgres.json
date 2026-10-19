@@ -1,0 +1,152 @@
+{
+  "name": "How to automatically import CSV files into postgres",
+  "nodes": [
+    {
+      "id": "9ae270f2-6e32-4a14-8a03-634b9c66004d",
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -340,
+        -80
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "96de1409-9c48-4357-aaef-2202dec478a9",
+      "name": "Read From File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "position": [
+        -140,
+        -80
+      ],
+      "parameters": {
+        "filePath": "/tmp/t1.csv"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "22b002df-51fd-4074-8741-c9a754996170",
+      "name": "Convert To Spreadsheet",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        60,
+        -80
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "0ec04e46-be13-40c3-a4a4-60787bf02a1f",
+      "name": "Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "position": [
+        320,
+        -80
+      ],
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "mode": "name",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "columns": {
+          "value": {
+            "id": 0
+          },
+          "schema": [
+            {
+              "id": "id",
+              "type": "number",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "id",
+              "defaultMatch": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "name",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "name",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": [
+            "id"
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "typeVersion": 2.5
+    },
+    {
+      "id": "f94be4ab-dedc-5c70-9f7c-5c2da09d54f2",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1140,
+        -80
+      ],
+      "parameters": {
+        "content": "# How to automatically import CSV files into postgres\n\n## Purpose and structure\nThis folder contains the **How to automatically import CSV files into postgres** workflow. Its executable nodes use `manualTrigger`, `postgres`, `readBinaryFile`, `spreadsheetFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1961_Manual_Readbinaryfile_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Read From File": {
+      "main": [
+        [
+          {
+            "node": "Convert To Spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Read From File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert To Spreadsheet": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

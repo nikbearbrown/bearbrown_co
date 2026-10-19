@@ -1,0 +1,230 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        200,
+        470
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        600,
+        470
+      ],
+      "parameters": {
+        "url": "={{$node[\"Config URL\"].json[\"next\"]}}",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "hapikey",
+              "value": "REPLACE_WITH_HAPIKEY"
+            },
+            {
+              "name": "limit",
+              "value": "100"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NoOp",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        800,
+        470
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Wait",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        1000,
+        470
+      ],
+      "parameters": {
+        "functionCode": "return new Promise((resolve, reject) => {\n      setTimeout(() => { resolve([{ json: {} }]) }, 5000);\n    })\n"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Config URL",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        400,
+        470
+      ],
+      "parameters": {
+        "functionCode": "\nlet next = 'https://api.hubapi.com/crm/v3/objects/contacts'\n\nif (items[0].json.next) {\n  next = items[0].json.next\n}\n\nreturn [\n  {\n    json: {\n      next : next\n    }\n  }\n]"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Check if pagination?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1250,
+        470
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [],
+          "boolean": [
+            {
+              "value1": "={{$node[\"HTTP Request\"].json[\"paging\"] ? true : false}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set next URL",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        890,
+        210
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "next",
+              "value": "={{$node[\"HTTP Request\"].json[\"paging\"][\"next\"][\"link\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "executeOnce": true,
+      "typeVersion": 1
+    },
+    {
+      "name": "Combine all data",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        1500,
+        560
+      ],
+      "parameters": {
+        "functionCode": "const allData = []\n\nlet counter = 0;\ndo {\n  try {\n    const items = $items(\"HTTP Request\", 0, counter).map(item => item.json.results);\n                    \n    const aja = items[0].map(item => {\n      return { json: item }\n    })    \n    \n    allData.push.apply(allData, aja);\n    //allData.push($items(\"Increment\", 0, counter));\n  } catch (error) {\n    return allData;  \n  }\n\n  counter++;\n} while(true);\n\n"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "189b271f-28bf-587e-be21-5684f1d20530",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# on clicking execute and check if pagination and set next url\n\n## Purpose and structure\nThis folder contains the **on clicking execute and check if pagination and set next url** workflow. Its executable nodes use `function`, `httpRequest`, `if`, `manualTrigger`, `noOp`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0074_Manual_HTTP_Monitor_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "NoOp": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Check if pagination?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config URL": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "NoOp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set next URL": {
+      "main": [
+        [
+          {
+            "node": "Config URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if pagination?": {
+      "main": [
+        [
+          {
+            "node": "Set next URL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Combine all data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Config URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

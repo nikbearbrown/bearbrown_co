@@ -1,0 +1,477 @@
+{
+  "name": "Student Assistant Automation System",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "sender": "[HIDDEN_EMAIL_1] OR [HIDDEN_EMAIL_2]"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -928,
+        -448
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "Gmail Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "[HIDDEN_CONDITION_ID_1]",
+              "leftValue": "={{ $json.module }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "[HIDDEN_CONDITION_ID_2]",
+              "leftValue": "={{ $json.Day }}",
+              "rightValue": "={{ $json.day }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        -224
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "If",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const days = [\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"];\nconst now = new Date();\n$input.item.json.day = days[now.getDay()];\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        -224
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Combine all rows into a single message\nlet message = `📅 Your schedule for ${items[0].json.day}:\\n\\n`;\n\nitems.forEach(item => {\n  const time = item.json[\"Hour\"];\n  const type = item.json[\"Type\"]\n  const name = item.json[\"module\"];\n  const room = item.json[\"Classroom\"];\n  message += `${time} – ${type} ${name} – Room: ${room}\\n`;\n});\n\n// Return a single item with the full message\nreturn [{ json: { message } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -32,
+        -240
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -928,
+        -224
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  const from = item.json.From\n  const name = from.split('<')[0].trim();\n  item.json.From = name;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -704,
+        -448
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const today = new Date();\nconst reminderDays = 2;\n\nreturn items.filter(item => {\n  const dueDate = new Date(item.json[\"Date\"]);\n  const diffTime = dueDate - today;\n  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));\n  return diffDays <= reminderDays && diffDays >= 0;\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        -32
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "2 days filter"
+    },
+    {
+      "parameters": {
+        "jsCode": "let message = `⏰ Deadlines Reminder:\\n\\n`;\n\nitems.forEach(item => {\n  const task = item.json.Type;\n  const course = item.json.Course;\n  const dueDate = item.json[\"Date\"];\n  const description = item.json.description; // make sure field exists\n\n  // Add description only if it exists\n  message += `• ${task} ${course}${description ? ` (${description})` : \"\"} – Due: ${dueDate}\\n`;\n});\n\nreturn [{ json: { message } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        -32
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "combine"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "={{ $json.message }}\n||@DeadLines||",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -32,
+        -32
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "deadline"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "={{ $json.message }}\n||@schedule||",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        176,
+        -240
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "schedule"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=**sender:** {{ $json.From }}\n**subject:** {{ $json.Subject ? $json.Subject : \"(no subject)\" }}\n**content:**\n`{{ $json.snippet }}`\n||@Emails||",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        -448
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "emails"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items\n  .filter(item => new Date(item.json[\"Date\"]) < new Date()) // past deadlines\n  .sort((a, b) => b.json.row_number - a.json.row_number)   // sort descending\n  .map(item => ({\n    json: {\n      rowIndex: item.json.row_number,\n    }\n  }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        160
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "startIndex": "={{ $json.rowIndex }}"
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -256,
+        160
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "Delete rows or columns from sheet"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -704,
+        -224
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "time table",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -704,
+        64
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "deadline1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 19
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -928,
+        64
+      ],
+      "id": "[HIDDEN_NODE_ID]",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "id": "48e92013-6eb5-5925-84d3-7daa7db42c4d",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1728,
+        -448
+      ],
+      "parameters": {
+        "content": "# Student Assistant Automation System\n\n## Purpose and structure\nThis folder contains the **Student Assistant Automation System** workflow. Its executable nodes use `code`, `discord`, `gmailTrigger`, `googleSheets`, `if`, `scheduleTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nGmail Trigger, Schedule Trigger, Schedule Trigger1\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/nadjibdje/Student-Assistant-Automation-System/blob/c3907654055b9d0481fe4cc345da019801e3817e/main.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "time table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2 days filter": {
+      "main": [
+        [
+          {
+            "node": "combine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "combine": {
+      "main": [
+        [
+          {
+            "node": "deadline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deadline": {
+      "main": [
+        []
+      ]
+    },
+    "schedule": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Delete rows or columns from sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "time table": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deadline1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "2 days filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "deadline1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

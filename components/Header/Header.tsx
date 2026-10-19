@@ -10,6 +10,7 @@ import ThemeToggle from '@/components/ThemeToggle'
 const NAV_ITEMS = [
   { name: 'AI',         href: '/ai' },
   { name: 'Claude',     href: '/directory' },
+  { name: 'Agents',     href: '/agents' },
   { name: 'Consulting', href: '/consulting' },
   { name: 'Corpus',     href: '/corpus' },
   { name: 'Talent',     href: '/talent' },

@@ -1,0 +1,144 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Function",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "functionCode": "return [\n  {\n    json: {\n      id: 0,\n    }\n  },\n  {\n    json: {\n      id: 1,\n    }\n  }\n];"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$node[\"Function\"].json[\"id\"]}}",
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        850,
+        200
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "n8n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        850,
+        400
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "nodemation"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "44b1ce30-d3fc-5989-b316-cc630f1ebf57",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# route items with if conditions\n\n## Purpose and structure\nThis folder contains the **route items with if conditions** workflow. Its executable nodes use `function`, `if`, `manualTrigger`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1044_Manual_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Function",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

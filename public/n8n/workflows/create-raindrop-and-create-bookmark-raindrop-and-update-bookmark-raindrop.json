@@ -1,0 +1,118 @@
+{
+  "nodes": [
+    {
+      "name": "Raindrop",
+      "type": "n8n-nodes-base.raindrop",
+      "position": [
+        470,
+        320
+      ],
+      "parameters": {
+        "title": "n8n-docs",
+        "operation": "create",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Raindrop1",
+      "type": "n8n-nodes-base.raindrop",
+      "position": [
+        670,
+        320
+      ],
+      "parameters": {
+        "link": "https://docs.n8n.io",
+        "resource": "bookmark",
+        "operation": "create",
+        "collectionId": "={{$json[\"_id\"]}}",
+        "additionalFields": {
+          "title": "Documentation"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Raindrop2",
+      "type": "n8n-nodes-base.raindrop",
+      "position": [
+        870,
+        320
+      ],
+      "parameters": {
+        "resource": "bookmark",
+        "operation": "update",
+        "bookmarkId": "={{$json[\"_id\"]}}",
+        "updateFields": {
+          "title": "n8n Documentation"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Raindrop3",
+      "type": "n8n-nodes-base.raindrop",
+      "position": [
+        1070,
+        320
+      ],
+      "parameters": {
+        "resource": "bookmark",
+        "bookmarkId": "={{$json[\"_id\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "7c551357-bfb7-5313-b37e-e74bedaf0081",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# create raindrop and create bookmark raindrop and update bookmark raindrop\n\n## Purpose and structure\nThis folder contains the **create raindrop and create bookmark raindrop and update bookmark raindrop** workflow. Its executable nodes use `raindrop`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Raindrop/1209_Raindrop_Automate.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Raindrop": {
+      "main": [
+        [
+          {
+            "node": "Raindrop1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Raindrop1": {
+      "main": [
+        [
+          {
+            "node": "Raindrop2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Raindrop2": {
+      "main": [
+        [
+          {
+            "node": "Raindrop3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

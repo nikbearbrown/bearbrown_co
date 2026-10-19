@@ -1,0 +1,247 @@
+{
+  "name": "Append, lookup, update, and read data from a Google Sheets spreadsheet",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        450,
+        450
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1450,
+        450
+      ],
+      "parameters": {
+        "key": "REPLACE_WITH_KEY",
+        "range": "A:D",
+        "options": {
+          "valueInputMode": "USER_ENTERED",
+          "valueRenderMode": "UNFORMATTED_VALUE"
+        },
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "operation": "update",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1250,
+        450
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "Rent",
+              "value": "={{$node[\"Google Sheets1\"].json[\"Rent\"]+100}}"
+            },
+            {
+              "name": "ID",
+              "value": "={{$node[\"Google Sheets1\"].json[\"ID\"]}}"
+            }
+          ],
+          "string": [
+            {
+              "name": "Name",
+              "value": "={{$node[\"Google Sheets1\"].json[\"Name\"]}}"
+            },
+            {
+              "name": "City",
+              "value": "={{$node[\"Google Sheets1\"].json[\"City\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1050,
+        450
+      ],
+      "parameters": {
+        "range": "A:D",
+        "options": {
+          "valueRenderMode": "UNFORMATTED_VALUE",
+          "returnAllMatches": true
+        },
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "operation": "lookup",
+        "lookupValue": "Berlin",
+        "lookupColumn": "City",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        850,
+        450
+      ],
+      "parameters": {
+        "range": "A:D",
+        "options": {
+          "valueInputMode": "USER_ENTERED"
+        },
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "operation": "append",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Sheets3",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1650,
+        450
+      ],
+      "parameters": {
+        "range": "A:D",
+        "options": {
+          "valueRenderMode": "FORMATTED_VALUE"
+        },
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        650,
+        450
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "ID",
+              "value": "={{Math.floor(Math.random()*1000)}}"
+            }
+          ],
+          "string": [
+            {
+              "name": "Name",
+              "value": "John's Place"
+            },
+            {
+              "name": "Rent",
+              "value": "$1,000"
+            },
+            {
+              "name": "City",
+              "value": "Berlin"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "7ed10a19-94a7-5144-a189-f2a5082ad1bc",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Append, lookup, update, and read data from a Google Sheets spreadsheet\n\n## Purpose and structure\nThis folder contains the **Append, lookup, update, and read data from a Google Sheets spreadsheet** workflow. Its executable nodes use `googleSheets`, `manualTrigger`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1062_Manual_GoogleSheets_Update_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "name": "Create a new issue in Jira",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        350,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Jira",
+      "type": "n8n-nodes-base.jira",
+      "position": [
+        550,
+        300
+      ],
+      "parameters": {
+        "project": "",
+        "summary": "Firewall on fire",
+        "issueType": "10001",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "247a4258-9e4c-5ee1-8152-3c3276bc1da5",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a new issue in Jira\n\n## Purpose and structure\nThis folder contains the **Create a new issue in Jira** workflow. Its executable nodes use `jira`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1170_Manual_Jira_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Jira",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

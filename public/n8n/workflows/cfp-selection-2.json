@@ -1,0 +1,141 @@
+{
+  "name": "CFP Selection 2",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        400,
+        250
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        600,
+        250
+      ],
+      "parameters": {
+        "table": "",
+        "operation": "list",
+        "application": "",
+        "additionalOptions": {
+          "filterByFormula": "{Total Score} > 15"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Bannerbear",
+      "type": "n8n-nodes-base.bannerbear",
+      "position": [
+        800,
+        250
+      ],
+      "parameters": {
+        "templateId": "",
+        "modificationsUi": {
+          "modificationsValues": [
+            {
+              "name": "talk title",
+              "text": "={{$node[\"Airtable\"].json[\"fields\"][\"What's the title of your talk?\"]}}"
+            },
+            {
+              "name": "abstract",
+              "text": "={{$node[\"Airtable\"].json[\"fields\"][\"Please share the abstract of your talk.\"]}}"
+            },
+            {
+              "name": "profile image",
+              "imageUrl": "={{$node[\"Airtable\"].json[\"fields\"][\"Please share a URL of your profile picture.\"]}}"
+            },
+            {
+              "name": "username",
+              "text": "={{$node[\"Airtable\"].json[\"fields\"][\"Your twitter handle\"]}}"
+            },
+            {
+              "name": "full name",
+              "text": "={{$node[\"Airtable\"].json[\"fields\"][\"Great, can we get your full name?\"]}}"
+            }
+          ]
+        },
+        "additionalFields": {
+          "waitForImage": true
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Trello",
+      "type": "n8n-nodes-base.trello",
+      "position": [
+        1000,
+        250
+      ],
+      "parameters": {
+        "name": "={{$node[\"Airtable\"].json[\"fields\"][\"What's the title of your talk?\"]}}",
+        "listId": "",
+        "description": "=Abstract: {{$node[\"Airtable\"].json[\"fields\"][\"Please share the abstract of your talk.\"]}}\n\nName: {{$node[\"Airtable\"].json[\"fields\"][\"Great, can we get your full name?\"]}}\nBio: {{$node[\"Airtable\"].json[\"fields\"][\"Please share a bit of information about you.\"]}}\nEmail: {{$node[\"Airtable\"].json[\"fields\"][\"And what's your email address?\"]}}\nTwitter: {{$node[\"Airtable\"].json[\"fields\"][\"Your twitter handle\"]}}",
+        "additionalFields": {
+          "urlSource": "={{$node[\"Bannerbear\"].json[\"image_url\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "fcbc7c7f-dc0d-50bf-b065-fb6f91208b1d",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# CFP Selection 2\n\n## Purpose and structure\nThis folder contains the **CFP Selection 2** workflow. Its executable nodes use `airtable`, `bannerbear`, `manualTrigger`, `trello`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1028_Manual_Trello_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Bannerbear",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bannerbear": {
+      "main": [
+        [
+          {
+            "node": "Trello",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

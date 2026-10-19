@@ -1,0 +1,66 @@
+{
+  "nodes": [
+    {
+      "name": "Typeform Trigger",
+      "type": "n8n-nodes-base.typeformTrigger",
+      "position": [
+        490,
+        280
+      ],
+      "parameters": {
+        "formId": "dpr2kxSL",
+        "simplifyAnswers": false
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "APITemplate.io",
+      "type": "n8n-nodes-base.apiTemplateIo",
+      "position": [
+        690,
+        280
+      ],
+      "parameters": {
+        "options": {
+          "fileName": "invoice.pdf"
+        },
+        "download": true,
+        "resource": "pdf",
+        "pdfTemplateId": "96c77b2b1ab6ac88",
+        "jsonParameters": true,
+        "propertiesJson": "={\n  \"company\": \"n8n\",\n  \"email\": \"{{$json[\"1\"][\"email\"]}}\",\n  \"invoice_no\": \"213223444\",\n  \"invoice_date\": \"18-03-2021\",\n  \"invoice_due_date\": \"17-04-2021\",\n  \"address\": \"Berlin, Germany\",\n  \"company_bill_to\": \"{{$json[\"0\"][\"text\"]}}\",\n  \"website\": \"https://n8n.io\",\n  \"document_id\": \"889856789012\",\n  \"items\": [\n    {\n      \"item_name\": \"{{$json[\"2\"][\"text\"]}}\",\n      \"price\": \"EUR {{$json[\"3\"][\"number\"]}}\"\n    },\n    {\n      \"item_name\": \"{{$json[\"4\"][\"text\"]}}\",\n      \"price\": \"EUR {{$json[\"5\"][\"number\"]}}\"\n    }    \n    ]\n}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4f863631-63f4-5a1e-ad30-4e9ad046b46e",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive typeform events and api template io\n\n## Purpose and structure\nThis folder contains the **receive typeform events and api template io** workflow. Its executable nodes use `apiTemplateIo`, `typeformTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nTypeform Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Apitemplateio/1224_Apitemplateio_Typeform_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Typeform Trigger": {
+      "main": [
+        [
+          {
+            "node": "APITemplate.io",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

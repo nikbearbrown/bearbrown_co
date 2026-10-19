@@ -1,0 +1,392 @@
+{
+  "name": "Group K",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {
+          "download": false
+        }
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2980,
+        700
+      ],
+      "id": "8b5b5fcb-e124-4879-b49f-204e07665c19",
+      "name": "Telegram Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://becoming-mullet-quickly.ngrok-free.app/n8n/get_user_info",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.message.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2660,
+        700
+      ],
+      "id": "d8251776-9381-43b0-9b5f-ad4e95ae120c",
+      "name": "Extract information from Telegram",
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Successfully retrieved the user: \n`{{ $json.user_info.ownerUsername }}`!",
+        "additionalFields": {
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -2360,
+        700
+      ],
+      "id": "3df1d0c6-8830-46e6-b0b4-5e96a791b8d6",
+      "name": "Telegram1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://becoming-mullet-quickly.ngrok-free.app/n8n/scrape_user_reels",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "username",
+              "value": "={{ $('Extract information from Telegram').item.json.user_info.ownerUsername }}"
+            },
+            {
+              "name": "max_videos",
+              "value": "5"
+            },
+            {
+              "name": "days_count",
+              "value": "365"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2100,
+        700
+      ],
+      "id": "82106f89-24a4-4421-8745-04588cac8450",
+      "name": "Scrape user reels"
+    },
+    {
+      "parameters": {
+        "functionCode": "return $json.videos_found.map(video => ({ json: video }));"
+      },
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -1840,
+        700
+      ],
+      "id": "51a85d4a-9856-4cdb-a025-6dc3b2f75766",
+      "name": "Split Videos"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1560,
+        700
+      ],
+      "id": "898f2070-92c9-4ac9-8736-fcd6d3608afd",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://becoming-mullet-quickly.ngrok-free.app/n8n/download_reel",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "original_url",
+              "value": "={{ $json[\"url\"] }}"
+            },
+            {
+              "name": "video_url",
+              "value": "={{ $json[\"video_url\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1240,
+        720
+      ],
+      "id": "d485de4b-6f30-44ba-9812-46778848ddb1",
+      "name": "Download each reel"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://becoming-mullet-quickly.ngrok-free.app/n8n/metadata",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "file_path",
+              "value": "={{ $json.video_path }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -960,
+        720
+      ],
+      "id": "809b6eb3-a68b-4a2b-a8da-e2831f744141",
+      "name": "Strip metadata"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://becoming-mullet-quickly.ngrok-free.app/n8n/transcribe",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "file_path",
+              "value": "={{ $json.input_file }}"
+            },
+            {
+              "name": "model",
+              "value": "base"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -740,
+        720
+      ],
+      "id": "f8ebc1f4-ea29-4ad8-917c-a60591e29b6d",
+      "name": "Transcribe the video",
+      "notes": "Change the model type for a stronger model!"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Successfully downloaded the videos from the profile and uploaded them to AWS!",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1020,
+        520
+      ],
+      "id": "2c410bdc-8f21-463e-9c63-729341f38729",
+      "name": "Telegram",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://becoming-mullet-quickly.ngrok-free.app/n8n/storage",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "video_name",
+              "value": "={{ $json.video_name }}"
+            },
+            {
+              "name": "video_path",
+              "value": "={{ $json.video_path }}"
+            },
+            {
+              "name": "metadata_path",
+              "value": "={{ $('Download each reel').item.json.info_path }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -540,
+        720
+      ],
+      "id": "4c594c8b-a7f0-41f5-bf10-13f0eef03644",
+      "name": "Upload to aws",
+      "notes": "Change the model type for a stronger model!"
+    },
+    {
+      "id": "74eebec8-33e0-5b90-a24b-7b233ca6b6f5",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3780,
+        0
+      ],
+      "parameters": {
+        "content": "# Group K\n\n## Purpose and structure\nThis folder contains the **Group K** workflow. Its executable nodes use `function`, `httpRequest`, `splitInBatches`, `telegram`, `telegramTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nTelegram Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/1ordo/n8n-instagram-scrapper-with-transcription/blob/2a47dd0436e1beb9ca588b9faff95c4f3aa996b4/n8n.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract information from Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract information from Telegram": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram1": {
+      "main": [
+        [
+          {
+            "node": "Scrape user reels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape user reels": {
+      "main": [
+        [
+          {
+            "node": "Split Videos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Videos": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download each reel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download each reel": {
+      "main": [
+        [
+          {
+            "node": "Strip metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Strip metadata": {
+      "main": [
+        [
+          {
+            "node": "Transcribe the video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe the video": {
+      "main": [
+        [
+          {
+            "node": "Upload to aws",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to aws": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

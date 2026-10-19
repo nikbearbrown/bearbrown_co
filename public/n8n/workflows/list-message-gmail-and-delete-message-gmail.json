@@ -1,0 +1,122 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -40,
+        240
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        150,
+        240
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "getAll",
+        "returnAll": true,
+        "additionalFields": {
+          "q": "-in:chats unsubscribe -license -key -password",
+          "format": "ids"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Delete Old Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        500,
+        410
+      ],
+      "parameters": {
+        "resource": "message",
+        "messageId": "={{$json[\"id\"]}}",
+        "operation": "delete"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "SplitInBatches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        310,
+        240
+      ],
+      "parameters": {
+        "options": {},
+        "batchSize": 100
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "7fd67b95-c601-59d6-9151-052b5e4f8037",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -840,
+        0
+      ],
+      "parameters": {
+        "content": "# list message gmail and delete message gmail\n\n## Purpose and structure\nThis folder contains the **list message gmail and delete message gmail** workflow. Its executable nodes use `gmail`, `manualTrigger`, `splitInBatches`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0069_Manual_Gmail_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "SplitInBatches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SplitInBatches": {
+      "main": [
+        [
+          {
+            "node": "Delete Old Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Old Gmail": {
+      "main": [
+        [
+          {
+            "node": "SplitInBatches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

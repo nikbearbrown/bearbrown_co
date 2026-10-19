@@ -1,0 +1,115 @@
+{
+  "name": "Create, update, and get a user using the G Suite Admin node",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        240,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "G Suite Admin",
+      "type": "n8n-nodes-base.gSuiteAdmin",
+      "position": [
+        440,
+        300
+      ],
+      "parameters": {
+        "domain": "n8n.io",
+        "lastName": "Nat",
+        "password": "REPLACE_WITH_PASSWORD",
+        "username": "nat",
+        "firstName": "Nathan",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "G Suite Admin1",
+      "type": "n8n-nodes-base.gSuiteAdmin",
+      "position": [
+        640,
+        300
+      ],
+      "parameters": {
+        "userId": "={{$node[\"G Suite Admin\"].json[\"id\"]}}",
+        "operation": "update",
+        "updateFields": {
+          "lastName": "Nate"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "G Suite Admin2",
+      "type": "n8n-nodes-base.gSuiteAdmin",
+      "position": [
+        840,
+        300
+      ],
+      "parameters": {
+        "userId": "={{$node[\"G Suite Admin\"].json[\"id\"]}}",
+        "options": {},
+        "operation": "get"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "60cdb812-e6f2-5db8-9b34-d40e24946c31",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create, update, and get a user using the G Suite Admin node\n\n## Purpose and structure\nThis folder contains the **Create, update, and get a user using the G Suite Admin node** workflow. Its executable nodes use `gSuiteAdmin`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0455_Manual_Gsuiteadmin_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "G Suite Admin": {
+      "main": [
+        [
+          {
+            "node": "G Suite Admin1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "G Suite Admin1": {
+      "main": [
+        [
+          {
+            "node": "G Suite Admin2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "G Suite Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

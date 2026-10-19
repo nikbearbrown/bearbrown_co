@@ -1,0 +1,95 @@
+{
+  "nodes": [
+    {
+      "id": "cc514d10-89cc-4fcf-8c1f-b65395cd168a",
+      "name": "On new invoice in Clockify",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        460,
+        460
+      ],
+      "parameters": {
+        "path": "8af31ab8-e16a-4401-84b7-b246c65ba6a9",
+        "options": {},
+        "httpMethod": "POST"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ef9e5ce6-cb3e-4cb9-b33d-3b05a2ab589d",
+      "name": "Create database page",
+      "type": "n8n-nodes-base.notion",
+      "position": [
+        680,
+        460
+      ],
+      "parameters": {
+        "title": "={{ $json[\"body\"][\"number\"] }}",
+        "resource": "databasePage",
+        "databaseId": "REPLACE_WITH_DATABASEID",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "REPLACE_WITH_KEY",
+              "date": "={{ $json[\"body\"][\"issuedDate\"] }}"
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "date": "={{ $json[\"body\"][\"dueDate\"] }}"
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "numberValue": "={{ $json[\"body\"][\"amount\"] }}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "e2ecb86f-2f0c-4fe7-8919-e9095abdb5a0",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -60,
+        240
+      ],
+      "parameters": {
+        "width": 462,
+        "height": 595,
+        "content": "## Send new Clockify invoice to Notion database\n### How it works\n1. `On new invoice in Clockify` webhook node will trigger when a new invoice is created in Clockify. Setup is involved.\n2. `Create database page` Notion node will create a database page with the information specified from the Clockify trigger. You can add additional fields if required by following the setup.\n\n### Setup\n1. Create a Clockify webhook by going to the [webhooks section in Clockify](https://app.clockify.me/webhooks).\n2. Create the webhook specifying the \"Invoice created\" event and paste in the URL provided from `On new invoice in Clockify` webhook step.\n3. Now go to Notion and create a new database where we will store our Clockify invoices.\n4. In the new Notion database, create the following fields:\n    - Invoice number (renamed from \"Name\" field)\n    - Issue date (date field)\n    - Due date (date field)\n    - Amount (number field)\n5. If you want to add more fields to Notion, create those fields in Notion and map it accordingly in `Create database page` node."
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a17dcac5-2d88-595e-8588-62ee8a398b2b",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -860,
+        0
+      ],
+      "parameters": {
+        "content": "# Send new Clockify invoice to Notion database\n\n## Purpose and structure\nThis folder contains the **Send new Clockify invoice to Notion database** workflow. Its executable nodes use `notion`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn new invoice in Clockify\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Stickynote/0281_Stickynote_Notion_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "On new invoice in Clockify": {
+      "main": [
+        [
+          {
+            "node": "Create database page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

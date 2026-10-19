@@ -1,0 +1,174 @@
+{
+  "nodes": [
+    {
+      "id": "28409b8d-3ae2-4cdb-a4ba-b0af9f31c1f2",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        940,
+        440
+      ],
+      "parameters": {
+        "url": "={{$json[\"body\"].sender.url}}",
+        "options": {},
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "aa604a92-7691-4b25-bbd0-ce42b8147fd8",
+      "name": "Search PR user in Pipedrive by email",
+      "type": "n8n-nodes-base.pipedrive",
+      "position": [
+        1220,
+        440
+      ],
+      "parameters": {
+        "term": "={{ $json[\"email\"]}}",
+        "resource": "person",
+        "operation": "search",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "id": "444a840f-3d34-48c4-b539-fe23a2a2a39c",
+      "name": "person exists",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1460,
+        440
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"name\"]}}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b713ebee-0346-453e-bc1e-5dec1c74057f",
+      "name": "Pipedrive",
+      "type": "n8n-nodes-base.pipedrive",
+      "position": [
+        1780,
+        340
+      ],
+      "parameters": {
+        "content": "=Created a PR \n{{$node[\"ON Pull Request\"].json[\"body\"][\"pull_request\"][\"html_url\"]}}",
+        "resource": "note",
+        "additionalFields": {
+          "person_id": "={{ $json[\"id\"] }}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "72b08b20-5b30-4f06-bf7e-34ab28421455",
+      "name": "NoOp",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        1780,
+        540
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "e0a1b859-16d4-4884-a17a-6e857fdbe8d4",
+      "name": "ON Pull Request",
+      "type": "n8n-nodes-base.githubTrigger",
+      "position": [
+        640,
+        440
+      ],
+      "parameters": {
+        "owner": "John-n8n",
+        "events": [
+          "pull_request"
+        ],
+        "repository": "DemoRepo"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "8093f90b-5c94-53c8-ae9a-bc8a54cb2cb9",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# http request and search person pipedrive and pipedrive\n\n## Purpose and structure\nThis folder contains the **http request and search person pipedrive and pipedrive** workflow. Its executable nodes use `githubTrigger`, `httpRequest`, `if`, `noOp`, `pipedrive`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nON Pull Request\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0253_HTTP_GitHub_Send_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Search PR user in Pipedrive by email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "person exists": {
+      "main": [
+        [
+          {
+            "node": "Pipedrive",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NoOp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ON Pull Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search PR user in Pipedrive by email": {
+      "main": [
+        [
+          {
+            "node": "person exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

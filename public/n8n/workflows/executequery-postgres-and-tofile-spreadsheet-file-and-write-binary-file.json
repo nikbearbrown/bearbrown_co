@@ -1,0 +1,82 @@
+{
+  "nodes": [
+    {
+      "name": "Run Query",
+      "type": "n8n-nodes-base.postgres",
+      "position": [
+        450,
+        450
+      ],
+      "parameters": {
+        "query": "SELECT name, ean FROM product",
+        "operation": "executeQuery"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Spreadsheet File",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        600,
+        450
+      ],
+      "parameters": {
+        "operation": "toFile"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Write Binary File",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "position": [
+        750,
+        450
+      ],
+      "parameters": {
+        "fileName": "spreadsheet.xls"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "54cc3523-93d6-58bc-b9c2-b53fc4cdf253",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# executequery postgres and tofile spreadsheet file and write binary file\n\n## Purpose and structure\nThis folder contains the **executequery postgres and tofile spreadsheet file and write binary file** workflow. Its executable nodes use `postgres`, `spreadsheetFile`, `writeBinaryFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Writebinaryfile/0747_Writebinaryfile_Spreadsheetfile_Automate.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Run Query": {
+      "main": [
+        [
+          {
+            "node": "Spreadsheet File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spreadsheet File": {
+      "main": [
+        [
+          {
+            "node": "Write Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

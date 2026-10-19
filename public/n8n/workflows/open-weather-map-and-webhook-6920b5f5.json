@@ -1,0 +1,125 @@
+{
+  "nodes": [
+    {
+      "name": "OpenWeatherMap",
+      "type": "n8n-nodes-base.openWeatherMap",
+      "position": [
+        900,
+        300
+      ],
+      "parameters": {
+        "cityName": "={{ $json[\"city\"] }}",
+        "language": "en"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Webhook GET",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "path": "weather",
+        "options": {
+          "responsePropertyName": "data"
+        },
+        "responseMode": "lastNode"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set City",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        700,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "city",
+              "value": "={{ $json[\"query\"][\"parameter\"] || 'berlin,de' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Create Response",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1100,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "data",
+              "value": "=It has {{$json[\"main\"][\"temp\"]}}\\xE2\\x84\\x83  and feels like {{$json[\"main\"][\"feels_like\"]}}\\xE2\\x84\\x83  in {{$json[\"name\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c59f54f3-7c9b-58a8-a222-9952bbec0248",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# open weather map and webhook 6920b5f5\n\n## Purpose and structure\nThis folder contains the **open weather map and webhook 6920b5f5** workflow. Its executable nodes use `openWeatherMap`, `set`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWebhook GET\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Openweathermap/1222_Openweathermap_Webhook_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Set City": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook GET": {
+      "main": [
+        [
+          {
+            "node": "Set City",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Create Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

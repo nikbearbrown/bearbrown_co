@@ -1,0 +1,118 @@
+{
+  "nodes": [
+    {
+      "id": "83c6d7e3-ae2e-4576-8bc6-1e1a7b553fca",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        260,
+        0
+      ],
+      "parameters": {
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "080b234c-a753-409d-9d2d-3322678a01f2",
+              "name": "woocommerce url",
+              "type": "string",
+              "value": "https://mydom.com/"
+            }
+          ]
+        }
+      },
+      "typeVersion": 3.4
+    },
+    {
+      "id": "7018ae65-bb9d-4bac-8746-01193cb0e523",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "223ed34b-3e26-406c-a5a5-34f8408e3fe6",
+      "name": "HTTP Request - Update Rank Math Meta",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        500,
+        0
+      ],
+      "parameters": {
+        "url": "={{ $('Settings').item.json[\"woocommerce url\"] }}wp-json/rank-math-api/v1/update-meta",
+        "method": "POST",
+        "options": {},
+        "sendBody": true,
+        "authentication": "predefinedCredentialType",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "post_id",
+              "value": "246"
+            },
+            {
+              "name": "rank_math_title",
+              "value": "Demo SEO Title"
+            },
+            {
+              "name": "rank_math_description",
+              "value": "Demo SEO Description"
+            },
+            {
+              "name": "rank_math_canonical_url",
+              "value": "https://example.com/demo-product"
+            }
+          ]
+        },
+        "nodeCredentialType": "wordpressApi"
+      },
+      "retryOnFail": true,
+      "typeVersion": 4.2
+    },
+    {
+      "id": "825e8914-f379-5a40-ad8b-d722c8dbbd57",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# when clicking test workflow and http request update rank math meta\n\n## Purpose and structure\nThis folder contains the **when clicking test workflow and http request update rank math meta** workflow. Its executable nodes use `httpRequest`, `manualTrigger`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking ‘Test workflow’\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0713_Manual_HTTP_Update_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - Update Rank Math Meta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

@@ -1,0 +1,247 @@
+{
+  "name": "MCP_CALENDAR",
+  "nodes": [
+    {
+      "id": "10e49f09-5ef8-4945-adcf-f8b99879a31c",
+      "name": "MCP_CALENDAR",
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "path": "/mcp/:tool/calendar"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "54e84792-4f4a-4501-8aae-e40f06e958c1",
+      "name": "GET_CALENDAR",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        860,
+        240
+      ],
+      "parameters": {
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {},
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "operation": "get"
+      },
+      "typeVersion": 1.3
+    },
+    {
+      "id": "c428d7b1-aed4-4a18-962e-fd29b8a2ac54",
+      "name": "GET_ALL_CALENDAR",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        240,
+        240
+      ],
+      "parameters": {
+        "options": {
+          "orderBy": "startTime",
+          "recurringEventHandling": "expand"
+        },
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Before', ``, 'string') }}",
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('After', ``, 'string') }}",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "operation": "getAll",
+        "returnAll": true
+      },
+      "typeVersion": 1.3
+    },
+    {
+      "id": "26fef8a3-5802-4f3d-ae47-b81aad813728",
+      "name": "DELETE_CALENDAR",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        480,
+        240
+      ],
+      "parameters": {
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {},
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "operation": "delete",
+        "descriptionType": "manual"
+      },
+      "typeVersion": 1.3
+    },
+    {
+      "id": "e46ea1b3-8597-46aa-b37a-6660aa72f74d",
+      "name": "UPDATE_CALENDAR",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        680,
+        240
+      ],
+      "parameters": {
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "operation": "update",
+        "updateFields": {},
+        "useDefaultReminders": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Use_Default_Reminders', ``, 'boolean') }}"
+      },
+      "typeVersion": 1.3
+    },
+    {
+      "id": "b9c7618d-b79a-4273-a540-3d21a1c0bfb0",
+      "name": "AVALIABILITY_CALENDAR",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        80,
+        240
+      ],
+      "parameters": {
+        "options": {
+          "timezone": {
+            "__rl": true,
+            "mode": "list",
+            "value": "REPLACE_WITH_RESOURCE"
+          }
+        },
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End_Time', ``, 'string') }}",
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start_Time', ``, 'string') }}",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "resource": "calendar",
+        "descriptionType": "manual",
+        "toolDescription": "verifica disponibilidade"
+      },
+      "typeVersion": 1.3
+    },
+    {
+      "id": "4fda260a-4d0c-4bf3-807b-e752f06037ff",
+      "name": "CREATE_CALENDAR",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        1000,
+        240
+      ],
+      "parameters": {
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "descriptionType": "manual",
+        "toolDescription": "CRIA EVENTOS NOVOS COM O GOOGLE API",
+        "additionalFields": {
+          "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Description', ``, 'string') }}"
+        },
+        "useDefaultReminders": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Use_Default_Reminders', ``, 'boolean') }}"
+      },
+      "typeVersion": 1.3
+    },
+    {
+      "id": "3accd0d2-de6f-5715-b938-72fd48f856ee",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# MCP_CALENDAR\n\n## Purpose and structure\nThis folder contains the **MCP_CALENDAR** workflow. Its executable nodes use `googleCalendarTool`, `mcpTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nMCP_CALENDAR\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Googlecalendartool/1872_Googlecalendartool_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "GET_CALENDAR": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP_CALENDAR",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CREATE_CALENDAR": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP_CALENDAR",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DELETE_CALENDAR": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP_CALENDAR",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UPDATE_CALENDAR": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP_CALENDAR",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET_ALL_CALENDAR": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP_CALENDAR",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AVALIABILITY_CALENDAR": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP_CALENDAR",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "nodes": [
+    {
+      "name": "Calendly Trigger",
+      "type": "n8n-nodes-base.calendlyTrigger",
+      "position": [
+        490,
+        320
+      ],
+      "parameters": {
+        "events": [
+          "invitee.created"
+        ]
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Notion",
+      "type": "n8n-nodes-base.notion",
+      "position": [
+        690,
+        320
+      ],
+      "parameters": {
+        "blockUi": {
+          "blockValues": []
+        },
+        "resource": "databasePage",
+        "databaseId": "REPLACE_WITH_DATABASEID",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "REPLACE_WITH_KEY",
+              "title": "={{$json[\"payload\"][\"invitee\"][\"name\"]}}",
+              "peopleValue": [],
+              "relationValue": [
+                ""
+              ],
+              "multiSelectValue": []
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "emailValue": "={{$json[\"payload\"][\"invitee\"][\"email\"]}}",
+              "peopleValue": [],
+              "relationValue": [
+                ""
+              ],
+              "multiSelectValue": []
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "peopleValue": [],
+              "selectValue": "6ad3880b-260a-4d12-999f-5b605e096c1c",
+              "relationValue": [
+                ""
+              ],
+              "multiSelectValue": []
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b2fc72cc-fcaf-5fc9-9fe4-fc2291496c96",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive calendly events and notion\n\n## Purpose and structure\nThis folder contains the **receive calendly events and notion** workflow. Its executable nodes use `calendlyTrigger`, `notion`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nCalendly Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Calendly/0039_Calendly_Notion_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Calendly Trigger": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

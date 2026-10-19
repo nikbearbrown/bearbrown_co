@@ -1,0 +1,115 @@
+{
+  "name": "Create, update, and get a subscriber using the e-goi node",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        270,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "e-goi",
+      "type": "n8n-nodes-base.egoi",
+      "position": [
+        470,
+        300
+      ],
+      "parameters": {
+        "list": 1,
+        "email": "REPLACE_WITH_EMAIL",
+        "additionalFields": {
+          "first_name": "Nathan"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "e-goi1",
+      "type": "n8n-nodes-base.egoi",
+      "position": [
+        670,
+        300
+      ],
+      "parameters": {
+        "list": "={{$node[\"e-goi\"].parameter[\"list\"]}}",
+        "contactId": "={{$node[\"e-goi\"].json[\"base\"][\"contact_id\"]}}",
+        "operation": "update",
+        "updateFields": {
+          "first_name": "Nat"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "e-goi2",
+      "type": "n8n-nodes-base.egoi",
+      "position": [
+        870,
+        300
+      ],
+      "parameters": {
+        "list": "={{$node[\"e-goi\"].parameter[\"list\"]}}",
+        "contactId": "={{$node[\"e-goi1\"].json[\"base\"][\"contact_id\"]}}",
+        "operation": "get"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b5dc287d-5efa-50a0-b380-4dcd43959e14",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create, update, and get a subscriber using the e-goi node\n\n## Purpose and structure\nThis folder contains the **Create, update, and get a subscriber using the e-goi node** workflow. Its executable nodes use `egoi`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0300_Manual_Egoi_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "e-goi": {
+      "main": [
+        [
+          {
+            "node": "e-goi1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "e-goi1": {
+      "main": [
+        [
+          {
+            "node": "e-goi2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "e-goi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

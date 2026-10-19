@@ -1,0 +1,113 @@
+{
+  "name": "Get a volume and add it to your bookshelf",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        260,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Books",
+      "type": "n8n-nodes-base.googleBooks",
+      "position": [
+        460,
+        300
+      ],
+      "parameters": {
+        "resource": "volume",
+        "volumeId": "XxUJ2U2FXtYC",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Books1",
+      "type": "n8n-nodes-base.googleBooks",
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "shelfId": "2",
+        "resource": "bookshelfVolume",
+        "volumeId": "={{$node[\"Google Books\"].json[\"id\"]}}",
+        "operation": "add",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Books2",
+      "type": "n8n-nodes-base.googleBooks",
+      "position": [
+        860,
+        300
+      ],
+      "parameters": {
+        "shelfId": "={{$node[\"Google Books1\"].parameter[\"shelfId\"]}}",
+        "resource": "bookshelfVolume",
+        "myLibrary": true,
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "706cc992-7e1a-537b-a6ba-4f2a323c271f",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Get a volume and add it to your bookshelf\n\n## Purpose and structure\nThis folder contains the **Get a volume and add it to your bookshelf** workflow. Its executable nodes use `googleBooks`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0037_Manual_Googlebooks_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Google Books": {
+      "main": [
+        [
+          {
+            "node": "Google Books1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Books1": {
+      "main": [
+        [
+          {
+            "node": "Google Books2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Google Books",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

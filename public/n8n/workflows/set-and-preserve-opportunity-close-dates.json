@@ -1,0 +1,188 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Check for Close Date",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"Close Date\"]}}",
+              "value2": "/\\d\\d\\d\\d-\\d\\d-\\d\\d/i",
+              "operation": "regex"
+            }
+          ]
+        },
+        "combineOperation": "any"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set Close Date 3 Weeks Later",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        910,
+        370
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Close Date",
+              "value": "={{new Date(new Date().setDate(new Date().getDate() + 21)).toISOString()}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NoOp",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        1140,
+        280
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Set Close Date",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Close Date",
+              "value": "2021-11-29T00:00:00.000Z"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set Close Date To Original",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        910,
+        210
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Close Date",
+              "value": "={{$node[\"Set Close Date\"].json[\"Close Date\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b40cba55-373d-5519-a9d7-357ccb6cc11a",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# set and preserve opportunity close dates\n\n## Purpose and structure\nThis folder contains the **set and preserve opportunity close dates** workflow. Its executable nodes use `if`, `manualTrigger`, `noOp`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0127_Manual_Noop_Monitor_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Set Close Date": {
+      "main": [
+        [
+          {
+            "node": "Check for Close Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Close Date": {
+      "main": [
+        [
+          {
+            "node": "Set Close Date To Original",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Close Date 3 Weeks Later",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Set Close Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Close Date To Original": {
+      "main": [
+        [
+          {
+            "node": "NoOp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Close Date 3 Weeks Later": {
+      "main": [
+        [
+          {
+            "node": "NoOp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

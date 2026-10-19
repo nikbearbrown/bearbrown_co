@@ -1,0 +1,103 @@
+{
+  "nodes": [
+    {
+      "name": "Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        1090,
+        340
+      ],
+      "parameters": {
+        "table": "Table 1",
+        "options": {},
+        "operation": "append",
+        "application": ""
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        890,
+        340
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Name",
+              "value": "={{$json[\"contact_name\"]}}"
+            },
+            {
+              "name": "Email",
+              "value": "={{$json[\"contact_email\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "GetResponse Trigger",
+      "type": "n8n-nodes-base.getResponseTrigger",
+      "position": [
+        690,
+        340
+      ],
+      "parameters": {
+        "events": [
+          "subscribe"
+        ],
+        "listIds": [
+          "qtPk7"
+        ],
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "971ae1fb-114a-5702-ab93-be3c0186b2a8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# append airtable and receive get response events\n\n## Purpose and structure\nThis folder contains the **append airtable and receive get response events** workflow. Its executable nodes use `airtable`, `getResponseTrigger`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nGetResponse Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Getresponse/1202_Getresponse_Airtable_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetResponse Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

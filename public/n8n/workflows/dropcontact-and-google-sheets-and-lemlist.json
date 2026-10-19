@@ -1,0 +1,126 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Dropcontact",
+      "type": "n8n-nodes-base.dropcontact",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "email": "={{$json[\"email\"]}}",
+        "options": {
+          "siren": true,
+          "language": "fr"
+        },
+        "additionalFields": {
+          "company": "={{$json[\"companyName\"]}}",
+          "website": "={{$json[\"website\"]}}",
+          "linkedin": "={{$json[\"LinkedIn\"]}}",
+          "full_name": "={{$json[\"fullName\"]}}",
+          "last_name": "={{$json[\"lastName\"]}}",
+          "first_name": "={{$json[\"firstName\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "range": "A:K",
+        "options": {
+          "continue": false
+        },
+        "sheetId": "",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Lemlist",
+      "type": "n8n-nodes-base.lemlist",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "email": "={{$node[\"Dropcontact\"].json[\"email\"][0][\"email\"]}}",
+        "resource": "lead",
+        "campaignId": "",
+        "additionalFields": {
+          "lastName": "={{$node[\"Dropcontact\"].json[\"last_name\"]}}",
+          "firstName": "={{$node[\"Dropcontact\"].json[\"first_name\"]}}",
+          "companyName": "={{$node[\"Dropcontact\"].json[\"company\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "0d1420a8-5be3-5346-b301-508fc33713a9",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# dropcontact and google sheets and lemlist\n\n## Purpose and structure\nThis folder contains the **dropcontact and google sheets and lemlist** workflow. Its executable nodes use `dropcontact`, `googleSheets`, `lemlist`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0120_Manual_GoogleSheets_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Dropcontact": {
+      "main": [
+        [
+          {
+            "node": "Lemlist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Dropcontact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

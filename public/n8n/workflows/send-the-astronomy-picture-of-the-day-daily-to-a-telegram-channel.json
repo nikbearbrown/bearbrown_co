@@ -1,0 +1,95 @@
+{
+  "name": "Send the Astronomy Picture of the day daily to a Telegram channel",
+  "nodes": [
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 20
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NASA",
+      "type": "n8n-nodes-base.nasa",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "download": false,
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "file": "={{$node[\"NASA\"].json[\"url\"]}}",
+        "chatId": "REPLACE_WITH_CHATID",
+        "operation": "sendPhoto",
+        "additionalFields": {
+          "caption": "={{$node[\"NASA\"].json[\"title\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c0f9c862-5315-5b6e-926a-8c6701f75fc6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Send the Astronomy Picture of the day daily to a Telegram channel\n\n## Purpose and structure\nThis folder contains the **Send the Astronomy Picture of the day daily to a Telegram channel** workflow. Its executable nodes use `cron`, `nasa`, `telegram`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nCron\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Telegram/0231_Telegram_Nasa_Send_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "NASA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NASA": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

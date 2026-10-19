@@ -1,0 +1,88 @@
+{
+  "name": "My workflow 6",
+  "nodes": [
+    {
+      "id": "dad32e79-af45-4255-90d9-845a5357395a",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -580,
+        920
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "1cadea33-7c6a-4282-be84-e127fc7437c2",
+      "name": "Extract Pages From PDF1",
+      "type": "@custom-js/n8n-nodes-pdf-toolkit.ExtractPages",
+      "position": [
+        -140,
+        920
+      ],
+      "parameters": {
+        "pageRange": "2-3",
+        "field_name": "=data"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a8554e6b-6e2d-4a26-909c-25e74e618480",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -360,
+        920
+      ],
+      "parameters": {
+        "url": "https://www.sldttc.org/allpdf/21583473018.pdf",
+        "options": {}
+      },
+      "typeVersion": 4.2
+    },
+    {
+      "id": "3078a19f-623c-56be-bb06-629982ece752",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1380,
+        0
+      ],
+      "parameters": {
+        "content": "# My workflow 6\n\n## Purpose and structure\nThis folder contains the **My workflow 6** workflow. Its executable nodes use `ExtractPages`, `httpRequest`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking ‘Test workflow’\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1971_Manual_HTTP_Automate_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Extract Pages From PDF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

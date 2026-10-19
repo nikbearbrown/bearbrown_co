@@ -1,0 +1,129 @@
+{
+  "nodes": [
+    {
+      "name": "GS Read Data2 1",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        240,
+        750
+      ],
+      "parameters": {
+        "range": "Data!A:P",
+        "options": {
+          "valueRenderMode": "FORMATTED_VALUE"
+        },
+        "sheetId": "REPLACE_WITH_SHEETID"
+      },
+      "typeVersion": 1,
+      "id": "e42e361a-19e8-4118-96ce-d66a3589e260",
+      "notes": "This googleSheets node performs automated tasks as part of the workflow."
+    },
+    {
+      "name": "Mautic",
+      "type": "n8n-nodes-base.mautic",
+      "position": [
+        450,
+        750
+      ],
+      "parameters": {
+        "email": "={{$node[\"GS Read Data2\"].json[\"email\"]}}",
+        "options": {},
+        "firstName": "={{$node[\"GS Read Data2\"].json[\"firstname\"]}}",
+        "additionalFields": {
+          "mobile": "={{$node[\"GS Read Data2\"].json[\"mobile\"]}}"
+        }
+      },
+      "notesInFlow": false,
+      "typeVersion": 1,
+      "id": "53b91521-ff0e-475a-a7bc-1e9e34771095",
+      "notes": "This mautic node performs automated tasks as part of the workflow."
+    },
+    {
+      "name": "GS Read Data2 2",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        240,
+        750
+      ],
+      "parameters": {
+        "range": "Data!A:P",
+        "options": {
+          "valueRenderMode": "FORMATTED_VALUE"
+        },
+        "sheetId": "REPLACE_WITH_SHEETID"
+      },
+      "typeVersion": 1,
+      "id": "c0364ef3-7c36-4dc1-8419-dce56fa43f70",
+      "notes": "This googleSheets node performs automated tasks as part of the workflow."
+    },
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        40,
+        750
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "unit": "minutes",
+              "value": 5
+            }
+          ]
+        }
+      },
+      "typeVersion": 1,
+      "id": "c017bca5-7850-41ef-84cc-f32f07c1d6a9",
+      "notes": "This cron node performs automated tasks as part of the workflow."
+    },
+    {
+      "id": "error-05f0e0a8",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        400
+      ],
+      "parameters": {
+        "message": "Workflow execution error",
+        "options": {}
+      }
+    },
+    {
+      "id": "7cdb8ec2-ce89-5b8c-8f47-c4d205e317aa",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Googlesheets Workflow\n\n## Purpose and structure\nThis folder contains the **Googlesheets Workflow** workflow. Its executable nodes use `cron`, `googleSheets`, `mautic`, `stopAndError`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nCron\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mautic/1083_Mautic_GoogleSheets_Automate_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {},
+  "name": "Googlesheets Workflow",
+  "description": "Automated workflow: Googlesheets Workflow. This workflow processes data and performs automated tasks.",
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": null,
+    "timezone": "UTC",
+    "executionTimeout": 3600,
+    "maxExecutions": 1000,
+    "retryOnFail": true,
+    "retryCount": 3,
+    "retryDelay": 1000
+  },
+  "notes": "Excellent quality workflow: Googlesheets Workflow. This workflow has been optimized for production use with comprehensive error handling, security, and documentation.",
+  "active": false
+}

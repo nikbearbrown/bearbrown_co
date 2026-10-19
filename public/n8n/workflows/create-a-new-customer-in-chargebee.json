@@ -1,0 +1,62 @@
+{
+  "name": "Create a new customer in Chargebee",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Chargebee",
+      "type": "n8n-nodes-base.chargebee",
+      "position": [
+        460,
+        300
+      ],
+      "parameters": {
+        "resource": "customer",
+        "properties": {
+          "last_name": "",
+          "first_name": ""
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "f9b76837-228e-568b-a579-33b8475c9513",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a new customer in Chargebee\n\n## Purpose and structure\nThis folder contains the **Create a new customer in Chargebee** workflow. Its executable nodes use `chargebee`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0018_Manual_Chargebee_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Chargebee",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

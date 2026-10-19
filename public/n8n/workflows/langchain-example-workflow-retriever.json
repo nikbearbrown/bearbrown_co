@@ -1,0 +1,170 @@
+{
+  "name": "LangChain - Example - Workflow Retriever",
+  "nodes": [
+    {
+      "id": "efdc3050-6c68-4419-9f12-f37d6fefb276",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        460,
+        200
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "e0edb9ab-c59f-4d34-983d-861bb2df4f01",
+      "name": "Workflow Retriever",
+      "type": "@n8n/n8n-nodes-langchain.retrieverWorkflow",
+      "position": [
+        1120,
+        440
+      ],
+      "parameters": {
+        "workflowId": "REPLACE_WITH_WORKFLOWID"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ba47dd13-67d0-499a-b9a2-16928099efce",
+      "name": "Retrieval QA Chain2",
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "position": [
+        900,
+        200
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "f6d16571-0573-4860-aed9-611f93b050ad",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        800,
+        480
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4fd00751-3db0-489b-8c7f-4ee0fb32fb51",
+      "name": "Example Prompt",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        680,
+        200
+      ],
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "input",
+              "stringValue": "What notes can you find for Jay Gatsby and what is his email address?"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 3
+    },
+    {
+      "id": "732b6277-cb4d-4586-ab95-778ac9473fe5",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        860,
+        140
+      ],
+      "parameters": {
+        "width": 363,
+        "height": 211.90203341144422,
+        "content": "### Q&A on data returned from a workflow"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "f09583a3-78e3-4888-8251-2148ffb7ab18",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1040,
+        400
+      ],
+      "parameters": {
+        "width": 262.67019427016413,
+        "height": 255.8330939602389,
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReplace \"Workflow ID\" with the ID the Subworkflow got saved as"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "95400c85-118b-5560-b162-238009238363",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# LangChain - Example - Workflow Retriever\n\n## Purpose and structure\nThis folder contains the **LangChain - Example - Workflow Retriever** workflow. Its executable nodes use `chainRetrievalQa`, `lmChatOpenAi`, `manualTrigger`, `retrieverWorkflow`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking \"Execute Workflow\"\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1285_Manual_Stickynote_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Example Prompt": {
+      "main": [
+        [
+          {
+            "node": "Retrieval QA Chain2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Retrieval QA Chain2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Retrieval QA Chain2",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Example Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

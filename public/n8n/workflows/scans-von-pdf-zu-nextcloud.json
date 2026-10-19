@@ -1,0 +1,154 @@
+{
+  "name": "Scans von PDF zu Nextcloud",
+  "nodes": [
+    {
+      "id": "574d02f2-54c9-4f24-9c8b-4618ccdf2c7c",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -80,
+        -80
+      ],
+      "parameters": {
+        "url": "http://192.168.1.100:8080/api/v1/files",
+        "options": {},
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "typeVersion": 4.2
+    },
+    {
+      "id": "7a1b5ef3-750f-45c5-b60e-34d463978abf",
+      "name": "Nextcloud",
+      "type": "n8n-nodes-base.nextCloud",
+      "position": [
+        340,
+        -80
+      ],
+      "parameters": {
+        "path": "=/Scans/{{ $json.name }}",
+        "binaryDataUpload": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "93a27a7e-d709-4ceb-b062-4136fcaa7c0a",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        140,
+        -80
+      ],
+      "parameters": {
+        "url": "=http://192.168.1.100:8080/api/v1/files/{{ $json.name }}",
+        "options": {},
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "*/*"
+            }
+          ]
+        }
+      },
+      "typeVersion": 4.2
+    },
+    {
+      "id": "77388051-b1b3-4a75-8190-628cb10c6734",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        -280,
+        -80
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1.2
+    },
+    {
+      "id": "c49a991e-0faf-4326-9238-d3cf4a661ea5",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -340,
+        -220
+      ],
+      "parameters": {
+        "width": 900,
+        "height": 380,
+        "content": "## Copy Scanner Documents to Nextcloud\n** Needed USB-Scanner and Program ScanServJS with an API"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "74a83d63-611a-541e-b896-f120556b05d8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1140,
+        -220
+      ],
+      "parameters": {
+        "content": "# Scans von PDF zu Nextcloud\n\n## Purpose and structure\nThis folder contains the **Scans von PDF zu Nextcloud** workflow. Its executable nodes use `httpRequest`, `nextCloud`, `scheduleTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nSchedule Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/1419_HTTP_Schedule_Automation_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Nextcloud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "name": "Create, update and get a subscriber using the MailerLite node",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        310,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "MailerLite",
+      "type": "n8n-nodes-base.mailerLite",
+      "position": [
+        510,
+        300
+      ],
+      "parameters": {
+        "email": "REPLACE_WITH_EMAIL",
+        "additionalFields": {
+          "name": "Harshil"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "MailerLite1",
+      "type": "n8n-nodes-base.mailerLite",
+      "position": [
+        710,
+        300
+      ],
+      "parameters": {
+        "operation": "update",
+        "subscriberId": "={{$node[\"MailerLite\"].json[\"email\"]}}",
+        "updateFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "value": "Berlin",
+                "fieldId": "city"
+              }
+            ]
+          }
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "MailerLite2",
+      "type": "n8n-nodes-base.mailerLite",
+      "position": [
+        910,
+        300
+      ],
+      "parameters": {
+        "operation": "get",
+        "subscriberId": "={{$node[\"MailerLite\"].json[\"email\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "35938ae1-bc10-50e3-946f-606b980a35e6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create, update and get a subscriber using the MailerLite node\n\n## Purpose and structure\nThis folder contains the **Create, update and get a subscriber using the MailerLite node** workflow. Its executable nodes use `mailerLite`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1218_Manual_Mailerlite_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "MailerLite": {
+      "main": [
+        [
+          {
+            "node": "MailerLite1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MailerLite1": {
+      "main": [
+        [
+          {
+            "node": "MailerLite2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "MailerLite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

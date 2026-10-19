@@ -1,0 +1,159 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        1160,
+        480
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        800,
+        420
+      ],
+      "parameters": {
+        "width": 320,
+        "height": 200,
+        "content": "### Very often your data is not in the right format to insert in a node. you can use the set node to fix it.\n\n### Click the `Execute Workflow` button and double click on the nodes to see the input and output items."
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Create or Update record in Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1920,
+        480
+      ],
+      "parameters": {
+        "range": "A:C",
+        "options": {},
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "operation": "upsert",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1480,
+        360
+      ],
+      "parameters": {
+        "width": 400,
+        "height": 280,
+        "content": "\nThis is where we put the data in the format that Google Sheets expect. \nThis means changing the field name from `name` to `Full name`, dropping all fields except `ID`, `Email` and adding a `Created time` field"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set - Prepare fields",
+      "type": "n8n-nodes-base.set",
+      "notes": "Prepare fields",
+      "position": [
+        1620,
+        480
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "ID",
+              "value": "={{$json[\"id\"]}}"
+            }
+          ],
+          "string": [
+            {
+              "name": "Full name",
+              "value": "={{$json[\"name\"]}}"
+            },
+            {
+              "name": "Email",
+              "value": "={{$json[\"email\"]}}"
+            },
+            {
+              "name": "Created time",
+              "value": "={{$now}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "notesInFlow": false,
+      "typeVersion": 1
+    },
+    {
+      "name": "Customer Datastore - Generate some data",
+      "type": "n8n-nodes-base.n8nTrainingCustomerDatastore",
+      "position": [
+        1340,
+        480
+      ],
+      "parameters": {
+        "operation": "getAllPeople"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "fbd11710-a3e5-58ac-ae7d-a5b0a0361378",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Very often your data is not in the right format to insert in a node. you can use the set node to fix it.\n\n## Purpose and structure\nThis folder contains the **Very often your data is not in the right format to insert in a node. you can use the set node to fix it.** workflow. Its executable nodes use `googleSheets`, `manualTrigger`, `n8nTrainingCustomerDatastore`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0233_Manual_N8Ntrainingcustomerdatastore_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Set - Prepare fields": {
+      "main": [
+        [
+          {
+            "node": "Create or Update record in Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Customer Datastore - Generate some data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Datastore - Generate some data": {
+      "main": [
+        [
+          {
+            "node": "Set - Prepare fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

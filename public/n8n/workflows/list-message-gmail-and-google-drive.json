@@ -1,0 +1,104 @@
+{
+  "nodes": [
+    {
+      "name": "Gmail1",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        -34.5,
+        449.5
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "getAll",
+        "additionalFields": {
+          "format": "resolved",
+          "labelIds": [
+            "Label_1819449526183990002"
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Upload File1",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        115.5,
+        449.5
+      ],
+      "parameters": {
+        "name": "={{$binary.attachment_0.fileName}}",
+        "parents": [
+          "1I-tBNWFhH2FwcyiKeBOcGseWktF-nXBr"
+        ],
+        "binaryData": true,
+        "resolveData": true,
+        "authentication": "oAuth2",
+        "binaryPropertyName": "attachment_0"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get attachment Link",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        280,
+        450
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "mp4_attachment",
+              "value": "={{$json[\"webViewLink\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "02dc1845-c632-53c9-a17a-11d06ca2a8a9",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -834.5,
+        0
+      ],
+      "parameters": {
+        "content": "# list message gmail and google drive\n\n## Purpose and structure\nThis folder contains the **list message gmail and google drive** workflow. Its executable nodes use `gmail`, `googleDrive`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Gmail/0036_Gmail_GoogleDrive_Import.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "Upload File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File1": {
+      "main": [
+        [
+          {
+            "node": "Get attachment Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

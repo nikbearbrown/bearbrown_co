@@ -1,0 +1,162 @@
+{
+  "nodes": [
+    {
+      "id": "853bd85f-66c8-4ed1-bd86-38f7bb24c02c",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        380,
+        240
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "0c06c484-7f84-48a7-803c-1788c15582d5",
+      "name": "Write Result File to Disk",
+      "type": "n8n-nodes-base.readWriteFile",
+      "position": [
+        980,
+        240
+      ],
+      "parameters": {
+        "options": {},
+        "fileName": "document.pdf",
+        "operation": "write",
+        "dataPropertyName": "=data"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "3d75bdd7-5b69-421a-a0e4-a2f123feca08",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        720,
+        100
+      ],
+      "parameters": {
+        "width": 218,
+        "height": 132,
+        "content": "## Authentication\nConversion requests must be authenticated. Please create \n[ConvertAPI account to get authentication secret](https://www.convertapi.com/a/signin)"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ab417c81-d9ca-4fd2-9f39-d741738f47ee",
+      "name": "Download PPTX File",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        580,
+        240
+      ],
+      "parameters": {
+        "url": "https://cdn.convertapi.com/public/files/demo.pptx",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "typeVersion": 4.2
+    },
+    {
+      "id": "8612be1b-9840-43aa-85c8-6ec1489a5e39",
+      "name": "File conversion to PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        780,
+        240
+      ],
+      "parameters": {
+        "url": "https://v2.convertapi.com/convert/pptx/to/pdf",
+        "method": "POST",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "sendHeaders": true,
+        "authentication": "genericCredentialType",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "parameterType": "formBinaryData",
+              "inputDataFieldName": "=data"
+            }
+          ]
+        },
+        "genericAuthType": "httpQueryAuth",
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/octet-stream"
+            }
+          ]
+        }
+      },
+      "notesInFlow": true,
+      "typeVersion": 4.2
+    },
+    {
+      "id": "3c8a81bc-d86a-59cc-83f6-38ed36df0ad8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# write read write file and download pptx file and file conversion to pdf\n\n## Purpose and structure\nThis folder contains the **write read write file and download pptx file and file conversion to pdf** workflow. Its executable nodes use `httpRequest`, `manualTrigger`, `readWriteFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking ‘Test workflow’\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0514_Manual_Stickynote_Automation_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Download PPTX File": {
+      "main": [
+        [
+          {
+            "node": "File conversion to PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File conversion to PDF": {
+      "main": [
+        [
+          {
+            "node": "Write Result File to Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Download PPTX File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

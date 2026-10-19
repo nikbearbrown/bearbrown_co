@@ -1,0 +1,64 @@
+{
+  "nodes": [
+    {
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "path": "0d36a8db-0177-4501-9f7a-e46b6829d07a",
+        "options": {},
+        "httpMethod": "POST"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Netlify",
+      "type": "n8n-nodes-base.netlify",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "siteId": "5e15e032-9345-41b8-a98f-509e545f061c",
+        "operation": "create",
+        "additionalFields": {
+          "title": "={{$json[\"body\"][\"data\"][\"title\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "f70b7be1-4b53-53d5-97b2-98d7d7aa6b93",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# webhook and create netlify\n\n## Purpose and structure\nThis folder contains the **webhook and create netlify** workflow. Its executable nodes use `netlify`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWebhook\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Netlify/0104_Netlify_Webhook_Automate_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Netlify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

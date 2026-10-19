@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        270,
+        280
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Slides",
+      "type": "n8n-nodes-base.googleSlides",
+      "position": [
+        470,
+        280
+      ],
+      "parameters": {
+        "operation": "getSlides",
+        "returnAll": true,
+        "authentication": "oAuth2",
+        "presentationId": "11myCBTn3IT-Iww01WMz43L7HUmQdL6cCR6NCtpsZer0"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Slides1",
+      "type": "n8n-nodes-base.googleSlides",
+      "position": [
+        670,
+        280
+      ],
+      "parameters": {
+        "download": true,
+        "resource": "page",
+        "operation": "getThumbnail",
+        "pageObjectId": "={{$json[\"objectId\"]}}",
+        "authentication": "oAuth2",
+        "presentationId": "={{$node[\"Google Slides\"].parameter[\"presentationId\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "72134543-d51b-5908-851d-07f2bd5abcbe",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# getslides google slides and getthumbnail page google slides\n\n## Purpose and structure\nThis folder contains the **getslides google slides and getthumbnail page google slides** workflow. Its executable nodes use `googleSlides`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0016_Manual_Googleslides_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Google Slides": {
+      "main": [
+        [
+          {
+            "node": "Google Slides1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Google Slides",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

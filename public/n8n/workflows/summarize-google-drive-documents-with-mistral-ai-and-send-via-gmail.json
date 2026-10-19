@@ -1,0 +1,152 @@
+{
+  "name": "Summarize Google Drive Documents with Mistral AI and Send via Gmail",
+  "nodes": [
+    {
+      "id": "680f9002-94fa-48c1-af5f-d2a5305b6291",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "3fa4ad1a-ce87-44db-b016-bd172c2318eb",
+      "name": "Mistral Cloud Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "position": [
+        500,
+        240
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "124d62ae-3b46-4e75-a04e-155849fe280d",
+      "name": "Download uploaded File from Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "fileId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "options": {},
+        "operation": "download"
+      },
+      "typeVersion": 3
+    },
+    {
+      "id": "69b7621b-a273-4b0a-be61-4d45bf87618d",
+      "name": "Summarization Chain to summarize a file",
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "options": {
+          "binaryDataKey": "data"
+        },
+        "chunkSize": 800,
+        "chunkOverlap": 0,
+        "operationMode": "nodeInputBinary"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "573194cd-5f37-422f-b3fa-957187ac3538",
+      "name": "Send Summarized text to Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        840,
+        0
+      ],
+      "parameters": {
+        "sendTo": "REPLACE_WITH_SENDTO",
+        "message": "=<h1 style=\"color: #4CAF50;\">📌 Quick Summary of Your Document! ✨</h1>\n<p>\n<h2>📝 Summary:</h2>\n<p>\n{{ $json['response']['text'].replace(\"\\n\", \"<br>\") }}\n<p>\n\n<h3>📅 Date Processed: </h3>\n{{ new Date().toLocaleString('en-GB', { timeZone: 'Africa/Lagos' }) }}\n\n\n\n\n\n    ",
+        "options": {
+          "senderName": "Swot.AI",
+          "appendAttribution": false
+        },
+        "subject": "Here is Your Summarized Response"
+      },
+      "typeVersion": 2.1
+    },
+    {
+      "id": "d519171e-142c-5c97-b03e-c3793b69aa59",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Summarize Google Drive Documents with Mistral AI and Send via Gmail\n\n## Purpose and structure\nThis folder contains the **Summarize Google Drive Documents with Mistral AI and Send via Gmail** workflow. Its executable nodes use `chainSummarization`, `gmail`, `googleDrive`, `lmChatMistralCloud`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking ‘Test workflow’\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1528_Manual_Gmail_Send_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Mistral Cloud Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain to summarize a file",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Download uploaded File from Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain to summarize a file": {
+      "main": [
+        [
+          {
+            "node": "Send Summarized text to Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download uploaded File from Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain to summarize a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

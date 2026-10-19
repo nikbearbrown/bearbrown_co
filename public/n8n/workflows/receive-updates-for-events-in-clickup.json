@@ -1,0 +1,40 @@
+{
+  "name": "Receive updates for events in ClickUp",
+  "nodes": [
+    {
+      "name": "ClickUp Trigger",
+      "type": "n8n-nodes-base.clickUpTrigger",
+      "position": [
+        700,
+        250
+      ],
+      "parameters": {
+        "team": "",
+        "events": [
+          "*"
+        ],
+        "filters": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b7e2583b-67d2-5de0-ac3f-4ae71a0c2d56",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Receive updates for events in ClickUp\n\n## Purpose and structure\nThis folder contains the **Receive updates for events in ClickUp** workflow. Its executable nodes use `clickUpTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nClickUp Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Clickup/0047_Clickup_Update_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {}
+}

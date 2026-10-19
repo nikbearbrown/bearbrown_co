@@ -1,0 +1,122 @@
+{
+  "nodes": [
+    {
+      "name": "Clearbit",
+      "type": "n8n-nodes-base.clearbit",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "email": "={{$json[\"properties\"][\"email\"][\"value\"]}}",
+        "resource": "person",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Hubspot Trigger",
+      "type": "n8n-nodes-base.hubspotTrigger",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "eventsUi": {
+          "eventValues": [
+            {}
+          ]
+        },
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get Contact",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "resource": "contact",
+        "contactId": "={{$json[\"contactId\"]}}",
+        "operation": "get",
+        "authentication": "oAuth2",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Update Contact",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "email": "={{$json[\"email\"]}}",
+        "resource": "contact",
+        "authentication": "oAuth2",
+        "additionalFields": {
+          "city": "={{$json[\"geo\"][\"city\"]}}",
+          "jobTitle": "={{$json[\"employment\"][\"title\"]}}",
+          "companyName": "={{$json[\"employment\"][\"name\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "54789c22-5a9e-5112-97cd-3877029b7371",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# clearbit and receive hubspot events and get contact hubspot\n\n## Purpose and structure\nThis folder contains the **clearbit and receive hubspot events and get contact hubspot** workflow. Its executable nodes use `clearbit`, `hubspot`, `hubspotTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nHubspot Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Hubspot/0115_HubSpot_Clearbit_Update_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Clearbit": {
+      "main": [
+        [
+          {
+            "node": "Update Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Contact": {
+      "main": [
+        [
+          {
+            "node": "Clearbit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hubspot Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

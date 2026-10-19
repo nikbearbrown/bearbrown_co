@@ -1,0 +1,131 @@
+{
+  "nodes": [
+    {
+      "name": "Github Trigger",
+      "type": "n8n-nodes-base.githubTrigger",
+      "position": [
+        500,
+        350
+      ],
+      "parameters": {
+        "owner": "n8n-io",
+        "events": [
+          "star"
+        ],
+        "repository": "n8n"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        700,
+        350
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$node[\"Github Trigger\"].data[\"body\"][\"action\"]}}",
+              "value2": "created"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Slack - Add",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        900,
+        250
+      ],
+      "parameters": {
+        "channel": "#general",
+        "attachments": [
+          {
+            "text": "=The project has now: {{$node[\"Github Trigger\"].data[\"body\"][\"repository\"][\"stargazers_count\"]}} Stars",
+            "color": "#88FF00",
+            "title": "=Got new star from: {{$node[\"Github Trigger\"].data[\"body\"][\"sender\"][\"login\"]}}",
+            "image_url": "={{$node[\"Github Trigger\"].data[\"body\"][\"sender\"][\"avatar_url\"]}}",
+            "title_link": "={{$node[\"Github Trigger\"].data[\"body\"][\"sender\"][\"html_url\"]}}"
+          }
+        ],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Slack - Remove",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        900,
+        450
+      ],
+      "parameters": {
+        "channel": "#general",
+        "attachments": [
+          {
+            "text": "=The project has now: {{$node[\"Github Trigger\"].data[\"body\"][\"repository\"][\"stargazers_count\"]}} Stars",
+            "color": "#ff0000",
+            "title": "=Star got removed by: {{$node[\"Github Trigger\"].data[\"body\"][\"sender\"][\"login\"]}}",
+            "image_url": "={{$node[\"Github Trigger\"].data[\"body\"][\"sender\"][\"avatar_url\"]}}",
+            "title_link": "={{$node[\"Github Trigger\"].data[\"body\"][\"sender\"][\"html_url\"]}}"
+          }
+        ],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c1fab4a9-b098-5250-9c71-95ad796255e8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive github events and slack add and slack remove\n\n## Purpose and structure\nThis folder contains the **receive github events and slack add and slack remove** workflow. Its executable nodes use `githubTrigger`, `if`, `slack`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nGithub Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Github/0973_GitHub_Slack_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Slack - Add",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack - Remove",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Github Trigger": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

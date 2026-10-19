@@ -1,0 +1,36 @@
+{
+  "name": "Receive updates when an event occurs in Taiga",
+  "nodes": [
+    {
+      "name": "Taiga Trigger",
+      "type": "n8n-nodes-base.taigaTrigger",
+      "position": [
+        690,
+        260
+      ],
+      "parameters": {
+        "projectId": "REPLACE_WITH_PROJECTID"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "e44f45b8-f651-5b15-819b-303bc92f8036",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Receive updates when an event occurs in Taiga\n\n## Purpose and structure\nThis folder contains the **Receive updates when an event occurs in Taiga** workflow. Its executable nodes use `taigaTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nTaiga Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Taiga/1114_Taiga_Update_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {}
+}

@@ -1,0 +1,185 @@
+{
+  "name": "Create, update and get records in Quick Base",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Quick Base",
+      "type": "n8n-nodes-base.quickbase",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "columns": "name,age",
+        "options": {},
+        "tableId": ""
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "age",
+              "value": 8
+            }
+          ],
+          "string": [
+            {
+              "name": "name",
+              "value": "n8n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "age",
+              "value": 10
+            },
+            {
+              "name": "Record ID#",
+              "value": "={{$node[\"Quick Base\"].json[\"Record ID#\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Quick Base1",
+      "type": "n8n-nodes-base.quickbase",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "columns": "age",
+        "options": {},
+        "tableId": "={{$node[\"Quick Base\"].parameter[\"tableId\"]}}",
+        "operation": "update",
+        "updateKey": "Record ID#"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Quick Base2",
+      "type": "n8n-nodes-base.quickbase",
+      "position": [
+        1250,
+        300
+      ],
+      "parameters": {
+        "options": {},
+        "tableId": "={{$node[\"Quick Base\"].parameter[\"tableId\"]}}",
+        "operation": "getAll"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "8665efc8-9c97-5e94-9ff2-30ccce1c3328",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create, update and get records in Quick Base\n\n## Purpose and structure\nThis folder contains the **Create, update and get records in Quick Base** workflow. Its executable nodes use `manualTrigger`, `quickbase`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0189_Manual_Quickbase_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Quick Base",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Quick Base1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quick Base": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quick Base1": {
+      "main": [
+        [
+          {
+            "node": "Quick Base2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

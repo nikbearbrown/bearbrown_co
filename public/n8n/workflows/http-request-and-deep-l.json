@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        510,
+        320
+      ],
+      "parameters": {
+        "url": "https://www.thecocktaildb.com/api/json/v1/1/random.php",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "DeepL",
+      "type": "n8n-nodes-base.deepL",
+      "position": [
+        710,
+        320
+      ],
+      "parameters": {
+        "text": "={{$json[\"drinks\"][0][\"strInstructions\"]}}",
+        "translateTo": "FR",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ab491793-4755-53fa-aeec-1400c2a92abd",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# http request and deep l\n\n## Purpose and structure\nThis folder contains the **http request and deep l** workflow. Its executable nodes use `deepL`, `httpRequest`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/1233_HTTP_Deepl_Automation_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "DeepL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

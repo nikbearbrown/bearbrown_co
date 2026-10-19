@@ -1,0 +1,212 @@
+{
+  "name": "Weather via Slack",
+  "nodes": [
+    {
+      "id": "9aea370b-7eb9-4742-9663-6628513e4de3",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -340,
+        -300
+      ],
+      "parameters": {
+        "path": "slack1",
+        "options": {},
+        "httpMethod": "POST"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "c982487f-076a-48e8-9a35-78e8fbfb8936",
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        560,
+        -300
+      ],
+      "parameters": {
+        "text": "={{\n  JSON.parse($node[\"NWS1\"].json.data).properties.periods\n  .map(period => \n    `*${period.name}*\\n` +\n    `Temp: ${period.temperature}°${period.temperatureUnit}\\n` +\n    `Wind: ${period.windSpeed} ${period.windDirection}\\n` +\n    `Forecast: ${period.shortForecast}`\n  )\n  .join(\"\\n\\n\")\n}}\n",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "otherOptions": {},
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 2.3
+    },
+    {
+      "id": "7d42112a-0590-4a09-ba0e-dbdf1eddccf2",
+      "name": "OpenStreetMap",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -100,
+        -300
+      ],
+      "parameters": {
+        "url": "https://nominatim.openstreetmap.org/search",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        },
+        "sendQuery": true,
+        "sendHeaders": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $('Webhook').item.json.body.text }}"
+            },
+            {
+              "name": "format",
+              "value": "json"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "alexk1919 (user@example.com)"
+            }
+          ]
+        }
+      },
+      "typeVersion": 4.2
+    },
+    {
+      "id": "565a0123-9059-4e6e-be97-96e0875c1b84",
+      "name": "NWS",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        120,
+        -300
+      ],
+      "parameters": {
+        "url": "=https://api.weather.gov/points/{{ $json.body[0].lat }},{{ $json.body[0].lon }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "alexk1919 (user@example.com)"
+            }
+          ]
+        }
+      },
+      "typeVersion": 4.2
+    },
+    {
+      "id": "3505e6c2-6e66-4abd-a1bb-75a1d8fc9a08",
+      "name": "NWS1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        340,
+        -300
+      ],
+      "parameters": {
+        "url": "=https://api.weather.gov/gridpoints/{{$json[\"data\"] ? JSON.parse($json[\"data\"]).properties.gridId : \"\"}}\n/{{$json[\"data\"] ? JSON.parse($json[\"data\"]).properties.gridX : \"\"}}\n,{{$json[\"data\"] ? JSON.parse($json[\"data\"]).properties.gridY : \"\"}}\n/forecast",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "alexk1919 (user@example.com)"
+            }
+          ]
+        }
+      },
+      "typeVersion": 4.2
+    },
+    {
+      "id": "78ae5a61-ddc8-540a-ba6a-e768460ef486",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1140,
+        -300
+      ],
+      "parameters": {
+        "content": "# Weather via Slack\n\n## Purpose and structure\nThis folder contains the **Weather via Slack** workflow. Its executable nodes use `httpRequest`, `slack`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWebhook\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/1349_HTTP_Slack_Automation_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "NWS": {
+      "main": [
+        [
+          {
+            "node": "NWS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NWS1": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack": {
+      "main": [
+        []
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "OpenStreetMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenStreetMap": {
+      "main": [
+        [
+          {
+            "node": "NWS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -100,
+        470
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "notes": "Get news page",
+      "position": [
+        100,
+        470
+      ],
+      "parameters": {
+        "url": "=https://news.ycombinator.com/",
+        "options": {
+          "fullResponse": true,
+          "batchInterval": 500
+        },
+        "responseFormat": "file",
+        "queryParametersUi": {
+          "parameter": []
+        },
+        "headerParametersUi": {
+          "parameter": []
+        },
+        "allowUnauthorizedCerts": true
+      },
+      "notesInFlow": true,
+      "typeVersion": 1
+    },
+    {
+      "name": "HTML Extract",
+      "type": "n8n-nodes-base.htmlExtract",
+      "notes": "extract news data",
+      "position": [
+        310,
+        470
+      ],
+      "parameters": {
+        "options": {},
+        "sourceData": "binary",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "REPLACE_WITH_KEY",
+              "cssSelector": ".storylink",
+              "returnArray": true
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "attribute": "href",
+              "cssSelector": ".storylink",
+              "returnArray": true,
+              "returnValue": "attribute"
+            }
+          ]
+        }
+      },
+      "notesInFlow": true,
+      "typeVersion": 1
+    },
+    {
+      "name": "list news url",
+      "type": "n8n-nodes-base.itemLists",
+      "position": [
+        500,
+        570
+      ],
+      "parameters": {
+        "options": {},
+        "fieldToSplitOut": "news_url"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "list news title",
+      "type": "n8n-nodes-base.itemLists",
+      "position": [
+        500,
+        390
+      ],
+      "parameters": {
+        "options": {},
+        "fieldToSplitOut": "news_title"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        700,
+        470
+      ],
+      "parameters": {
+        "mode": "mergeByIndex"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Spreadsheet File",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        870,
+        470
+      ],
+      "parameters": {
+        "options": {
+          "fileName": "=Ycombinator_news_{{new Date().toISOString().split('T', 1)[0]}}.{{$parameter[\"fileFormat\"]}}",
+          "sheetName": "Latest news"
+        },
+        "operation": "toFile"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Send email notification",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [
+        1050,
+        470
+      ],
+      "parameters": {
+        "text": "=Here are the latest news attached!",
+        "options": {},
+        "subject": "Ycombinator news",
+        "toEmail": "",
+        "fromEmail": "",
+        "attachments": "data"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "99257c8a-a648-5eaa-9d94-3b9c3136b108",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -900,
+        0
+      ],
+      "parameters": {
+        "content": "# http request and html extract and list news url\n\n## Purpose and structure\nThis folder contains the **http request and html extract and list news url** workflow. Its executable nodes use `emailSend`, `htmlExtract`, `httpRequest`, `itemLists`, `manualTrigger`, `merge`, `spreadsheetFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0102_Manual_HTTP_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Spreadsheet File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML Extract": {
+      "main": [
+        [
+          {
+            "node": "list news title",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "list news url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "list news url": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "list news title": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spreadsheet File": {
+      "main": [
+        [
+          {
+            "node": "Send email notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

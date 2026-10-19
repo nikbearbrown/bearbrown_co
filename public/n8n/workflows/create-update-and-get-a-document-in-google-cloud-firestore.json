@@ -1,0 +1,186 @@
+{
+  "name": "Create, update, and get a document in Google Cloud Firestore",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Cloud Firestore",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "columns": "id, name",
+        "operation": "create",
+        "projectId": "REPLACE_WITH_PROJECTID",
+        "collection": "n8n"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "id",
+              "value": 1
+            }
+          ],
+          "string": [
+            {
+              "name": "name",
+              "value": "n8n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "nodemation"
+            },
+            {
+              "name": "document_id",
+              "value": "={{$node[\"Google Cloud Firestore\"].json[\"_id\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Cloud Firestore1",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "columns": "name",
+        "operation": "upsert",
+        "projectId": "={{$node[\"Google Cloud Firestore\"].parameter[\"projectId\"]}}",
+        "updateKey": "document_id",
+        "collection": "={{$node[\"Google Cloud Firestore\"].parameter[\"collection\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Cloud Firestore2",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "position": [
+        1250,
+        300
+      ],
+      "parameters": {
+        "projectId": "={{$node[\"Google Cloud Firestore\"].parameter[\"projectId\"]}}",
+        "collection": "={{$node[\"Google Cloud Firestore\"].parameter[\"collection\"]}}",
+        "documentId": "={{$node[\"Set1\"].json[\"document_id\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "32019873-5428-5a20-80f9-940cdaf36a2e",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create, update, and get a document in Google Cloud Firestore\n\n## Purpose and structure\nThis folder contains the **Create, update, and get a document in Google Cloud Firestore** workflow. Its executable nodes use `googleFirebaseCloudFirestore`, `manualTrigger`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0261_Manual_Googlefirebasecloudfirestore_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore1": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

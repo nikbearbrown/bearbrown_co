@@ -1,0 +1,113 @@
+{
+  "nodes": [
+    {
+      "id": "f7f8068b-52c9-4038-bd67-9ee50136e4fd",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        380,
+        240
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "860e5e46-a04d-41cb-b91a-c9f02603bcdf",
+      "name": "Sample data (name + language)",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        600,
+        160
+      ],
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      name: 'Stefan',\n      language: 'de',\n    }\n  },\n  {\n    json: {\n      name: 'Jim',\n      language: 'en',\n    }\n  },\n  {\n    json: {\n      name: 'Hans',\n      language: 'de',\n    }\n  }\n];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "5c6a867b-fd8a-49b7-ac35-ff84ed6d89f7",
+      "name": "Sample data (greeting + language)",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        600,
+        320
+      ],
+      "parameters": {
+        "jsCode": "return [\n\t  {\n    json: {\n      greeting: 'Hello',\n      language: 'en',\n    }\n  },\n  {\n    json: {\n      greeting: 'Hallo',\n      language: 'de',\n    }\n  }\n];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "08fca489-8f4c-4327-9919-922bd1be1cd5",
+      "name": "Merge (name + language + greeting)",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        820,
+        240
+      ],
+      "parameters": {
+        "mode": "combine",
+        "options": {},
+        "fieldsToMatchString": "language"
+      },
+      "typeVersion": 3
+    },
+    {
+      "id": "c85d1029-e15e-5339-b89c-fedc51732084",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# sample data name language and sample data greeting language\n\n## Purpose and structure\nThis folder contains the **sample data name language and sample data greeting language** workflow. Its executable nodes use `code`, `manualTrigger`, `merge`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking ‘Test workflow’\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1090_Manual_Code_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Sample data (name + language)": {
+      "main": [
+        [
+          {
+            "node": "Merge (name + language + greeting)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sample data (greeting + language)": {
+      "main": [
+        [
+          {
+            "node": "Merge (name + language + greeting)",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Sample data (name + language)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sample data (greeting + language)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

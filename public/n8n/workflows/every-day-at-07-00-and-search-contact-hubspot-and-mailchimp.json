@@ -1,0 +1,129 @@
+{
+  "nodes": [
+    {
+      "id": "30d8dca1-8e70-443e-a5b0-a048d6e3dc1c",
+      "name": "Every day at 07:00",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        480,
+        300
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 7
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "1e7b278f-7c6f-473c-acda-51fa5cf6bd00",
+      "name": "Get new contacts",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        700,
+        300
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "search",
+        "authentication": "oAuth2",
+        "filterGroupsUi": {
+          "filterGroupsValues": [
+            {
+              "filtersUi": {
+                "filterValues": [
+                  {
+                    "value": "={{$today.minus({day:1}).toMillis()}}",
+                    "operator": "GTE",
+                    "propertyName": "createdate"
+                  },
+                  {
+                    "value": "={{$today.toMillis()}}",
+                    "operator": "LT",
+                    "propertyName": "createdate"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "003da27c-752e-47b6-b263-c90060b677f5",
+      "name": "Create member",
+      "type": "n8n-nodes-base.mailchimp",
+      "position": [
+        920,
+        300
+      ],
+      "parameters": {
+        "list": "8965eba136",
+        "email": "={{ $json[\"properties\"].email }}",
+        "status": "subscribed",
+        "options": {},
+        "mergeFieldsUi": {
+          "mergeFieldsValues": [
+            {
+              "name": "FNAME",
+              "value": "={{ $json[\"properties\"].firstname }}"
+            },
+            {
+              "name": "LNAME",
+              "value": "={{ $json[\"properties\"].lastname }}"
+            }
+          ]
+        },
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "d07b4872-41f8-525e-9224-105e9f08782d",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# every day at 07 00 and search contact hubspot and mailchimp\n\n## Purpose and structure\nThis folder contains the **every day at 07 00 and search contact hubspot and mailchimp** workflow. Its executable nodes use `cron`, `hubspot`, `mailchimp`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nEvery day at 07:00\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Hubspot/0243_HubSpot_Mailchimp_Create_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Get new contacts": {
+      "main": [
+        [
+          {
+            "node": "Create member",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every day at 07:00": {
+      "main": [
+        [
+          {
+            "node": "Get new contacts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

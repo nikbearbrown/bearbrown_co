@@ -1,0 +1,133 @@
+{
+  "name": "Standup Bot - Initialize",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        240,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Write Binary File",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "position": [
+        880,
+        300
+      ],
+      "parameters": {
+        "fileName": "/home/node/.n8n/standup-bot-config.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Move Binary Data",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "mode": "jsonToBinary",
+        "options": {
+          "encoding": "utf8",
+          "fileName": "standup-bot-config.json"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Use Default Config",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        440,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "config.slashCmdToken",
+              "value": "xxxxx"
+            },
+            {
+              "name": "config.mattermostBaseUrl",
+              "value": "https://mattermost.yourdomain.tld"
+            },
+            {
+              "name": "config.botUserToken",
+              "value": "xxxxx"
+            },
+            {
+              "name": "config.n8nWebhookUrl",
+              "value": "https://n8n.yourdomain.tld/webhook/standup-bot/action/f6f9b174745fa4651f750c36957d674c"
+            },
+            {
+              "name": "config.botUserId",
+              "value": "xxxxx"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "03d4337f-7d81-555d-a503-63648fc13142",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Standup Bot - Initialize\n\n## Purpose and structure\nThis folder contains the **Standup Bot - Initialize** workflow. Its executable nodes use `manualTrigger`, `moveBinaryData`, `set`, `writeBinaryFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0054_Manual_Writebinaryfile_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Move Binary Data": {
+      "main": [
+        [
+          {
+            "node": "Write Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Use Default Config": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Use Default Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

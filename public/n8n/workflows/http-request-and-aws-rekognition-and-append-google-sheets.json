@@ -1,0 +1,128 @@
+{
+  "nodes": [
+    {
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        500,
+        540
+      ],
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1?imgType=photo&key=REPLACE_WITH_CREDENTIAL&cx=e51ced3f3563dfac9&q=street&searchType=image",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "AWS Rekognition1",
+      "type": "n8n-nodes-base.awsRekognition",
+      "position": [
+        680,
+        540
+      ],
+      "parameters": {
+        "type": "detectLabels",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1040,
+        540
+      ],
+      "parameters": {
+        "options": {},
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "operation": "append",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set3",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        860,
+        540
+      ],
+      "parameters": {
+        "values": {
+          "number": [],
+          "string": [
+            {
+              "name": "img_name",
+              "value": "={{$node[\"HTTP Request1\"].json[\"items\"][0][\"title\"]}}"
+            },
+            {
+              "name": "img_link",
+              "value": "={{$node[\"HTTP Request1\"].json[\"items\"][0][\"link\"]}}"
+            },
+            {
+              "name": "img_labels",
+              "value": "={{$node[\"AWS Rekognition\"][\"Labels\"][\"Name\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "96b2d1d5-d9a2-5c05-97ea-5c0f617db3b6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# http request and aws rekognition and append google sheets\n\n## Purpose and structure\nThis folder contains the **http request and aws rekognition and append google sheets** workflow. Its executable nodes use `awsRekognition`, `googleSheets`, `httpRequest`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0156_HTTP_Awsrekognition_Automation_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Set3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "AWS Rekognition1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AWS Rekognition1": {
+      "main": [
+        [
+          {
+            "node": "Set3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

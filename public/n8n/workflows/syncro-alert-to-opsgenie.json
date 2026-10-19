@@ -1,0 +1,226 @@
+{
+  "name": "Syncro Alert to OpsGenie",
+  "nodes": [
+    {
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        460,
+        380
+      ],
+      "parameters": {
+        "path": "fromsyncro",
+        "options": {},
+        "httpMethod": "POST",
+        "responseData": "allEntries",
+        "responseMode": "lastNode"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        780,
+        380
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "AlertID",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"id\"]}}"
+            },
+            {
+              "name": "Description",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"computer_name\"]}} ({{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"customer\"][\"business_then_name\"]}}): {{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"formatted_output\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Create Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1180,
+        260
+      ],
+      "parameters": {
+        "url": "https://api.opsgenie.com/v2/alerts",
+        "options": {},
+        "requestMethod": "POST",
+        "authentication": "headerAuth",
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "message",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"computer_name\"]}} ({{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"customer\"][\"business_then_name\"]}}): {{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"formatted_output\"]}}"
+            },
+            {
+              "name": "alias",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"id\"]}}"
+            },
+            {
+              "name": "description",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"text\"]}}\n{{$node[\"Webhook\"].json[\"body\"][\"link\"]}}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Close Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1180,
+        460
+      ],
+      "parameters": {
+        "url": "=https://api.opsgenie.com/v2/alerts/{{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"id\"]}}/close?identifierType=alias",
+        "options": {},
+        "requestMethod": "POST",
+        "authentication": "headerAuth",
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "note",
+              "value": "Issue resolved automatically according to Syncro."
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NoOp",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        780,
+        560
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        940,
+        380
+      ],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"resolved\"]}}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        620,
+        380
+      ],
+      "parameters": {
+        "rules": {
+          "rules": [
+            {
+              "value2": "agent_offline_trigger"
+            }
+          ]
+        },
+        "value1": "={{$node[\"Webhook\"].json[\"body\"][\"attributes\"][\"properties\"][\"trigger\"]}}",
+        "dataType": "string"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "fdfca475-803d-5bf8-b199-45b4bc66df21",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Syncro Alert to OpsGenie\n\n## Purpose and structure\nThis folder contains the **Syncro Alert to OpsGenie** workflow. Its executable nodes use `httpRequest`, `if`, `noOp`, `set`, `switch`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWebhook\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0077_HTTP_Noop_Sync_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Create Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Close Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NoOp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

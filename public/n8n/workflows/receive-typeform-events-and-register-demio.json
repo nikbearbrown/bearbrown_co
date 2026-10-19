@@ -1,0 +1,62 @@
+{
+  "nodes": [
+    {
+      "name": "Typeform Trigger",
+      "type": "n8n-nodes-base.typeformTrigger",
+      "position": [
+        510,
+        260
+      ],
+      "parameters": {
+        "formId": ""
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Demio",
+      "type": "n8n-nodes-base.demio",
+      "position": [
+        710,
+        260
+      ],
+      "parameters": {
+        "email": "={{$json[\"What's your email address?\"]}}",
+        "eventId": 357191,
+        "firstName": "={{$json[\"Let's start with your name.\"]}}",
+        "operation": "register",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "6ef5aa4d-95ea-5b5e-b41c-4c44480d0c08",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive typeform events and register demio\n\n## Purpose and structure\nThis folder contains the **receive typeform events and register demio** workflow. Its executable nodes use `demio`, `typeformTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nTypeform Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Typeform/1207_Typeform_Demio_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Typeform Trigger": {
+      "main": [
+        [
+          {
+            "node": "Demio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

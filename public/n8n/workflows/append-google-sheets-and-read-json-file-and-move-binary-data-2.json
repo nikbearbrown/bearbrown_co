@@ -1,0 +1,89 @@
+{
+  "nodes": [
+    {
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "notes": "Append data to sheet",
+      "position": [
+        980,
+        -120
+      ],
+      "parameters": {
+        "range": "A:C",
+        "options": {
+          "usePathForKeyRow": true
+        },
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "operation": "append",
+        "authentication": "oAuth2"
+      },
+      "notesInFlow": true,
+      "typeVersion": 1
+    },
+    {
+      "name": "read json file",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "position": [
+        620,
+        -120
+      ],
+      "parameters": {
+        "filePath": "/username/users_spreadsheet.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "move binary data 2",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        800,
+        -120
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "fec43229-c656-5527-ae9c-f7eeead90a82",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        -120
+      ],
+      "parameters": {
+        "content": "# append google sheets and read json file and move binary data 2\n\n## Purpose and structure\nThis folder contains the **append google sheets and read json file and move binary data 2** workflow. Its executable nodes use `googleSheets`, `moveBinaryData`, `readBinaryFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Googlesheets/0256_GoogleSheets_Readbinaryfile_Automate.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "read json file": {
+      "main": [
+        [
+          {
+            "node": "move binary data 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "move binary data 2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

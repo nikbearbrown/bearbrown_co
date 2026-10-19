@@ -1,0 +1,212 @@
+{
+  "name": "LinkedIn Profile Discovery",
+  "nodes": [
+    {
+      "id": "9ae64a3a-c7e7-45ca-88ee-ebf6144f3197",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "a22416bb-ef9e-422f-b480-cd52d8c93bfa",
+      "name": "Person info",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "options": {},
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        }
+      },
+      "typeVersion": 4.5
+    },
+    {
+      "id": "a4699dd8-54ef-478e-9ff8-2c2046ad6ea8",
+      "name": "Search profile",
+      "type": "n8n-nodes-base.airtop",
+      "notes": "This could take a few minutes depending on the number of rows",
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "url": "=https://www.google.com/search?q={{ encodeURI($json['Person Info']) }}",
+        "prompt": "=This is Google Search results. the first results should be the Linkedin Page of {{ $json['Person Info'] }} \nReturn the Linkedin URL and nothing else.\nIf you cannot find the Linkedin URL, return an empty string. \nA valid Linkedin profile URL starts with \"https://www.linkedin.com/in/\"",
+        "resource": "extraction",
+        "operation": "query",
+        "sessionMode": "new",
+        "additionalFields": {}
+      },
+      "notesInFlow": true,
+      "typeVersion": 1
+    },
+    {
+      "id": "2dd4d350-743e-48a7-ab69-d0996bc46f49",
+      "name": "Parse response",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const linkedInProfile = $json.data.modelResponse\nconst rowData = $('Person info').item.json\n\nreturn { json: {\n  ...rowData,\n  'LinkedIn URL': linkedInProfile\n}};"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "3efc182a-8707-4c8d-8263-a2aebe62b0a7",
+      "name": "Update row",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "columns": {
+          "value": {},
+          "schema": [
+            {
+              "id": "Person Info",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Person Info",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Linkedin URL",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Linkedin URL",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validated",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Validated",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": true,
+              "required": false,
+              "displayName": "row_number",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": [
+            "row_number"
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {},
+        "operation": "update",
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        }
+      },
+      "typeVersion": 4.5
+    },
+    {
+      "id": "cd5b3ad9-52c5-5207-92e7-b86a43bc31d7",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# LinkedIn Profile Discovery\n\n## Purpose and structure\nThis folder contains the **LinkedIn Profile Discovery** workflow. Its executable nodes use `airtop`, `code`, `googleSheets`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking ‘Test workflow’\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1912_Manual_GoogleSheets_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Person info": {
+      "main": [
+        [
+          {
+            "node": "Search profile",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse response": {
+      "main": [
+        [
+          {
+            "node": "Update row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search profile": {
+      "main": [
+        [
+          {
+            "node": "Parse response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Person info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

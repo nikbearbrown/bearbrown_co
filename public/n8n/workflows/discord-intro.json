@@ -1,0 +1,59 @@
+{
+  "name": "Discord Intro",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        510,
+        330
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Discord",
+      "type": "n8n-nodes-base.discord",
+      "position": [
+        800,
+        330
+      ],
+      "parameters": {
+        "text": "Hello World!",
+        "webhookUri": "https://example.invalid/REPLACE_WITH_WEBHOOK"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a5bab52b-a8c6-5319-9a62-222dcae6547e",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Discord Intro\n\n## Purpose and structure\nThis folder contains the **Discord Intro** workflow. Its executable nodes use `discord`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0746_Manual_Discord_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

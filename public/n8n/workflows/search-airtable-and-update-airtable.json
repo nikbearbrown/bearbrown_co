@@ -1,0 +1,164 @@
+{
+  "nodes": [
+    {
+      "id": "b58964ca-d7a9-435d-a7cc-b09cac5c0a30",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        1000,
+        720
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "08dcd330-232d-48bf-b3fc-275513be9c62",
+      "name": "Get all records with an image URL",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        1200,
+        720
+      ],
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "table": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "options": {},
+        "operation": "search",
+        "filterByFormula": "=NOT({Image source URL} = '')"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "331b2a4f-2168-443e-9827-f4967587d643",
+      "name": "Update attachment field with images",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        1400,
+        720
+      ],
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "table": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "columns": {
+          "value": {
+            "id": "={{ $json.id }}",
+            "Image attachment": "={\n\"Attachment\": {\n\"url\": \"{{ $json[\"Image source URL\"] }}\"\n}\n}"
+          },
+          "schema": [
+            {
+              "id": "id",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": true,
+              "required": false,
+              "displayName": "id",
+              "defaultMatch": true
+            },
+            {
+              "id": "Image source URL",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Image source URL",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image attachment",
+              "type": "object",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Image attachment",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "id"
+          ]
+        },
+        "options": {},
+        "operation": "update"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "d2be8b46-c845-4ebf-adfc-2ca2eee9ee46",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        460,
+        460
+      ],
+      "parameters": {
+        "width": 476,
+        "height": 849,
+        "content": "## Read me\nSuper simple workflow to upload image URLs as attachments in Airtable. [Here's the example Airtable database I used for this workflow.](https://airtable.com/app5TBVbHPs64w5lE/shrcqQJEC56DV3I9b/tblTVTofgqfzqyIZk)\n\n1. Set up your Airtable database with one text field which contains image URLs, and an attachment field. \n![Source example](https://i.imgur.com/IVIPQoo.png/<IMAGE-NAME>.png#full-width)\n\n2. In each Airtable node, add your Airtable credentials and connect to the base and table you want to modify.\n\n3. In the \"Get all records with an image URL\" node under \"Filter by Formula\", change the field name from \"Image Source URL\" to whatever your URL field name is.\n![Source example](https://i.imgur.com/32Z7DqX.png/<IMAGE-NAME>.png)\n\n4. In the third node \"Update attachment field with images\", update the expression with the correct field name for the URL field. \n![Source example](https://i.imgur.com/hUeZgxX.png/<IMAGE-NAME>.png)\n\n5. Click \"Execute Workflow\" and watch the magic happen!\n\n"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "3a5f6e52-8b75-562a-b640-4e5b64cd97a8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# search airtable and update airtable\n\n## Purpose and structure\nThis folder contains the **search airtable and update airtable** workflow. Its executable nodes use `airtable`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking \"Execute Workflow\"\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0377_Manual_Stickynote_Update_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Get all records with an image URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all records with an image URL": {
+      "main": [
+        [
+          {
+            "node": "Update attachment field with images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

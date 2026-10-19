@@ -1,0 +1,59 @@
+{
+  "name": "Get synonyms of a German word",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        550,
+        260
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "OpenThesaurus",
+      "type": "n8n-nodes-base.openThesaurus",
+      "position": [
+        750,
+        260
+      ],
+      "parameters": {
+        "text": "Hallo",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "7a6cdf27-9476-576b-91ea-0d23d2df1f99",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Get synonyms of a German word\n\n## Purpose and structure\nThis folder contains the **Get synonyms of a German word** workflow. Its executable nodes use `manualTrigger`, `openThesaurus`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0192_Manual_Openthesaurus_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "OpenThesaurus",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

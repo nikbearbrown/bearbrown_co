@@ -1,0 +1,125 @@
+{
+  "nodes": [
+    {
+      "name": "Google Drive Trigger",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "position": [
+        480,
+        1480
+      ],
+      "parameters": {
+        "event": "fileUpdated",
+        "options": {},
+        "triggerOn": "specificFolder",
+        "folderToWatch": "https://drive.google.com/drive/folders/[your_id]"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        680,
+        1560
+      ],
+      "parameters": {
+        "mode": "removeKeyMatches",
+        "propertyName1": "name.value",
+        "propertyName2": "Key.value"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "AWS S3  - get",
+      "type": "n8n-nodes-base.awsS3",
+      "position": [
+        480,
+        1660
+      ],
+      "parameters": {
+        "options": {},
+        "operation": "getAll",
+        "bucketName": "REPLACE_WITH_BUCKETNAME"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "AWS S3 - upload",
+      "type": "n8n-nodes-base.awsS3",
+      "position": [
+        860,
+        1560
+      ],
+      "parameters": {
+        "tagsUi": {
+          "tagsValues": [
+            {
+              "key": "REPLACE_WITH_KEY",
+              "value": "gdrive"
+            }
+          ]
+        },
+        "fileName": "={{$json[\"name\"]}}",
+        "operation": "upload",
+        "binaryData": false,
+        "bucketName": "REPLACE_WITH_BUCKETNAME",
+        "additionalFields": {
+          "serverSideEncryption": "AES256"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "dfc3e6da-ab59-5b86-8d43-dfb251409f27",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive google drive events and list aws s3 and upload aws s3\n\n## Purpose and structure\nThis folder contains the **receive google drive events and list aws s3 and upload aws s3** workflow. Its executable nodes use `awsS3`, `googleDriveTrigger`, `merge`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nGoogle Drive Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Awss3/0151_Awss3_GoogleDrive_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AWS S3 - upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AWS S3  - get": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

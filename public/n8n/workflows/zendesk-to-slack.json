@@ -1,0 +1,142 @@
+{
+  "name": "Zendesk-to-slack",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        360,
+        350
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "color": "#068906",
+      "position": [
+        360,
+        560
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 16,
+              "minute": 30
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Function",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        690,
+        460
+      ],
+      "parameters": {
+        "functionCode": "// Create our Slack message\n// This will output a list of Ticket URLs with the status and the subject\n// 12345 [STATUS] - Ticket Subject\nlet message = \"*Unassigned Tickets*\\n\\n\";\n\n// Loop the input items\nfor (item of items) {\n  // Append the ticket information to the message\n  message += \"*<\" + item.json.url.replace(\"api/v2\",\"agent\").replace(\".json\",\"\") + \"|\" + item.json.id + \">* [\" + item.json.status.toUpperCase() + \"] - \" + item.json.subject + \"\\n\"; \n}\n\n// Return our message\nreturn [{json: {message}}];"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        870,
+        460
+      ],
+      "parameters": {
+        "text": "={{$json[\"message\"]}}",
+        "channel": "jarvis-test",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Zendesk",
+      "type": "n8n-nodes-base.zendesk",
+      "position": [
+        510,
+        460
+      ],
+      "parameters": {
+        "options": {
+          "query": "assignee:none status<pending"
+        },
+        "operation": "getAll",
+        "returnAll": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "2e9dea81-a12a-5b8e-a76b-4e519e203911",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Zendesk-to-slack\n\n## Purpose and structure\nThis folder contains the **Zendesk-to-slack** workflow. Its executable nodes use `cron`, `function`, `manualTrigger`, `slack`, `zendesk`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute', Cron\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0568_Manual_Zendesk_Automation_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Zendesk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zendesk": {
+      "main": [
+        [
+          {
+            "node": "Function",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Zendesk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

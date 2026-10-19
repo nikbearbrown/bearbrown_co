@@ -1,0 +1,60 @@
+{
+  "name": "Send an SMS using the Mocean node",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        590,
+        260
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Mocean",
+      "type": "n8n-nodes-base.mocean",
+      "position": [
+        790,
+        260
+      ],
+      "parameters": {
+        "to": "",
+        "from": "",
+        "message": ""
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4e6955e4-b2ce-524a-a95e-c34825f70070",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Send an SMS using the Mocean node\n\n## Purpose and structure\nThis folder contains the **Send an SMS using the Mocean node** workflow. Its executable nodes use `manualTrigger`, `mocean`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1057_Manual_Mocean_Send_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Mocean",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

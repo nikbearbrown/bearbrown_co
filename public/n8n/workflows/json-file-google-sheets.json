@@ -1,0 +1,336 @@
+{
+  "nodes": [
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        560,
+        700
+      ],
+      "parameters": {
+        "url": "https://randomuser.me/api/",
+        "options": {}
+      },
+      "typeVersion": 2
+    },
+    {
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        960,
+        560
+      ],
+      "parameters": {
+        "range": "A:C",
+        "options": {
+          "usePathForKeyRow": true
+        },
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "operation": "append",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        760,
+        700
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "={{$json[\"results\"][0][\"name\"][\"first\"]}} {{$json[\"results\"][0][\"name\"][\"last\"]}}"
+            },
+            {
+              "name": "country",
+              "value": "={{$json[\"results\"][0][\"location\"][\"country\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Spreadsheet File",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        960,
+        840
+      ],
+      "parameters": {
+        "options": {
+          "fileName": "users_spreadsheet"
+        },
+        "operation": "toFile",
+        "fileFormat": "csv"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Spreadsheet File1",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        960,
+        1200
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Write Binary File",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "position": [
+        1360,
+        1200
+      ],
+      "parameters": {
+        "fileName": "randomusers.json"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Move Binary Data1",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        1160,
+        1200
+      ],
+      "parameters": {
+        "mode": "jsonToBinary",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Gmail1",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        1360,
+        1420
+      ],
+      "parameters": {
+        "message": "Hello, attached is a JSON file with random user information.",
+        "subject": "JSON file with users",
+        "additionalFields": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "data"
+              }
+            ]
+          }
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "notes": "Append data to sheet",
+      "position": [
+        1760,
+        1420
+      ],
+      "parameters": {
+        "range": "A:C",
+        "options": {
+          "usePathForKeyRow": true
+        },
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "operation": "append",
+        "authentication": "oAuth2"
+      },
+      "notesInFlow": true,
+      "typeVersion": 1
+    },
+    {
+      "name": "Move Binary Data2",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        1560,
+        1420
+      ],
+      "parameters": {
+        "options": {},
+        "sourceKey": "attachment_0"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        560
+      ],
+      "parameters": {
+        "width": 320,
+        "height": 80,
+        "content": "## JSON > Google Sheets"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        860
+      ],
+      "parameters": {
+        "width": 320,
+        "height": 80,
+        "content": "## JSON > CSV"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        580,
+        1220
+      ],
+      "parameters": {
+        "width": 320,
+        "height": 80,
+        "content": "## CSV > JSON file"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        980,
+        1460
+      ],
+      "parameters": {
+        "width": 320,
+        "height": 80,
+        "content": "## JSON file > Google Sheets"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "f7fd425f-de4e-51c5-86cb-771fa6ee72f9",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# JSON file > Google Sheets\n\n## Purpose and structure\nThis folder contains the **JSON file > Google Sheets** workflow. Its executable nodes use `gmail`, `googleSheets`, `httpRequest`, `moveBinaryData`, `set`, `spreadsheetFile`, `writeBinaryFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0224_HTTP_GoogleSheets_Send_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Spreadsheet File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spreadsheet File": {
+      "main": [
+        [
+          {
+            "node": "Spreadsheet File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data1": {
+      "main": [
+        [
+          {
+            "node": "Write Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spreadsheet File1": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Binary File": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

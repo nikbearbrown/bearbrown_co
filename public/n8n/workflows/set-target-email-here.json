@@ -1,0 +1,93 @@
+{
+  "nodes": [
+    {
+      "id": "dee0969b-e780-400c-a8d2-383a392b9432",
+      "name": "On Error",
+      "type": "n8n-nodes-base.errorTrigger",
+      "position": [
+        880,
+        900
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "018f4497-2a68-4de7-a59a-b6714d9211af",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        800,
+        700
+      ],
+      "parameters": {
+        "color": 5,
+        "width": 424.4907862645661,
+        "height": 154.7766688696994,
+        "content": "### 👨‍🎤 Setup\n1. Add your Gmail creds\n2. Add your target email\n2. Add this error workflow to other workflows\nhttps://docs.n8n.io/flow-logic/error-handling/#create-and-set-an-error-workflow"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b5d560c0-1de1-4e6c-be4d-0fef1dd42e9e",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1140,
+        1080
+      ],
+      "parameters": {
+        "width": 241,
+        "height": 80,
+        "content": "### 👆🏽 Set target email here"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "f1a73854-5b24-407e-9584-0448ae66f7a0",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        1120,
+        900
+      ],
+      "parameters": {
+        "sendTo": "REPLACE_WITH_SENDTO",
+        "message": "=⚠️ Workflow `{{$json[\"workflow\"][\"name\"]}}` failed to run!\nYou can find the execution here: {{ $json.execution.url }}\n\nerror message from node {{ $json.execution.lastNodeExecuted }}: {{ $json.execution.error.message }}\n\n {{ $json.execution.error.stack }}",
+        "options": {},
+        "subject": "=🚨 Error in workflow: {{ $json.workflow.name }}",
+        "emailType": "text"
+      },
+      "typeVersion": 2.1
+    },
+    {
+      "id": "bf0b3bd8-87c8-5243-868e-7b6e57034939",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# 👆🏽 Set target email here\n\n## Purpose and structure\nThis folder contains the **👆🏽 Set target email here** workflow. Its executable nodes use `errorTrigger`, `gmail`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn Error\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Error/0456_Error_Gmail_Send_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "On Error": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

@@ -1,0 +1,182 @@
+{
+  "name": "Image to license plate number",
+  "nodes": [
+    {
+      "id": "a656334a-0135-4d93-a6df-ca97222c9753",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        -140,
+        -380
+      ],
+      "parameters": {
+        "text": "={{ $json.prompt }}",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary",
+              "binaryImageDataKey": "Image"
+            }
+          ]
+        },
+        "promptType": "define"
+      },
+      "typeVersion": 1.5
+    },
+    {
+      "id": "41a90592-2a91-40ff-abf4-3a795733d521",
+      "name": "FormResultPage",
+      "type": "n8n-nodes-base.form",
+      "position": [
+        220,
+        -380
+      ],
+      "parameters": {
+        "options": {
+          "formTitle": ""
+        },
+        "operation": "completion",
+        "completionTitle": "Extracted information:",
+        "completionMessage": "={{ $json.text }}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c23b95d9-b7a2-4e9e-a019-5724a9662abd",
+      "name": "OpenRouter LLM",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "position": [
+        -60,
+        -180
+      ],
+      "parameters": {
+        "model": "={{ $json.model }}",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "8298cd51-8c47-4bc4-af78-2c216207ef76",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -340,
+        -380
+      ],
+      "parameters": {
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1b8381dc-5b9a-42a2-8a67-cc706b433180",
+              "name": "model",
+              "type": "string",
+              "value": "openai/gpt-4o"
+            },
+            {
+              "id": "72aec130-ab56-4e61-b60b-9a31dd8d02e6",
+              "name": "prompt",
+              "type": "string",
+              "value": "Extract the number of the license plate on the front-most car depicted in the attached image and return only the extracted characters without any other text or structure."
+            }
+          ]
+        },
+        "includeOtherFields": true
+      },
+      "typeVersion": 3.4
+    },
+    {
+      "id": "fae79fc9-b510-44a4-beec-4dc26dc2a13a",
+      "name": "FromTrigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        -560,
+        -380
+      ],
+      "parameters": {
+        "options": {},
+        "formTitle": "Analyse image",
+        "formFields": {
+          "values": [
+            {
+              "fieldType": "file",
+              "fieldLabel": "Image",
+              "requiredField": true,
+              "acceptFileTypes": ".jpg, .png"
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "formDescription": "To analyse an image, upload it here."
+      },
+      "typeVersion": 2.2
+    },
+    {
+      "id": "2c71504a-c7f3-5f00-ac4b-dc2f94386f85",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1360,
+        -380
+      ],
+      "parameters": {
+        "content": "# Image to license plate number\n\n## Purpose and structure\nThis folder contains the **Image to license plate number** workflow. Its executable nodes use `chainLlm`, `form`, `formTrigger`, `lmChatOpenRouter`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nFromTrigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Form/1348_Form_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FromTrigger": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter LLM": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "FormResultPage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

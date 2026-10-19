@@ -1,0 +1,41 @@
+{
+  "name": "Receive updates when a new account is added by an admin in ActiveCampaign",
+  "nodes": [
+    {
+      "name": "ActiveCampaign Trigger",
+      "type": "n8n-nodes-base.activeCampaignTrigger",
+      "position": [
+        700,
+        250
+      ],
+      "parameters": {
+        "events": [
+          "account_add"
+        ],
+        "sources": [
+          "admin"
+        ]
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "e5c55d1c-838f-5ce3-a706-bc78d0ecb5a6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Receive updates when a new account is added by an admin in ActiveCampaign\n\n## Purpose and structure\nThis folder contains the **Receive updates when a new account is added by an admin in ActiveCampaign** workflow. Its executable nodes use `activeCampaignTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nActiveCampaign Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Activecampaign/0057_Activecampaign_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {}
+}

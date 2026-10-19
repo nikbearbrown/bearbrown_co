@@ -1,0 +1,239 @@
+{
+  "nodes": [
+    {
+      "id": "5cb9cd37-a73d-4f3f-b4dd-4b56e79f4056",
+      "name": "On order updated",
+      "type": "n8n-nodes-base.shopifyTrigger",
+      "position": [
+        380,
+        200
+      ],
+      "parameters": {
+        "topic": "orders/updated"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "720e35c7-387e-428a-8930-0dfb67536382",
+      "name": "Keep only userId",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        860,
+        280
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "userId",
+              "value": "={{ $json[\"vid\"] }}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "3bb1f676-6733-4c1f-b3d0-4604f8baa0c8",
+      "name": "New Order, deal not found",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1560,
+        220
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json}}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "7f4b86a1-9ea7-4c5d-a336-eea2ec6dc341",
+      "name": "Do Nothing",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        1800,
+        320
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "f60c88f1-8dab-498e-9f18-d7842dfa60c6",
+      "name": "Create new deal",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        1800,
+        120
+      ],
+      "parameters": {
+        "stage": "closedwon",
+        "authentication": "oAuth2",
+        "additionalFields": {
+          "amount": "={{ $node[\"Add Hubspot userId to data\"].json[\"current_total_price\"] }}",
+          "dealName": "={{ $node[\"Add Hubspot userId to data\"].json[\"name\"] }}",
+          "closeDate": "={{ $node[\"Add Hubspot userId to data\"].json[\"created_at\"] }}",
+          "associatedVids": "={{ $node[\"Add Hubspot userId to data\"].json[\"userId\"] }}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "3d9de7e0-8cd4-4cea-a78c-8a862c32edeb",
+      "name": "Find if order already exists as deal",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        1340,
+        220
+      ],
+      "parameters": {
+        "operation": "search",
+        "authentication": "oAuth2",
+        "additionalFields": {
+          "query": "={{ $json[\"name\"] }}"
+        }
+      },
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "id": "f85b698a-872a-477b-9466-e35622b381a2",
+      "name": "Add Hubspot userId to data",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        1140,
+        220
+      ],
+      "parameters": {
+        "mode": "mergeByIndex"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "11502ac7-1e57-4614-9dd5-31f5fc62c91c",
+      "name": "Create or update contact",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        640,
+        280
+      ],
+      "parameters": {
+        "email": "={{ $json[\"contact_email\"] }}",
+        "resource": "contact",
+        "authentication": "oAuth2",
+        "additionalFields": {
+          "city": "={{ $json[\"customer\"][\"default_address\"][\"city\"] }}",
+          "country": "={{ $json[\"customer\"][\"default_address\"][\"country\"] }}",
+          "lastName": "={{ $json[\"customer\"][\"default_address\"][\"last_name\"] }}",
+          "firstName": "={{ $json[\"customer\"][\"default_address\"][\"first_name\"] }}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "cb25234e-135c-5429-a730-deb414a09f40",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive shopify events and create new deal and search hubspot\n\n## Purpose and structure\nThis folder contains the **receive shopify events and create new deal and search hubspot** workflow. Its executable nodes use `hubspot`, `if`, `merge`, `noOp`, `set`, `shopifyTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn order updated\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Shopify/0265_Shopify_HubSpot_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Keep only userId": {
+      "main": [
+        [
+          {
+            "node": "Add Hubspot userId to data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "On order updated": {
+      "main": [
+        [
+          {
+            "node": "Add Hubspot userId to data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create or update contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update contact": {
+      "main": [
+        [
+          {
+            "node": "Keep only userId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Order, deal not found": {
+      "main": [
+        [
+          {
+            "node": "Create new deal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Do Nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Hubspot userId to data": {
+      "main": [
+        [
+          {
+            "node": "Find if order already exists as deal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find if order already exists as deal": {
+      "main": [
+        [
+          {
+            "node": "New Order, deal not found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

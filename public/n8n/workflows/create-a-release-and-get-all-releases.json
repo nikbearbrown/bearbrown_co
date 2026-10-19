@@ -1,0 +1,93 @@
+{
+  "name": "Create a release and get all releases",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        210,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Sentry.io",
+      "type": "n8n-nodes-base.sentryIo",
+      "position": [
+        410,
+        300
+      ],
+      "parameters": {
+        "url": "",
+        "version": "0.0.1",
+        "projects": [
+          ""
+        ],
+        "resource": "release",
+        "operation": "create",
+        "additionalFields": {},
+        "organizationSlug": ""
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Sentry.io1",
+      "type": "n8n-nodes-base.sentryIo",
+      "position": [
+        610,
+        300
+      ],
+      "parameters": {
+        "resource": "release",
+        "operation": "getAll",
+        "returnAll": true,
+        "additionalFields": {},
+        "organizationSlug": ""
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a715fe8b-9510-5a51-8477-001cce67fd8b",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a release and get all releases\n\n## Purpose and structure\nThis folder contains the **Create a release and get all releases** workflow. Its executable nodes use `manualTrigger`, `sentryIo`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0703_Manual_Sentryio_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Sentry.io": {
+      "main": [
+        [
+          {
+            "node": "Sentry.io1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Sentry.io",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

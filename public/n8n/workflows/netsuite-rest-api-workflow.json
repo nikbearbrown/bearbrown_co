@@ -1,0 +1,96 @@
+{
+  "name": "NetSuite Rest API workflow",
+  "nodes": [
+    {
+      "id": "f7f90fb4-e29f-4bbf-a99d-ee2fde45cd06",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -380,
+        -40
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "9fcc1ce7-e9bf-4592-8bcd-7c77272a9c59",
+      "name": "NetSuite",
+      "type": "n8n-nodes-netsuite.netsuite",
+      "position": [
+        -40,
+        -180
+      ],
+      "parameters": {
+        "query": "={{ $json.query.suiteql }}",
+        "options": {},
+        "operation": "runSuiteQL"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "1d615309-2cb0-4383-9698-2f80da0d4bf5",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -380,
+        -280
+      ],
+      "parameters": {
+        "path": "249328cc-587a-4269-b266-96fe60cfaeb9",
+        "options": {},
+        "responseData": "allEntries",
+        "responseMode": "lastNode"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "2ebacb5a-f1fd-5894-9bcb-ad56baff1ab7",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1180,
+        -280
+      ],
+      "parameters": {
+        "content": "# NetSuite Rest API workflow\n\n## Purpose and structure\nThis folder contains the **NetSuite Rest API workflow** workflow. Its executable nodes use `manualTrigger`, `netsuite`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking ‘Test workflow’, Webhook\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1449_Manual_Webhook_Automate_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "NetSuite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NetSuite": {
+      "main": [
+        []
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "NetSuite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

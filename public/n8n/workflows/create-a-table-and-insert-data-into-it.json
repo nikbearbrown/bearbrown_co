@@ -1,0 +1,120 @@
+{
+  "name": "Create a table and insert data into it",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        440,
+        460
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        840,
+        460
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "id"
+            }
+          ],
+          "string": [
+            {
+              "name": "name",
+              "value": "Tanay"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "QuestDB",
+      "type": "n8n-nodes-base.questDb",
+      "position": [
+        640,
+        460
+      ],
+      "parameters": {
+        "query": "CREATE TABLE test (id INT, name STRING);",
+        "operation": "executeQuery"
+      },
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "name": "QuestDB1",
+      "type": "n8n-nodes-base.questDb",
+      "position": [
+        1040,
+        460
+      ],
+      "parameters": {
+        "table": "test",
+        "columns": "id, name"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "573d52ff-5c00-5bb0-8f63-5750ff90fee0",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a table and insert data into it\n\n## Purpose and structure\nThis folder contains the **Create a table and insert data into it** workflow. Its executable nodes use `manualTrigger`, `questDb`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0204_Manual_Questdb_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "QuestDB1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "QuestDB": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "QuestDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

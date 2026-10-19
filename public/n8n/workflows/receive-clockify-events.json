@@ -1,0 +1,41 @@
+{
+  "nodes": [
+    {
+      "name": "Clockify Trigger",
+      "type": "n8n-nodes-base.clockifyTrigger",
+      "position": [
+        450,
+        480
+      ],
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "workspaceId": "5f115b31e3f0ad7f90326b39"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "2d235d80-673d-50b1-bc5f-84010da84355",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive clockify events\n\n## Purpose and structure\nThis folder contains the **receive clockify events** workflow. Its executable nodes use `clockifyTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nClockify Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Clockify/1005_Clockify_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {},
+  "active": false
+}

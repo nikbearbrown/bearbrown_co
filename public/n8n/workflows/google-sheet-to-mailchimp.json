@@ -1,0 +1,103 @@
+{
+  "name": "Google Sheet to Mailchimp",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        110,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        530,
+        300
+      ],
+      "parameters": {
+        "range": "sheetone!A:C",
+        "options": {},
+        "sheetId": "REPLACE_WITH_SHEETID"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Mailchimp",
+      "type": "n8n-nodes-base.mailchimp",
+      "position": [
+        720,
+        300
+      ],
+      "parameters": {
+        "list": "90d12734de",
+        "email": "={{$node[\"Google Sheets\"].json[\"email\"]}}",
+        "status": "subscribed",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Interval",
+      "type": "n8n-nodes-base.interval",
+      "position": [
+        290,
+        300
+      ],
+      "parameters": {
+        "interval": 2
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "8eb09b7f-aae2-52e3-8b8d-31db6b030f01",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Google Sheet to Mailchimp\n\n## Purpose and structure\nThis folder contains the **Google Sheet to Mailchimp** workflow. Its executable nodes use `googleSheets`, `interval`, `mailchimp`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0349_Manual_GoogleSheets_Automation_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Interval": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Mailchimp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        []
+      ]
+    }
+  }
+}

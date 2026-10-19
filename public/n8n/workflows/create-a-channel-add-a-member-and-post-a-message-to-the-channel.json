@@ -1,0 +1,113 @@
+{
+  "name": "Create a channel, add a member, and post a message to the channel",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        270,
+        340
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Mattermost",
+      "type": "n8n-nodes-base.mattermost",
+      "position": [
+        470,
+        340
+      ],
+      "parameters": {
+        "teamId": "4zhpirmh97fn7jgp7qhyue5a6e",
+        "channel": "docs",
+        "resource": "channel",
+        "displayName": "Docs"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Mattermost1",
+      "type": "n8n-nodes-base.mattermost",
+      "position": [
+        670,
+        340
+      ],
+      "parameters": {
+        "userId": "5oiy71hukjgd9eprj1o4a3poio",
+        "resource": "channel",
+        "channelId": "={{$node[\"Mattermost\"].json[\"id\"]}}",
+        "operation": "addUser"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Mattermost2",
+      "type": "n8n-nodes-base.mattermost",
+      "position": [
+        870,
+        340
+      ],
+      "parameters": {
+        "message": "Hey! Welcome to the channel!",
+        "channelId": "={{$node[\"Mattermost\"].json[\"id\"]}}",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "87907625-a62a-5751-ba46-486c5e28b730",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a channel, add a member, and post a message to the channel\n\n## Purpose and structure\nThis folder contains the **Create a channel, add a member, and post a message to the channel** workflow. Its executable nodes use `manualTrigger`, `mattermost`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0254_Manual_Mattermost_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Mattermost": {
+      "main": [
+        [
+          {
+            "node": "Mattermost1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mattermost1": {
+      "main": [
+        [
+          {
+            "node": "Mattermost2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Mattermost",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

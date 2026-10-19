@@ -1,0 +1,178 @@
+{
+  "nodes": [
+    {
+      "name": "AWS Rekognition",
+      "type": "n8n-nodes-base.awsRekognition",
+      "position": [
+        680,
+        700
+      ],
+      "parameters": {
+        "type": "detectText",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        500,
+        700
+      ],
+      "parameters": {
+        "url": "https://www.nicepng.com/png/detail/54-542069_motivational-quotes-png.png",
+        "options": {},
+        "responseFormat": "file",
+        "queryParametersUi": {
+          "parameter": []
+        },
+        "headerParametersUi": {
+          "parameter": []
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "disabled": true,
+      "position": [
+        500,
+        860
+      ],
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1?key=REPLACE_WITH_CREDENTIAL&cx=[YOUR_CX]&q=office&searchType=image",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": []
+        },
+        "headerParametersUi": {
+          "parameter": []
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        860,
+        700
+      ],
+      "parameters": {
+        "values": {
+          "number": [],
+          "string": [
+            {
+              "name": "img_name",
+              "value": "={{$node[\"HTTP Request\"].binary.data.fileName}}"
+            },
+            {
+              "name": "img_link",
+              "value": "={{$node[\"HTTP Request\"].parameter[\"url\"]}}"
+            },
+            {
+              "name": "img_txt",
+              "value": "={{$json[\"TextDetections\"][1][\"DetectedText\"]}} {{$json[\"TextDetections\"][2][\"DetectedText\"]}}{{$json[\"TextDetections\"][3][\"DetectedText\"]}} {{$json[\"TextDetections\"][4][\"DetectedText\"]}} {{$json[\"TextDetections\"][5][\"DetectedText\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Function1",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        1040,
+        700
+      ],
+      "parameters": {
+        "functionCode": "for (item of items) {\n  item.json.lowerText = $node[\"Set1\"].json[\"img_txt\"].toLowerCase();\n}\nconsole.log('Done!');\n\nreturn items;"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1220,
+        700
+      ],
+      "parameters": {
+        "options": {},
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "operation": "append",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "21b02c68-d14e-5711-8cfd-fdec427f3824",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# aws rekognition and http request and append google sheets\n\n## Purpose and structure\nThis folder contains the **aws rekognition and http request and append google sheets** workflow. Its executable nodes use `awsRekognition`, `function`, `googleSheets`, `httpRequest`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Awsrekognition/0150_Awsrekognition_GoogleSheets_Automation_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Function1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "AWS Rekognition",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AWS Rekognition": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

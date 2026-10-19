@@ -1,0 +1,129 @@
+{
+  "nodes": [
+    {
+      "id": "eb305364-de39-4b9e-ad6e-eea54ebf712d",
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        740,
+        300
+      ],
+      "parameters": {
+        "text": "={{ $json.message }}",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "otherOptions": {}
+      },
+      "typeVersion": 2.1
+    },
+    {
+      "id": "9babcea6-ac7c-4a75-bd4c-f3d6a54c0ec7",
+      "name": "On Error",
+      "type": "n8n-nodes-base.errorTrigger",
+      "position": [
+        220,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "134acca3-d4a7-485c-ab45-5a2721ed6a2c",
+      "name": "Set message",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        480,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "message",
+              "value": "=:warning: [prod] workflow `{{$json[\"workflow\"][\"name\"]}}` failed to run! <{{ $json.execution.url }}|execution>\n\nerror message from node: {{ $json.execution.lastNodeExecuted }}\n {{ $json.execution.error.message }}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b6dfce1e-95c0-43c4-8a81-098b33130232",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        140,
+        100
+      ],
+      "parameters": {
+        "color": 5,
+        "width": 424.4907862645661,
+        "height": 154.7766688696994,
+        "content": "### 👨‍🎤 Setup\n1. Add Slack creds\n2. Add this error workflow to other workflows\nhttps://docs.n8n.io/flow-logic/error-handling/#create-and-set-an-error-workflow"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "619e2628-6860-47ca-9e6a-9294ea123f8f",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        480
+      ],
+      "parameters": {
+        "width": 241,
+        "height": 80,
+        "content": "### 👆🏽 Adjust error message here"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "3c4e0e23-7eca-534b-95ec-c0877172919b",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# 👆🏽 Adjust error message here\n\n## Purpose and structure\nThis folder contains the **👆🏽 Adjust error message here** workflow. Its executable nodes use `errorTrigger`, `set`, `slack`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn Error\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Error/0447_Error_Slack_Send_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "On Error": {
+      "main": [
+        [
+          {
+            "node": "Set message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set message": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

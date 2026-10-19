@@ -1,0 +1,115 @@
+{
+  "nodes": [
+    {
+      "id": "aecce7a8-24f6-48c0-a7f0-f48a421d1d8c",
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        540,
+        400
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "66822f20-83a9-4272-920c-5d8c9140f912",
+      "name": "Read From File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "position": [
+        740,
+        400
+      ],
+      "parameters": {
+        "filePath": "/home/node/.n8n/concerts-2023.csv"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "9b469774-7c1d-41a3-9bfe-18fc3527f96e",
+      "name": "Convert To Spreadsheet",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        940,
+        400
+      ],
+      "parameters": {
+        "options": {
+          "rawData": true,
+          "readAsString": true
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a10bd105-16f7-47c8-b5a0-a5a10e51ae10",
+      "name": "Insert into MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "position": [
+        1140,
+        400
+      ],
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "mode": "name",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "columns": "Date, Band, ConcertName, Country, City, Location, LocationAddress",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c2f69f11-a570-5581-bda7-2d6ba0166fd3",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# read from file and convert to spreadsheet and insert into mysql\n\n## Purpose and structure\nThis folder contains the **read from file and convert to spreadsheet and insert into mysql** workflow. Its executable nodes use `manualTrigger`, `mySql`, `readBinaryFile`, `spreadsheetFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0284_Manual_Readbinaryfile_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Read From File": {
+      "main": [
+        [
+          {
+            "node": "Convert To Spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Read From File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert To Spreadsheet": {
+      "main": [
+        [
+          {
+            "node": "Insert into MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

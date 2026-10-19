@@ -1,0 +1,117 @@
+{
+  "nodes": [
+    {
+      "name": "Request blablagues",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        750,
+        250
+      ],
+      "parameters": {
+        "url": "https://api.blablagues.net/?rub=images",
+        "options": {},
+        "responseFormat": "string"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Recup image",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1000,
+        250
+      ],
+      "parameters": {
+        "url": "={{$node[\"Request blablagues\"].json[\"data\"][\"data\"][\"content\"][\"media\"]}}",
+        "options": {},
+        "responseFormat": "file"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "At 17H image jokes",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        500,
+        250
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 17
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Tweet image jokes",
+      "type": "n8n-nodes-base.twitter",
+      "position": [
+        1250,
+        250
+      ],
+      "parameters": {
+        "text": "={{$node[\"Request blablagues\"].json[\"data\"][\"data\"][\"content\"][\"text\"]}}",
+        "additionalFields": {
+          "attachments": "data"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "f783ca5e-3cb8-5f82-9ffe-aac5f454013a",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# http request and at 17h image jokes and tweet image jokes\n\n## Purpose and structure\nThis folder contains the **http request and at 17h image jokes and tweet image jokes** workflow. Its executable nodes use `cron`, `httpRequest`, `twitter`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nAt 17H image jokes\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0144_HTTP_Twitter_Automation_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Recup image": {
+      "main": [
+        [
+          {
+            "node": "Tweet image jokes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "At 17H image jokes": {
+      "main": [
+        [
+          {
+            "node": "Request blablagues",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Request blablagues": {
+      "main": [
+        [
+          {
+            "node": "Recup image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

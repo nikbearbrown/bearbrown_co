@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "name": "Mock Data",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        670,
+        371
+      ],
+      "parameters": {
+        "functionCode": "return [\n  {\n    json:[\n      {\n        id: 1,\n        name: \"Jim\"\n      }, \n      {\n        id: 2,\n        name: \"Stefan\"\n      },\n      {\n        id: 3,\n        name: \"Hans\"\n      }\n    ]\n  }\n];"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Create JSON-items",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        910,
+        371
+      ],
+      "parameters": {
+        "functionCode": "return items[0].json.map(item => { \n  return {\n    json: item,\n  }\n})\n"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4987d830-85fe-5efc-8f4d-ebda07017203",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# create json items from mock data\n\n## Purpose and structure\nThis folder contains the **create json items from mock data** workflow. Its executable nodes use `function`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Create/1124_Create.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Mock Data": {
+      "main": [
+        [
+          {
+            "node": "Create JSON-items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

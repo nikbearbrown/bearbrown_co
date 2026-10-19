@@ -1,0 +1,37 @@
+{
+  "name": "Receive updates for specified tasks in Flow",
+  "nodes": [
+    {
+      "name": "Flow Trigger",
+      "type": "n8n-nodes-base.flowTrigger",
+      "position": [
+        650,
+        250
+      ],
+      "parameters": {
+        "taskIds": "",
+        "resource": "task"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "8c63807f-500e-55ef-989a-c2fb1ff6c2d7",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Receive updates for specified tasks in Flow\n\n## Purpose and structure\nThis folder contains the **Receive updates for specified tasks in Flow** workflow. Its executable nodes use `flowTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nFlow Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Flow/0133_Flow_Update_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {}
+}

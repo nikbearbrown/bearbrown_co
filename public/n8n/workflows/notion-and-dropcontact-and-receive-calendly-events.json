@@ -1,0 +1,133 @@
+{
+  "nodes": [
+    {
+      "name": "Notion",
+      "type": "n8n-nodes-base.notion",
+      "position": [
+        850,
+        400
+      ],
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": "",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "REPLACE_WITH_KEY",
+              "range": true,
+              "dateEnd": "={{$node[\"Function\"].json[\"payload\"][\"event\"][\"end_time\"]}}",
+              "dateStart": "={{$node[\"Function\"].json[\"payload\"][\"event\"][\"invitee_start_time\"]}}"
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "emailValue": "={{$json[\"email\"][0][\"email\"]}}"
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "title": "={{$json[\"full_name\"]}}"
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "urlValue": "={{$json[\"linkedin\"]}}"
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "peopleValue": [
+                "22ad678a-175a-405c-b504-978d7804ebb8"
+              ]
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "urlValue": "={{$json[\"website\"]}}"
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "urlValue": "={{$json[\"company_linkedin\"]}}"
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "textContent": "={{$json[\"civility\"]}}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Dropcontact",
+      "type": "n8n-nodes-base.dropcontact",
+      "position": [
+        650,
+        400
+      ],
+      "parameters": {
+        "email": "={{$json[\"payload\"][\"invitee\"][\"email\"]}}",
+        "options": {
+          "siren": true,
+          "language": "fr"
+        },
+        "additionalFields": {
+          "full_name": "={{$json[\"payload\"][\"invitee\"][\"name\"]}}",
+          "last_name": "={{$json[\"payload\"][\"invitee\"][\"last_name\"]}}",
+          "first_name": "={{$json[\"payload\"][\"invitee\"][\"first_name\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Calendly Trigger",
+      "type": "n8n-nodes-base.calendlyTrigger",
+      "position": [
+        460,
+        400
+      ],
+      "parameters": {
+        "events": [
+          "invitee.created"
+        ]
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "dccbc59f-23cc-5601-b32a-243fa1f1dd50",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# notion and dropcontact and receive calendly events\n\n## Purpose and structure\nThis folder contains the **notion and dropcontact and receive calendly events** workflow. Its executable nodes use `calendlyTrigger`, `dropcontact`, `notion`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nCalendly Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Calendly/0125_Calendly_Notion_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Dropcontact": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calendly Trigger": {
+      "main": [
+        [
+          {
+            "node": "Dropcontact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

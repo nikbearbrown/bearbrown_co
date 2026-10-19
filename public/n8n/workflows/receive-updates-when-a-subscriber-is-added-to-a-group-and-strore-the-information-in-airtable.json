@@ -1,0 +1,115 @@
+{
+  "name": "Receive updates when a subscriber is added to a group and strore the information in Airtable",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "disabled": true,
+      "position": [
+        110,
+        600
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "MailerLite Trigger",
+      "type": "n8n-nodes-base.mailerLiteTrigger",
+      "position": [
+        530,
+        300
+      ],
+      "parameters": {
+        "event": "subscriber.add_to_group"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        730,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Name",
+              "value": "={{$node[\"MailerLite Trigger\"].json[\"data\"][\"subscriber\"][\"name\"]}}"
+            },
+            {
+              "name": "Email",
+              "value": "={{$node[\"MailerLite Trigger\"].json[\"data\"][\"subscriber\"][\"email\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        930,
+        300
+      ],
+      "parameters": {
+        "table": "Data",
+        "options": {},
+        "operation": "append",
+        "application": ""
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "6b4e1f33-5068-5274-8405-ca1c66bd2a47",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Receive updates when a subscriber is added to a group and strore the information in Airtable\n\n## Purpose and structure\nThis folder contains the **Receive updates when a subscriber is added to a group and strore the information in Airtable** workflow. Its executable nodes use `airtable`, `mailerLiteTrigger`, `manualTrigger`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute', MailerLite Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0776_Manual_Mailerlite_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MailerLite Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        []
+      ]
+    }
+  }
+}

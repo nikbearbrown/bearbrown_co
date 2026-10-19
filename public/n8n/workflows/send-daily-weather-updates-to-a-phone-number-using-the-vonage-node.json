@@ -1,0 +1,92 @@
+{
+  "name": "Send daily weather updates to a phone number using the Vonage node",
+  "nodes": [
+    {
+      "name": "Vonage",
+      "type": "n8n-nodes-base.vonage",
+      "position": [
+        770,
+        260
+      ],
+      "parameters": {
+        "to": "1234",
+        "from": "Vonage APIs",
+        "message": "=Hey! The temperature outside is {{$node[\"OpenWeatherMap\"].json[\"main\"][\"temp\"]}}°C.",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        370,
+        260
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 9
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "OpenWeatherMap",
+      "type": "n8n-nodes-base.openWeatherMap",
+      "position": [
+        570,
+        260
+      ],
+      "parameters": {
+        "cityName": "berlin"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "5c99bbe8-99a6-593f-9e09-e99e6f6284da",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Send daily weather updates to a phone number using the Vonage node\n\n## Purpose and structure\nThis folder contains the **Send daily weather updates to a phone number using the Vonage node** workflow. Its executable nodes use `cron`, `openWeatherMap`, `vonage`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nCron\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Openweathermap/1163_Openweathermap_Cron_Update_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Vonage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

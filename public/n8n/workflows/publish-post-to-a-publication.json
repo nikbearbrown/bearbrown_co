@@ -1,0 +1,63 @@
+{
+  "name": "Publish post to a publication",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        600,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Medium",
+      "type": "n8n-nodes-base.medium",
+      "position": [
+        800,
+        300
+      ],
+      "parameters": {
+        "title": "",
+        "content": "",
+        "publication": true,
+        "contentFormat": "",
+        "publicationId": "",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "0d6600e9-e7d9-5ac7-9e8c-126a5ca6b6b6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Publish post to a publication\n\n## Purpose and structure\nThis folder contains the **Publish post to a publication** workflow. Its executable nodes use `manualTrigger`, `medium`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1139_Manual_Medium_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Medium",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

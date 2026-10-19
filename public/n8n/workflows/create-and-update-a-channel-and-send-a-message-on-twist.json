@@ -1,0 +1,130 @@
+{
+  "name": "Create and update a channel, and send a message on Twist",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        470,
+        260
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Twist",
+      "type": "n8n-nodes-base.twist",
+      "position": [
+        670,
+        260
+      ],
+      "parameters": {
+        "name": "n8n-docs",
+        "resource": "channel",
+        "workspaceId": 150329,
+        "additionalFields": {
+          "user_ids": [
+            475370
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Twist1",
+      "type": "n8n-nodes-base.twist",
+      "position": [
+        870,
+        260
+      ],
+      "parameters": {
+        "resource": "channel",
+        "channelId": "={{$node[\"Twist\"].json[\"id\"]}}",
+        "operation": "update",
+        "updateFields": {
+          "description": "Discussion for documentation"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Twist2",
+      "type": "n8n-nodes-base.twist",
+      "position": [
+        1070,
+        260
+      ],
+      "parameters": {
+        "content": "=Hey [Harshil](twist-mention://475370)!\nYou have been added to the {{$node[\"Twist\"].json[\"name\"]}} channel.\nClick on the button below to quickly navigate to the documentation website.",
+        "workspaceId": 150329,
+        "conversationId": 989141,
+        "additionalFields": {
+          "actionsUi": {
+            "actionValues": [
+              {
+                "url": "https://docs.n8n.io",
+                "type": "action",
+                "action": "open_url",
+                "button_text": "Documentation site"
+              }
+            ]
+          }
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "9f54a73d-5308-55e5-93f7-c14eb8ad8c26",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create and update a channel, and send a message on Twist\n\n## Purpose and structure\nThis folder contains the **Create and update a channel, and send a message on Twist** workflow. Its executable nodes use `manualTrigger`, `twist`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0225_Manual_Twist_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Twist": {
+      "main": [
+        [
+          {
+            "node": "Twist1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Twist1": {
+      "main": [
+        [
+          {
+            "node": "Twist2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Twist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

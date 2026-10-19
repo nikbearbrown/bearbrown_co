@@ -1,0 +1,119 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        460,
+        230
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "position": [
+        660,
+        230
+      ],
+      "parameters": {
+        "query": "CREATE TABLE test (id INT, name VARCHAR(255), PRIMARY KEY (id));",
+        "operation": "executeQuery"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "position": [
+        1060,
+        230
+      ],
+      "parameters": {
+        "table": "test",
+        "columns": "id, name"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        860,
+        230
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "id"
+            }
+          ],
+          "string": [
+            {
+              "name": "name",
+              "value": "n8n"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1,
+      "alwaysOutputData": false
+    },
+    {
+      "id": "88ad5649-fb25-5eb7-a4b1-999839b2ea34",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# executequery my sql and my sql\n\n## Purpose and structure\nThis folder contains the **executequery my sql and my sql** workflow. Its executable nodes use `manualTrigger`, `mySql`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1055_Manual_Mysql_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

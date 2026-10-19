@@ -1,0 +1,179 @@
+{
+  "name": "Sync New Shopify Products to Odoo Product",
+  "nodes": [
+    {
+      "id": "5ad7f941-4146-4897-ad30-dcdccab85e82",
+      "name": "Odoo6",
+      "type": "n8n-nodes-base.odoo",
+      "position": [
+        320,
+        0
+      ],
+      "parameters": {
+        "limit": 1,
+        "options": {},
+        "resource": "custom",
+        "operation": "getAll",
+        "filterRequest": {
+          "filter": [
+            {
+              "value": "={{ $('Shopify Trigger').all()[0].json.variants[0].product_id }}",
+              "fieldName": "default_code"
+            }
+          ]
+        },
+        "customResource": "product.product"
+      },
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "id": "1b1a3753-e645-465c-8155-ad8c006f3e13",
+      "name": "Filter2",
+      "type": "n8n-nodes-base.filter",
+      "position": [
+        740,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.existing }}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "5b388afc-de9a-4246-85a8-0ef4ec8ac0bc",
+      "name": "Odoo7",
+      "type": "n8n-nodes-base.odoo",
+      "position": [
+        920,
+        0
+      ],
+      "parameters": {
+        "resource": "custom",
+        "customResource": "product.product",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "name",
+              "fieldValue": "={{ $json.product_detail.title }}"
+            },
+            {
+              "fieldName": "default_code",
+              "fieldValue": "={{ $json.product_detail.variants[0].product_id }}"
+            },
+            {
+              "fieldName": "description",
+              "fieldValue": "={{ $json.product_detail.body_html }}"
+            },
+            {
+              "fieldName": "list_price",
+              "fieldValue": "={{ $json.product_detail.variants[0].price }}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1,
+      "alwaysOutputData": false
+    },
+    {
+      "id": "765aeea5-bfe8-4d6c-96a4-ebbc192a9d60",
+      "name": "Shopify Trigger",
+      "type": "n8n-nodes-base.shopifyTrigger",
+      "position": [
+        80,
+        0
+      ],
+      "parameters": {
+        "topic": "products/create",
+        "authentication": "accessToken"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "e1b2f842-0b54-4f55-9c69-a4d40777fd0c",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        560,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "var product_detail = $('Shopify Trigger').first().json\nconsole.log('-------product_detail--------',product_detail)\nvar existing_product = $('Odoo6').item.json\nreturn {existing:existing_product.id ? true:false,product_detail:product_detail}\n"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "65824adb-e345-54a8-aa50-f6526d746b9c",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Sync New Shopify Products to Odoo Product\n\n## Purpose and structure\nThis folder contains the **Sync New Shopify Products to Odoo Product** workflow. Its executable nodes use `code`, `filter`, `odoo`, `shopifyTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nShopify Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Shopify/0961_Shopify_Filter_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Odoo6": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Odoo7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Shopify Trigger": {
+      "main": [
+        [
+          {
+            "node": "Odoo6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "nodes": [
+    {
+      "name": "Notion Trigger",
+      "type": "n8n-nodes-base.notionTrigger",
+      "position": [
+        270,
+        350
+      ],
+      "parameters": {
+        "event": "pageAddedToDatabase",
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "databaseId": "REPLACE_WITH_DATABASEID"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        470,
+        350
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"Team\"]}}",
+              "value2": "Marketing"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Mattermost",
+      "type": "n8n-nodes-base.mattermost",
+      "position": [
+        670,
+        250
+      ],
+      "parameters": {
+        "message": "=New meeting notes were added.\nAgenda: {{$json[\"Agenda\"]}}\nDate: {{$json[\"Date\"][\"start\"]}}\nLink: https://notion.so/{{$json[\"id\"].replace(/-/g,'')}}",
+        "channelId": "REPLACE_WITH_CHANNELID",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NoOp",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        668,
+        495
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "6ed339fa-ca32-5674-b178-41ad89159d46",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive notion events and mattermost\n\n## Purpose and structure\nThis folder contains the **receive notion events and mattermost** workflow. Its executable nodes use `if`, `mattermost`, `noOp`, `notionTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nNotion Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mattermost/0040_Mattermost_Noop_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Mattermost",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NoOp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion Trigger": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

@@ -1,0 +1,115 @@
+{
+  "name": "Add subscriber to form, create tag and subscriber to the tag",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        300,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "ConvertKit",
+      "type": "n8n-nodes-base.convertKit",
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "id": 1657198,
+        "email": "",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "ConvertKit1",
+      "type": "n8n-nodes-base.convertKit",
+      "position": [
+        710,
+        300
+      ],
+      "parameters": {
+        "name": "",
+        "resource": "tag"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "ConvertKit2",
+      "type": "n8n-nodes-base.convertKit",
+      "position": [
+        910,
+        300
+      ],
+      "parameters": {
+        "email": "={{$node[\"ConvertKit\"].json[\"subscriber\"][\"email_address\"]}}",
+        "tagId": 1850395,
+        "resource": "tagSubscriber",
+        "operation": "add",
+        "additionalFields": {
+          "fields": {
+            "field": []
+          }
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "835298f8-2130-563d-aeb3-77067e95e3f3",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Add subscriber to form, create tag and subscriber to the tag\n\n## Purpose and structure\nThis folder contains the **Add subscriber to form, create tag and subscriber to the tag** workflow. Its executable nodes use `convertKit`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0653_Manual_Convertkit_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "ConvertKit": {
+      "main": [
+        [
+          {
+            "node": "ConvertKit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ConvertKit1": {
+      "main": [
+        [
+          {
+            "node": "ConvertKit2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "ConvertKit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

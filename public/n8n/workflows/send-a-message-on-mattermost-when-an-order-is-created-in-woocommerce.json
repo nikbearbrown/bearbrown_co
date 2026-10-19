@@ -1,0 +1,63 @@
+{
+  "name": "Send a message on Mattermost when an order is created in WooCommerce",
+  "nodes": [
+    {
+      "name": "WooCommerce Trigger",
+      "type": "n8n-nodes-base.wooCommerceTrigger",
+      "position": [
+        550,
+        260
+      ],
+      "parameters": {
+        "event": "order.created"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Mattermost",
+      "type": "n8n-nodes-base.mattermost",
+      "position": [
+        750,
+        260
+      ],
+      "parameters": {
+        "message": "={{$node[\"WooCommerce Trigger\"].json[\"billing\"][\"first_name\"]}} bought {{$node[\"WooCommerce Trigger\"].json[\"line_items\"][0][\"name\"]}}!",
+        "channelId": "REPLACE_WITH_CHANNELID",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "630b0881-750b-5ef9-a63a-29e897df2eba",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Send a message on Mattermost when an order is created in WooCommerce\n\n## Purpose and structure\nThis folder contains the **Send a message on Mattermost when an order is created in WooCommerce** workflow. Its executable nodes use `mattermost`, `wooCommerceTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWooCommerce Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mattermost/0294_Mattermost_Woocommerce_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "WooCommerce Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mattermost",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

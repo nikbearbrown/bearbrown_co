@@ -1,0 +1,88 @@
+{
+  "name": "Add text to an image downloaded from the internet",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        620,
+        170
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Edit Image",
+      "type": "n8n-nodes-base.editImage",
+      "position": [
+        1020,
+        170
+      ],
+      "parameters": {
+        "text": "This is n8n",
+        "options": {},
+        "fontSize": 100,
+        "operation": "text",
+        "positionX": 300,
+        "positionY": 500
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        820,
+        170
+      ],
+      "parameters": {
+        "url": "https://docs.n8n.io/assets/img/final-workflow.f380b957.png",
+        "options": {},
+        "responseFormat": "file"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c8a3a612-a5c9-51d4-8dd8-1c0b6f60a2fd",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Add text to an image downloaded from the internet\n\n## Purpose and structure\nThis folder contains the **Add text to an image downloaded from the internet** workflow. Its executable nodes use `editImage`, `httpRequest`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0343_Manual_Editimage_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

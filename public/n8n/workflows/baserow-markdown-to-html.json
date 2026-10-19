@@ -1,0 +1,274 @@
+{
+  "name": "Baserow markdown to html",
+  "nodes": [
+    {
+      "id": "57d42202-e74b-4103-b872-fbd4ea151e41",
+      "name": "Get single record from baserow",
+      "type": "n8n-nodes-base.baserow",
+      "position": [
+        1660,
+        1200
+      ],
+      "parameters": {
+        "rowId": "={{ $('Baserow sync video description').item.json.query.rec }}",
+        "tableId": "REPLACE_WITH_TABLEID",
+        "operation": "get",
+        "databaseId": "REPLACE_WITH_DATABASEID"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "eaa051ad-1644-4c5b-b0bd-35d55d93b83a",
+      "name": "Update single record in baserow",
+      "type": "n8n-nodes-base.baserow",
+      "position": [
+        2100,
+        1200
+      ],
+      "parameters": {
+        "rowId": "={{ $json.id }}",
+        "tableId": "REPLACE_WITH_TABLEID",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 2314683,
+              "fieldValue": "={{ $json.data }}"
+            }
+          ]
+        },
+        "operation": "update",
+        "databaseId": "REPLACE_WITH_DATABASEID"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "5c52950c-eab3-48e7-84be-2dfef26f798c",
+      "name": "Update all records in baserow",
+      "type": "n8n-nodes-base.baserow",
+      "position": [
+        2100,
+        1420
+      ],
+      "parameters": {
+        "rowId": "={{ $json.id }}",
+        "tableId": "REPLACE_WITH_TABLEID",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 2314683,
+              "fieldValue": "={{ $json.data }}"
+            }
+          ]
+        },
+        "operation": "update",
+        "databaseId": "REPLACE_WITH_DATABASEID"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "eea44e7c-7dcc-4e46-a378-e4efded207b0",
+      "name": "Check if it's 1 record or all records - Baserow",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1460,
+        1220
+      ],
+      "parameters": {
+        "options": {},
+        "conditions": {
+          "options": {
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "bb614e16-f239-4ced-b50f-15be13493099",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.query.rec }}",
+              "rightValue": ""
+            }
+          ]
+        }
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "b8e66259-2a04-471a-8886-20de5793c9ad",
+      "name": "Get all records from baserow",
+      "type": "n8n-nodes-base.baserow",
+      "position": [
+        1660,
+        1420
+      ],
+      "parameters": {
+        "tableId": "REPLACE_WITH_TABLEID",
+        "returnAll": true,
+        "databaseId": "REPLACE_WITH_DATABASEID",
+        "additionalOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "3a5e6b2b-8cbd-41e0-9452-b60647554db6",
+      "name": "Baserow sync video description",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        1240,
+        1220
+      ],
+      "parameters": {
+        "path": "d4858ac8-2d80-41c5-a9d9-06b8e1a14347",
+        "options": {}
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "6853027d-4b66-4cf8-a521-6e1869a47b03",
+      "name": "Convert markdown to HTML (single)",
+      "type": "n8n-nodes-base.markdown",
+      "position": [
+        1880,
+        1200
+      ],
+      "parameters": {
+        "mode": "markdownToHtml",
+        "options": {
+          "emoji": true,
+          "simpleLineBreaks": true,
+          "backslashEscapesHTMLTags": true
+        },
+        "markdown": "={{ $json['📥 Video Description'] }}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a9c35d29-dc0e-432d-8116-6b52d64a8a34",
+      "name": "Convert markdown to HTML (all records)",
+      "type": "n8n-nodes-base.markdown",
+      "position": [
+        1880,
+        1420
+      ],
+      "parameters": {
+        "mode": "markdownToHtml",
+        "options": {},
+        "markdown": "={{ $json['📥 Video Description'] }}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ff0893ca-6bd0-4ab3-b526-6347702815ff",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1240,
+        1000
+      ],
+      "parameters": {
+        "content": "# Tutorial\n[Youtube video](https://www.youtube.com/watch?v=PAoxZjICd7o)"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "332263a1-bd23-57f5-bb08-7deccfe6ad34",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Baserow markdown to html\n\n## Purpose and structure\nThis folder contains the **Baserow markdown to html** workflow. Its executable nodes use `baserow`, `if`, `markdown`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nBaserow sync video description\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Baserow/1822_Baserow_Stickynote_Automation_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Get all records from baserow": {
+      "main": [
+        [
+          {
+            "node": "Convert markdown to HTML (all records)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baserow sync video description": {
+      "main": [
+        [
+          {
+            "node": "Check if it's 1 record or all records - Baserow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get single record from baserow": {
+      "main": [
+        [
+          {
+            "node": "Convert markdown to HTML (single)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert markdown to HTML (single)": {
+      "main": [
+        [
+          {
+            "node": "Update single record in baserow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert markdown to HTML (all records)": {
+      "main": [
+        [
+          {
+            "node": "Update all records in baserow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if it's 1 record or all records - Baserow": {
+      "main": [
+        [
+          {
+            "node": "Get single record from baserow",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get all records from baserow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

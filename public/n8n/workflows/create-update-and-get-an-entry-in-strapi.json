@@ -1,0 +1,184 @@
+{
+  "name": "Create, update, and get an entry in Strapi",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Strapi",
+      "type": "n8n-nodes-base.strapi",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "columns": "Title, Content, Description",
+        "operation": "create",
+        "contentType": "posts"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Title",
+              "value": "Automate Strapi with n8n"
+            },
+            {
+              "name": "Content",
+              "value": "Strapi is a headless CMS. We will use Strapi and n8n to automate our content creation workflows."
+            },
+            {
+              "name": "Description",
+              "value": "Learn how to automate Strapi with n8n."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Strapi1",
+      "type": "n8n-nodes-base.strapi",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "columns": "slug",
+        "operation": "update",
+        "contentType": "={{$node[\"Strapi\"].parameter[\"contentType\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "id",
+              "value": "={{$node[\"Strapi\"].json[\"id\"]}}"
+            },
+            {
+              "name": "slug",
+              "value": "automate-strapi-with-n8n"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Strapi2",
+      "type": "n8n-nodes-base.strapi",
+      "position": [
+        1250,
+        300
+      ],
+      "parameters": {
+        "entryId": "={{$node[\"Strapi1\"].json[\"id\"]}}",
+        "contentType": "={{$node[\"Strapi\"].parameter[\"contentType\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "5e2f9f8f-89a5-5763-9c8e-79ee6533d4cc",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create, update, and get an entry in Strapi\n\n## Purpose and structure\nThis folder contains the **Create, update, and get an entry in Strapi** workflow. Its executable nodes use `manualTrigger`, `set`, `strapi`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0079_Manual_Strapi_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Strapi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Strapi1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Strapi": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Strapi1": {
+      "main": [
+        [
+          {
+            "node": "Strapi2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

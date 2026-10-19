@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "name": "AWS Textract",
+      "type": "n8n-nodes-base.awsTextract",
+      "position": [
+        700,
+        340
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "position": [
+        520,
+        220
+      ],
+      "parameters": {
+        "updates": [
+          "*"
+        ],
+        "additionalFields": {
+          "download": true,
+          "imageSize": "medium"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        880,
+        340
+      ],
+      "parameters": {
+        "table": "receipts",
+        "options": {},
+        "operation": "append",
+        "application": "qwertz",
+        "addAllFields": false
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "AWS S3",
+      "type": "n8n-nodes-base.awsS3",
+      "position": [
+        700,
+        100
+      ],
+      "parameters": {
+        "fileName": "={{$binary.data.fileName}}",
+        "operation": "upload",
+        "bucketName": "REPLACE_WITH_BUCKETNAME",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4b4ecc72-4d72-5174-864a-39537221eaa7",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# aws textract and receive telegram events and append airtable\n\n## Purpose and structure\nThis folder contains the **aws textract and receive telegram events and append airtable** workflow. Its executable nodes use `airtable`, `awsS3`, `awsTextract`, `telegramTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nTelegram Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Awstextract/0148_Awstextract_Telegram_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "AWS Textract": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AWS S3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "AWS Textract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

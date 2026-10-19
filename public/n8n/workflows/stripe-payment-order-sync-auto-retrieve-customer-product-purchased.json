@@ -1,0 +1,124 @@
+{
+  "name": "Stripe Payment Order Sync – Auto Retrieve Customer & Product Purchased",
+  "nodes": [
+    {
+      "id": "90322fe5-5536-41c3-ac08-ea87a856781b",
+      "name": "Stripe Trigger on Payment Event",
+      "type": "n8n-nodes-base.stripeTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "events": [
+          "checkout.session.completed"
+        ]
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "3feb0b03-921e-4bfd-8a50-b2b6b47e9497",
+      "name": "Extract Session Information",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        300,
+        0
+      ],
+      "parameters": {
+        "url": "=https://api.stripe.com/v1/checkout/sessions/{{ $json.data.object.id }}",
+        "options": {},
+        "sendQuery": true,
+        "authentication": "predefinedCredentialType",
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "expand[]",
+              "value": "line_items"
+            }
+          ]
+        },
+        "nodeCredentialType": "stripeApi"
+      },
+      "typeVersion": 4.2
+    },
+    {
+      "id": "5a436d1c-88e9-492e-8fe0-33a5706de1b3",
+      "name": "Filter Information",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        560,
+        0
+      ],
+      "parameters": {
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95a68e0f-b74c-4ca2-8143-14b469aa6bfb",
+              "name": "Customer Name",
+              "type": "string",
+              "value": "={{ $json.customer_details.name }}"
+            },
+            {
+              "id": "7634efa6-04f3-4dac-8509-56aae29fcc79",
+              "name": "Customer Email",
+              "type": "string",
+              "value": "={{ $json.customer_details.email }}"
+            },
+            {
+              "id": "10e71e07-6dd3-410c-a774-1eeffe2be7a5",
+              "name": "Product Purchased",
+              "type": "string",
+              "value": "={{ $json.line_items.data[0].description }}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 3.4
+    },
+    {
+      "id": "42d3286e-8fb3-5cc0-9c5f-ec1c1044f3c6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Stripe Payment Order Sync – Auto Retrieve Customer & Product Purchased\n\n## Purpose and structure\nThis folder contains the **Stripe Payment Order Sync – Auto Retrieve Customer & Product Purchased** workflow. Its executable nodes use `httpRequest`, `set`, `stripeTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nStripe Trigger on Payment Event\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/1773_HTTP_Stripe_Sync_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Extract Session Information": {
+      "main": [
+        [
+          {
+            "node": "Filter Information",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stripe Trigger on Payment Event": {
+      "main": [
+        [
+          {
+            "node": "Extract Session Information",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

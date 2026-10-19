@@ -1,0 +1,217 @@
+{
+  "name": "New invoice email notification",
+  "nodes": [
+    {
+      "name": "Check for new emails",
+      "type": "n8n-nodes-base.emailReadImap",
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "format": "resolved",
+        "mailbox": "Inbox",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "If email body contains invoice",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        700,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"text\"].toLowerCase()}}",
+              "value2": "invoice",
+              "operation": "contains"
+            }
+          ]
+        },
+        "combineOperation": "any"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Extract the total amount",
+      "type": "n8n-nodes-base.mindee",
+      "position": [
+        900,
+        280
+      ],
+      "parameters": {
+        "rawData": true,
+        "resource": "invoice",
+        "binaryPropertyName": "attachment_0"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Send new invoice notification",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        1580,
+        300
+      ],
+      "parameters": {
+        "text": ":new: There is a new invoice to pay :new:",
+        "channel": "team-accounts",
+        "blocksUi": {
+          "blocksValues": []
+        },
+        "attachments": [
+          {
+            "color": "#FFBF00",
+            "fields": {
+              "item": [
+                {
+                  "short": true,
+                  "title": "Amount",
+                  "value": "={{$node[\"If Amount > 1000\"].json[\"predictions\"][0][\"total_incl\"][\"amount\"]}}"
+                },
+                {
+                  "short": false,
+                  "title": "From",
+                  "value": "={{$node[\"Check for new emails\"].json[\"from\"][\"value\"][0][\"address\"]}}"
+                },
+                {
+                  "short": true,
+                  "title": "Subject",
+                  "value": "={{$node[\"Check for new emails\"].json[\"subject\"]}}"
+                }
+              ]
+            },
+            "footer": "=*Date:* {{$node[\"Check for new emails\"].json[\"date\"]}}"
+          }
+        ],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Send email to finance manager",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [
+        1340,
+        120
+      ],
+      "parameters": {
+        "text": "Hi,\n\nThere is a new high value invoice to be paid that you may need to approve.\n\n~ n8n workflow",
+        "options": {},
+        "subject": "New high value invoice",
+        "toEmail": "REPLACE_WITH_TOEMAIL",
+        "fromEmail": "REPLACE_WITH_FROMEMAIL",
+        "attachments": "attachment_0"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "If Amount > 1000",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1080,
+        280
+      ],
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json[\"predictions\"][0][\"total_incl\"][\"amount\"]}}",
+              "value2": 1000,
+              "operation": "larger"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a67b0f64-7058-5574-8bd1-8dde59f3ecd8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# New invoice email notification\n\n## Purpose and structure\nThis folder contains the **New invoice email notification** workflow. Its executable nodes use `emailReadImap`, `emailSend`, `if`, `mindee`, `slack`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Slack/1194_Slack_Emailreadimap_Create.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "If Amount > 1000": {
+      "main": [
+        [
+          {
+            "node": "Send email to finance manager",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send new invoice notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for new emails": {
+      "main": [
+        [
+          {
+            "node": "If email body contains invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract the total amount": {
+      "main": [
+        [
+          {
+            "node": "If Amount > 1000",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send email to finance manager": {
+      "main": [
+        [
+          {
+            "node": "Send new invoice notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If email body contains invoice": {
+      "main": [
+        [
+          {
+            "node": "Extract the total amount",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "name": "N8N Español - NocodeBot",
+  "nodes": [
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "notes": "Lee los datos de Strapi",
+      "position": [
+        630,
+        350
+      ],
+      "parameters": {
+        "url": "=http://s.covid-remote.work:1337/nocodes?Name={{$json[\"message\"][\"text\"].toLowerCase()}}",
+        "options": {}
+      },
+      "notesInFlow": true,
+      "typeVersion": 1
+    },
+    {
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        950,
+        280
+      ],
+      "parameters": {
+        "text": "=------------------------------------------------       \n<b>{{$node[\"HTTP Request\"].json[\"0\"][\"Name\"].toUpperCase()}} </b>\n------------------------------------------------\n|-<b>Descripción:</b>\n|<pre>{{$node[\"Execute Command\"].json[\"stdout\"]}}</pre>",
+        "chatId": "={{$node[\"Telegram Trigger\"].json[\"message\"][\"chat\"][\"id\"]}}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Telegram1",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        800,
+        130
+      ],
+      "parameters": {
+        "file": "={{$json[\"0\"][\"Img\"]}}",
+        "chatId": "={{$node[\"Telegram Trigger\"].json[\"message\"][\"chat\"][\"id\"]}}",
+        "operation": "sendPhoto",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Execute Command",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        790,
+        390
+      ],
+      "parameters": {
+        "command": "=/usr/bin/translate --brief -t {{$node[\"Telegram Trigger\"].json[\"message\"][\"from\"][\"language_code\"]}} \"{{$json[\"0\"][\"Description\"]}}\""
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "position": [
+        290,
+        130
+      ],
+      "parameters": {
+        "updates": [
+          "*"
+        ],
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Saludos-IF",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        450,
+        270
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$node[\"Telegram Trigger\"].json[\"message\"][\"text\"]}}",
+              "value2": "/start"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "S-Telegram2",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        630,
+        130
+      ],
+      "parameters": {
+        "text": "=Hola, **{{$json[\"message\"][\"chat\"][\"first_name\"]}}**  🙌\nEste bot ha sido desarrollado para @comunidadn8n\nPuedes escribir el nombre de alguna herramienta No-Code y si la tenemos registrada en nuestra Base de datos te responderemos con la descripción en tu idioma.\n\nPuedes probar escribiendo alguno de estos nombres:\n\n- Airtable\n- Stripe\n- Webflow",
+        "chatId": "={{$node[\"Telegram Trigger\"].json[\"message\"][\"chat\"][\"id\"]}}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "664ed25d-3b57-5a05-950a-2d4380ba6661",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# N8N Español - NocodeBot\n\n## Purpose and structure\nThis folder contains the **N8N Español - NocodeBot** workflow. Its executable nodes use `executeCommand`, `httpRequest`, `if`, `telegram`, `telegramTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nTelegram Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0775_HTTP_Executecommand_Automate_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Saludos-IF": {
+      "main": [
+        [
+          {
+            "node": "S-Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Saludos-IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

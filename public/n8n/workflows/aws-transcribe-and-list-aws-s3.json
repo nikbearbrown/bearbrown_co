@@ -1,0 +1,85 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        190,
+        160
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "AWS Transcribe",
+      "type": "n8n-nodes-base.awsTranscribe",
+      "position": [
+        590,
+        160
+      ],
+      "parameters": {
+        "options": {},
+        "mediaFileUri": "=s3://{{$node[\"AWS S3\"].parameter[\"bucketName\"]}}/{{$json[\"Key\"]}}",
+        "detectLanguage": true,
+        "transcriptionJobName": "={{$json[\"Key\"].replace(/\\s/g,'-')}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "AWS S3",
+      "type": "n8n-nodes-base.awsS3",
+      "position": [
+        390,
+        160
+      ],
+      "parameters": {
+        "options": {},
+        "operation": "getAll",
+        "returnAll": true,
+        "bucketName": "REPLACE_WITH_BUCKETNAME"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "1ded02c6-a1ad-585f-8771-5236c02ef1b6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# aws transcribe and list aws s3\n\n## Purpose and structure\nThis folder contains the **aws transcribe and list aws s3** workflow. Its executable nodes use `awsS3`, `awsTranscribe`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0049_Manual_Awss3_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "AWS S3": {
+      "main": [
+        [
+          {
+            "node": "AWS Transcribe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "AWS S3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

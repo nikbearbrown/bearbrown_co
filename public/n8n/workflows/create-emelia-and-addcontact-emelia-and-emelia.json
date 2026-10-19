@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "name": "Emelia",
+      "type": "n8n-nodes-base.emelia",
+      "position": [
+        530,
+        310
+      ],
+      "parameters": {
+        "operation": "create",
+        "campaignName": "n8n-docs"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Emelia1",
+      "type": "n8n-nodes-base.emelia",
+      "position": [
+        730,
+        310
+      ],
+      "parameters": {
+        "operation": "addContact",
+        "campaignId": "603dfd70cbe34c3c9730fd09",
+        "contactEmail": "user@example.com",
+        "additionalFields": {
+          "firstName": "NAME"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Emelia2",
+      "type": "n8n-nodes-base.emelia",
+      "position": [
+        930,
+        310
+      ],
+      "parameters": {
+        "campaignId": "={{$node[\"Emelia\"].json[\"_id\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "eb9e9924-2c77-53be-97ed-3c646fc89361",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# create emelia and addcontact emelia and emelia\n\n## Purpose and structure\nThis folder contains the **create emelia and addcontact emelia and emelia** workflow. Its executable nodes use `emelia`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Emelia/1214_Emelia_Automate.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Emelia": {
+      "main": [
+        [
+          {
+            "node": "Emelia1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Emelia1": {
+      "main": [
+        [
+          {
+            "node": "Emelia2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

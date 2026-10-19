@@ -1,0 +1,129 @@
+{
+  "nodes": [
+    {
+      "name": "Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        470,
+        200
+      ],
+      "parameters": {
+        "table": "Table 1",
+        "operation": "list",
+        "additionalOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Mailcheck",
+      "type": "n8n-nodes-base.mailcheck",
+      "position": [
+        670,
+        200
+      ],
+      "parameters": {
+        "email": "={{$json[\"fields\"][\"Email\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        870,
+        200
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "ID",
+              "value": "={{$node[\"Airtable\"].json[\"id\"]}}"
+            }
+          ],
+          "boolean": [
+            {
+              "name": "Valid",
+              "value": "={{$json[\"mxExists\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Airtable1",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        1070,
+        200
+      ],
+      "parameters": {
+        "id": "={{$json[\"ID\"]}}",
+        "table": "=Table 1",
+        "fields": [
+          "Valid"
+        ],
+        "options": {},
+        "operation": "update",
+        "application": "={{$node[\"Airtable\"].parameter[\"application\"]}}",
+        "updateAllFields": false
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ffaf04b2-ab44-5a6b-9e76-a07e27a25e1a",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# list airtable and mailcheck and update airtable\n\n## Purpose and structure\nThis folder contains the **list airtable and mailcheck and update airtable** workflow. Its executable nodes use `airtable`, `mailcheck`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mailcheck/0026_Mailcheck_Airtable_Monitor.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Airtable1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Mailcheck",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mailcheck": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

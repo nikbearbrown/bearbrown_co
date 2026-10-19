@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "id": "fa143713-0a54-465b-bfeb-cfb180871ab4",
+      "name": "On file upload",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "position": [
+        240,
+        480
+      ],
+      "parameters": {
+        "event": "fileCreated",
+        "options": {},
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": "1_vYi00lSdzU2p6wGrnW_IqsOblOL-3zG"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "78fe0319-e8bf-4c37-8d49-2cd1d6d084e6",
+      "name": "Create database page",
+      "type": "n8n-nodes-base.notion",
+      "position": [
+        440,
+        480
+      ],
+      "parameters": {
+        "title": "={{$node[\"On file upload\"].json[\"name\"]}}",
+        "resource": "databasePage",
+        "databaseId": "REPLACE_WITH_DATABASEID",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "REPLACE_WITH_KEY",
+              "fileUrls": {
+                "fileUrl": [
+                  {
+                    "url": "={{ $json[\"webViewLink\"] }}",
+                    "name": "={{ $node[\"On file upload\"].json[\"name\"] }}"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "6af71c38-0f0e-55dc-bf9b-87cf9ac8c181",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive google drive events and create database page\n\n## Purpose and structure\nThis folder contains the **receive google drive events and create database page** workflow. Its executable nodes use `googleDriveTrigger`, `notion`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn file upload\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Notion/0272_Notion_GoogleDrive_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "On file upload": {
+      "main": [
+        [
+          {
+            "node": "Create database page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

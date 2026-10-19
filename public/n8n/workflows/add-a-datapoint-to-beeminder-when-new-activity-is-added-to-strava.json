@@ -1,0 +1,64 @@
+{
+  "name": "Add a datapoint to Beeminder when new activity is added to Strava",
+  "nodes": [
+    {
+      "name": "Strava Trigger",
+      "type": "n8n-nodes-base.stravaTrigger",
+      "position": [
+        470,
+        300
+      ],
+      "parameters": {
+        "event": "create",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Beeminder",
+      "type": "n8n-nodes-base.beeminder",
+      "position": [
+        670,
+        300
+      ],
+      "parameters": {
+        "goalName": "testing",
+        "additionalFields": {
+          "comment": "={{$json[\"object_data\"][\"name\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "96202c47-0334-566b-86b9-a9fd8694da95",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Add a datapoint to Beeminder when new activity is added to Strava\n\n## Purpose and structure\nThis folder contains the **Add a datapoint to Beeminder when new activity is added to Strava** workflow. Its executable nodes use `beeminder`, `stravaTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nStrava Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Beeminder/0403_Beeminder_Strava_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Strava Trigger": {
+      "main": [
+        [
+          {
+            "node": "Beeminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

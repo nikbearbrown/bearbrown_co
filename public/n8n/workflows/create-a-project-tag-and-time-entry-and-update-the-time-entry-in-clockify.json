@@ -1,0 +1,150 @@
+{
+  "name": "Create a project, tag, and time entry, and update the time entry in Clockify",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Clockify",
+      "type": "n8n-nodes-base.clockify",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "name": "n8n-docs",
+        "workspaceId": "5f7af249d33ce12a712306dd",
+        "additionalFields": {
+          "note": "For n8n-docs",
+          "color": "#0000FF",
+          "isPublic": false
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Clockify1",
+      "type": "n8n-nodes-base.clockify",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "name": "docs",
+        "resource": "tag",
+        "workspaceId": "5f7af249d33ce12a712306dd"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Clockify2",
+      "type": "n8n-nodes-base.clockify",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "start": "2020-10-05T08:30:00.000Z",
+        "resource": "timeEntry",
+        "workspaceId": "5f7af249d33ce12a712306dd",
+        "additionalFields": {
+          "end": "2020-10-05T09:30:00.000Z",
+          "tagIds": [
+            "5f7afbfc73610f56b88ee9ef"
+          ],
+          "description": "Added Clockify Docs"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Clockify3",
+      "type": "n8n-nodes-base.clockify",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "resource": "timeEntry",
+        "operation": "update",
+        "timeEntryId": "={{$node[\"Clockify2\"].json[\"id\"]}}",
+        "workspaceId": "5f7af249d33ce12a712306dd",
+        "updateFields": {
+          "projectId": "={{$node[\"Clockify\"].json[\"id\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "667c1b7c-1eb4-5674-a08b-a00e556119d7",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a project, tag, and time entry, and update the time entry in Clockify\n\n## Purpose and structure\nThis folder contains the **Create a project, tag, and time entry, and update the time entry in Clockify** workflow. Its executable nodes use `clockify`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1126_Manual_Clockify_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Clockify": {
+      "main": [
+        [
+          {
+            "node": "Clockify1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clockify1": {
+      "main": [
+        [
+          {
+            "node": "Clockify2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clockify2": {
+      "main": [
+        [
+          {
+            "node": "Clockify3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Clockify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

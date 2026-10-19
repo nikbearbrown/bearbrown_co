@@ -1,0 +1,82 @@
+{
+  "nodes": [
+    {
+      "name": "Execute Command",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        600,
+        350
+      ],
+      "parameters": {
+        "command": "echo \"{ \\\"value1\\\": true, \\\"value2\\\": 1 }\""
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        800,
+        450
+      ],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{JSON.parse($node[\"Execute Command\"].data[\"stdout\"]).value1}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "To Flow Data",
+      "type": "n8n-nodes-base.functionItem",
+      "position": [
+        800,
+        250
+      ],
+      "parameters": {
+        "functionCode": "item = JSON.parse(item.stdout);\nreturn item;"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "e9ea7244-44ea-5a65-ac23-c3f3991a0499",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# execute command and to flow data\n\n## Purpose and structure\nThis folder contains the **execute command and to flow data** workflow. Its executable nodes use `executeCommand`, `functionItem`, `if`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Executecommand/0190_Executecommand_Functionitem_Automate.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "To Flow Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

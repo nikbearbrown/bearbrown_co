@@ -1,0 +1,103 @@
+{
+  "nodes": [
+    {
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "notes": "Get email with JSON file",
+      "position": [
+        620,
+        140
+      ],
+      "parameters": {
+        "limit": 1,
+        "operation": "getAll",
+        "additionalFields": {}
+      },
+      "notesInFlow": true,
+      "typeVersion": 1
+    },
+    {
+      "name": "write spreadsheet file",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        980,
+        140
+      ],
+      "parameters": {
+        "options": {
+          "fileName": "users_spreadsheet.csv"
+        },
+        "operation": "toFile",
+        "fileFormat": "csv"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "move binary data ",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        800,
+        140
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        200,
+        160
+      ],
+      "parameters": {
+        "width": 320,
+        "height": 80,
+        "content": "## JSON file > Sheets"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "504081da-51b0-5040-9465-1e61a269490f",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# list gmail and tofile spreadsheet file and move binary data\n\n## Purpose and structure\nThis folder contains the **list gmail and tofile spreadsheet file and move binary data** workflow. Its executable nodes use `gmail`, `moveBinaryData`, `spreadsheetFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Gmail/0221_Gmail_Movebinarydata_Send.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "move binary data ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "move binary data ": {
+      "main": [
+        [
+          {
+            "node": "write spreadsheet file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

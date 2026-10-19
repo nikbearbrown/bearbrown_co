@@ -1,0 +1,89 @@
+{
+  "nodes": [
+    {
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        700,
+        350
+      ],
+      "parameters": {
+        "path": "test",
+        "responseData": "firstEntryBinary",
+        "responseMode": "lastNode"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Edit Image",
+      "type": "n8n-nodes-base.editImage",
+      "position": [
+        1100,
+        350
+      ],
+      "parameters": {
+        "text": "=They found the killer it was {{$node[\"Webhook\"].data[\"query\"][\"name\"]}}!",
+        "fontSize": "=25",
+        "operation": "text",
+        "positionX": 150,
+        "positionY": 180,
+        "lineLength": 18
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Read File URL",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        900,
+        350
+      ],
+      "parameters": {
+        "url": "https://www.needpix.com/file_download.php?url=//storage.needpix.com/thumbs/newspaper-412809_1280.jpg",
+        "responseFormat": "file"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b95897a8-9d64-57df-82b7-e148f70fb635",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# webhook and text edit image and read file url\n\n## Purpose and structure\nThis folder contains the **webhook and text edit image and read file url** workflow. Its executable nodes use `editImage`, `httpRequest`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWebhook\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0937_HTTP_Editimage_Update_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Read File URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read File URL": {
+      "main": [
+        [
+          {
+            "node": "Edit Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

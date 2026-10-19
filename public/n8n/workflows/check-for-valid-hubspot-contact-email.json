@@ -1,0 +1,165 @@
+{
+  "name": "Check for valid Hubspot contact email",
+  "nodes": [
+    {
+      "name": "When contact created",
+      "type": "n8n-nodes-base.hubspotTrigger",
+      "position": [
+        540,
+        480
+      ],
+      "parameters": {
+        "eventsUi": {
+          "eventValues": [
+            {}
+          ]
+        },
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get contact email address",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        720,
+        480
+      ],
+      "parameters": {
+        "resource": "contact",
+        "contactId": "={{$json[\"contactId\"] ? 151 : 151}}",
+        "operation": "get",
+        "additionalFields": {
+          "properties": [
+            "email"
+          ],
+          "propertyMode": "valueOnly"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "validate the email",
+      "type": "n8n-nodes-base.oneSimpleApi",
+      "position": [
+        900,
+        480
+      ],
+      "parameters": {
+        "resource": "utility",
+        "emailAddress": "={{$json[\"properties\"][\"email\"][\"value\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "If email is suspicious",
+      "type": "n8n-nodes-base.if",
+      "notes": "IF\ndeliverability is not good\nOR\nDomain is not valid\nOR\nEmail is Disposable",
+      "position": [
+        1080,
+        480
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"deliverability\"]}}",
+              "value2": "GOOD",
+              "operation": "notEqual"
+            }
+          ],
+          "boolean": [
+            {
+              "value1": "={{$json[\"is_domain_valid\"]}}"
+            },
+            {
+              "value1": "={{$json[\"is_email_disposable\"]}}",
+              "value2": true
+            }
+          ]
+        },
+        "combineOperation": "any"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Send to Slack",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        1280,
+        460
+      ],
+      "parameters": {
+        "text": "=:warning: New Contact with Suspicious Email :warning:\n*Name: * {{$node[\"Item Lists\"].json[\"contact\"][\"fields\"][\"core\"][\"firstname\"][\"normalizedValue\"]}} {{$node[\"Item Lists\"].json[\"contact\"][\"fields\"][\"core\"][\"lastname\"][\"normalizedValue\"]}}\n*Email: * {{$node[\"Item Lists\"].json[\"contact\"][\"fields\"][\"core\"][\"email\"][\"normalizedValue\"]}}\n*Creator: * {{$node[\"Item Lists\"].json[\"contact\"][\"createdByUser\"]}}",
+        "channel": "#hubspot-alerts",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "261f45ae-a9ed-54ee-8a8d-6eb1490fbc1a",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Check for valid Hubspot contact email\n\n## Purpose and structure\nThis folder contains the **Check for valid Hubspot contact email** workflow. Its executable nodes use `hubspot`, `hubspotTrigger`, `if`, `oneSimpleApi`, `slack`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen contact created\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Slack/1172_Slack_HubSpot_Send_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "validate the email": {
+      "main": [
+        [
+          {
+            "node": "If email is suspicious",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When contact created": {
+      "main": [
+        [
+          {
+            "node": "Get contact email address",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If email is suspicious": {
+      "main": [
+        [
+          {
+            "node": "Send to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get contact email address": {
+      "main": [
+        [
+          {
+            "node": "validate the email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

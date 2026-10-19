@@ -1,0 +1,217 @@
+{
+  "name": "Congratulations Workflow",
+  "nodes": [
+    {
+      "name": "Daily Trigger",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        200,
+        400
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 8
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Congratulations Calendar",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        400,
+        400
+      ],
+      "parameters": {
+        "range": "A:E",
+        "options": {
+          "valueRenderMode": "FORMATTED_VALUE"
+        },
+        "sheetId": "",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Any Event Today?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        600,
+        400
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$node[\"Congratulations Calendar\"].json[\"Date\"]}}",
+              "value2": "={{(new Date).getDate()}}/{{(new Date).getMonth()+1}}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Do Nothing",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        800,
+        550
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Congratulations Messages",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1000,
+        550
+      ],
+      "parameters": {
+        "range": "Congratulations Messages!A:B",
+        "options": {},
+        "sheetId": "",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Merge Data",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        1200,
+        400
+      ],
+      "parameters": {
+        "mode": "mergeByKey",
+        "propertyName1": "Event Name",
+        "propertyName2": "Event Name"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Personalize Message",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        1400,
+        400
+      ],
+      "parameters": {
+        "functionCode": "const newItems = [];\n\nfor (let i=0;i<items.length;i++) {\n  wishes_array = items[i].json.Congratulations.split(',');\n  greeting = wishes_array.shift();\n  \n  new_wish = greeting + ' ' + items[i].json['First Name'] + ',' + wishes_array.join(',');\n  newItems.push({json: {Wishes: new_wish, \"Phone Number\": items[i].json['Phone Number']}});\n}\n\nreturn newItems;"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Send SMS",
+      "type": "n8n-nodes-base.twilio",
+      "position": [
+        1600,
+        400
+      ],
+      "parameters": {
+        "to": "={{$node[\"Personalize Message\"].json[\"Phone Number\"]}}",
+        "from": "",
+        "message": "={{$node[\"Personalize Message\"].json[\"Wishes\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "08811b52-c7d3-5853-a5ca-0af60a5e11b0",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Congratulations Workflow\n\n## Purpose and structure\nThis folder contains the **Congratulations Workflow** workflow. Its executable nodes use `cron`, `function`, `googleSheets`, `if`, `merge`, `noOp`, `twilio`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nDaily Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Noop/0610_Noop_Twilio_Automate_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Merge Data": {
+      "main": [
+        [
+          {
+            "node": "Personalize Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Trigger": {
+      "main": [
+        [
+          {
+            "node": "Congratulations Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Event Today?": {
+      "main": [
+        [
+          {
+            "node": "Merge Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Do Nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Personalize Message": {
+      "main": [
+        [
+          {
+            "node": "Send SMS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Congratulations Calendar": {
+      "main": [
+        [
+          {
+            "node": "Any Event Today?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Congratulations Messages": {
+      "main": [
+        [
+          {
+            "node": "Merge Data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  }
+}

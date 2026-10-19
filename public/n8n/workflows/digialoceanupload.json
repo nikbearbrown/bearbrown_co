@@ -1,0 +1,108 @@
+{
+  "name": "DigialOceanUpload",
+  "nodes": [
+    {
+      "id": "dedd8475-1f90-4c6e-a7b3-d4246648fcec",
+      "name": "On form submission",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        200,
+        340
+      ],
+      "parameters": {
+        "options": {},
+        "formTitle": "Upload File",
+        "formFields": {
+          "values": [
+            {
+              "fieldType": "file",
+              "fieldLabel": "File to Upload",
+              "requiredField": true
+            }
+          ]
+        },
+        "formDescription": "Upload the file to the public storage area"
+      },
+      "typeVersion": 2.2
+    },
+    {
+      "id": "bbaed371-3860-4370-8103-16b7b955cd7e",
+      "name": "S3",
+      "type": "n8n-nodes-base.s3",
+      "position": [
+        360,
+        340
+      ],
+      "parameters": {
+        "fileName": "={{ $json['File to Upload'][0].filename }}",
+        "operation": "upload",
+        "bucketName": "REPLACE_WITH_BUCKETNAME",
+        "additionalFields": {
+          "acl": "publicRead"
+        },
+        "binaryPropertyName": "File_to_Upload"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "da21e508-a62f-49dd-ac1c-6ed4b9a307a6",
+      "name": "Form",
+      "type": "n8n-nodes-base.form",
+      "position": [
+        540,
+        340
+      ],
+      "parameters": {
+        "options": {},
+        "operation": "completion",
+        "completionTitle": "Your file path is below!",
+        "completionMessage": "=https://dailyai.nyc3.cdn.digitaloceanspaces.com/{{ $('On form submission').first().json['File to Upload'][0].filename }}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "08c7122c-016f-5ce8-b88c-26670745c288",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# DigialOceanUpload\n\n## Purpose and structure\nThis folder contains the **DigialOceanUpload** workflow. Its executable nodes use `form`, `formTrigger`, `s3`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn form submission\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Form/1371_Form_S3_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "S3": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "S3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "name": "Cocktail Recipe Sharing",
+  "nodes": [
+    {
+      "name": "Bannerbear",
+      "type": "n8n-nodes-base.bannerbear",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "templateId": "",
+        "modificationsUi": {
+          "modificationsValues": [
+            {
+              "name": "cocktail-image",
+              "imageUrl": "={{$node[\"HTTP Request\"].json[\"drinks\"][0][\"strDrinkThumb\"]}}"
+            },
+            {
+              "name": "title",
+              "text": "={{$node[\"HTTP Request\"].json[\"drinks\"][0][\"strDrink\"]}}"
+            },
+            {
+              "name": "recipe",
+              "text": "={{$node[\"HTTP Request\"].json[\"drinks\"][0][\"strInstructions\"]}}"
+            }
+          ]
+        },
+        "additionalFields": {
+          "waitForImage": true
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "url": "https://www.thecocktaildb.com/api/json/v1/1/random.php",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 18,
+              "mode": "everyWeek",
+              "weekday": "5"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Rocketchat",
+      "type": "n8n-nodes-base.rocketchat",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "channel": "",
+        "options": {},
+        "attachments": [
+          {
+            "imageUrl": "={{$node[\"Bannerbear\"].json[\"image_url\"]}}"
+          }
+        ]
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "554bb0cb-5c8f-5d6c-9a2a-3a27d8352da5",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Cocktail Recipe Sharing\n\n## Purpose and structure\nThis folder contains the **Cocktail Recipe Sharing** workflow. Its executable nodes use `bannerbear`, `cron`, `httpRequest`, `rocketchat`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nCron\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0964_HTTP_Bannerbear_Automation_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bannerbear": {
+      "main": [
+        [
+          {
+            "node": "Rocketchat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Bannerbear",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

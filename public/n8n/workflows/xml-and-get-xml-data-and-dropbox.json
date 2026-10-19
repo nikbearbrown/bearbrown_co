@@ -1,0 +1,137 @@
+{
+  "nodes": [
+    {
+      "name": "To JSON",
+      "type": "n8n-nodes-base.xml",
+      "position": [
+        700,
+        300
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Change title",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        900,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "slideshow.title",
+              "value": "New Title Name"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get XML Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "url": "https://httpbin.org/xml",
+        "responseFormat": "string"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Dropbox",
+      "type": "n8n-nodes-base.dropbox",
+      "position": [
+        1300,
+        300
+      ],
+      "parameters": {
+        "path": "/my-xml-file.xml",
+        "fileContent": "={{$node[\"To XML\"].data[\"data\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "To XML",
+      "type": "n8n-nodes-base.xml",
+      "position": [
+        1100,
+        300
+      ],
+      "parameters": {
+        "mode": "jsonToxml",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "aa2335ec-a27f-5c08-9fac-088553307a04",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# xml and get xml data and dropbox\n\n## Purpose and structure\nThis folder contains the **xml and get xml data and dropbox** workflow. Its executable nodes use `dropbox`, `httpRequest`, `set`, `xml`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0153_HTTP_Dropbox_Update_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "To XML": {
+      "main": [
+        [
+          {
+            "node": "Dropbox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "To JSON": {
+      "main": [
+        [
+          {
+            "node": "Change title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Change title": {
+      "main": [
+        [
+          {
+            "node": "To XML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get XML Data": {
+      "main": [
+        [
+          {
+            "node": "To JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

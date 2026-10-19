@@ -1,0 +1,80 @@
+{
+  "nodes": [
+    {
+      "id": "40216649-af2c-44df-83c6-75afe75dcdaf",
+      "name": "On new event",
+      "type": "n8n-nodes-base.calendlyTrigger",
+      "position": [
+        400,
+        240
+      ],
+      "parameters": {
+        "events": [
+          "invitee.created"
+        ]
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "46914a34-984e-4736-b2a3-6e97555b73c7",
+      "name": "Create/update contact",
+      "type": "n8n-nodes-base.mautic",
+      "position": [
+        620,
+        240
+      ],
+      "parameters": {
+        "email": "={{$node[\"On new event\"].json[\"payload\"][\"email\"]}}",
+        "options": {},
+        "firstName": "={{$json[\"payload\"][\"name\"]}}",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "df809a8d-7b05-4ecc-a022-7bb12842b4bc",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -20,
+        180
+      ],
+      "parameters": {
+        "width": 313,
+        "height": 229,
+        "content": "### Create/update Mautic contact on a new Calendly event\n1. `On new event` triggers on new Calendly events.\n2. `Create/update contact` will create a contact in Mautic or update the contact's first name. If the contact's email is already in Mautic, then the first name will be overwritten to the new first name."
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c9ecfaba-96f5-5062-91e4-9163b7186a90",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -820,
+        0
+      ],
+      "parameters": {
+        "content": "# Create/update Mautic contact on a new Calendly event\n\n## Purpose and structure\nThis folder contains the **Create/update Mautic contact on a new Calendly event** workflow. Its executable nodes use `calendlyTrigger`, `mautic`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn new event\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Calendly/0277_Calendly_Mautic_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "On new event": {
+      "main": [
+        [
+          {
+            "node": "Create/update contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

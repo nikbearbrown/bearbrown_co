@@ -1,0 +1,131 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        20,
+        180
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        420,
+        180
+      ],
+      "parameters": {
+        "url": "https://n8n.io/n8n-logo.png",
+        "options": {},
+        "responseFormat": "file"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NextCloud",
+      "type": "n8n-nodes-base.nextCloud",
+      "position": [
+        220,
+        180
+      ],
+      "parameters": {
+        "path": "n8n",
+        "resource": "folder"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NextCloud1",
+      "type": "n8n-nodes-base.nextCloud",
+      "position": [
+        620,
+        180
+      ],
+      "parameters": {
+        "path": "n8n/logo.png",
+        "binaryDataUpload": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NextCloud2",
+      "type": "n8n-nodes-base.nextCloud",
+      "position": [
+        820,
+        180
+      ],
+      "parameters": {
+        "path": "n8n",
+        "resource": "folder",
+        "operation": "list"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4b491521-0fbf-5210-96e1-8a25e5537ad6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# http request and next cloud and list folder next cloud\n\n## Purpose and structure\nThis folder contains the **http request and next cloud and list folder next cloud** workflow. Its executable nodes use `httpRequest`, `manualTrigger`, `nextCloud`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1080_Manual_HTTP_Automation_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "NextCloud": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NextCloud1": {
+      "main": [
+        [
+          {
+            "node": "NextCloud2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "NextCloud1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "NextCloud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

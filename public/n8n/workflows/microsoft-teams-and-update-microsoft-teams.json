@@ -1,0 +1,113 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        540,
+        360
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Microsoft Teams",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        740,
+        360
+      ],
+      "parameters": {
+        "name": "n8n-docs-demo",
+        "teamId": "d6b83b00-085d-472c-a6d9-8c2c32c1424e",
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Microsoft Teams1",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        940,
+        360
+      ],
+      "parameters": {
+        "teamId": "={{$node[\"Microsoft Teams\"].parameter[\"teamId\"]}}",
+        "channelId": "={{$node[\"Microsoft Teams\"].json[\"id\"]}}",
+        "operation": "update",
+        "updateFields": {
+          "name": "n8n-documentation-demo"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Microsoft Teams2",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "position": [
+        1140,
+        360
+      ],
+      "parameters": {
+        "teamId": "={{$node[\"Microsoft Teams\"].parameter[\"teamId\"]}}",
+        "message": "n8n rocks!",
+        "resource": "channelMessage",
+        "channelId": "={{$node[\"Microsoft Teams\"].json[\"id\"]}}",
+        "messageType": "text"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "44e7ab4c-d60f-559b-9b9d-afd2de87acae",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# microsoft teams and update microsoft teams\n\n## Purpose and structure\nThis folder contains the **microsoft teams and update microsoft teams** workflow. Its executable nodes use `manualTrigger`, `microsoftTeams`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1095_Manual_Teams_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Microsoft Teams": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Microsoft Teams1": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Teams",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

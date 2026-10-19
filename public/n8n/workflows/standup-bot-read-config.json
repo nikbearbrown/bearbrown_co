@@ -1,0 +1,85 @@
+{
+  "name": "Standup Bot - Read Config",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        240,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Read Config File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "position": [
+        420,
+        300
+      ],
+      "parameters": {
+        "filePath": "/home/node/.n8n/standup-bot-config.json",
+        "dataPropertyName": "config"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Convert to JSON",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        600,
+        300
+      ],
+      "parameters": {
+        "options": {
+          "encoding": "utf8"
+        },
+        "sourceKey": "config"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "016bae93-2457-599d-9086-2fd22f97b8c6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Standup Bot - Read Config\n\n## Purpose and structure\nThis folder contains the **Standup Bot - Read Config** workflow. Its executable nodes use `manualTrigger`, `moveBinaryData`, `readBinaryFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0058_Manual_Readbinaryfile_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Read Config File": {
+      "main": [
+        [
+          {
+            "node": "Convert to JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Read Config File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

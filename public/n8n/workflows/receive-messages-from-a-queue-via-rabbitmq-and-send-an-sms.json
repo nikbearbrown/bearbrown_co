@@ -1,0 +1,113 @@
+{
+  "name": "Receive messages from a queue via RabbitMQ and send an SMS",
+  "nodes": [
+    {
+      "name": "RabbitMQ",
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "position": [
+        520,
+        220
+      ],
+      "parameters": {
+        "queue": "temp",
+        "options": {
+          "onlyContent": true,
+          "jsonParseBody": true
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        720,
+        220
+      ],
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$node[\"RabbitMQ\"].json[\"temp\"]}}",
+              "value2": 50,
+              "operation": "larger"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Vonage",
+      "type": "n8n-nodes-base.vonage",
+      "position": [
+        930,
+        120
+      ],
+      "parameters": {
+        "message": "=Alert!\nThe value of temp is {{$node[\"RabbitMQ\"].json[\"temp\"]}}.",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NoOp",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        920,
+        370
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "e883b150-b3e7-5c85-8f31-01953a487c07",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Receive messages from a queue via RabbitMQ and send an SMS\n\n## Purpose and structure\nThis folder contains the **Receive messages from a queue via RabbitMQ and send an SMS** workflow. Its executable nodes use `if`, `noOp`, `rabbitmqTrigger`, `vonage`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nRabbitMQ\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Noop/0291_Noop_Rabbitmq_Send_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Vonage",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NoOp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RabbitMQ": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "nodes": [
+    {
+      "name": "GoToWebinar2",
+      "type": "n8n-nodes-base.goToWebinar",
+      "position": [
+        930,
+        280
+      ],
+      "parameters": {
+        "resource": "webinar",
+        "webinarKey": "={{$node[\"GoToWebinar\"].json[\"webinarKey\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "GoToWebinar1",
+      "type": "n8n-nodes-base.goToWebinar",
+      "position": [
+        730,
+        280
+      ],
+      "parameters": {
+        "resource": "webinar",
+        "operation": "update",
+        "webinarKey": "={{$json[\"webinarKey\"]}}",
+        "updateFields": {
+          "description": "Get started with n8n and create your first automation workflow"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "GoToWebinar",
+      "type": "n8n-nodes-base.goToWebinar",
+      "position": [
+        520,
+        280
+      ],
+      "parameters": {
+        "times": {
+          "timesProperties": [
+            {
+              "endTime": "2021-03-02T10:00:00.000Z",
+              "startTime": "2021-03-02T09:00:00.000Z"
+            }
+          ]
+        },
+        "subject": "Getting started with n8n",
+        "resource": "webinar",
+        "operation": "create",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "2ac10022-74f5-5c68-8496-2a013ecca867",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# go to webinar and update webinar go to webinar and create webinar go to webinar\n\n## Purpose and structure\nThis folder contains the **go to webinar and update webinar go to webinar and create webinar go to webinar** workflow. Its executable nodes use `goToWebinar`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Gotowebinar/1213_Gotowebinar_Automate.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "GoToWebinar": {
+      "main": [
+        [
+          {
+            "node": "GoToWebinar1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GoToWebinar1": {
+      "main": [
+        [
+          {
+            "node": "GoToWebinar2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

@@ -1,0 +1,81 @@
+{
+  "nodes": [
+    {
+      "name": "Twilio",
+      "type": "n8n-nodes-base.twilio",
+      "position": [
+        900,
+        300
+      ],
+      "parameters": {
+        "message": "=The workflow named '{{$node[\"Error Trigger\"].json[\"workflow\"][\"name\"]}}' with the ID {{$node[\"Error Trigger\"].json[\"workflow\"][\"id\"]}} has encountered an error."
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Mattermost",
+      "type": "n8n-nodes-base.mattermost",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "message": "=The workflow named '{{$json[\"workflow\"][\"name\"]}}' with the ID {{$json[\"workflow\"][\"id\"]}} has encountered an error. The last node that was executed was {{$json[\"execution\"][\"lastNodeExecuted\"]}}.",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "655b1269-8724-567f-b484-e73a712f52a6",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# report execution errors to twilio\n\n## Purpose and structure\nThis folder contains the **report execution errors to twilio** workflow. Its executable nodes use `errorTrigger`, `mattermost`, `twilio`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nError Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mattermost/0865_Mattermost_Twilio_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Mattermost": {
+      "main": [
+        [
+          {
+            "node": "Twilio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mattermost",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

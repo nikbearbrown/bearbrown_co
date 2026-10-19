@@ -1,0 +1,69 @@
+{
+  "name": "Create a QuickBooks invoice on a new Onfleet Task creation",
+  "nodes": [
+    {
+      "name": "Onfleet Trigger",
+      "type": "n8n-nodes-base.onfleetTrigger",
+      "position": [
+        460,
+        300
+      ],
+      "parameters": {
+        "triggerOn": "taskCreated",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "QuickBooks Online",
+      "type": "n8n-nodes-base.quickbooks",
+      "position": [
+        680,
+        300
+      ],
+      "parameters": {
+        "Line": [],
+        "resource": "invoice",
+        "operation": "create",
+        "additionalFields": {
+          "Balance": 0,
+          "TxnDate": "",
+          "ShipAddr": "",
+          "BillEmail": ""
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "f103aac6-e32b-5e38-a069-4a4958ea068d",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a QuickBooks invoice on a new Onfleet Task creation\n\n## Purpose and structure\nThis folder contains the **Create a QuickBooks invoice on a new Onfleet Task creation** workflow. Its executable nodes use `onfleetTrigger`, `quickbooks`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOnfleet Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Quickbooks/0186_Quickbooks_Onfleet_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Onfleet Trigger": {
+      "main": [
+        [
+          {
+            "node": "QuickBooks Online",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "name": "New WooCommerce Customer to Mautic",
+  "nodes": [
+    {
+      "name": "Check for Existing",
+      "type": "n8n-nodes-base.mautic",
+      "position": [
+        280,
+        480
+      ],
+      "parameters": {
+        "options": {
+          "search": "={{$json[\"email\"]}}"
+        },
+        "operation": "getAll",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "name": "If New",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        460,
+        480
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"id\"]}}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Create Contact",
+      "type": "n8n-nodes-base.mautic",
+      "position": [
+        680,
+        320
+      ],
+      "parameters": {
+        "email": "={{$node[\"Customer Created\"].json[\"email\"]}}",
+        "company": "={{$node[\"Customer Created\"].json[\"billing\"][\"company\"]}}",
+        "options": {},
+        "lastName": "={{$node[\"Customer Created\"].json[\"last_name\"]}}",
+        "firstName": "={{$node[\"Customer Created\"].json[\"first_name\"]}}",
+        "authentication": "oAuth2",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Update Contact",
+      "type": "n8n-nodes-base.mautic",
+      "position": [
+        680,
+        580
+      ],
+      "parameters": {
+        "options": {},
+        "contactId": "={{$json[\"id\"]}}",
+        "operation": "update",
+        "updateFields": {
+          "lastName": "={{$node[\"Customer Created or Updated\"].json[\"last_name\"]}}",
+          "firstName": "={{$node[\"Customer Created or Updated\"].json[\"first_name\"]}}"
+        },
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Customer Created or Updated",
+      "type": "n8n-nodes-base.wooCommerceTrigger",
+      "position": [
+        100,
+        480
+      ],
+      "parameters": {
+        "event": "customer.updated"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "446ba217-806d-51b9-b5b7-f551b6d19416",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# New WooCommerce Customer to Mautic\n\n## Purpose and structure\nThis folder contains the **New WooCommerce Customer to Mautic** workflow. Its executable nodes use `if`, `mautic`, `wooCommerceTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nCustomer Created or Updated\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mautic/1160_Mautic_Woocommerce_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "saveDataSuccessExecution": "all"
+  },
+  "connections": {
+    "If New": {
+      "main": [
+        [
+          {
+            "node": "Create Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Existing": {
+      "main": [
+        [
+          {
+            "node": "If New",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Created or Updated": {
+      "main": [
+        [
+          {
+            "node": "Check for Existing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

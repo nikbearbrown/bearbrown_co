@@ -1,0 +1,119 @@
+{
+  "nodes": [
+    {
+      "name": "Github Trigger",
+      "type": "n8n-nodes-base.githubTrigger",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "owner": "n8n-io",
+        "events": [
+          "push",
+          "pull_request"
+        ],
+        "repository": "n8n",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"headers\"][\"x-github-event\"]}}",
+              "value2": "push"
+            },
+            {
+              "value1": "={{$json[\"body\"][\"action\"]}}",
+              "value2": "opened"
+            }
+          ]
+        },
+        "combineOperation": "any"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "TravisCI",
+      "type": "n8n-nodes-base.travisCi",
+      "position": [
+        850,
+        200
+      ],
+      "parameters": {
+        "slug": "={{$json[\"body\"][\"repository\"][\"full_name\"]}}",
+        "branch": "=",
+        "operation": "trigger",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "NoOp",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        850,
+        400
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "9470bae4-5090-54b4-a364-47fb38c83925",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive github events and trigger travis ci\n\n## Purpose and structure\nThis folder contains the **receive github events and trigger travis ci** workflow. Its executable nodes use `githubTrigger`, `if`, `noOp`, `travisCi`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nGithub Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Travisci/0060_Travisci_GitHub_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "TravisCI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NoOp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Github Trigger": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

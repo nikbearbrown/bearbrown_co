@@ -1,0 +1,199 @@
+{
+  "nodes": [
+    {
+      "id": "648130c4-5195-4b91-995b-443624019cd0",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        820,
+        280
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "c25e5656-9ce2-4429-98f5-f86a88a8fe16",
+      "name": "n8n1",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        2380,
+        140
+      ],
+      "parameters": {
+        "filters": {},
+        "options": {},
+        "resource": "execution",
+        "returnAll": true,
+        "requestOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "93acd82f-22ce-435c-b89e-a3f8ae876bc5",
+      "name": "n8n list execution",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        1040,
+        380
+      ],
+      "parameters": {
+        "filters": {},
+        "options": {},
+        "resource": "execution",
+        "returnAll": true,
+        "requestOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "da03ff80-480d-4616-8aed-dd955d5e92d8",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1260,
+        380
+      ],
+      "parameters": {
+        "options": {},
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "6a124591-3347-4224-a997-a7824de12c96",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              },
+              "leftValue": "={{ $json.startedAt }}",
+              "rightValue": "={{ new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString();  }}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 2.2
+    },
+    {
+      "id": "6bc96f0a-5ed9-43f9-91e8-ced15ae53ef5",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        820,
+        500
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 4,
+              "triggerAtMinute": 44
+            }
+          ]
+        }
+      },
+      "typeVersion": 1.2
+    },
+    {
+      "id": "272f94d2-fcb5-4e6a-a32e-655ac1db9a00",
+      "name": "delete execution",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        1480,
+        280
+      ],
+      "parameters": {
+        "resource": "execution",
+        "operation": "delete",
+        "executionId": "={{ $json.id }}",
+        "requestOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b2067d59-3678-400a-a464-cb7aab62413f",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        1480,
+        480
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "be9cfa6a-2e51-51a5-bb44-ce9ad087ba34",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# n8n and n8n list execution and receive schedule events\n\n## Purpose and structure\nThis folder contains the **n8n and n8n list execution and receive schedule events** workflow. Its executable nodes use `if`, `manualTrigger`, `n8n`, `noOp`, `scheduleTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking ‘Test workflow’, Schedule Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0662_Manual_Schedule_Automation_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "delete execution",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "n8n list execution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n list execution": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "n8n list execution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

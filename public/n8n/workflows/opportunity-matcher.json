@@ -1,0 +1,316 @@
+{
+  "connections": {
+    "Decision = PURSUE or NETWORK?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Generate briefs",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Email the digest",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Fetch Anthropic board": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Normalize records",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Fetch Figma board": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Normalize records",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Generate briefs": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Save digest files",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Normalize records": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Score and route (the intelligence)",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Score and route (the intelligence)": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Decision = PURSUE or NETWORK?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Weekly schedule": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Fetch Anthropic board",
+            "type": "main"
+          },
+          {
+            "index": 0,
+            "node": "Fetch Figma board",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "name": "Opportunity Matcher v2",
+  "nodes": [
+    {
+      "id": "sched-weekly",
+      "name": "Weekly schedule",
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": 1,
+              "triggerAtHour": 8,
+              "weeksInterval": 1
+            }
+          ]
+        }
+      },
+      "position": [
+        200,
+        300
+      ],
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2
+    },
+    {
+      "id": "http-anthropic",
+      "name": "Fetch Anthropic board",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "options": {
+          "maxRetries": 3,
+          "retryOnFail": true,
+          "timeout": 30000
+        },
+        "url": "https://boards-api.greenhouse.io/v1/boards/anthropic/jobs?content=true"
+      },
+      "position": [
+        420,
+        200
+      ],
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2
+    },
+    {
+      "id": "http-figma",
+      "name": "Fetch Figma board",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "options": {
+          "maxRetries": 3,
+          "retryOnFail": true,
+          "timeout": 30000
+        },
+        "url": "https://boards-api.greenhouse.io/v1/boards/figma/jobs?content=true"
+      },
+      "position": [
+        420,
+        420
+      ],
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2
+    },
+    {
+      "id": "code-normalize",
+      "name": "Normalize records",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "jsCode": "// Normalize Greenhouse API shapes to the matcher record shape.\n// Malformed items go to the quarantine list, never crash the run.\nconst quarantine = [];\nfunction stripHtml(s){ return (s||'').replace(/<[^>]+>/g,' ').replace(/\\s+/g,' ').trim(); }\nconst out = [];\nfor (const input of $input.all()) {\n  const jobs = input.json.jobs || [];\n  const company = input.params?.company || 'unknown';\n  for (const j of jobs) {\n    try {\n      if (!j.title) { quarantine.push({reason:'missing title', id: j.id}); continue; }\n      out.push({ json: {\n        source: 'greenhouse-live', company,\n        source_id: String(j.id), title: j.title,\n        url: j.absolute_url, location_text: (j.location||{}).name || '',\n        department: ((j.metadata||[]).find(m=>m.name==='Department')||{}).value || '',\n        text: stripHtml(j.content)\n      }});\n    } catch (e) { quarantine.push({reason: 'normalize: '+e.message, id: j.id}); }\n  }\n}\nreturn out;"
+      },
+      "position": [
+        640,
+        300
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "code-score",
+      "name": "Score and route (the intelligence)",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "jsCode": "// Opportunity Matcher scoring — mirrors matcher.py exactly.\n// Weights and thresholds are JUDGMENT; document any change here.\nconst W = { role: .30, audience: .20, materials: .20, gap: .15, company: .15 };\nconst T = { PURSUE: .65, NETWORK: .45, WATCH: .25 };\nconst ROLE = {'developer education':1,'developer educator':1,'advocate':1,'evangelist':1,'learning experience':1,'education lead':1,'educator':.9,'curriculum':.8,'instructional':.8,'content engineer':.8,'documentation':.7,'education':.7,'workshop':.6,'technical writer':.6,'enablement':.6,'training':.4,'professor':.5,'teacher':.5,'learning':.3,'content':.3};\nconst AUD = {university:.5,universities:.5,college:.5,campus:.5,student:.5,students:.5,school:.4,schools:.4,developer:.3,developers:.3,partner:.15,partners:.15,community:.15,customer:.1,customers:.1,public:.1};\nconst MAT = ['develop curriculum','create curriculum','build curriculum','own the curriculum','own the documentation','create tutorials','write documentation','develop training','build training','create course','develop course','instructional design','learning experience','enablement program','certification program'];\nconst GAP = ['design system','design token','certification','give talks','public speaking','keynote','evangelist','developer relations','run workshops','lead workshops','host workshops','facilitat'];\nconst CO = {anthropic:1,stripe:.6,canva:.6,openai:.6,notion:.6,figma:.4,webflow:.4,writer:.4,miro:.4,jasper:.4,replit:.6,meta:.5};\nfunction score(r){\n  const title=(r.title||'').toLowerCase(), text=(r.text||'').toLowerCase();\n  const signals=[];\n  const audH=Object.keys(AUD).filter(a=>new RegExp('\\\\b'+a+'\\\\b').test(text));\n  const matH=MAT.filter(p=>text.includes(p));\n  let roleFit=0;\n  const hits=Object.entries(ROLE).filter(([w])=>title.includes(w)).sort((a,b)=>b[1]-a[1]);\n  if(hits.length){ const [w,wt]=hits[0];\n    if(wt<.7 && !audH.length && !matH.length){ signals.push(`role: '${w}' discounted and unconfirmed — not counted`); }\n    else { roleFit=wt; signals.push(`role: title matches '${w}' (${wt})`); } }\n  const audFit=Math.min(1,audH.reduce((s,a)=>s+AUD[a],0));\n  if(audH.length) signals.push('audience: '+audH.slice(0,4).join(', '));\n  const mat=(matH.length?.5:0)+(matH.length&&audH.length?.5:0);\n  if(matH.length) signals.push(`materials: '${matH[0]}'`+(audH.length?' + named audience':''));\n  const gapH=GAP.filter(g=>text.includes(g));\n  const gapF=Math.min(1,.34*gapH.length);\n  if(gapH.length) signals.push('gap: '+gapH.slice(0,3).join(', '));\n  const co=CO[(r.company||'').toLowerCase()] ?? .5;\n  signals.push(`${r.company} demand ${co}`);\n  const fit=+(W.role*roleFit+W.audience*audFit+W.materials*mat+W.gap*gapF+W.company*co).toFixed(3);\n  const decision=fit>=T.PURSUE?'PURSUE':fit>=T.NETWORK?'NETWORK':fit>=T.WATCH?'WATCH':'SKIP';\n  return {...r, fit, decision, signals};\n}\nreturn $input.all().map(i=>({json: score(i.json)}));"
+      },
+      "position": [
+        860,
+        300
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "if-pursue",
+      "name": "Decision = PURSUE or NETWORK?",
+      "parameters": {
+        "conditions": {
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.decision }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "PURSUE"
+            },
+            {
+              "id": "c2",
+              "leftValue": "={{ $json.decision }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "NETWORK"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          }
+        }
+      },
+      "position": [
+        1080,
+        300
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2
+    },
+    {
+      "id": "code-briefs",
+      "name": "Generate briefs",
+      "parameters": {
+        "jsCode": "// One human-readable markdown brief per actionable role.\n// This is the OUTPUT a non-technical person opens — not JSON.\nreturn $input.all().map(i=>{ const r=i.json;\n  const md = `# ${r.title}\\n\\n${r.company} — ${r.location_text}\\n\\nFit ${r.fit} → **${r.decision}**\\n\\n## Why\\n\\n` +\n    r.signals.map(s=>`- ${s}`).join('\\n') +\n    `\\n\\n## Posting\\n\\n${r.url}\\n\\n## Suggested next step\\n\\n` +\n    (r.decision==='PURSUE' ? 'Draft the application; it names the target directly.\\n'\n                           : 'Find the human; the terms or the team need a conversation first.\\n');\n  return {json: {...r, brief_markdown: md}}; });"
+      },
+      "position": [
+        1300,
+        220
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "write-files",
+      "name": "Save digest files",
+      "parameters": {
+        "fileName": "=/data/outputs/brief-{{ $json.source_id }}.md",
+        "options": {}
+      },
+      "position": [
+        1520,
+        220
+      ],
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1
+    },
+    {
+      "id": "email-digest",
+      "name": "Email the digest",
+      "parameters": {
+        "emailType": "text",
+        "message": "=Top roles this week:\\n\\n{{ $json.digest_text }}\\n\\nFull briefs saved to /data/outputs/.",
+        "sendTo": "REPLACE_WITH_SENDTO",
+        "subject": "=Opportunity digest — {{ $now.toFormat('yyyy-MM-dd') }}"
+      },
+      "position": [
+        1520,
+        420
+      ],
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2
+    },
+    {
+      "id": "code-errorlog",
+      "name": "Log the failure",
+      "parameters": {
+        "jsCode": "// Error branch: record what failed, keep the run alive on cached data.\nconst failed = $('Fetch Anthropic board').params.url;\nreturn [{json: { error: $input.first().json.error?.message || 'fetch failed',\n  at: new Date().toISOString(),\n  fallback: 'continuing on cached jobs-of-interest-2026-09-26.json' }}];"
+      },
+      "position": [
+        860,
+        520
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "sticky-errors",
+      "name": "Error handling notes",
+      "parameters": {
+        "color": 5,
+        "content": "## Error handling\n- HTTP nodes: retry 3x with backoff, then the error branch fires (\"Continue (using error output)\").\n- Error branch logs the failure and falls back to the cached Assignment 3 file — the digest still ships, flagged as cached.\n- Code nodes: try/catch per record; malformed items go to quarantine, never crash the run.\n- Missing fields default (company demand 0.5, empty text) and are noted in the run report.\nSee ERROR-HANDLING.md for the full table.",
+        "height": 260,
+        "width": 420
+      },
+      "position": [
+        180,
+        520
+      ],
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1
+    },
+    {
+      "id": "4534c8a8-e0c6-5524-b9e7-22e4f7f5be04",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Opportunity Matcher v2\n\n## Purpose and structure\nThis folder contains the **Opportunity Matcher v2** workflow. Its executable nodes use `code`, `emailSend`, `httpRequest`, `if`, `scheduleTrigger`, `writeBinaryFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWeekly schedule\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nNik Bear Brown; rights confirmed 2026-10-19\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}

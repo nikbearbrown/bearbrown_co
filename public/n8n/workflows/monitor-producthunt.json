@@ -1,0 +1,184 @@
+{
+  "name": "Monitor ProductHunt",
+  "nodes": [
+    {
+      "id": "3cf0b7e0-ec9f-4173-bc85-1b4daef5aa22",
+      "name": "Define relevant products",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        220,
+        -100
+      ],
+      "parameters": {
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a83156e0-1782-4d0a-a15c-1ff889ff915d",
+              "name": "Relevant Products",
+              "type": "string",
+              "value": "AI Agents"
+            }
+          ]
+        }
+      },
+      "typeVersion": 3.4
+    },
+    {
+      "id": "a316f080-0fd8-4723-a65c-bce2c2a13cf8",
+      "name": "Found products?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        660,
+        -100
+      ],
+      "parameters": {
+        "options": {},
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "552c61c2-1ec0-40b5-b473-2423b646418b",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              },
+              "leftValue": "={{ $json.data.modelResponse }}",
+              "rightValue": "[NA]"
+            }
+          ]
+        }
+      },
+      "typeVersion": 2.2
+    },
+    {
+      "id": "ffb0289e-9341-4641-bfcd-41b25f0b1379",
+      "name": "Look up products",
+      "type": "n8n-nodes-base.airtop",
+      "position": [
+        440,
+        -100
+      ],
+      "parameters": {
+        "url": "https://www.producthunt.com/",
+        "prompt": "=Extract up to 5 product launches that are {{ $json[\"Relevant Products\"] }} for each product extract the title and URL (if exists).\n\nReturn format:\nToday's [{{ $json[\"Relevant Products\"] }}] on Producthunt\n1. Title 1 (URL 1)\n2. Title 2 (URL 2)\nand so on\n\nIf you cannot find any relevant products, return [NA]",
+        "resource": "extraction",
+        "operation": "query",
+        "sessionMode": "new",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4d1f0668-d5d5-4440-8608-3cfe3d61d0c0",
+      "name": "Send slack message",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        880,
+        -100
+      ],
+      "parameters": {
+        "text": "={{ $json.data.modelResponse }}",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "otherOptions": {}
+      },
+      "typeVersion": 2.3
+    },
+    {
+      "id": "921d283e-6d67-4aaa-a344-687bb23b8710",
+      "name": "Trigger daily",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        0,
+        -100
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "typeVersion": 1.2
+    },
+    {
+      "id": "76563d73-20fe-50b6-85ef-9f733e8d4a41",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        -100
+      ],
+      "parameters": {
+        "content": "# Monitor ProductHunt\n\n## Purpose and structure\nThis folder contains the **Monitor ProductHunt** workflow. Its executable nodes use `airtop`, `if`, `scheduleTrigger`, `set`, `slack`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nTrigger daily\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Schedule/1859_Schedule_Slack_Monitor_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "Trigger daily": {
+      "main": [
+        [
+          {
+            "node": "Define relevant products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Found products?": {
+      "main": [
+        [
+          {
+            "node": "Send slack message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Look up products": {
+      "main": [
+        [
+          {
+            "node": "Found products?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define relevant products": {
+      "main": [
+        [
+          {
+            "node": "Look up products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

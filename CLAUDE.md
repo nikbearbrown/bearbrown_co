@@ -338,3 +338,14 @@ The Vercel build reads the committed JSON file — no GitHub API calls at build 
 
 ## Standing instructions
 After every session, update CLAUDE.md to reflect any changes (check `git log` and `git diff` — do not ask).
+
+
+## Agents workflow library (2026-10-19)
+
+Bear requested `/agents` as a top-level navigation destination. It contains the N8N searchable library; `/agents/n8n` redirects there, and `/agents/n8n/[slug]` provides each workflow detail. This source-template library is separate from the audited Claude directory: do not assign quality tiers or claim runtime verification. Bear explicitly requested the bulk source collection with honest status labels.
+
+`data/n8n/catalog.json` contains the search index; `data/n8n/details.json` contains static node layouts, notes and provenance; `public/n8n/workflows/` contains sanitized inactive downloads from `nikbearbrown/N8N`. Refresh only from a scanned publication export, never the original Books source copies. No service credentials or raw execution payloads belong here.
+
+`components/agents/WorkflowBrowser.tsx` provides Fuse.js search, category/integration filters, pagination and URL parameters. `WorkflowPreview.tsx` reconstructs the exported graph without running it; a node table supplies a text alternative. Unknown slugs return 404. Keep the Agents primary navigation item and home card in sync.
+
+The Liam repository explainer will link to https://www.bearbrown.co/agents and show a real capture after deployment. Do not invent a video URL or expose a placeholder player before the film is ready.

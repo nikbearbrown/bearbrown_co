@@ -1,0 +1,62 @@
+{
+  "nodes": [
+    {
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "text": "=🐞 What?!\n*This execution{{$node[\"Error Trigger\"].json[\"workflow\"][\"name\"]}} went wrong*\\nWhy don't you go take a look {{$node[\"Error Trigger\"].json[\"execution\"][\"url\"]}}",
+        "channel": "",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {},
+      "executeOnce": false,
+      "retryOnFail": false,
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "id": "67e2e527-25f2-52a8-a307-c9231efc0e61",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# report execution errors to slack\n\n## Purpose and structure\nThis folder contains the **report execution errors to slack** workflow. Its executable nodes use `errorTrigger`, `slack`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nError Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Error/0126_Error_Slack_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

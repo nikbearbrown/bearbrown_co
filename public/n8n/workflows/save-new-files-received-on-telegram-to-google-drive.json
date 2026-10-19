@@ -1,0 +1,124 @@
+{
+  "name": "Save new Files received on Telegram to Google Drive",
+  "nodes": [
+    {
+      "id": "0fcb072b-ea4b-43b2-ad7c-46ad62b1e2ad",
+      "name": "On new Telegram Message",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "position": [
+        900,
+        520
+      ],
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {
+          "download": true
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "08e492f8-b969-4de2-b207-17fcd3cb8787",
+      "name": "If Message contains a File",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1160,
+        520
+      ],
+      "parameters": {
+        "options": {},
+        "conditions": {
+          "options": {
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "9b876834-1a86-48f1-9890-df60c739c91c",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.message.document }}",
+              "rightValue": ""
+            }
+          ]
+        }
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "f155a855-0eac-44c0-a52a-93446b9b3455",
+      "name": "Upload File to GDrive",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        1500,
+        500
+      ],
+      "parameters": {
+        "name": "={{ $json.message.document.file_name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        },
+        "options": {},
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REPLACE_WITH_RESOURCE"
+        }
+      },
+      "typeVersion": 3
+    },
+    {
+      "id": "e9889f5e-594a-5dfd-90a0-cedea3efc817",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Save new Files received on Telegram to Google Drive\n\n## Purpose and structure\nThis folder contains the **Save new Files received on Telegram to Google Drive** workflow. Its executable nodes use `googleDrive`, `if`, `telegramTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn new Telegram Message\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Telegram/1797_Telegram_GoogleDrive_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "On new Telegram Message": {
+      "main": [
+        [
+          {
+            "node": "If Message contains a File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Message contains a File": {
+      "main": [
+        [
+          {
+            "node": "Upload File to GDrive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "",
+  "nodes": [
+    {
+      "name": "SSE Trigger",
+      "type": "n8n-nodes-base.sseTrigger",
+      "position": [
+        850,
+        420
+      ],
+      "parameters": {
+        "url": "https://n8n.io"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "544b1a26-7e0e-598d-9a0d-0bbed340ae3b",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive sse events\n\n## Purpose and structure\nThis folder contains the **receive sse events** workflow. Its executable nodes use `sseTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nSSE Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Sse/1084_Sse_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {}
+}

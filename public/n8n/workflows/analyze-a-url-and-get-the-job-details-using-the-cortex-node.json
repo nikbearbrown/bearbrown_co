@@ -1,0 +1,85 @@
+{
+  "name": "Analyze a URL and get the job details using the Cortex node",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        370,
+        220
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Cortex",
+      "type": "n8n-nodes-base.cortex",
+      "position": [
+        570,
+        220
+      ],
+      "parameters": {
+        "analyzer": "f4abc1b633b80f45af165970793fd4fd::Abuse_Finder_3_0",
+        "observableType": "url",
+        "observableValue": "https://n8n.io",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Cortex1",
+      "type": "n8n-nodes-base.cortex",
+      "position": [
+        770,
+        220
+      ],
+      "parameters": {
+        "jobId": "={{$node[\"Cortex\"].json[\"_id\"]}}",
+        "resource": "job"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c781cec0-5961-56e3-b09f-26c453393a12",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Analyze a URL and get the job details using the Cortex node\n\n## Purpose and structure\nThis folder contains the **Analyze a URL and get the job details using the Cortex node** workflow. Its executable nodes use `cortex`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0202_Manual_Cortex_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Cortex": {
+      "main": [
+        [
+          {
+            "node": "Cortex1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Cortex",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

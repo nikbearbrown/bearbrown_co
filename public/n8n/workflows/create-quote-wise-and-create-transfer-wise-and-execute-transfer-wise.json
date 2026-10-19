@@ -1,0 +1,121 @@
+{
+  "nodes": [
+    {
+      "name": "Wise",
+      "type": "n8n-nodes-base.wise",
+      "position": [
+        470,
+        320
+      ],
+      "parameters": {
+        "amount": 500,
+        "resource": "quote",
+        "operation": "create",
+        "profileId": 16138858,
+        "sourceCurrency": "EUR",
+        "targetCurrency": "EUR",
+        "targetAccountId": 147767974
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Wise1",
+      "type": "n8n-nodes-base.wise",
+      "position": [
+        660,
+        320
+      ],
+      "parameters": {
+        "quoteId": "={{$json[\"id\"]}}",
+        "resource": "transfer",
+        "operation": "create",
+        "profileId": 16138858,
+        "targetAccountId": 147767974,
+        "additionalFields": {
+          "reference": "Thank you for the contribution"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Wise2",
+      "type": "n8n-nodes-base.wise",
+      "position": [
+        870,
+        320
+      ],
+      "parameters": {
+        "resource": "transfer",
+        "operation": "execute",
+        "profileId": 16138858,
+        "transferId": "={{$json[\"id\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Wise3",
+      "type": "n8n-nodes-base.wise",
+      "position": [
+        1070,
+        320
+      ],
+      "parameters": {
+        "resource": "transfer",
+        "transferId": "={{$node[\"Wise1\"].json[\"id\"]}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "90b0a671-9137-5ddd-9b70-988000296318",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# create quote wise and create transfer wise and execute transfer wise\n\n## Purpose and structure\nThis folder contains the **create quote wise and create transfer wise and execute transfer wise** workflow. Its executable nodes use `wise`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Wise/1229_Wise_Automate.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Wise": {
+      "main": [
+        [
+          {
+            "node": "Wise1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wise1": {
+      "main": [
+        [
+          {
+            "node": "Wise2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wise2": {
+      "main": [
+        [
+          {
+            "node": "Wise3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

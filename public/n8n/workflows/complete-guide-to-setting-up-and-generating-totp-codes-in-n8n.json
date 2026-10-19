@@ -1,0 +1,64 @@
+{
+  "name": "Complete Guide to Setting Up and Generating TOTP Codes in n8n 🔐",
+  "nodes": [
+    {
+      "id": "0fe95b9a-be2b-4022-829e-8b6c801e5baf",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -280,
+        -340
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "02fee6b5-7770-4889-b9bb-89bface8872d",
+      "name": "TOTP",
+      "type": "n8n-nodes-base.totp",
+      "position": [
+        -40,
+        -340
+      ],
+      "parameters": {
+        "options": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "7977dd65-2769-5efc-8b1d-17f6d2ff4b85",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1080,
+        -340
+      ],
+      "parameters": {
+        "content": "# Complete Guide to Setting Up and Generating TOTP Codes in n8n 🔐\n\n## Purpose and structure\nThis folder contains the **Complete Guide to Setting Up and Generating TOTP Codes in n8n 🔐** workflow. Its executable nodes use `manualTrigger`, `totp`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen clicking ‘Test workflow’\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0002_Manual_Totp_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {
+    "timezone": "Asia/Tehran",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionOrder": "v1"
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "TOTP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

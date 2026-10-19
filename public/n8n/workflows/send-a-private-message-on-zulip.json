@@ -1,0 +1,58 @@
+{
+  "name": "Send a private message on Zulip",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Zulip",
+      "type": "n8n-nodes-base.zulip",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "to": []
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "e601f997-3a21-5019-ba5b-956ea4c381a8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Send a private message on Zulip\n\n## Purpose and structure\nThis folder contains the **Send a private message on Zulip** workflow. Its executable nodes use `manualTrigger`, `zulip`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0107_Manual_Zulip_Send_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Zulip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

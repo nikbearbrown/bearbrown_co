@@ -1,0 +1,94 @@
+{
+  "name": "XML Conversion",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        510,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "xml",
+              "value": "<?xml version=\"1.0\" encoding=\"utf-8\"?> <ORDERS05>   <IDOC BEGIN=\"1\">     <EDI_DC40 SEGMENT=\"1\">       <TABNAM>EDI_DC40</TABNAM>     </EDI_DC40>   </IDOC> </ORDERS05>"
+            }
+          ]
+        },
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "XML",
+      "type": "n8n-nodes-base.xml",
+      "position": [
+        740,
+        300
+      ],
+      "parameters": {
+        "options": {
+          "attrkey": "$",
+          "mergeAttrs": false,
+          "explicitRoot": true
+        },
+        "dataPropertyName": "xml"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "570072e0-01e9-5921-9257-61ba571ec9a1",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# XML Conversion\n\n## Purpose and structure\nThis folder contains the **XML Conversion** workflow. Its executable nodes use `manualTrigger`, `set`, `xml`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0943_Manual_Xml_Automation_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "XML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

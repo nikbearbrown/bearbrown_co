@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "id": "1",
+      "parameters": {
+        "url": "https://connect.prusa3d.com/api/printer/jobs",
+        "authentication": "headerAuth",
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "REPLACE_WITH_AUTHORIZATION"
+            }
+          ]
+        }
+      },
+      "name": "Get Jobs from Prusa Connect",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        300,
+        200
+      ]
+    },
+    {
+      "id": "2",
+      "parameters": {
+        "functionCode": "const jobs = items[0].json.jobs || [];\nreturn jobs.map(job => ({ json: job }));"
+      },
+      "name": "Split Jobs",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        500,
+        200
+      ]
+    },
+    {
+      "id": "3",
+      "parameters": {
+        "authentication": "oAuth2",
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "range": "List1!A:E",
+        "options": {
+          "valueInputMode": "USER_ENTERED"
+        },
+        "valueRangeUi": {
+          "values": [
+            [
+              "={{$json.id}}",
+              "={{$json.name}}",
+              "={{$json.created_at}}",
+              "={{$json.status}}",
+              "={{$json.material || 'N/A'}}"
+            ]
+          ]
+        }
+      },
+      "name": "Add Row to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        700,
+        200
+      ]
+    },
+    {
+      "id": "06be188d-fac1-550f-8082-85d2e301d445",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# get jobs from prusa connect and add row to google sheet\n\n## Purpose and structure\nThis folder contains the **get jobs from prusa connect and add row to google sheet** workflow. Its executable nodes use `function`, `googleSheets`, `httpRequest`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/devopsmariocom/3D-Sopa/blob/c20a34ebe63911ce07f51e9c2bdbbde75c226e16/jobs.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Get Jobs from Prusa Connect": {
+      "main": [
+        [
+          {
+            "node": "Split Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Jobs": {
+      "main": [
+        [
+          {
+            "node": "Add Row to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

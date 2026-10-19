@@ -1,0 +1,162 @@
+{
+  "nodes": [
+    {
+      "name": "Function",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        -280,
+        -80
+      ],
+      "parameters": {
+        "functionCode": "// Code here will run only once, no matter how many input items there are.\n// More info and help: https://docs.n8n.io/nodes/n8n-nodes-base.function\n\n// Loop over inputs and add a new field called 'myNewField' to the JSON of each one\nc_id = items[0].json.headers['x-adobesign-clientid'];\n\nfor (item of items) {\n  item.json.myNewField = 1;\n  item.json.clientID = c_id;\n}\n\nreturn items;"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "POST",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -540,
+        -160
+      ],
+      "parameters": {
+        "path": "test1",
+        "options": {},
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "reg-GET",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -540,
+        20
+      ],
+      "parameters": {
+        "path": "test1",
+        "options": {},
+        "responseMode": "responseNode"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "webhook-response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        -100,
+        -80
+      ],
+      "parameters": {
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "x-adobesign-clientid",
+                "value": "={{$node[\"Function\"].json[\"clientID\"]}}"
+              }
+            ]
+          }
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "SetWebhookData",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        60,
+        -80
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "webhookData",
+              "value": "={{ $item(\"0\").$node[\"webhook-response\"].json[\"body\"] }}"
+            },
+            {
+              "name": "agreement_ID",
+              "value": "={{ $item(\"0\").$node[\"webhook-response\"].json[\"body\"][\"agreement\"][\"id\"] }}"
+            },
+            {
+              "name": "all_participants",
+              "value": "={{ $item(\"0\").$node[\"webhook-response\"].json[\"body\"][\"agreement\"][\"participantSetsInfo\"] }}"
+            },
+            {
+              "name": "agreement_status",
+              "value": "={{ $item(\"0\").$node[\"webhook-response\"].json[\"body\"][\"agreement\"][\"status\"] }}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "2613f547-1e13-5e78-8f8c-8afd6c5eb678",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1340,
+        -160
+      ],
+      "parameters": {
+        "content": "# webhook and respond to webhook\n\n## Purpose and structure\nThis folder contains the **webhook and respond to webhook** workflow. Its executable nodes use `function`, `respondToWebhook`, `set`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nPOST, reg-GET\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Respondtowebhook/0194_Respondtowebhook_Webhook_Import_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "POST": {
+      "main": [
+        [
+          {
+            "node": "Function",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "reg-GET": {
+      "main": [
+        [
+          {
+            "node": "Function",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function": {
+      "main": [
+        [
+          {
+            "node": "webhook-response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "webhook-response": {
+      "main": [
+        [
+          {
+            "node": "SetWebhookData",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

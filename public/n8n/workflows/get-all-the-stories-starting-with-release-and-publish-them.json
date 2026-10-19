@@ -1,0 +1,90 @@
+{
+  "name": "Get all the stories starting with `release` and publish them",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Storyblok",
+      "type": "n8n-nodes-base.storyblok",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "space": 96940,
+        "source": "managementApi",
+        "filters": {
+          "starts_with": "release"
+        },
+        "operation": "getAll"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Storyblok1",
+      "type": "n8n-nodes-base.storyblok",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "space": "={{$node[\"Storyblok\"].parameter[\"space\"]}}",
+        "source": "managementApi",
+        "options": {},
+        "storyId": "={{$node[\"Storyblok\"].json[\"id\"]}}",
+        "operation": "publish"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "72ad63be-bb17-5fd6-9831-c262472f6b4e",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Get all the stories starting with `release` and publish them\n\n## Purpose and structure\nThis folder contains the **Get all the stories starting with `release` and publish them** workflow. Its executable nodes use `manualTrigger`, `storyblok`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0046_Manual_Storyblok_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Storyblok": {
+      "main": [
+        [
+          {
+            "node": "Storyblok1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Storyblok",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

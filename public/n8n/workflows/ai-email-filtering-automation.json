@@ -1,0 +1,358 @@
+{
+  "name": "AI Email Filtering Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "readStatus": "unread"
+        },
+        "options": {}
+      },
+      "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Step 2: Preprocess Email Data\nconst item = $json;\n\n// Extract Sender, Subject, Body, and Metadata safely\nconst sender = item.from?.value?.[0]?.address || item.from?.text || item.from || 'Unknown Sender';\nconst senderName = item.from?.value?.[0]?.name || item.senderName || sender;\nconst subject = item.subject || '(No Subject)';\nconst body = (item.text || item.snippet || item.html || '(Empty Body)').replace(/<[^>]*>?/gm, ''); // Strip basic HTML tags if any\nconst messageId = item.id || item.messageId;\nconst threadId = item.threadId;\nconst dateReceived = item.date || new Date().toISOString();\n\n// Formatted prompt text input as specified\nconst formattedPrompt = `Sender: ${sender}\\nSubject: ${subject}\\nBody: ${body.substring(0, 3000)}`;\n\nreturn {\n  json: {\n    messageId,\n    threadId,\n    sender,\n    senderName,\n    subject,\n    body,\n    formattedPrompt,\n    dateReceived\n  }\n};"
+      },
+      "id": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+      "name": "Preprocess Email Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=REPLACE_WITH_CREDENTIAL $env.GEMINI_API_KEY }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"You are an email classification assistant.\\n\\nAnalyze the email and determine whether it is IMPORTANT or NOT_IMPORTANT.\\n\\nIMPORTANT emails include:\\n- Client communications\\n- Business opportunities\\n- Meeting requests\\n- Urgent messages\\n- Payment or invoice updates\\n- Project updates\\n- High-priority work-related discussions\\n\\nNOT_IMPORTANT emails include:\\n- Promotions\\n- Marketing emails\\n- Newsletters\\n- Spam\\n- Social notifications\\n- Automated low-priority notifications\\n\\nReturn ONLY valid JSON in this exact format:\\n{\\n  \\\"classification\\\": \\\"IMPORTANT\\\",\\n  \\\"reason\\\": \\\"Short explanation\\\"\\n}\\n\\nEmail to analyze:\\n\\n{{ $json.formattedPrompt.replace(/\"/g, '\\\\\"').replace(/\\n/g, '\\\\n') }}\"\n        }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"temperature\": 0.1,\n    \"responseMimeType\": \"application/json\"\n  }\n}",
+        "options": {
+          "onError": "continueErrorOutput"
+        }
+      },
+      "id": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+      "name": "Analyze Email with Gemini",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        300
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Step 4: Parse Gemini Response & Fallback Handling\nconst input = $json;\nlet classification = \"IMPORTANT\"; // Default safety fallback to prevent accidental deletion\nlet reason = \"Default fallback applied due to API error or parsing issue.\";\nlet isApiError = false;\n\ntry {\n  if (input.error || input.errorOutput) {\n    isApiError = true;\n    reason = `Gemini API Call Failed: ${JSON.stringify(input.error || input.errorOutput)}`;\n  } else {\n    const candidateText = input.candidates?.[0]?.content?.parts?.[0]?.text;\n    if (candidateText) {\n      const cleanText = candidateText.replace(/```json\\s*/gi, '').replace(/```\\s*/gi, '').trim();\n      const parsed = JSON.parse(cleanText);\n      classification = parsed.classification || \"IMPORTANT\";\n      reason = parsed.reason || \"No explicit reason provided.\";\n    }\n  }\n} catch (e) {\n  isApiError = true;\n  reason = `Failed to parse Gemini output: ${e.message}`;\n}\n\n// Enforce valid enum\nif (classification !== \"IMPORTANT\" && classification !== \"NOT_IMPORTANT\") {\n  classification = \"IMPORTANT\";\n}\n\n// Retrieve original email item from Preprocess node\nconst emailData = $(\"Preprocess Email Data\").item.json;\n\nreturn {\n  json: {\n    ...emailData,\n    classification,\n    reason,\n    isApiError\n  }\n};"
+      },
+      "id": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+      "name": "Parse Gemini Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        920,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-1",
+              "leftValue": "={{ $json.classification }}",
+              "rightValue": "IMPORTANT",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+      "name": "Conditional Routing (IF)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1140,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.DISCORD_WEBHOOK_URL }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": \"🚨 **Important Email Detected**\\n\\n**From:** {{ $json.senderName }} ({{ $json.sender }})\\n**Subject:** {{ $json.subject }}\\n\\n**Reason:**\\n{{ $json.reason }}\"\n}",
+        "options": {
+          "onError": "continueErrorOutput"
+        }
+      },
+      "id": "6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+      "name": "Discord Webhook Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1400,
+        180
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"{{ $env.TELEGRAM_CHAT_ID }}\",\n  \"text\": \"🚨 *Important Email Detected*\\n\\n*From:* {{ $json.senderName }} ({{ $json.sender }})\\n*Subject:* {{ $json.subject }}\\n\\n*Reason:*\\n{{ $json.reason }}\",\n  \"parse_mode\": \"Markdown\"\n}",
+        "options": {
+          "onError": "continueErrorOutput"
+        }
+      },
+      "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+      "name": "Telegram Bot Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1620,
+        180
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "addLabels",
+        "messageId": "={{ $json.messageId }}",
+        "labelIds": []
+      },
+      "id": "8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
+      "name": "Mark Email as Read",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1840,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "trash",
+        "messageId": "={{ $json.messageId }}"
+      },
+      "id": "9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f",
+      "name": "Move Email to Trash",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1400,
+        450
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Audit Log for Trashed/Unimportant Email\nconst logData = {\n  timestamp: new Date().toISOString(),\n  action: \"MOVE_TO_TRASH\",\n  messageId: $json.messageId,\n  sender: $json.sender,\n  subject: $json.subject,\n  reason: $json.reason,\n  status: \"COMPLETED\"\n};\n\nconsole.log(\"[AUDIT LOG] Email Trashed Successfully:\", JSON.stringify(logData, null, 2));\n\nreturn {\n  json: logData\n};"
+      },
+      "id": "0d1e2f3a-4b5c-6d7e-8f9a-0b1c2d3e4f5a",
+      "name": "Log Trashed Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1620,
+        450
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b",
+      "name": "Error Trigger Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Step 8: Error Handling & Debugging Log\nconst errorLog = {\n  timestamp: new Date().toISOString(),\n  executionId: $execution.id,\n  workflowId: $workflow.id,\n  workflowName: $workflow.name,\n  errorDetails: $json.execution?.error || $json.error || \"Workflow execution failure\",\n  safetyAction: \"Email preserved in inbox / not deleted.\"\n};\n\nconsole.error(\"[WORKFLOW ERROR AUDIT] Execution stored for debugging:\", JSON.stringify(errorLog, null, 2));\n\nreturn {\n  json: errorLog\n};"
+      },
+      "id": "f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c",
+      "name": "Log Execution Failure",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        700
+      ]
+    },
+    {
+      "id": "f1f303d9-6744-5f5b-b8c7-401e5b01b6d9",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# AI Email Filtering Automation\n\n## Purpose and structure\nThis folder contains the **AI Email Filtering Automation** workflow. Its executable nodes use `code`, `errorTrigger`, `gmail`, `gmailTrigger`, `httpRequest`, `if`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nGmail Trigger, Error Trigger Handler\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Shazil-Qureshi/AI-Email-Filtering-Automation/blob/cc55b99a3ca9109ae52ce96dd4738512b67ae6dd/workflow.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Preprocess Email Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preprocess Email Data": {
+      "main": [
+        [
+          {
+            "node": "Analyze Email with Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Email with Gemini": {
+      "main": [
+        [
+          {
+            "node": "Parse Gemini Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Gemini Response": {
+      "main": [
+        [
+          {
+            "node": "Conditional Routing (IF)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conditional Routing (IF)": {
+      "main": [
+        [
+          {
+            "node": "Discord Webhook Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Move Email to Trash",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Webhook Notification": {
+      "main": [
+        [
+          {
+            "node": "Telegram Bot Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Bot Notification": {
+      "main": [
+        [
+          {
+            "node": "Mark Email as Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Email to Trash": {
+      "main": [
+        [
+          {
+            "node": "Log Trashed Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger Handler": {
+      "main": [
+        [
+          {
+            "node": "Log Execution Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}

@@ -1,0 +1,114 @@
+{
+  "nodes": [
+    {
+      "name": "Bitwarden",
+      "type": "n8n-nodes-base.bitwarden",
+      "position": [
+        470,
+        320
+      ],
+      "parameters": {
+        "name": "documentation",
+        "resource": "group",
+        "operation": "create",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Bitwarden1",
+      "type": "n8n-nodes-base.bitwarden",
+      "position": [
+        670,
+        320
+      ],
+      "parameters": {
+        "resource": "member",
+        "operation": "getAll",
+        "returnAll": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Bitwarden2",
+      "type": "n8n-nodes-base.bitwarden",
+      "position": [
+        870,
+        320
+      ],
+      "parameters": {
+        "groupId": "={{$node[\"Bitwarden\"].json[\"id\"]}}",
+        "resource": "group",
+        "memberIds": "={{$json[\"id\"]}}",
+        "operation": "updateMembers"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Bitwarden3",
+      "type": "n8n-nodes-base.bitwarden",
+      "position": [
+        1070,
+        320
+      ],
+      "parameters": {
+        "groupId": "={{$node[\"Bitwarden\"].json[\"id\"]}}",
+        "resource": "group",
+        "operation": "getMembers"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "30b9409f-3766-5242-81d2-9255cf4b4abe",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# create group bitwarden and list member bitwarden and update members group bitwarden\n\n## Purpose and structure\nThis folder contains the **create group bitwarden and list member bitwarden and update members group bitwarden** workflow. Its executable nodes use `bitwarden`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Bitwarden/0003_Bitwarden_Automate.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Bitwarden": {
+      "main": [
+        [
+          {
+            "node": "Bitwarden1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bitwarden1": {
+      "main": [
+        [
+          {
+            "node": "Bitwarden2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bitwarden2": {
+      "main": [
+        [
+          {
+            "node": "Bitwarden3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

@@ -1,0 +1,175 @@
+{
+  "name": "TwitterWorkflow",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "disabled": true,
+      "position": [
+        400,
+        850
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Filter Tweet Data",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        680,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Tweet",
+              "value": "={{$node[\"n8n.io mentions\"].json[\"text\"]}}"
+            },
+            {
+              "name": "Tweet ID",
+              "value": "={{$node[\"n8n.io mentions\"].json[\"id\"]}}"
+            },
+            {
+              "name": "Tweet URL",
+              "value": "=https://twitter.com/{{$node[\"n8n.io mentions\"].json[\"user\"][\"screen_name\"]}}/status/{{$node[\"n8n.io mentions\"].json[\"id_str\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Only get new tweets",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        910,
+        300
+      ],
+      "parameters": {
+        "functionCode": "const staticData = getWorkflowStaticData('global');\nconst newTweetIds = items.map(item => item.json[\"Tweet ID\"]);\nconst oldTweetIds = staticData.oldTweetIds; \n\nif (!oldTweetIds) {\n  staticData.oldTweetIds = newTweetIds;\n  return items;\n}\n\n\nconst actualNewTweetIds = newTweetIds.filter((id) => !oldTweetIds.includes(id));\nconst actualNewTweets = items.filter((data) => actualNewTweetIds.includes(data.json['Tweet ID']));\nstaticData.oldTweetIds = [...actualNewTweetIds, ...oldTweetIds];\n\nreturn actualNewTweets;\n"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "n8n.io mentions",
+      "type": "n8n-nodes-base.twitter",
+      "position": [
+        480,
+        300
+      ],
+      "parameters": {
+        "operation": "search",
+        "searchText": "@n8n_io",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "RocketChat",
+      "type": "n8n-nodes-base.rocketchat",
+      "position": [
+        1150,
+        300
+      ],
+      "parameters": {
+        "text": "=New Mention!: {{$node[\"Filter Tweet Data\"].json[\"Tweet\"]}}.\nSee it here: {{$node[\"Only get new tweets\"].json[\"Tweet URL\"]}}",
+        "channel": "general",
+        "options": {},
+        "jsonParameters": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        270,
+        300
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "unit": "minutes",
+              "value": 1
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ebd0f24f-e826-5abd-b7bf-01e60e18a5a2",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# TwitterWorkflow\n\n## Purpose and structure\nThis folder contains the **TwitterWorkflow** workflow. Its executable nodes use `cron`, `function`, `manualTrigger`, `rocketchat`, `set`, `twitter`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute', Cron\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0356_Manual_Twitter_Automate_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "n8n.io mentions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n.io mentions": {
+      "main": [
+        [
+          {
+            "node": "Filter Tweet Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Tweet Data": {
+      "main": [
+        [
+          {
+            "node": "Only get new tweets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Only get new tweets": {
+      "main": [
+        [
+          {
+            "node": "RocketChat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        []
+      ]
+    }
+  }
+}

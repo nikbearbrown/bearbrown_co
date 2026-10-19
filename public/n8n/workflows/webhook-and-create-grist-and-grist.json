@@ -1,0 +1,228 @@
+{
+  "nodes": [
+    {
+      "id": "93eba4f0-218d-47d3-a55f-09d490d5e0bb",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        100,
+        320
+      ],
+      "parameters": {
+        "path": "03e24572-a381-455e-a5b8-ae697647f7d4",
+        "options": {},
+        "httpMethod": "POST"
+      },
+      "typeVersion": 1.1
+    },
+    {
+      "id": "e2c8d43e-79f9-45a4-9d6d-37e8768e7f81",
+      "name": "Create Row",
+      "type": "n8n-nodes-base.grist",
+      "position": [
+        940,
+        240
+      ],
+      "parameters": {
+        "docId": "",
+        "tableId": "",
+        "operation": "create",
+        "fieldsToSend": {
+          "properties": [
+            {
+              "fieldId": "Source",
+              "fieldValue": "={{ $json.body[0].id }}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "1e6e741e-2890-4e08-a97a-efae1812d507",
+      "name": "Confirmed?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        300,
+        320
+      ],
+      "parameters": {
+        "options": {},
+        "conditions": {
+          "options": {
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "df1c1dba-dc96-42e9-86ee-8ccd4c82b048",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.body[0].Confirmed }}",
+              "rightValue": ""
+            }
+          ]
+        }
+      },
+      "notesInFlow": true,
+      "typeVersion": 2
+    },
+    {
+      "id": "c6b1b482-6121-4484-b524-bc3e7e175fe8",
+      "name": "get existing",
+      "type": "n8n-nodes-base.grist",
+      "position": [
+        560,
+        160
+      ],
+      "parameters": {
+        "docId": "",
+        "tableId": "",
+        "additionalOptions": {
+          "filter": {
+            "filterProperties": [
+              {
+                "field": "Source",
+                "values": "={{ $json.body[0].id }}"
+              }
+            ]
+          }
+        }
+      },
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "id": "a52e000c-73ef-4f2d-811d-cbcaf45e2b75",
+      "name": "has existing?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        700,
+        160
+      ],
+      "parameters": {
+        "options": {},
+        "conditions": {
+          "options": {
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "6f08b500-956e-493c-abbe-845b5352110c",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json }}",
+              "rightValue": ""
+            }
+          ]
+        }
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "fe609754-3dd6-4bbd-932a-a30f7d100911",
+      "name": "Confirmation-based",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        460,
+        420
+      ],
+      "parameters": {
+        "width": 346.820338983051,
+        "height": 144.13559322033893,
+        "content": "## Confirmation-based\nIn the source table there is a boolean column \"Confirmed\" that will trigger the transfer.\nThis way there is a manual check involved & it's a conscious step to trigger the workflow."
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "edb074f6-b264-45ec-87e2-cf91063ca63b",
+      "name": "Runs once",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        900,
+        60
+      ],
+      "parameters": {
+        "width": 253.74915254237288,
+        "height": 139.9050847457627,
+        "content": "## Runs once\nIf the destination table already contains an entry, **we will not re-create/update** it (as it might've already been changed manually)\n"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4c6322a7-7435-5e3a-ab2d-dcad8c37f9d3",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# webhook and create grist and grist\n\n## Purpose and structure\nThis folder contains the **webhook and create grist and grist** workflow. Its executable nodes use `grist`, `if`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWebhook\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Grist/0479_Grist_Stickynote_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Confirmed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmed?": {
+      "main": [
+        [
+          {
+            "node": "get existing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get existing": {
+      "main": [
+        [
+          {
+            "node": "has existing?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "has existing?": {
+      "main": [
+        null,
+        [
+          {
+            "node": "Create Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

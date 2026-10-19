@@ -1,0 +1,65 @@
+{
+  "nodes": [
+    {
+      "name": "Read Binary File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "filePath": "/data/demo1.wav"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "url": "https://api.wit.ai/speech?v=20200513",
+        "options": {
+          "bodyContentType": "raw"
+        },
+        "requestMethod": "POST",
+        "jsonParameters": true,
+        "sendBinaryData": true,
+        "headerParametersJson": "={{JSON.parse('{\"Authorization\":\"Bearer {your_token_goes_here}\", \"Content-Type\":\"audio/wav\"}')}}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "78211d05-feb8-507d-8a46-84e8fd932d6b",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# read binary file and http request\n\n## Purpose and structure\nThis folder contains the **read binary file and http request** workflow. Its executable nodes use `httpRequest`, `readBinaryFile`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0956_HTTP_Readbinaryfile_Automation_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Read Binary File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

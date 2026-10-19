@@ -1,0 +1,138 @@
+{
+  "nodes": [
+    {
+      "name": "Mattermost",
+      "type": "n8n-nodes-base.mattermost",
+      "position": [
+        1050,
+        200
+      ],
+      "parameters": {
+        "message": "💪 This issue got closed in PagerDuty and Jira.",
+        "channelId": "={{$node[\"Webhook\"].json[\"body\"][\"channel_id\"]}}",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Mattermost1",
+      "type": "n8n-nodes-base.mattermost",
+      "position": [
+        1050,
+        400
+      ],
+      "parameters": {
+        "message": "=🎉 The incident ({{$node[\"PagerDuty\"].json[\"summary\"]}}) was resolved by the lovely folks in the on-call team!",
+        "channelId": "REPLACE_WITH_CHANNELID",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Jira",
+      "type": "n8n-nodes-base.jira",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "issueKey": "={{$node[\"Webhook\"].json[\"body\"][\"context\"][\"jira_key\"]}}",
+        "operation": "update",
+        "updateFields": {
+          "statusId": "31"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "PagerDuty",
+      "type": "n8n-nodes-base.pagerDuty",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "email": "REPLACE_WITH_EMAIL",
+        "operation": "update",
+        "incidentId": "={{$json[\"body\"][\"context\"][\"pagerduty_incident\"]}}",
+        "updateFields": {
+          "status": "resolved"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "path": "1bd40693-c7dd-43f5-97d9-6d8986e62fc1",
+        "options": {},
+        "httpMethod": "POST"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "51579129-1367-51b6-a836-f22ecda11824",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# mattermost and update jira and update pager duty\n\n## Purpose and structure\nThis folder contains the **mattermost and update jira and update pager duty** workflow. Its executable nodes use `jira`, `mattermost`, `pagerDuty`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWebhook\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mattermost/0857_Mattermost_Webhook_Automate_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Jira": {
+      "main": [
+        [
+          {
+            "node": "Mattermost",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Mattermost1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "PagerDuty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PagerDuty": {
+      "main": [
+        [
+          {
+            "node": "Jira",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

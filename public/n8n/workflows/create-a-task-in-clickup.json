@@ -1,0 +1,63 @@
+{
+  "name": "Create a task in ClickUp",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "ClickUp",
+      "type": "n8n-nodes-base.clickUp",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "list": "",
+        "name": "",
+        "team": "",
+        "space": "",
+        "folder": "",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "45d2e58b-94a9-51ae-9ede-72cd4e8793a8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a task in ClickUp\n\n## Purpose and structure\nThis folder contains the **Create a task in ClickUp** workflow. Its executable nodes use `clickUp`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0030_Manual_Clickup_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "ClickUp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

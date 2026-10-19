@@ -1,0 +1,113 @@
+{
+  "nodes": [
+    {
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "updates": [
+          "message"
+        ]
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Return Sticker",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        850,
+        200
+      ],
+      "parameters": {
+        "text": "=Hi {{$node[\"Look for Sticker\"].data[\"message\"][\"from\"][\"first_name\"]}}!\nThe ID of the sticker is: {{$node[\"Look for Sticker\"].data[\"message\"][\"sticker\"][\"file_id\"]}}\nIt is part of the sticker-set: {{$node[\"Look for Sticker\"].data[\"message\"][\"sticker\"][\"set_name\"]}}",
+        "chatId": "={{$node[\"Look for Sticker\"].data[\"message\"][\"chat\"][\"id\"]}}",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Return no Sticker found",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        850,
+        400
+      ],
+      "parameters": {
+        "text": "=Hi {{$node[\"Look for Sticker\"].data[\"message\"][\"from\"][\"first_name\"]}}!\nYour message did not contain any sticker.",
+        "chatId": "={{$node[\"Look for Sticker\"].data[\"message\"][\"chat\"][\"id\"]}}",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Look for Sticker",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{!!$node[\"Telegram Trigger\"].data[\"message\"][\"sticker\"]}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "6575338e-6294-5b61-9f4e-5b632458fbef",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive telegram events and telegram and return no sticker found\n\n## Purpose and structure\nThis folder contains the **receive telegram events and telegram and return no sticker found** workflow. Its executable nodes use `if`, `telegram`, `telegramTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nTelegram Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Telegram/0705_Telegram_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Look for Sticker": {
+      "main": [
+        [
+          {
+            "node": "Return Sticker",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Return no Sticker found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Look for Sticker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

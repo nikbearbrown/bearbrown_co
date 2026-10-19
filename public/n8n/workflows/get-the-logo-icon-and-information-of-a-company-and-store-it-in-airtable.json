@@ -1,0 +1,148 @@
+{
+  "name": "Get the logo, icon, and information of a company and store it in Airtable",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Brandfetch",
+      "type": "n8n-nodes-base.Brandfetch",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "domain": "n8n.io"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Brandfetch1",
+      "type": "n8n-nodes-base.Brandfetch",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "domain": "={{$node[\"Brandfetch\"].parameter[\"domain\"]}}",
+        "operation": "company"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Name",
+              "value": "={{$node[\"Brandfetch1\"].json[\"name\"]}}"
+            },
+            {
+              "name": "Icon URL",
+              "value": "={{$node[\"Brandfetch\"].json[\"icon\"][\"image\"]}}"
+            },
+            {
+              "name": "Logo URL",
+              "value": "={{$node[\"Brandfetch\"].json[\"logo\"][\"image\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "table": "Table 1",
+        "options": {},
+        "operation": "append",
+        "application": "app5cseR9ZKgtU3dc"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "1fd6b7e5-d161-5025-879c-20102410cb54",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Get the logo, icon, and information of a company and store it in Airtable\n\n## Purpose and structure\nThis folder contains the **Get the logo, icon, and information of a company and store it in Airtable** workflow. Its executable nodes use `Brandfetch`, `airtable`, `manualTrigger`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0242_Manual_Brandfetch_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brandfetch": {
+      "main": [
+        [
+          {
+            "node": "Brandfetch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brandfetch1": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Brandfetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

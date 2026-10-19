@@ -1,0 +1,95 @@
+{
+  "name": "Add a subscriber to a list and create and send a campaign",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Sendy",
+      "type": "n8n-nodes-base.sendy",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "email": "REPLACE_WITH_EMAIL",
+        "listId": "REPLACE_WITH_LISTID",
+        "additionalFields": {
+          "name": "Harshil"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Sendy1",
+      "type": "n8n-nodes-base.sendy",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "title": "Welcome to n8n",
+        "replyTo": "user@example.com",
+        "subject": "Welcome to n8n",
+        "fromName": "n8n",
+        "htmlText": "<body>\n  <p>Hey!</p>\n  <p>Welcome to n8n!</p>\n</body>",
+        "resource": "campaign",
+        "fromEmail": "REPLACE_WITH_FROMEMAIL",
+        "sendCampaign": true,
+        "additionalFields": {
+          "listIds": "2"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "cdcd47b5-a87e-5645-aa07-950382c1af37",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Add a subscriber to a list and create and send a campaign\n\n## Purpose and structure\nThis folder contains the **Add a subscriber to a list and create and send a campaign** workflow. Its executable nodes use `manualTrigger`, `sendy`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0175_Manual_Sendy_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Sendy": {
+      "main": [
+        [
+          {
+            "node": "Sendy1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Sendy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "nodes": [
+    {
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "path": "45e2593e-f25d-4be5-9b50-4a7c1e566a9e",
+        "options": {},
+        "httpMethod": "POST",
+        "responseMode": "lastNode"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        850,
+        200
+      ],
+      "parameters": {
+        "url": "=https://{{$json[\"body\"][\"data\"][\"options\"][0][\"value\"]}}",
+        "options": {},
+        "responseFormat": "string"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Check type",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json[\"body\"][\"type\"]}}",
+              "value2": 1,
+              "operation": "notEqual"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Extract Title",
+      "type": "n8n-nodes-base.htmlExtract",
+      "position": [
+        1050,
+        200
+      ],
+      "parameters": {
+        "options": {},
+        "extractionValues": {
+          "values": [
+            {
+              "key": "REPLACE_WITH_KEY",
+              "cssSelector": "title"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Add Link to Notion",
+      "type": "n8n-nodes-base.notion",
+      "position": [
+        1250,
+        200
+      ],
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": "REPLACE_WITH_DATABASEID",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "REPLACE_WITH_KEY",
+              "title": "={{$json[\"title\"]}}"
+            },
+            {
+              "key": "REPLACE_WITH_KEY",
+              "urlValue": "={{$node[\"Check type\"].json[\"body\"][\"data\"][\"options\"][0][\"value\"]}}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Reply on Discord",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1450,
+        200
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "type",
+              "value": 4
+            }
+          ],
+          "string": [
+            {
+              "name": "data.content",
+              "value": "Added Link to notion"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Register URL",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        850,
+        410
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "type",
+              "value": 1
+            }
+          ],
+          "string": []
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "8b7508c5-035d-5978-b4de-eea74902128b",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# webhook and http request and html extract\n\n## Purpose and structure\nThis folder contains the **webhook and http request and html extract** workflow. Its executable nodes use `htmlExtract`, `httpRequest`, `if`, `notion`, `set`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWebhook\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Http/0048_HTTP_Htmlextract_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Check type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check type": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Register URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Extract Title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Title": {
+      "main": [
+        [
+          {
+            "node": "Add Link to Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Link to Notion": {
+      "main": [
+        [
+          {
+            "node": "Reply on Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

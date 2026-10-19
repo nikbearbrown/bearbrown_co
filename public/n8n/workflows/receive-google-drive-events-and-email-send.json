@@ -1,0 +1,65 @@
+{
+  "nodes": [
+    {
+      "name": "Google Drive Trigger",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "position": [
+        250,
+        150
+      ],
+      "parameters": {
+        "event": "fileCreated",
+        "options": {},
+        "triggerOn": "specificFolder",
+        "folderToWatch": "1HwOAKkkgveLji8vVpW9Xrg1EsBskwMNb"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [
+        450,
+        150
+      ],
+      "parameters": {
+        "text": "=A file in your Google Drive file folder has been created: {{$json[\"name\"]}}",
+        "options": {},
+        "subject": "File Update",
+        "toEmail": "REPLACE_WITH_TOEMAIL",
+        "fromEmail": "REPLACE_WITH_FROMEMAIL"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "93a6f2ce-4412-597e-bc2c-7b6a7eef9fa1",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive google drive events and email send\n\n## Purpose and structure\nThis folder contains the **receive google drive events and email send** workflow. Its executable nodes use `emailSend`, `googleDriveTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nGoogle Drive Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Emailsend/0113_Emailsend_GoogleDrive_Send_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

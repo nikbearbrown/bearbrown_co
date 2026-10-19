@@ -1,0 +1,184 @@
+{
+  "name": "Create a table, and insert and update data in the table in Snowflake",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "id",
+              "value": 1
+            }
+          ],
+          "string": [
+            {
+              "name": "name",
+              "value": "n8n"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Snowflake",
+      "type": "n8n-nodes-base.snowflake",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "query": "CREATE TABLE docs (id INT, name STRING);",
+        "operation": "executeQuery"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Snowflake1",
+      "type": "n8n-nodes-base.snowflake",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "table": "docs",
+        "columns": "id, name"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "id",
+              "value": 1
+            }
+          ],
+          "string": [
+            {
+              "name": "name",
+              "value": "nodemation"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Snowflake2",
+      "type": "n8n-nodes-base.snowflake",
+      "position": [
+        1250,
+        300
+      ],
+      "parameters": {
+        "table": "={{$node[\"Snowflake1\"].parameter[\"table\"]}}",
+        "columns": "name",
+        "operation": "update"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "d76756f6-64b1-5743-a489-5fe6bd27b5e8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a table, and insert and update data in the table in Snowflake\n\n## Purpose and structure\nThis folder contains the **Create a table, and insert and update data in the table in Snowflake** workflow. Its executable nodes use `manualTrigger`, `set`, `snowflake`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0219_Manual_Snowflake_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Snowflake1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Snowflake2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Snowflake": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Snowflake1": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Snowflake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

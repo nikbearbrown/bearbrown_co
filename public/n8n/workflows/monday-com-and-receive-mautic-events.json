@@ -1,0 +1,83 @@
+{
+  "nodes": [
+    {
+      "id": "4da16859-d29b-4eb7-90a4-3904c1bfff68",
+      "name": "Create item",
+      "type": "n8n-nodes-base.mondayCom",
+      "position": [
+        620,
+        240
+      ],
+      "parameters": {
+        "name": "={{$node[\"On created contact\"].json[\"mautic.lead_post_save_new\"][0][\"contact\"][\"fields\"][\"core\"][\"firstname\"][\"value\"]}} {{$node[\"On created contact\"].json[\"mautic.lead_post_save_new\"][0][\"contact\"][\"fields\"][\"core\"][\"lastname\"][\"value\"]}}",
+        "boardId": "3461879764",
+        "groupId": "topics",
+        "resource": "boardItem",
+        "additionalFields": {
+          "columnValues": "={\n  \"email\": {\n    \"email\": \"{{$node[\"On created contact\"].json[\"mautic.lead_post_save_new\"][0][\"contact\"][\"fields\"][\"core\"][\"email\"][\"value\"]}}\",\n    \"text\" : \"{{$node[\"On created contact\"].json[\"mautic.lead_post_save_new\"][0][\"contact\"][\"fields\"][\"core\"][\"email\"][\"value\"]}}\"\n  }\n}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "88655428-439e-4324-8d8f-865625650c7a",
+      "name": "On created contact",
+      "type": "n8n-nodes-base.mauticTrigger",
+      "position": [
+        400,
+        240
+      ],
+      "parameters": {
+        "events": [
+          "mautic.lead_post_save_new"
+        ]
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "bff916e6-2ddc-456b-a8fa-c8841f47abed",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        620,
+        400
+      ],
+      "parameters": {
+        "width": 301,
+        "height": 309,
+        "content": "## How to add more fields to Monday\nBy default, this `Create item` node only adds the name of the item and the email to Monday (provided that there is an email field already created).\n\nIdeally, you would like to share more fields than just the name and email. Refer to the [community discussion here](https://community.n8n.io/t/change-multiple-column-values-with-monday/4262) for more information on how to set up more column values in the `Create item` Monday node."
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4bbddbeb-5e24-51d8-b432-48692e7e98aa",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# monday com and receive mautic events\n\n## Purpose and structure\nThis folder contains the **monday com and receive mautic events** workflow. Its executable nodes use `mauticTrigger`, `mondayCom`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn created contact\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mautic/0275_Mautic_Mondaycom_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "On created contact": {
+      "main": [
+        [
+          {
+            "node": "Create item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

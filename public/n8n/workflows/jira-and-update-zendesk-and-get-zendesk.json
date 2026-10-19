@@ -1,0 +1,209 @@
+{
+  "nodes": [
+    {
+      "id": "b374f136-0050-40ea-b889-03c1e20a161e",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1000,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$node[\"Determine\"].json[\"Jira issue key\"]}}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "52e85300-9a2f-45e9-973e-0fda49a50bf1",
+      "name": "Create issue",
+      "type": "n8n-nodes-base.jira",
+      "position": [
+        1180,
+        400
+      ],
+      "parameters": {
+        "project": "10000",
+        "summary": "={{$node[\"Get ticket\"].json[\"subject\"]}}",
+        "issueType": "10003",
+        "additionalFields": {
+          "description": "=See Zendesk issue at: https://n8n.zendesk.com/agent/tickets/{{$node[\"Get ticket\"].json[\"id\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "85c93002-95d3-434d-b9e9-10ef714432b1",
+      "name": "Update ticket",
+      "type": "n8n-nodes-base.zendesk",
+      "notes": "Update the Zendesk ticket by adding the Jira issue key to the \"Jira Issue Key\" field.",
+      "position": [
+        1360,
+        400
+      ],
+      "parameters": {
+        "id": "={{$node[\"On new Zendesk ticket\"].json[\"body\"][\"id\"]}}",
+        "operation": "update",
+        "updateFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "id": 6689934837021,
+                "value": "={{$node[\"Create issue\"].json[\"key\"]}}"
+              }
+            ]
+          }
+        }
+      },
+      "notesInFlow": true,
+      "typeVersion": 1
+    },
+    {
+      "id": "3aa0dff6-f4a5-47c1-9843-271b78bfbf36",
+      "name": "Get ticket",
+      "type": "n8n-nodes-base.zendesk",
+      "position": [
+        640,
+        300
+      ],
+      "parameters": {
+        "id": "={{$node[\"On new Zendesk ticket\"].json[\"body\"][\"id\"]}}",
+        "operation": "get"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "efd1f838-226f-4869-83f8-086d31f8a9bc",
+      "name": "Determine",
+      "type": "n8n-nodes-base.function",
+      "notes": "if issue was created already in Jira",
+      "position": [
+        820,
+        300
+      ],
+      "parameters": {
+        "functionCode": "/* configure here =========================================================== */\n/*  Zendesk field ID which represents the \"Jira Issue Key\" field.\n*/\nconst ISSUE_KEY_FIELD_ID = 6689934837021;\n\n/* ========================================================================== */\nnew_items = [];\n\nfor (item of $items(\"Get ticket\")) {\n    \n    // instantiate a new variable for status\n    var custom_fields = item.json[\"custom_fields\"];\n    var jira_issue_key = \"\";\n    for (var i = 0; i < custom_fields.length; i++) {\n        if (custom_fields[i].id == ISSUE_KEY_FIELD_ID) {\n            jira_issue_key = custom_fields[i].value;\n            break;\n        }\n    }\n\n    // push the new item to the new_items array\n    new_items.push({\n        \"Jira issue key\": jira_issue_key\n    });\n}\n\nreturn new_items;"
+      },
+      "notesInFlow": true,
+      "typeVersion": 1
+    },
+    {
+      "id": "41a1c04b-561b-41e3-be6e-fc953319abc1",
+      "name": "Create comment to existing issue",
+      "type": "n8n-nodes-base.jira",
+      "position": [
+        1180,
+        200
+      ],
+      "parameters": {
+        "comment": "={{$node[\"On new Zendesk ticket\"].json[\"body\"][\"comment\"]}}",
+        "options": {},
+        "issueKey": "={{$node[\"Determine\"].json[\"Jira issue key\"]}}",
+        "resource": "issueComment"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "33e0121e-703d-4c60-b257-a89a99db771a",
+      "name": "On new Zendesk ticket",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        460,
+        300
+      ],
+      "parameters": {
+        "path": "d596c0c6-7377-4a17-9ed5-6ee953f072b9",
+        "options": {},
+        "httpMethod": "POST"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "89506cad-d7df-55aa-bd1a-3d4171fc51a4",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# jira and update zendesk and get zendesk\n\n## Purpose and structure\nThis folder contains the **jira and update zendesk and get zendesk** workflow. Its executable nodes use `function`, `if`, `jira`, `webhook`, `zendesk`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn new Zendesk ticket\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Zendesk/0280_Zendesk_Jira_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Create comment to existing issue",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Determine": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get ticket": {
+      "main": [
+        [
+          {
+            "node": "Determine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create issue": {
+      "main": [
+        [
+          {
+            "node": "Update ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On new Zendesk ticket": {
+      "main": [
+        [
+          {
+            "node": "Get ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

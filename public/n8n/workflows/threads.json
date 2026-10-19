@@ -1,0 +1,237 @@
+{
+  "name": "Threads",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "post-to-threads",
+        "formTitle": "Post Video to Threads",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "caption",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "video_url",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6f141aae-8de3-4cce-a009-fdc5b8b76352",
+      "name": "Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2,
+      "position": [
+        176,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.threads.net/v1.0/25635541402780922/threads",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"media_type\": \"VIDEO\",\n  \"video_url\": \"{{ $('Form Trigger').item.json.video_url }}\",\n  \"text\": \"{{ $('Form Trigger').item.json.caption }}\"\n}",
+        "options": {}
+      },
+      "id": "9e8d0b1b-db23-4fe3-b5d8-2d0849eb839a",
+      "name": "Create Thread",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        640,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.threads.net/v1.0/25635541402780922/threads_publish",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"creation_id\": \"{{ $node['Create Thread'].json.id }}\"\n}\n",
+        "options": {}
+      },
+      "id": "b64e709f-f26c-47e1-af2f-601814f94ba6",
+      "name": "Publish Thread",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        960,
+        416
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        416
+      ],
+      "id": "19abd972-973e-4ad5-865a-f9ae5dc4cd40",
+      "name": "Wait"
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.threads.net/access_token?grant_type=th_exchange_token&client_secret={{ $json.client_secret }}&access_token=REPLACE_WITH_CREDENTIAL $json.access_token }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        416
+      ],
+      "id": "fcce172b-2a43-45e6-a0e5-b317b85908c4",
+      "name": "Exchange Token"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f715726-09ec-459a-a04e-e0453ad29f84",
+              "name": "access_token",
+              "value": "{{ $json.access_token }}",
+              "type": "string"
+            },
+            {
+              "id": "a1c90271-6661-43a1-a4f2-c563fd9c81a1",
+              "name": "client_secret",
+              "value": "REPLACE_WITH_CLIENT_SECRET",
+              "type": "string"
+            },
+            {
+              "id": "4c324122-453a-48fc-baa0-867b410d6693",
+              "name": "account_id",
+              "value": "n8n651",
+              "type": "string"
+            },
+            {
+              "id": "ef5b71c8-43f4-4f40-9a7e-63277c45b2e4",
+              "name": "threads_id",
+              "value": "........",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        416
+      ],
+      "id": "98278544-ee96-416a-978a-2cc6ec475217",
+      "name": "Credentials"
+    },
+    {
+      "id": "287c7b68-edf2-5310-9aca-c970bb5b3a73",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Threads\n\n## Purpose and structure\nThis folder contains the **Threads** workflow. Its executable nodes use `formTrigger`, `httpRequest`, `set`, `wait`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nForm Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Imran-farhat/social-media-post-automation-n8n/blob/cdaf86db3306bdbbce6e770dd4af256f1492c85b/Threads.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Thread": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Publish Thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Exchange Token": {
+      "main": [
+        [
+          {
+            "node": "Create Thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Fields": {
+      "main": [
+        [
+          {
+            "node": "Exchange Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

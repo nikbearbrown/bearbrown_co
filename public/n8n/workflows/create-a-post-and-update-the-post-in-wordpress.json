@@ -1,0 +1,86 @@
+{
+  "name": "Create a post and update the post in WordPress",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        570,
+        260
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Wordpress",
+      "type": "n8n-nodes-base.wordpress",
+      "position": [
+        770,
+        260
+      ],
+      "parameters": {
+        "title": "created from n8n",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Wordpress1",
+      "type": "n8n-nodes-base.wordpress",
+      "position": [
+        970,
+        260
+      ],
+      "parameters": {
+        "postId": "={{$node[\"Wordpress\"].json[\"id\"]}}",
+        "operation": "update",
+        "updateFields": {
+          "content": "This post was created using the n8n workflow."
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "7dd567ca-c32e-52d9-b087-67ba3b9abc9a",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a post and update the post in WordPress\n\n## Purpose and structure\nThis folder contains the **Create a post and update the post in WordPress** workflow. Its executable nodes use `manualTrigger`, `wordpress`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1075_Manual_Wordpress_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Wordpress": {
+      "main": [
+        [
+          {
+            "node": "Wordpress1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Wordpress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

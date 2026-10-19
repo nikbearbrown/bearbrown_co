@@ -1,0 +1,80 @@
+{
+  "nodes": [
+    {
+      "id": "a5f74e05-acea-4ff4-b3b2-5997850be036",
+      "name": "On new customer",
+      "type": "n8n-nodes-base.shopifyTrigger",
+      "position": [
+        180,
+        420
+      ],
+      "parameters": {
+        "topic": "customers/create",
+        "authentication": "accessToken"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "5b4a9e71-3aa7-40d8-a439-79a504c60a46",
+      "name": "Create contact",
+      "type": "n8n-nodes-base.mautic",
+      "position": [
+        400,
+        420
+      ],
+      "parameters": {
+        "email": "={{$node[\"On new customer\"].json[\"email\"]}}",
+        "options": {},
+        "lastName": "={{$node[\"On new customer\"].json[\"last_name\"]}}",
+        "firstName": "={{$node[\"On new customer\"].json[\"first_name\"]}}",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4b7b306e-1b4c-464f-b8f0-373167ded16f",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        400,
+        600
+      ],
+      "parameters": {
+        "width": 332,
+        "height": 116,
+        "content": "### Add more fields to Mautic\nBy default, the first name, last name and email are pushed to Mautic. If you require more fields, add it in the `Create contact` node."
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "83b5fe2f-1037-500f-a9f5-ed5fbb4cab6c",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Add more fields to Mautic\n\n## Purpose and structure\nThis folder contains the **Add more fields to Mautic** workflow. Its executable nodes use `mautic`, `shopifyTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn new customer\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Shopify/0278_Shopify_Mautic_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "On new customer": {
+      "main": [
+        [
+          {
+            "node": "Create contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

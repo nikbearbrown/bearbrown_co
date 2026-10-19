@@ -1,0 +1,251 @@
+{
+  "name": "Update Crypto Values",
+  "nodes": [
+    {
+      "name": "CoinGecko",
+      "type": "n8n-nodes-base.coinGecko",
+      "position": [
+        670,
+        400
+      ],
+      "parameters": {
+        "coinId": "={{$json[\"fields\"][\"Symbol\"]}}",
+        "options": {
+          "market_data": true,
+          "localization": false
+        },
+        "operation": "get"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get Portfolio",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        450,
+        400
+      ],
+      "parameters": {
+        "table": "Portfolio",
+        "operation": "list",
+        "application": "appT7eX4iZcZVRIdq",
+        "additionalOptions": {
+          "fields": [
+            "Symbol"
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        870,
+        400
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Present Price",
+              "value": "={{$json[\"market_data\"][\"current_price\"][\"usd\"]}}"
+            },
+            {
+              "name": "Id",
+              "value": "={{$node[\"Get Portfolio\"].json[\"id\"]}}"
+            }
+          ]
+        },
+        "options": {},
+        "keepOnlySet": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Run Top of Hour",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        240,
+        400
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get Portfolio Values",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        1260,
+        400
+      ],
+      "parameters": {
+        "table": "Portfolio",
+        "operation": "list",
+        "application": "appT7eX4iZcZVRIdq",
+        "additionalOptions": {
+          "fields": [
+            "Present Value"
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Determine Total Value",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        1460,
+        400
+      ],
+      "parameters": {
+        "functionCode": "var totalValues = 0;\n\nitems.forEach(sumValues);\n\nfunction sumValues(value, index, array) {\n  totalValues = totalValues + value.json.fields['Present Value'];\n}\n\nitems = [{\"json\": {}}];\n\n\nitems[0].json['Portfolio Value (US$)'] = totalValues;\n\nreturn items;"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Update Values",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        1070,
+        400
+      ],
+      "parameters": {
+        "id": "={{$node[\"SplitInBatches\"].json[\"id\"]}}",
+        "table": "Portfolio",
+        "fields": [
+          "Present Price"
+        ],
+        "options": {},
+        "operation": "update",
+        "application": "appT7eX4iZcZVRIdq",
+        "updateAllFields": false
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Append Portfolio Value",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        1660,
+        400
+      ],
+      "parameters": {
+        "table": "Portfolio Value",
+        "fields": [
+          "Portfolio Value (US$)"
+        ],
+        "options": {},
+        "operation": "append",
+        "application": "appT7eX4iZcZVRIdq",
+        "addAllFields": false
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "e3476839-d5a0-5b18-b03f-4156f32425de",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Update Crypto Values\n\n## Purpose and structure\nThis folder contains the **Update Crypto Values** workflow. Its executable nodes use `airtable`, `coinGecko`, `cron`, `function`, `set`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nRun Top of Hour\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Coingecko/0177_Coingecko_Cron_Update_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Update Values",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CoinGecko": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Portfolio": {
+      "main": [
+        [
+          {
+            "node": "CoinGecko",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Values": {
+      "main": [
+        [
+          {
+            "node": "Get Portfolio Values",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Top of Hour": {
+      "main": [
+        [
+          {
+            "node": "Get Portfolio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Portfolio Values": {
+      "main": [
+        [
+          {
+            "node": "Determine Total Value",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Determine Total Value": {
+      "main": [
+        [
+          {
+            "node": "Append Portfolio Value",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

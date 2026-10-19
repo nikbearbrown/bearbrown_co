@@ -1,0 +1,109 @@
+{
+  "name": "Create entry in Mailchimp from Airtable",
+  "nodes": [
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        450,
+        450
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {}
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        650,
+        450
+      ],
+      "parameters": {
+        "table": "Users",
+        "operation": "list",
+        "application": "=apprZs8g4tIGDUtqQ",
+        "additionalOptions": {
+          "fields": [
+            "Name",
+            "Email",
+            "Interest"
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Mailchimp",
+      "type": "n8n-nodes-base.mailchimp",
+      "position": [
+        840,
+        450
+      ],
+      "parameters": {
+        "list": "777b2643d4",
+        "email": "={{$node[\"Airtable\"].json[\"fields\"][\"Email\"]}}",
+        "status": "subscribed",
+        "options": {
+          "tags": "Interest"
+        },
+        "mergeFieldsUi": {
+          "mergeFieldsValues": [
+            {
+              "name": "FNAME",
+              "value": "={{$node[\"Airtable\"].json[\"fields\"][\"Name\"]}}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "5370eb0f-985d-523b-9aa7-62e6bebc17eb",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create entry in Mailchimp from Airtable\n\n## Purpose and structure\nThis folder contains the **Create entry in Mailchimp from Airtable** workflow. Its executable nodes use `airtable`, `cron`, `mailchimp`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nCron\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mailchimp/0345_Mailchimp_Cron_Create_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Mailchimp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,607 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "File_Upload",
+        "options": {}
+      },
+      "id": "912d20a0-a303-4352-83fc-741d2f29555a",
+      "name": "Extract from File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "position": [
+        -1320,
+        -20
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"Name\": { \"type\": \"string\" },\n    \"Address\": { \"type\": \"string\" },\n    \"Email\": { \"type\": \"string\" },\n    \"Telephone\": { \"type\": \"string\" },\n    \"Education\": { \"type\": \"string\" },\n    \"Skills & Technologies\": { \"type\": \"string\" },\n    \"Years of Experience\": { \"type\": \"string\" },\n    \"Cover Letter\": { \"type\": \"string\" }\n  }\n}"
+      },
+      "id": "9fa30dc8-f2e6-491c-856a-7d5b6ae60d9e",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        -260,
+        120
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "columns": {
+          "value": {
+            "Name": "={{ $json.output.Name }}",
+            "Email": "={{ $json.output.Email }}",
+            "Address": "={{ $json.output.Address }}",
+            "Education": "={{ $json.output.Education }}",
+            "Telephone": "={{ $json.output.Telephone }}",
+            "Cover Letter": "={{ $json.output['Cover Letter'] }}",
+            "Submitted By": "={{ $('Step 1 of 2 - Upload Document').item.json.Name }}",
+            "Years of Experience": "={{ $json.output['Years of Experience'] }}",
+            "Skills & Technologies": "={{ $json.output['Skills & Technologies'] }}"
+          },
+          "schema": [
+            {
+              "id": "Name",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Name",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "File",
+              "type": "array",
+              "display": true,
+              "removed": true,
+              "readOnly": false,
+              "required": false,
+              "displayName": "File",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cover Letter",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Cover Letter",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Address",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Address",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Email",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telephone",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Telephone",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Education",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Education",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Skills & Technologies",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Skills & Technologies",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Years of Experience",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Years of Experience",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Created",
+              "type": "string",
+              "display": true,
+              "removed": true,
+              "readOnly": true,
+              "required": false,
+              "displayName": "Created",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Modified",
+              "type": "string",
+              "display": true,
+              "removed": true,
+              "readOnly": true,
+              "required": false,
+              "displayName": "Last Modified",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Submitted By",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": false,
+              "required": false,
+              "displayName": "Submitted By",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "defineBelow",
+          "matchingColumns": []
+        },
+        "options": {}
+      },
+      "id": "10d6259e-fb2a-4396-9d37-08017fdaeff8",
+      "name": "Save to Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "position": [
+        160,
+        60
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.text }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Valid or Invalid ",
+              "description": "This document is a CV or Resume"
+            }
+          ]
+        },
+        "options": {
+          "fallback": "other"
+        }
+      },
+      "id": "7ca5fdb6-77ba-4f01-9a5f-40ba92287f0e",
+      "name": "Classify Document",
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "position": [
+        -1160,
+        -20
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://content.airtable.com/v0/{{ $('Save to Airtable').params.base.value }}/{{ $json.id }}/File/uploadAttachment",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "contentType",
+              "value": "application/pdf"
+            },
+            {
+              "name": "filename",
+              "value": "={{ $workflow.id }}-{{ $execution.id }}.pdf"
+            },
+            {
+              "name": "file",
+              "value": "={{ $('Split Files').item.binary.File_Upload.data }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0d25a969-9586-41f5-89f3-3a2d063c93c0",
+      "name": "Upload File to Record",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        360,
+        60
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "content": "## 1. Application Form To Upload Documents\n[Learn more the Form Trigger node](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.formtrigger/)\n\nOur application process starts with a simple file upload to get the applicant's files for processing.",
+        "height": 381,
+        "width": 430,
+        "color": 7
+      },
+      "id": "ca863b07-a8c0-47a0-bc9d-ee9b2ec3400c",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1880,
+        -280
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 2. Document Classifier and ReUpload Form\n[Read more about the Text Classifier](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.text-classifier/)\n\nForm validation remains a critical step and before the introduction of LLMs, classifying document types was a relatively troublesome process. Today, n8n's text classifier node does an excellent job at this task.\n\nContextual validation powered by AI means invalid, unrelevant docs can be rejected as a quality check. When this happens in our workflow, we present the user again with the file upload form to retry.",
+        "height": 593,
+        "width": 774,
+        "color": 7
+      },
+      "id": "dd3c0182-0794-4108-beb5-f47bb1050a0d",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1420,
+        -280
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 3. Smarter Application Pre-fill with Relevant Context\n[Read more about the Basic LLM node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.chainllm)\n\nInformation extraction is a logical next step once we have our PDF contents but we can extend further by only extracting data which is relevant.\n\nTo achieve this for this demo, we've give a detailed prompt to the LLM to compare the docs against. The provides the AI enough context to complete the task successfully.",
+        "height": 584,
+        "width": 648,
+        "color": 7
+      },
+      "id": "b4b8200a-60e1-4e16-b488-858efe72ffc1",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -620,
+        -320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Here is the candidate's CV:\n{{ $json.text }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Extract information from the applicant's CV which is relevant to the job post.\nWhen writing the cover letter, use no more than a few paragraphs. No need to address the hiring company or personnel as this text will be input into an online form.\nUse a formal and professional tone.\nThis is the job post which the cover letter should address:\n\n```\nJob Post: General Operations Manager – Manufacturing Industry\nJob Type: Full-time\nExperience Level: Mid to Senior\n\nAbout Us:\nWe are a forward-thinking manufacturing company committed to innovation, quality, and sustainability. We strive to improve operations, enhance product quality, and implement eco-friendly practices, fostering a productive and collaborative work environment.\n\nJob Description:\nWe are seeking an experienced and dynamic General Operations Manager to lead and optimize our manufacturing processes. The successful candidate will oversee production, enhance efficiency, and implement effective strategies to support our mission. This role is ideal for a seasoned professional with a strong background in operational management and a knack for process improvement.\n\nKey Responsibilities:\n\nOversee and manage production and sales teams across multiple shifts, ensuring seamless 24/6 operations.\nDevelop and implement cost-effective quality control and accountability measures to maintain high manufacturing standards.\nManage inventory and procurement, strategically timing raw material purchases to maximize cost efficiency.\nLead ERP system upgrades or similar digital transformation projects, ensuring timely and budget-friendly execution.\nOptimize credit control and payment terms to improve cash flow while maintaining client relationships.\nAdvocate for sustainable practices, including integrating recycled materials into production processes.\nQualifications:\n\nBachelor's degree in Business Administration or a related field; a Master's in Financial Economics is a plus.\nProven experience in a leadership role within the manufacturing industry.\nExpertise in managing teams, production cycles, and quality assurance.\nProficiency in ERP systems and software such as Stata, Bloomberg Professional, and Thomson Reuters DataStream.\nStrong analytical, decision-making, and organizational skills.\nFamiliarity with capital markets, private equity, or strategic management consulting is a plus.\nPreferred Skills:\n\nAdvanced knowledge of plastics manufacturing, including polyethylene and polypropylene applications.\nExperience in implementing sustainability initiatives and green business practices.\nExcellent communication skills, with a history of collaboration and team-building.\nWhat We Offer:\n\nCompetitive salary and benefits package.\nOpportunities for professional growth and development.\nA collaborative and innovative work environment.\nHow to Apply:\nPlease send your resume and a cover letter highlighting your experience and achievements to [HR Email]. Applications will be reviewed on a rolling basis.\n\nJoin us and drive operational excellence in manufacturing!\n```"
+            }
+          ]
+        }
+      },
+      "id": "94ef8425-3147-4f46-8a81-cb929f4ed61f",
+      "name": "Application Suitability Agent",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        -440,
+        -100
+      ],
+      "typeVersion": 1.5
+    },
+    {
+      "parameters": {
+        "content": "## 4. Save to Applicant Tracking System\n[Read more about the Airtable node](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.airtable/)\n\nNext, we can complete our simple data capture by integrating and pushing data to our Applicant Tracking System.\n\nHere, we're using Airtable because we can also store PDF files in our rows.\n\nSee our example Airtable here: [https://airtable.com/appIhhPcGtnOr5YkL/tblb5tYXk4E2Ev4nO](https://airtable.com/appIhhPcGtnOr5YkL/tblb5tYXk4E2Ev4nO)",
+        "height": 524,
+        "width": 528,
+        "color": 7
+      },
+      "id": "40d8cacb-7382-4384-8e1e-6abfc79e25bf",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        60,
+        -260
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "File Upload",
+              "fieldType": "file",
+              "acceptFileTypes": "pdf",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "formTitle": "Please upload a CV",
+          "formDescription": "Unfortunately, we were unable to process your previous file upload.\n\nTo continue, you must upload a valid CV in PDF format. "
+        }
+      },
+      "id": "4bea2477-7e54-41d8-acd1-f5faeb5e61b4",
+      "name": "File Upload Retry",
+      "type": "n8n-nodes-base.form",
+      "position": [
+        -840,
+        120
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        160
+      ],
+      "id": "670bb139-7ec0-4c7a-8114-fba59aefc7b8",
+      "name": "Google Gemini Chat Model1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        140
+      ],
+      "id": "87adde73-a861-479c-b992-6d429171dfe9",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "formTitle": "Step 1 of 2: Submit Your Document",
+        "formDescription": "Thank you for your interest in MagicFill. To ensure a speedy process, please ensure you following all instructions and fill out all required inputs.\n\nThis step requires you upload your docs in a password-free PDF document. Any document that is not a document will be rejected.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Eg. Bikram Mondal",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "File Upload",
+              "fieldType": "file",
+              "acceptFileTypes": "pdf",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Acknowledgement of Terms",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "I agree to the terms & conditions"
+                  }
+                ]
+              },
+              "multiselect": true,
+              "requiredField": true
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {
+          "buttonLabel": "Submit",
+          "path": "job-application-step1of2",
+          "ignoreBots": true,
+          "useWorkflowTimezone": true
+        }
+      },
+      "id": "f2f45913-5268-48d4-b106-effeed7475a1",
+      "name": "Step 1 of 2 - Upload Document",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        -1720,
+        -80
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "functionCode": "const results = [];\nfor (const item of items) {\n  const binary = item.binary || {};\n  const keys = Object.keys(binary).filter(k => k === 'File_Upload' || k.startsWith('File_Upload_'));\n  for (const key of keys) {\n    results.push({ json: item.json, binary: { File_Upload: binary[key] } });\n  }\n}\nreturn results;"
+      },
+      "id": "2a25e3a7-4c04-4a69-837a-f559d7e4e367",
+      "name": "Split Files",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        -1520,
+        -80
+      ],
+      "typeVersion": 1
+    },
+    {
+      "id": "ebb33790-3f58-5fe0-9082-0177134311ea",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2680,
+        -320
+      ],
+      "parameters": {
+        "content": "# pdf extract from file and create airtable and text classifier\n\n## Purpose and structure\nThis folder contains the **pdf extract from file and create airtable and text classifier** workflow. Its executable nodes use `airtable`, `chainLlm`, `extractFromFile`, `form`, `formTrigger`, `function`, `httpRequest`, `lmChatGoogleGemini`, `outputParserStructured`, `textClassifier`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nStep 1 of 2 - Upload Document\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/BikramMondal5/MagicFill/blob/3037cd5390c2e64e5d8414df6d9d413d57fa6625/resume.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Classify Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Application Suitability Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Airtable": {
+      "main": [
+        [
+          {
+            "node": "Upload File to Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Document": {
+      "main": [
+        [
+          {
+            "node": "Application Suitability Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "File Upload Retry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File to Record": {
+      "main": [
+        []
+      ]
+    },
+    "Application Suitability Agent": {
+      "main": [
+        [
+          {
+            "node": "Save to Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File Upload Retry": {
+      "main": [
+        [
+          {
+            "node": "Split Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classify Document",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Application Suitability Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Step 1 of 2 - Upload Document": {
+      "main": [
+        [
+          {
+            "node": "Split Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Files": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

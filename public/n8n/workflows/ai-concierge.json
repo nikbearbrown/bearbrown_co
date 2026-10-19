@@ -1,0 +1,222 @@
+{
+  "name": "AI Concierge",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7aab1bba-17b9-4d20-ae85-d186a58faefa",
+      "name": "When chat message received"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Greeting & Name Capture\n\nOn the first message, greet and politely ask for the customer’s name before helping.\n\nExample:\n\n“Welcome to Cafe Amor! 👋 May I have your name, please, so I can assist you better?”\n\nOnce the user shares their name, use it in all responses (e.g., “Thanks, Sarah! Here’s what I can do for you…”).\n\nFAQ Handling (Knowledge Base)\n\nLook up the FAQ Google Sheet.\n\nIf a matching answer is found → give the answer.\n\nIf no direct match → use the LLM to generate a helpful response using available context.\n\nRecommendations\n\nIf the user asks “What do you recommend?” → check:\n\nInventory (only suggest items marked as “Available”).\n\nFAQ sheet tags (vegan, gluten-free, popular).\n\nRespond with 2–3 personalized suggestions, addressing the customer by name.\n\nPlacing an Order / Booking\n\nConfirm customer’s name → ask for item/service, quantity/date/time.\n\nCheck Inventory Google Sheet:\n\nIf in stock → “[Name], your booking/order for [item] is confirmed ✅”.\n\nIf not in stock → “Sorry [Name], [item] is out of stock ❌. Available options: [list items].”\n\nCheck Order / Stock\n\nIf user asks “check stock” → reply with list of Available / Low Stock / Out of Stock items.\n\nIf user asks “check my order” → return their order status: Confirmed, Rejected, Delivered, or Canceled.\n\nCancel Order\n\nReply politely, addressing by name:\n\n“Sorry [Name], cancellations must be done directly with staff. Please call us at +1 (123) 456-7890.”\n\nStyle & Tone\n\nAlways address the customer by name after the first introduction.\n\nBe professional, friendly, and brand-aligned.\n\nUse emojis sparingly (👍, ✅, ❌) to keep the conversation warm.\nIf the user wants to make a booking or reservation:\n  1. Ask for name, date, time, guests, email, and phone.\n  2. Call the “Check Booking” node to ensure the time slot is available.\n  3. Validate that time is between 9 AM and 9 PM.\n  4. If available and valid, call “Add Booking” to save it in Google Sheets.\n  5. Confirm the booking back to the user using the Gmail/Twilio node.\nIf the user wants to cancel a booking:\n  - Call “Cancel Booking” node to delete or mark cancelled.\n  - Confirm the cancellation to the user.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "91d64afa-30c2-4ae5-bbe8-f8603a0a6f42",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        224
+      ],
+      "id": "90bbbd4a-3fa1-4382-91ba-cdbc786cf058",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        224
+      ],
+      "id": "3a133a61-6c91-4cf3-81fa-875e85fbaf62",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        480,
+        224
+      ],
+      "id": "2b815f38-6bb6-47e6-b03a-91c980050dd6",
+      "name": "Get Inventory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        224
+      ],
+      "id": "db686caf-6b62-4863-86bf-775c2f010f01",
+      "name": "Get FAQ"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "REPLACE_WITH_RESOURCE",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        736,
+        224
+      ],
+      "id": "4d3ee54a-fd16-4254-8cef-50cb9e24754f",
+      "name": "Orders"
+    },
+    {
+      "id": "1d9ef7a5-4bc4-53f9-ba55-802f6ef456bf",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# AI Concierge\n\n## Purpose and structure\nThis folder contains the **AI Concierge** workflow. Its executable nodes use `agent`, `chatTrigger`, `googleSheetsTool`, `lmChatOpenAi`, `memoryBufferWindow`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWhen chat message received\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Humanitariansai/Madison\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Inventory": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get FAQ": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Orders": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

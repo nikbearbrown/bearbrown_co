@@ -1,0 +1,94 @@
+{
+  "name": "Daily Journal Reminder",
+  "nodes": [
+    {
+      "name": "Morning reminder",
+      "type": "n8n-nodes-base.cron",
+      "notes": "Trigger very morning",
+      "position": [
+        220,
+        60
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 6
+            }
+          ]
+        }
+      },
+      "notesInFlow": true,
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "name": "format reminder",
+      "type": "n8n-nodes-base.functionItem",
+      "position": [
+        460,
+        60
+      ],
+      "parameters": {
+        "functionCode": "\n// Creates message with todays date\nconst today = new Date()\nconst yesterday = new Date(today)\n\nyesterday.setDate(yesterday.getDate() - 1)\nconst message = `What did you do: ${yesterday.toISOString().split('T')[0]}`\n\nreturn {message};"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Send journal reminder",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        700,
+        60
+      ],
+      "parameters": {
+        "text": "={{$node[\"format reminder\"].json[\"message\"]}}",
+        "chatId": "REPLACE_WITH_CHATID",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b13a3098-938f-58ef-a93b-2bd104d75f78",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Daily Journal Reminder\n\n## Purpose and structure\nThis folder contains the **Daily Journal Reminder** workflow. Its executable nodes use `cron`, `functionItem`, `telegram`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nMorning reminder\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Telegram/0346_Telegram_Cron_Automation_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "format reminder": {
+      "main": [
+        [
+          {
+            "node": "Send journal reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Morning reminder": {
+      "main": [
+        [
+          {
+            "node": "format reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

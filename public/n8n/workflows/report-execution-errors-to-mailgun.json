@@ -1,0 +1,59 @@
+{
+  "nodes": [
+    {
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "position": [
+        250,
+        500
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Mailgun",
+      "type": "n8n-nodes-base.mailgun",
+      "position": [
+        450,
+        500
+      ],
+      "parameters": {
+        "text": "=Error: {{$node[\"Error Trigger\"].data[\"execution\"][\"error\"][\"message\"]}}\n\nStack Trace:\n{{$node[\"Error Trigger\"].data[\"execution\"][\"error\"][\"stack\"]}}",
+        "subject": "=Workflow Error:  {{$node[\"Error Trigger\"].data[\"workflow\"][\"name\"]}}",
+        "toEmail": "",
+        "fromEmail": ""
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "218c3bcc-c578-5566-b9f6-72274f8754d8",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# report execution errors to mailgun\n\n## Purpose and structure\nThis folder contains the **report execution errors to mailgun** workflow. Its executable nodes use `errorTrigger`, `mailgun`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nError Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Error/1179_Error_Mailgun_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mailgun",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

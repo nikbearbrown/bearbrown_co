@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "name": "IMAP Email",
+      "type": "n8n-nodes-base.emailReadImap",
+      "position": [
+        240,
+        420
+      ],
+      "parameters": {
+        "format": "resolved",
+        "mailbox": "Invoices",
+        "options": {
+          "customEmailConfig": "[\"ALL\"]"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Nextcloud",
+      "type": "n8n-nodes-base.nextCloud",
+      "position": [
+        940,
+        420
+      ],
+      "parameters": {
+        "path": "=Documents/Invoices/{{$json[\"date\"]}}_{{$json[\"from\"]}}_{{$binary.file.fileName}}",
+        "binaryDataUpload": true,
+        "binaryPropertyName": "file"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Map each attachment",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        620,
+        420
+      ],
+      "parameters": {
+        "functionCode": "const _ = require('lodash')\n\nconst sanitize = str => _.chain(str)\n  .replace(/[^A-Za-z0-9&.-]/g, '-') // sanitise via whitelist of characters\n  .replace(/-(?=-)/g, '') // remove repeated dashes - https://regexr.com/6ag8h\n  .trim('-') // trim any leading/trailing dashes\n  .truncate({\n    length: 60,\n    omission: '-' // when the string ends with '-', you'll know it was truncated\n  })\n  .value()\n\nconst result = _.flatMap(items.map(item => {\n  //console.log({item})\n\n  // Maps each attachment to a separate item\n  return _.values(item.binary).map(file => {\n    console.log(\"Saving attachement:\", file.fileName, 'from:', ...item.json.from.value)\n    \n    // sanitize filename but exclude extension\n    const filename_parts = file.fileName.split('.')\n    const ext = _.slice(filename_parts, filename_parts.length-1)\n    const filename_main = _.join(_.dropRight(filename_parts), '.')\n    file.fileName = sanitize(filename_main) + '.' + ext\n    \n    return {\n      json: {\n        from: sanitize(item.json.from.value[0].name),\n        date: sanitize(new Date(item.json.date).toISOString().split(\"T\")[0]) // get date part \"2020-01-01\"\n      }, \n      binary: { file }\n    }\n  })\n}))\n\n//console.log(result)\nreturn result"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c1959596-9e26-5615-bac7-5f774497ebce",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# email read imap and next cloud\n\n## Purpose and structure\nThis folder contains the **email read imap and next cloud** workflow. Its executable nodes use `emailReadImap`, `function`, `nextCloud`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Emailreadimap/0134_Emailreadimap_Nextcloud_Send.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "IMAP Email": {
+      "main": [
+        [
+          {
+            "node": "Map each attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map each attachment": {
+      "main": [
+        [
+          {
+            "node": "Nextcloud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

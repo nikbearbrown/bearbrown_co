@@ -1,0 +1,189 @@
+{
+  "name": "Moving metrics from Google Sheets to Orbit",
+  "nodes": [
+    {
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        1473,
+        426
+      ],
+      "parameters": {
+        "mode": "mergeByKey",
+        "propertyName1": "GitHub Username",
+        "propertyName2": "attributes.slug"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Add Members",
+      "type": "n8n-nodes-base.orbit",
+      "position": [
+        1073,
+        326
+      ],
+      "parameters": {
+        "operation": "upsert",
+        "identityUi": {
+          "identityValue": {
+            "source": "github",
+            "searchBy": "username",
+            "username": "={{$json[\"GitHub\"]}}"
+          }
+        },
+        "workspaceId": "543",
+        "additionalFields": {
+          "name": "={{$json[\"Name\"]}}",
+          "tShirt": "={{$json[\"T-Shirt Size\"]}}",
+          "location": "={{$json[\"Location\"]}}",
+          "tagsToAdd": "={{$json[\"Tags\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get all members",
+      "type": "n8n-nodes-base.orbit",
+      "position": [
+        1273,
+        526
+      ],
+      "parameters": {
+        "options": {},
+        "operation": "getAll",
+        "returnAll": true,
+        "workspaceId": "543"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get Members",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        873,
+        326
+      ],
+      "parameters": {
+        "range": "Members!A:F",
+        "options": {},
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get Activities",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1273,
+        326
+      ],
+      "parameters": {
+        "range": "Activities!A:D",
+        "options": {
+          "returnAllMatches": true
+        },
+        "sheetId": "={{$node[\"Get Members\"].parameter[\"sheetId\"]}}",
+        "operation": "lookup",
+        "lookupValue": "={{$node[\"Get Members\"].json[\"GitHub\"]}}",
+        "lookupColumn": "GitHub Username",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Add Activities",
+      "type": "n8n-nodes-base.orbit",
+      "position": [
+        1673,
+        426
+      ],
+      "parameters": {
+        "title": "={{$json[\"Title\"]}}",
+        "memberId": "={{$json[\"id\"]}}",
+        "resource": "activity",
+        "workspaceId": "543",
+        "additionalFields": {
+          "link": "={{$json[\"Activity Link\"]}}",
+          "description": "={{$node[\"Merge\"].json[\"Description\"]}}"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "428ce178-9e2f-5b91-9e01-9f8a6deda2d4",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Moving metrics from Google Sheets to Orbit\n\n## Purpose and structure\nThis folder contains the **Moving metrics from Google Sheets to Orbit** workflow. Its executable nodes use `googleSheets`, `merge`, `orbit`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Googlesheets/1153_GoogleSheets_Orbit_Automation.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Add Activities",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Members": {
+      "main": [
+        [
+          {
+            "node": "Get Activities",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Members": {
+      "main": [
+        [
+          {
+            "node": "Add Members",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Activities": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all members": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  }
+}

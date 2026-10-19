@@ -1,0 +1,64 @@
+{
+  "name": "Receive updates when a form is submitted in Mautic, and send a confirmation SMS",
+  "nodes": [
+    {
+      "name": "Mautic Trigger",
+      "type": "n8n-nodes-base.mauticTrigger",
+      "position": [
+        510,
+        300
+      ],
+      "parameters": {
+        "events": [
+          "mautic.form_on_submit"
+        ]
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Twilio",
+      "type": "n8n-nodes-base.twilio",
+      "position": [
+        710,
+        300
+      ],
+      "parameters": {
+        "to": "={{$node[\"Mautic Trigger\"].json[\"mautic.form_on_submit\"][0][\"submission\"][\"results\"][\"phone_number\"]}}",
+        "from": "1234",
+        "message": "=Hey, {{$node[\"Mautic Trigger\"].json[\"mautic.form_on_submit\"][0][\"submission\"][\"results\"][\"first_name\"]}} 👋\nThank you for signing up for the Webinar - Getting Started with n8n. The webinar will start at 1800 CEST on 31st October 2020.\nSee you there!"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "a21cd213-b9f4-5336-ab1e-c283d2ffc993",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Receive updates when a form is submitted in Mautic, and send a confirmation SMS\n\n## Purpose and structure\nThis folder contains the **Receive updates when a form is submitted in Mautic, and send a confirmation SMS** workflow. Its executable nodes use `mauticTrigger`, `twilio`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nMautic Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mautic/0155_Mautic_Twilio_Update_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Mautic Trigger": {
+      "main": [
+        [
+          {
+            "node": "Twilio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

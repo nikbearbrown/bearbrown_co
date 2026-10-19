@@ -1,0 +1,37 @@
+{
+  "nodes": [
+    {
+      "name": "Hubspot Trigger",
+      "type": "n8n-nodes-base.hubspotTrigger",
+      "position": [
+        700,
+        260
+      ],
+      "parameters": {
+        "appId": "dghert3",
+        "additionalFields": {
+          "maxConcurrentRequests": 5
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "9e22a4db-124f-597a-bd2c-4020acb69764",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# receive hubspot events\n\n## Purpose and structure\nThis folder contains the **receive hubspot events** workflow. Its executable nodes use `hubspotTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nHubspot Trigger\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Hubspot/1081_HubSpot_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {},
+  "active": false
+}

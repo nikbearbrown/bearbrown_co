@@ -1,0 +1,85 @@
+{
+  "name": "Create a short URL and get the statistics of the URL",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        370,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Yourls",
+      "type": "n8n-nodes-base.yourls",
+      "position": [
+        570,
+        300
+      ],
+      "parameters": {
+        "url": "https://medium.com/n8n-io/sending-sms-the-low-code-way-with-airtable-twilio-programmable-sms-and-n8n-90dbde74223e?source=---------4-----------------------",
+        "additionalFields": {
+          "title": "Sending SMS the Low-Code Way with Airtable, Twilio Programmable SMS, and n8n"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Yourls1",
+      "type": "n8n-nodes-base.yourls",
+      "position": [
+        770,
+        300
+      ],
+      "parameters": {
+        "shortUrl": "={{$node[\"Yourls\"].json[\"shorturl\"]}}",
+        "operation": "stats"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "c4456e78-cc0f-5237-8efa-0c0263945335",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create a short URL and get the statistics of the URL\n\n## Purpose and structure\nThis folder contains the **Create a short URL and get the statistics of the URL** workflow. Its executable nodes use `manualTrigger`, `yourls`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0210_Manual_Yourls_Create_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Yourls": {
+      "main": [
+        [
+          {
+            "node": "Yourls1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Yourls",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

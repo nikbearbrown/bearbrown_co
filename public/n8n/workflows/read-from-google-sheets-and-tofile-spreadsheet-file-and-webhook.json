@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "name": "Read from Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        460,
+        300
+      ],
+      "parameters": {
+        "options": {},
+        "sheetId": "REPLACE_WITH_SHEETID"
+      },
+      "typeVersion": 2
+    },
+    {
+      "name": "Create HTML file",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        680,
+        300
+      ],
+      "parameters": {
+        "options": {},
+        "operation": "toFile",
+        "fileFormat": "html"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        240,
+        300
+      ],
+      "parameters": {
+        "path": "08569699-fea2-4856-80aa-fe878ab9dd4f",
+        "options": {},
+        "responseData": "firstEntryBinary",
+        "responseMode": "lastNode"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "ab4e580f-0470-5ec3-a222-4623b2d3d714",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# read from google sheets and tofile spreadsheet file and webhook\n\n## Purpose and structure\nThis folder contains the **read from google sheets and tofile spreadsheet file and webhook** workflow. Its executable nodes use `googleSheets`, `spreadsheetFile`, `webhook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nWebhook\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Googlesheets/0237_GoogleSheets_Spreadsheetfile_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Read from Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read from Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Create HTML file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

@@ -1,0 +1,108 @@
+{
+  "nodes": [
+    {
+      "name": "Send message",
+      "type": "n8n-nodes-base.mattermost",
+      "position": [
+        910,
+        260
+      ],
+      "parameters": {
+        "message": "=New information was added to your Google Sheet.\nID: {{$json[\"id\"]}}\nName: {{$json[\"name\"]}}\nEmail: {{$json[\"email\"]}}",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Check if new data",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        710,
+        260
+      ],
+      "parameters": {
+        "functionCode": "const new_items = [];\n// Get static data stored with the workflow\n\nconst data = this.getWorkflowStaticData(\"node\");\ndata.ids = data.ids || [];\nfor (let i = items.length - 1; i >= 0; i--) {\n\n// Check if data is already present\n  if (data.ids.includes(items[i].json.ID)) {\n    break;\n  } else {\n\n// if new data then add it to an array\n    new_items.push({\n      json: {\n        id: items[i].json.ID,\n        name: items[i].json.Name,\n        email: items[i].json.Email\n      },\n    });\n  }\n}\ndata.ids = items.map((item) => item.json.ID);\n\n// return new items\nreturn new_items;\n"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Read data",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        510,
+        260
+      ],
+      "parameters": {
+        "options": {},
+        "sheetId": "REPLACE_WITH_SHEETID",
+        "authentication": "oAuth2"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Execute every 45 mins",
+      "type": "n8n-nodes-base.interval",
+      "position": [
+        310,
+        260
+      ],
+      "parameters": {
+        "unit": "minutes"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "b1933db6-3339-5322-9121-df70dd054c60",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# mattermost and google sheets and execute every 45 mins\n\n## Purpose and structure\nThis folder contains the **mattermost and google sheets and execute every 45 mins** workflow. Its executable nodes use `function`, `googleSheets`, `interval`, `mattermost`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nInspect connections; no recognized trigger.\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Mattermost/1167_Mattermost_GoogleSheets_Create_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Read data": {
+      "main": [
+        [
+          {
+            "node": "Check if new data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if new data": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute every 45 mins": {
+      "main": [
+        [
+          {
+            "node": "Read data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

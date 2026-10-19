@@ -1,0 +1,110 @@
+{
+  "nodes": [
+    {
+      "name": "Read Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        700,
+        300
+      ],
+      "parameters": {
+        "range": "Data!A:G",
+        "rawData": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "custom",
+              "cronExpression": "0 */2 * * * *"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Write Sheet 2",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        900,
+        400
+      ],
+      "parameters": {
+        "range": "={{$node[\"Read Sheet\"].parameter[\"range\"]}}",
+        "rawData": true,
+        "operation": "update"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Write Sheet 1",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        900,
+        200
+      ],
+      "parameters": {
+        "range": "={{$node[\"Read Sheet\"].parameter[\"range\"]}}",
+        "rawData": true,
+        "operation": "update"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "4cbe6ff8-8cfa-5892-9172-09bb524d4ec1",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# google sheets and cron and update google sheets\n\n## Purpose and structure\nThis folder contains the **google sheets and cron and update google sheets** workflow. Its executable nodes use `cron`, `googleSheets`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nCron\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Googlesheets/1106_GoogleSheets_Cron_Automate_Scheduled.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Read Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Sheet": {
+      "main": [
+        [
+          {
+            "node": "Write Sheet 2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Write Sheet 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

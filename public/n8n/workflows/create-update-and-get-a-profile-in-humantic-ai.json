@@ -1,0 +1,137 @@
+{
+  "name": "Create, update, and get a profile in Humantic AI",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        290,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Humantic AI",
+      "type": "n8n-nodes-base.humanticAi",
+      "position": [
+        490,
+        300
+      ],
+      "parameters": {
+        "userId": "https://www.linkedin.com/in/harshil1712/"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        690,
+        300
+      ],
+      "parameters": {
+        "url": "",
+        "options": {},
+        "responseFormat": "file"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Humantic AI1",
+      "type": "n8n-nodes-base.humanticAi",
+      "position": [
+        890,
+        300
+      ],
+      "parameters": {
+        "userId": "={{$node[\"Humantic AI\"].json[\"results\"][\"userid\"]}}",
+        "operation": "update",
+        "sendResume": true
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Humantic AI2",
+      "type": "n8n-nodes-base.humanticAi",
+      "position": [
+        1090,
+        300
+      ],
+      "parameters": {
+        "userId": "={{$node[\"Humantic AI\"].json[\"results\"][\"userid\"]}}",
+        "options": {
+          "persona": [
+            "hiring"
+          ]
+        },
+        "operation": "get"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "bee6d95a-98e5-50e1-93d0-7b97ac2de78f",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create, update, and get a profile in Humantic AI\n\n## Purpose and structure\nThis folder contains the **Create, update, and get a profile in Humantic AI** workflow. Its executable nodes use `httpRequest`, `humanticAi`, `manualTrigger`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0110_Manual_Humanticai_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Humantic AI": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Humantic AI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Humantic AI1": {
+      "main": [
+        [
+          {
+            "node": "Humantic AI2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Humantic AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

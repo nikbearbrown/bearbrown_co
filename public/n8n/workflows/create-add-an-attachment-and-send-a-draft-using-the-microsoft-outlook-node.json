@@ -1,0 +1,143 @@
+{
+  "name": "Create, add an attachment, and send a draft using the Microsoft Outlook node",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Microsoft Outlook",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "subject": "Hello from n8n!",
+        "resource": "draft",
+        "bodyContent": "<h1>Hello from n8n!</h1> <p>We are sending this email using the Microsoft Outlook node in <a href=\"https://n8n.io\">n8n</a></p> <p>Best,</p> <p>Sender</p>",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "url": "https://n8n.io/n8n-logo.png",
+        "options": {},
+        "responseFormat": "file"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Microsoft Outlook1",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "resource": "messageAttachment",
+        "messageId": "={{$node[\"Microsoft Outlook\"].json[\"id\"]}}",
+        "additionalFields": {
+          "fileName": "n8n.png"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Microsoft Outlook2",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "resource": "draft",
+        "messageId": "={{$node[\"Microsoft Outlook\"].json[\"id\"]}}",
+        "operation": "send",
+        "additionalFields": {
+          "recipients": "REPLACE_WITH_RECIPIENTS"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "e151f549-f3bc-551b-aac6-2e167d7517cc",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Create, add an attachment, and send a draft using the Microsoft Outlook node\n\n## Purpose and structure\nThis folder contains the **Create, add an attachment, and send a draft using the Microsoft Outlook node** workflow. Its executable nodes use `httpRequest`, `manualTrigger`, `microsoftOutlook`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0312_Manual_HTTP_Create_Webhook.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Outlook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Microsoft Outlook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Microsoft Outlook1": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Outlook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Outlook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "name": "Get Company by Name",
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        440,
+        510
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Create Company Item",
+      "type": "n8n-nodes-base.functionItem",
+      "position": [
+        640,
+        510
+      ],
+      "parameters": {
+        "functionCode": "item.company = \"Killia technologies\";\nitem.country = \"Spain\";\n\nreturn item;"
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Get Company by Name",
+      "type": "n8n-nodes-base.uproc",
+      "position": [
+        850,
+        510
+      ],
+      "parameters": {
+        "name": "={{$node[\"Create Company Item\"].json[\"company\"]}}",
+        "tool": "getCompanyByName",
+        "group": "company",
+        "country": "={{$node[\"Create Company Item\"].json[\"country\"]}}",
+        "additionalOptions": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Company Found?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1050,
+        510
+      ],
+      "parameters": {
+        "conditions": {
+          "number": [],
+          "string": [
+            {
+              "value1": "={{$node[\"Get Company by Name\"].json[\"message\"][\"name\"]}}",
+              "value2": ".+",
+              "operation": "regex"
+            }
+          ]
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "fdb40f2f-1865-5d0b-84ef-0ac7618aaf4a",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# Get Company by Name\n\n## Purpose and structure\nThis folder contains the **Get Company by Name** workflow. Its executable nodes use `functionItem`, `if`, `manualTrigger`, `uproc`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/0056_Manual_Uproc_Import_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "connections": {
+    "Create Company Item": {
+      "main": [
+        [
+          {
+            "node": "Get Company by Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Company by Name": {
+      "main": [
+        [
+          {
+            "node": "Company Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Create Company Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

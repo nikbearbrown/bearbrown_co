@@ -1,0 +1,111 @@
+{
+  "nodes": [
+    {
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        420,
+        260
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "name": "Salesforce",
+      "type": "n8n-nodes-base.salesforce",
+      "position": [
+        620,
+        260
+      ],
+      "parameters": {
+        "company": "CompanyInc",
+        "lastname": "DudeOne",
+        "additionalFields": {}
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Salesforce1",
+      "type": "n8n-nodes-base.salesforce",
+      "position": [
+        810,
+        260
+      ],
+      "parameters": {
+        "leadId": "={{$node[\"Salesforce\"].json[\"id\"]}}",
+        "operation": "update",
+        "updateFields": {
+          "city": "Berlin"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "name": "Salesforce2",
+      "type": "n8n-nodes-base.salesforce",
+      "position": [
+        1020,
+        260
+      ],
+      "parameters": {
+        "title": "Deal Won!",
+        "leadId": "={{$node[\"Salesforce\"].json[\"id\"]}}",
+        "options": {},
+        "operation": "addNote"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "3e8c1331-dd1e-5a73-a01c-cc80bbdfac98",
+      "name": "Publication · Overview and setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        0
+      ],
+      "parameters": {
+        "content": "# salesforce and update salesforce and addnote salesforce\n\n## Purpose and structure\nThis folder contains the **salesforce and update salesforce and addnote salesforce** workflow. Its executable nodes use `manualTrigger`, `salesforce`. The table and connection map below are derived from the JSON, not an inferred guarantee of behavior.\n\n## Setup\nImport inactive. Configure your own credentials and replace REPLACE_WITH_* values. Review external destinations and Code nodes before running.\n\n## Entry points\nOn clicking 'execute'\n\n## Verification\nSanitized source candidate; not runtime-tested. This overview is generated from node metadata. Read the folder README for the connection map, credential types, and license.\n\n## Attribution\nhttps://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Manual/1094_Manual_Salesforce_Automate_Triggered.json\nMIT; preserve source notices.",
+        "width": 700,
+        "height": 800,
+        "color": 1
+      }
+    }
+  ],
+  "connections": {
+    "Salesforce": {
+      "main": [
+        [
+          {
+            "node": "Salesforce1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salesforce1": {
+      "main": [
+        [
+          {
+            "node": "Salesforce2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Salesforce",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}
