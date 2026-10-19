@@ -349,3 +349,10 @@ Bear requested `/agents` as a top-level navigation destination. It contains the 
 `components/agents/WorkflowBrowser.tsx` provides Fuse.js search, category/integration filters, pagination and URL parameters. `WorkflowPreview.tsx` reconstructs the exported graph without running it; a node table supplies a text alternative. Unknown slugs return 404. Keep the Agents primary navigation item and home card in sync.
 
 The Liam repository explainer will link to https://www.bearbrown.co/agents and show a real capture after deployment. Do not invent a video URL or expose a placeholder player before the film is ready.
+
+
+## Snapshot consolidation (2026-10-19)
+
+The published n8n catalog now has 1,876 entries after consolidating 24 pairs whose executable graphs match after horizontal-whitespace normalization inside strings. This is family-level consolidation, not runtime equivalence. `data/n8n/aliases.json` records retired slugs; `next.config.mjs` permanently redirects both old detail URLs and JSON download URLs. Preserve these aliases on future refreshes. Retained JSON files are unchanged; both source/license records are in the public repository consolidation manifest.
+
+The approved Liam walkthrough is published at https://www.youtube.com/watch?v=1mtH871u8bM in the Agentic AI playlist (PLH5UELa_jheA) and embedded on `/agents` using youtube-nocookie.com. The 6:03 native-4K film records the earlier 1,900-entry catalog; both the page and YouTube description explain the later consolidation. Keep the existing How to AI playlist feed separate.
