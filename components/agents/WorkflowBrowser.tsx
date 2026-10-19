@@ -4,13 +4,14 @@ import { useMemo, useState, useDeferredValue } from 'react'
 import Link from 'next/link'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import Fuse from 'fuse.js'
+import { formatN8nLabel } from '@/lib/n8n-labels'
 import { Search, ArrowUpRight, ArrowLeft, ArrowRight, X } from 'lucide-react'
 import type { WorkflowEntry } from '@/lib/n8n-catalog'
 
 const PAGE_SIZE = 24
 export default function WorkflowBrowser({ entries }: { entries: WorkflowEntry[] }) {
   const params = useSearchParams(); const router = useRouter(); const pathname = usePathname()
-  const query = params.get('q') || ''; const category = params.get('category') || ''; const integration = params.get('integration') || ''
+  const query = params.get('q') || ''; const category = params.get('category') || ''; const integration = formatN8nLabel(params.get('integration') || '')
   const [draft, setDraft] = useState(query)
   const deferred = useDeferredValue(draft)
   const [lastQuery, setLastQuery] = useState(query)

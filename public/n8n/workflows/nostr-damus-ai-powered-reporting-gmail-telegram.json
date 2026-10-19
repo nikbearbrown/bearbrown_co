@@ -190,7 +190,7 @@
     },
     {
       "id": "d2079c9e-b743-4353-bda9-e269168f5461",
-      "name": "Sticky Note",
+      "name": "Explain the collected threads",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         360,
@@ -199,14 +199,14 @@
       "parameters": {
         "color": 6,
         "width": 960,
-        "height": 420,
-        "content": "## #damus Threads Themes"
+        "height": 480,
+        "content": "## Explain the collected threads\n\nThe aggregation node collects the incoming `content` fields into an array. The first LLM chain serializes that array into its prompt and asks for themes, shared topics, and why posts use #damus. Its generated `text` is sent to three branches: an email formatter, a theme-list extractor, and Telegram.\n\nThe model output is an interpretation of supplied posts. Check it against the original content before treating a claimed theme or motivation as evidence. The source does not include a citation checker or a human approval gate."
       },
       "typeVersion": 1
     },
     {
       "id": "5f69afb5-6e3c-4f65-84bb-8c1f4544b2c5",
-      "name": "Sticky Note1",
+      "name": "Extract a theme list",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         360,
@@ -214,15 +214,15 @@
       ],
       "parameters": {
         "color": 5,
-        "width": 520,
-        "height": 420,
-        "content": "## #damus Threads Themes"
+        "width": 600,
+        "height": 480,
+        "content": "## Extract a theme list\n\nThe second LLM chain receives the first chain's generated `text` and asks for a list of themes without a preamble. It therefore summarizes an earlier model response, rather than reading the original posts again at this step. Errors introduced upstream can carry into this list.\n\nThe list goes to input 0 of the Merge node. The aggregated source content goes to input 1. The Merge is configured to combine items by position; confirm the item counts and ordering before changing either branch."
       },
       "typeVersion": 1
     },
     {
       "id": "6de3d9d2-98be-4102-9ed5-cda48b37eee7",
-      "name": "Sticky Note2",
+      "name": "Build the detailed report",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         360,
@@ -231,8 +231,8 @@
       "parameters": {
         "color": 4,
         "width": 960,
-        "height": 420,
-        "content": "## #damus Threads & Threads Report"
+        "height": 480,
+        "content": "## Build the detailed report\n\nAfter the positional merge, the final LLM chain receives both the extracted themes and the aggregated post content. Its prompt requests an overall theme, recurring topics, examples, observations, and possible improvements. The resulting `text` branches to Gmail and Telegram.\n\nThe prompt also asks about user motivation. That is an inference, not an observed fact. Review quotations and examples against the supplied posts, and keep uncertain interpretations labeled. No automated factual-verification node is present in this export."
       },
       "typeVersion": 1
     },
@@ -270,7 +270,7 @@
     },
     {
       "id": "d1939a96-1e68-4d90-a456-55852c941e28",
-      "name": "Sticky Note3",
+      "name": "Collect Nostr posts and configure the entry point",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -280,
@@ -278,39 +278,39 @@
       ],
       "parameters": {
         "color": 6,
-        "width": 340,
+        "width": 600,
         "height": 700,
-        "content": "## Get Nostr Threads with Hashtag #damus\n\nThe social network you control\nYour very own social network for your friends or business.\nAvailable Now on iOS, iPad and macOS (M1/M2)\n\nhttps://nostr.com/\nhttps://damus.io/\nhttps://damus.io/notedeck/\n\n### n8n Community Node https://github.com/ocknamo/n8n-nodes-nostrobots\n"
+        "content": "## Collect Nostr posts and configure the entry point\n\nThe scheduled entry point connects to the community Nostr reader, configured with strategy `hashtag`, hashtag `#damus`, and a `from` value of `180`. Confirm the meaning and units of that last setting in the installed community node; this export does not explain them. Install the compatible `n8n-nodes-nostrobots` package before testing.\n\nThe export also contains a manual trigger, but its connection-map key uses literal escaped quote characters that do not match the actual node name. Reconnect the manual trigger to the Nostr reader in your copy before relying on a manual run. Inspect the schedule interval as well; the exported interval contains no explicit values.\n\nCommunity node source: https://github.com/ocknamo/n8n-nodes-nostrobots"
       },
       "typeVersion": 1
     },
     {
       "id": "89905442-bf8d-40d2-a9b1-fb3cf3a2ac44",
-      "name": "Sticky Note4",
+      "name": "Send the theme summary to Telegram",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         940,
         -640
       ],
       "parameters": {
-        "width": 320,
-        "height": 280,
-        "content": "## Telegram \n"
+        "width": 600,
+        "height": 480,
+        "content": "## Send the theme summary to Telegram\n\nThis branch takes the first LLM chain's `text`, keeps only its first 4,000 characters, and sends it to the configured Telegram chat. Select your Telegram credentials and supply your own chat identifier; the export reads it from `TELEGRAM_CHAT_ID` in the environment.\n\nThe node requests HTML parsing while the LLM output is not constrained to valid Telegram HTML. Test formatting with a harmless destination. The character slice can omit part of a summary; it does not split a long message into multiple deliveries."
       },
       "typeVersion": 1
     },
     {
       "id": "aee0f3eb-7b0e-4df1-968d-5abe1c22e26a",
-      "name": "Sticky Note5",
+      "name": "Deliver the final report",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         940,
         280
       ],
       "parameters": {
-        "width": 320,
-        "height": 280,
-        "content": "## Telegram \n"
+        "width": 600,
+        "height": 480,
+        "content": "## Deliver the final report\n\nThe final report is delivered along two independent branches. One converts the model's Markdown into HTML and passes the resulting `data` field to Gmail. The other sends the first 4,000 characters of the report directly to Telegram with HTML parsing enabled.\n\nReplace the Gmail recipient placeholder, select your own account credentials, and configure the Telegram destination. Test both branches separately: successful email formatting does not verify Telegram markup or prove that the complete report fits in one message. These nodes send immediately; there is no approval step in the exported graph."
       },
       "typeVersion": 1
     },
@@ -352,7 +352,7 @@
     },
     {
       "id": "5bc52456-7bbc-445a-8ffd-f47403a4b978",
-      "name": "Sticky Note6",
+      "name": "Test with a small controlled sample",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -580,
@@ -360,9 +360,9 @@
       ],
       "parameters": {
         "color": 4,
-        "width": 260,
-        "height": 460,
-        "content": "## Try Me!"
+        "width": 600,
+        "height": 480,
+        "content": "## Test with a small controlled sample\n\nImport the workflow inactive, repair the manual-trigger connection, and select a currently available model in each of the three Gemini model nodes. The export names a preview model; this review does not establish its present availability. Configure Gmail, Telegram, and Gemini credentials outside the shared JSON.\n\nUse a small synthetic or non-sensitive post sample and test destinations. Inspect the aggregated content, first summary, extracted list, merged item, and final report before enabling either delivery branch or the schedule. Include empty input and malformed-content cases. The current workflow has not been executed as part of this annotation review."
       },
       "typeVersion": 1
     },
