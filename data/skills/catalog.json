@@ -70,6 +70,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/academic-writing-coach"
    }
   ],
+  "canonical": false,
+  "path": "skills/academic-writing-coach/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/academic-writing-coach",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -304,6 +308,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/ai-build-planner"
    }
   ],
+  "canonical": false,
+  "path": "skills/ai-build-planner/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/ai-build-planner",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -461,6 +469,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/brand-comms-audit"
    }
   ],
+  "canonical": false,
+  "path": "skills/brand-comms-audit/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/brand-comms-audit",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -652,6 +664,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/brand-identity"
    }
   ],
+  "canonical": false,
+  "path": "skills/brand-identity/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/brand-identity",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -733,6 +749,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/cinematic-prompt-sequences"
    }
   ],
+  "canonical": false,
+  "path": "skills/cinematic-prompt-sequences/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/cinematic-prompt-sequences",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -811,6 +831,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/consulting-case"
    }
   ],
+  "canonical": false,
+  "path": "skills/consulting-case/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/consulting-case",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -1028,6 +1052,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/copywriting-coach"
    }
   ],
+  "canonical": false,
+  "path": "skills/copywriting-coach/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/copywriting-coach",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -1192,7 +1220,180 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/course-artifacts"
    }
   ],
+  "canonical": false,
+  "path": "skills/course-artifacts/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/course-artifacts",
+  "refactor": null,
   "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "dispatching-parallel-agents",
+  "name": "dispatching-parallel-agents",
+  "description": "Split two or more truly independent problems across parallel agents or workers, one focused brief each, then integrate and verify the combined result. Use when several failures, files or subsystems have separate causes and no shared state, and the user wants them worked concurrently. Not for related failures, exploration, diagnosis of one unknown problem, or tasks that edit the same files.",
+  "does": "Split two or more truly independent problems across parallel agents or workers, one focused brief each, then integrate and verify the combined result.",
+  "useWhen": "Use when several failures, files or subsystems have separate causes and no shared state, and the user wants them worked concurrently. Not for related failures, exploration, diagnosis of one unknown problem, or tasks that edit the same files.",
+  "kind": "protocol",
+  "job": "Software & games",
+  "persona": null,
+  "starts": null,
+  "pairs": [
+   "systematic-debugging",
+   "requesting-code-review"
+  ],
+  "agents": [],
+  "words": 952,
+  "descWords": 61,
+  "sections": [
+   {
+    "title": "Decide first",
+    "words": 192
+   },
+   {
+    "title": "The procedure",
+    "words": 322
+   },
+   {
+    "title": "Example brief",
+    "words": 146
+   },
+   {
+    "title": "Worked case",
+    "words": 86
+   },
+   {
+    "title": "Boundary checklist before dispatching",
+    "words": 57
+   },
+   {
+    "title": "Risks",
+    "words": 50
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [
+   "SOURCES.md",
+   "sources.json"
+  ],
+  "sha256": "54e4ff8bc23c129859ec5de17629623bf47b110619738a82c7c9e7c7c8d01c29",
+  "changed": "2026-10-20",
+  "derivedFrom": [
+   {
+    "repo": "obra/superpowers",
+    "path": "skills/dispatching-parallel-agents/SKILL.md",
+    "commit": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "1968923066f3b707eb01d1992cdf4c42284c3855f70253b9cd5000ff45fca13c",
+    "role": "Primary basis",
+    "url": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/dispatching-parallel-agents/SKILL.md",
+    "took": "the principle, the four-step pattern (split into domains, write focused briefs, dispatch together, review and integrate), the brief structure, the good-and-bad brief contrasts, the example brief and the worked case."
+   },
+   {
+    "repo": "brunob54/superpowers-orchestrator",
+    "path": "skills/dispatching-parallel-agents/SKILL.md",
+    "commit": "90017a876a4d044934c9adcc7844a8cf1e34044d",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "439b8eb05268a2dcf29e7e2bed61e3c5237270f9f6e028fdf5a2d5c0f926739d",
+    "role": "Added ideas",
+    "url": "https://github.com/brunob54/superpowers-orchestrator/blob/90017a876a4d044934c9adcc7844a8cf1e34044d/skills/dispatching-parallel-agents/SKILL.md",
+    "took": "the three-condition decision check with \"otherwise run sequentially\", \"do not use for content relay\" (worker replies are compressed, so fetch raw content yourself), dispatching all workers in one step, never forwarding session history, running the full suite plus cross-domain checks before calling the work complete, and the risks list."
+   },
+   {
+    "repo": "lsy041015/orchestra",
+    "path": "skills/dispatching-parallel-agents/SKILL.md",
+    "commit": "d23927aa31b1fcd1e2b2c2ac44c5e53136e27dc5",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "c968ac3d31de2497849b1ecca94981b3ceacf6c6eb121126e92ded373cf91ac0",
+    "role": "Added ideas",
+    "url": "https://github.com/lsy041015/orchestra/blob/d23927aa31b1fcd1e2b2c2ac44c5e53136e27dc5/skills/dispatching-parallel-agents/SKILL.md",
+    "took": "the boundary checklist, \"worker reports are evidence, not approval\", \"do not use for exploration, planning, diagnosis, review or a second opinion\", workers do not start workers, and stop retrying after two failed fixes with the same cause."
+   }
+  ],
+  "canonical": true,
+  "path": "skills/dispatching-parallel-agents/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/skills/tree/main/skills/dispatching-parallel-agents",
+  "refactor": {
+   "summary": "It keeps the upstream pattern (one focused worker per independent problem, dispatched together) and adds a stricter independence test and a better list of what not to delegate.",
+   "changed": [
+    "The description says what the skill does and what it is not for. Upstream's was \"Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies\".",
+    "Made it host-neutral: \"workers\" and \"agents\" instead of a specific subagent tool or call syntax.",
+    "Replaced the Graphviz decision diagram with a plain checklist of conditions.",
+    "Added the instruction to read every actual diff, not only each worker's summary.",
+    "Removed the preset model names, the plugin namespaces and the cache-TTL discussion, which are specific to particular hosts and vendors."
+   ],
+   "dropped": [
+    "The \"skill leakage prevention\" line telling workers not to invoke the originating plugin's skills, which only makes sense inside that plugin. The general version (\"tell each worker it is a focused worker with one job\") is kept.",
+    "The model-tier routing, ledger and Ruling mechanics from lsy041015/orchestra.",
+    "The prompt-cache rationale from brunob54/superpowers-orchestrator, which depends on a particular API and a five-minute default that may change.",
+    "The \"Key Benefits\" and \"Time saved\" sections found in a variant, which restate the premise."
+   ],
+   "findings": [
+    {
+     "repo": "obra/superpowers",
+     "finding": "The description gives only the trigger. The skill assumes a \"general-purpose subagent\" and a Graphviz renderer, and the \"when not to use\" guidance is scattered over two places."
+    },
+    {
+     "repo": "huangbaixun/harness-engineering",
+     "finding": "The upstream text with two changes: the name is prefixed with \"harness:\", and a banner requires reading harness-delta.md before use. That file is not part of the skill, so a lone copy has an instruction it cannot follow."
+    },
+    {
+     "repo": "gylove1994/superpowers-deepseek-v4",
+     "finding": "Adds an instruction to invoke confirming-worktree-before-edit, a skill that is not here, and a \"Time saved\" claim with no measurement."
+    },
+    {
+     "repo": "brunob54/superpowers-orchestrator",
+     "finding": "Hard-wires its own plugin name into the brief (\"Do NOT invoke any skills from the superpowers-orchestrator plugin\") and relies on a five-minute prompt-cache default that is vendor- and time-specific."
+    },
+    {
+     "repo": "lsy041015/orchestra",
+     "finding": "Names specific models and agent presets and defers to another skill in its own namespace. Allowed only when the user explicitly asks for parallel work, which is stricter than the other sources but makes it unusable as a general skill."
+    }
+   ],
+   "examined": [
+    {
+     "repo": "jnmetacode/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "leodorareluctant259/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "mzored/superpowers-cc-to-codex",
+     "note": "A Codex-backed port, tied to those tools."
+    },
+    {
+     "repo": "thepragmaticbear/bearpaws",
+     "note": "Upstream recast in XML tags and shortened."
+    }
+   ],
+   "excluded": [
+    {
+     "repo": "Athyrr/aikit",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Fintama/swisper-superpowers",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Itzalive/resistance-ai",
+     "why": "no license declared"
+    },
+    {
+     "repo": "orkeren21/shipshape",
+     "why": "no license declared"
+    }
+   ],
+   "date": "2026-10-20"
+  },
+  "verbatim": false,
   "note": null,
   "audit": []
  },
@@ -1295,6 +1496,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/engineering-textbook-author"
    }
   ],
+  "canonical": false,
+  "path": "skills/engineering-textbook-author/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/engineering-textbook-author",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -1369,6 +1574,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/experiential-learning-log"
    }
   ],
+  "canonical": false,
+  "path": "skills/experiential-learning-log/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/experiential-learning-log",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -1443,6 +1652,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/experiential-report-evaluator"
    }
   ],
+  "canonical": false,
+  "path": "skills/experiential-report-evaluator/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/experiential-report-evaluator",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -1558,6 +1771,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/explainer-storyboard"
    }
   ],
+  "canonical": false,
+  "path": "skills/explainer-storyboard/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/explainer-storyboard",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -1774,6 +1991,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/game-design-doc"
    }
   ],
+  "canonical": false,
+  "path": "skills/game-design-doc/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/game-design-doc",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -1836,6 +2057,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/gpt-deployment"
    }
   ],
+  "canonical": false,
+  "path": "skills/gpt-deployment/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/gpt-deployment",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -1943,6 +2168,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/graduate-writing-clinic"
    }
   ],
+  "canonical": false,
+  "path": "skills/graduate-writing-clinic/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/graduate-writing-clinic",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -2032,6 +2261,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/hero-image-direction"
    }
   ],
+  "canonical": false,
+  "path": "skills/hero-image-direction/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/hero-image-direction",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -2182,6 +2415,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/instructional-design-engine"
    }
   ],
+  "canonical": false,
+  "path": "skills/instructional-design-engine/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/instructional-design-engine",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -2277,6 +2514,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/llm-exercise-design"
    }
   ],
+  "canonical": false,
+  "path": "skills/llm-exercise-design/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/llm-exercise-design",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -2467,6 +2708,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-artist-branding"
    }
   ],
+  "canonical": false,
+  "path": "skills/music-artist-branding/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-artist-branding",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -2549,6 +2794,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-brand-audit"
    }
   ],
+  "canonical": false,
+  "path": "skills/music-brand-audit/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-brand-audit",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -2776,6 +3025,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-journalism"
    }
   ],
+  "canonical": false,
+  "path": "skills/music-journalism/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-journalism",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -2905,6 +3158,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-venture-pitch"
    }
   ],
+  "canonical": false,
+  "path": "skills/music-venture-pitch/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-venture-pitch",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -3030,6 +3287,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/newsletter-editor"
    }
   ],
+  "canonical": false,
+  "path": "skills/newsletter-editor/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/newsletter-editor",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -3146,6 +3407,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/newsletter-writer"
    }
   ],
+  "canonical": false,
+  "path": "skills/newsletter-writer/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/newsletter-writer",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -3227,6 +3492,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/nonprofit-brand-audit"
    }
   ],
+  "canonical": false,
+  "path": "skills/nonprofit-brand-audit/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/nonprofit-brand-audit",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -3330,6 +3599,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/nonprofit-storytelling"
    }
   ],
+  "canonical": false,
+  "path": "skills/nonprofit-storytelling/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/nonprofit-storytelling",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -3512,6 +3785,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/peer-review"
    }
   ],
+  "canonical": false,
+  "path": "skills/peer-review/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/peer-review",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -3615,6 +3892,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/playlist-fraud-audit"
    }
   ],
+  "canonical": false,
+  "path": "skills/playlist-fraud-audit/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/playlist-fraud-audit",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -3698,6 +3979,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/profile-interview"
    }
   ],
+  "canonical": false,
+  "path": "skills/profile-interview/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/profile-interview",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -3782,11 +4067,391 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/public-domain-song-research"
    }
   ],
+  "canonical": false,
+  "path": "skills/public-domain-song-research/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/public-domain-song-research",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
    "commands-mostly-undescribed"
   ]
+ },
+ {
+  "slug": "receiving-code-review",
+  "name": "receiving-code-review",
+  "description": "Handle review feedback with technical rigor - verify each comment against the code before acting on it, ask about anything unclear, and push back with evidence when it is wrong. Use when review comments, a pull request review or reviewer findings arrive, before implementing any suggestion, and especially when feedback looks unclear or questionable. Not for writing a review.",
+  "does": "Handle review feedback with technical rigor - verify each comment against the code before acting on it, ask about anything unclear, and push back with evidence when it is wrong.",
+  "useWhen": "Use when review comments, a pull request review or reviewer findings arrive, before implementing any suggestion, and especially when feedback looks unclear or questionable. Not for writing a review.",
+  "kind": "protocol",
+  "job": "Software & games",
+  "persona": null,
+  "starts": null,
+  "pairs": [
+   "requesting-code-review",
+   "test-driven-development"
+  ],
+  "agents": [],
+  "words": 1056,
+  "descWords": 59,
+  "sections": [
+   {
+    "title": "The sequence",
+    "words": 98
+   },
+   {
+    "title": "Do not agree before you have verified",
+    "words": 79
+   },
+   {
+    "title": "When something is unclear",
+    "words": 93
+   },
+   {
+    "title": "Where the feedback came from",
+    "words": 150
+   },
+   {
+    "title": "The \"do it properly\" check",
+    "words": 55
+   },
+   {
+    "title": "Deciding what to do with each item",
+    "words": 82
+   },
+   {
+    "title": "Order of work",
+    "words": 43
+   },
+   {
+    "title": "When to push back",
+    "words": 93
+   },
+   {
+    "title": "If you pushed back and were wrong",
+    "words": 27
+   },
+   {
+    "title": "Common mistakes",
+    "words": 93
+   },
+   {
+    "title": "Examples",
+    "words": 98
+   },
+   {
+    "title": "Report at the end",
+    "words": 40
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [
+   "SOURCES.md",
+   "sources.json"
+  ],
+  "sha256": "8180f922d7a6f4baa9f81ae5322fb9de1d73ec660b420b9295e69e7a32eb14ce",
+  "changed": "2026-10-20",
+  "derivedFrom": [
+   {
+    "repo": "obra/superpowers",
+    "path": "skills/receiving-code-review/SKILL.md",
+    "commit": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+    "role": "Primary basis",
+    "url": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/receiving-code-review/SKILL.md",
+    "took": "the six-step sequence, no agreement before verification, stop on anything unclear, source-specific handling, the \"implement it properly\" check, order of work, when and how to push back, how to correct a wrong pushback, the common-mistakes table and the examples."
+   },
+   {
+    "repo": "yimwoo/hotl-plugin",
+    "path": "skills/receiving-code-review/SKILL.md",
+    "commit": "d86bf87181adcef822c091f544c0a313ddbb40a7",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 yimwoo",
+    "sha256": "26516fda8327b9e48c2492ad2f8a7381739ac516d31b4b7cb16b6223a8908ec8",
+    "role": "Added ideas",
+    "url": "https://github.com/yimwoo/hotl-plugin/blob/d86bf87181adcef822c091f544c0a313ddbb40a7/skills/receiving-code-review/SKILL.md",
+    "took": "treat feedback as input to evaluate, re-check findings against the current code if it changed since the review, the accept/reject/defer decision with recorded evidence, severity from an automated reviewer as a first guess only, and escalating a conflict with an approved decision instead of overriding it."
+   },
+   {
+    "repo": "brunob54/superpowers-orchestrator",
+    "path": "skills/receiving-code-review/SKILL.md",
+    "commit": "90017a876a4d044934c9adcc7844a8cf1e34044d",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "e70255af895ac2037e85b5c3add4528ed4e76b43f32721564e3d83adaba23845",
+    "role": "Added ideas",
+    "url": "https://github.com/brunob54/superpowers-orchestrator/blob/90017a876a4d044934c9adcc7844a8cf1e34044d/skills/receiving-code-review/SKILL.md",
+    "took": "ordering fixes by effect (correctness and security first), treating Critical and High security findings as blocking, and the closing report of addressed items, deferrals, verification and remaining risks."
+   }
+  ],
+  "canonical": true,
+  "path": "skills/receiving-code-review/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/skills/tree/main/skills/receiving-code-review",
+  "refactor": {
+   "summary": "It keeps the upstream principle (verify before implementing, no performative agreement) and tightens the process with a decision record and source-specific handling from stronger variants.",
+   "changed": [
+    "The description says what the skill does and what it is not for. Upstream's describes the behavior but not the job.",
+    "Softened \"never any gratitude, ever\" to \"no agreement before you have verified\". Once the reviewer is checked and right, a short factual acknowledgment is allowed. This is a judgment call: the upstream rule is the author's stylistic preference, and its own examples allow \"Good catch - [issue]. Fixed in [location]\".",
+    "Replaced \"your human partner\" with \"the person you work for\", and removed the quoted personal rules attributed to that person.",
+    "Added the accept, reject or defer decision with recorded evidence, and a closing report.",
+    "Removed the marker \"explicit instruction-file violation\", which refers to the original author's private instructions."
+   ],
+   "dropped": [
+    "The HOTL-specific contract vocabulary (intent contract, risk level, gates) from yimwoo/hotl-plugin, which only applies inside that system.",
+    "The routing language from brunob54/superpowers-orchestrator (\"routed by using-superpowers\")."
+   ],
+   "findings": [
+    {
+     "repo": "obra/superpowers",
+     "finding": "Calls \"ANY gratitude expression\" forbidden yet its own good examples include \"Good catch - [specific issue]. Fixed\". It quotes rules attributed to \"your human partner\" and mentions an \"explicit instruction-file violation\" that only make sense inside the author's setup."
+    },
+    {
+     "repo": "yimwoo/hotl-plugin",
+     "finding": "Good decision-record idea, but built on HOTL contracts (intent contract, success_criteria, risk_level, gates) that exist only in that plugin."
+    },
+    {
+     "repo": "brunob54/superpowers-orchestrator",
+     "finding": "Shorter and clear, but relies on another skill routing feedback to it and gives no worked examples."
+    }
+   ],
+   "examined": [
+    {
+     "repo": "thepragmaticbear/bearpaws",
+     "note": "Upstream recast in XML tags and shortened; no new ideas."
+    },
+    {
+     "repo": "gylove1994/superpowers-deepseek-v4",
+     "note": "A variant of upstream (97% similar)."
+    },
+    {
+     "repo": "jnmetacode/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "leodorareluctant259/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "lsy041015/orchestra",
+     "note": "A short summary tied to its own workflow."
+    },
+    {
+     "repo": "VictorStochero/fluxo-orca",
+     "note": "Identical to upstream."
+    },
+    {
+     "repo": "mzored/superpowers-cc-to-codex",
+     "note": "A Codex-backed port (87% similar to upstream)."
+    }
+   ],
+   "excluded": [
+    {
+     "repo": "Athyrr/aikit",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Fintama/swisper-superpowers",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Itzalive/resistance-ai",
+     "why": "no license declared"
+    },
+    {
+     "repo": "lukekeith/builder",
+     "why": "no license declared"
+    },
+    {
+     "repo": "orkeren21/shipshape",
+     "why": "no license declared"
+    }
+   ],
+   "date": "2026-10-20"
+  },
+  "verbatim": false,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "requesting-code-review",
+  "name": "requesting-code-review",
+  "description": "Get a change independently reviewed against its requirements before it moves on. Use after finishing a task or a major feature, after fixing a complex bug, and before merging, or when the user asks for \"a code review\", \"a second pair of eyes\", \"a security check\" or \"review before merge\". Covers what to give the reviewer, what a usable review contains, and how to act on it.",
+  "does": "Get a change independently reviewed against its requirements before it moves on.",
+  "useWhen": "Use after finishing a task or a major feature, after fixing a complex bug, and before merging, or when the user asks for \"a code review\", \"a second pair of eyes\", \"a security check\" or \"review before merge\". Covers what to give the reviewer, what a usable review contains, and how to act on it.",
+  "kind": "protocol",
+  "job": "Software & games",
+  "persona": null,
+  "starts": null,
+  "pairs": [
+   "receiving-code-review",
+   "test-driven-development",
+   "dispatching-parallel-agents"
+  ],
+  "agents": [],
+  "words": 852,
+  "descWords": 67,
+  "sections": [
+   {
+    "title": "When to ask",
+    "words": 67
+   },
+   {
+    "title": "How to ask",
+    "words": 387
+   },
+   {
+    "title": "Severity",
+    "words": 75
+   },
+   {
+    "title": "Acting on the review",
+    "words": 99
+   },
+   {
+    "title": "What not to do",
+    "words": 39
+   },
+   {
+    "title": "Example",
+    "words": 120
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [
+   "SOURCES.md",
+   "sources.json"
+  ],
+  "sha256": "7593cacc2ff918ccf5ca26010556952d0fc834c6a580c20c5b206cd0c38d6615",
+  "changed": "2026-10-20",
+  "derivedFrom": [
+   {
+    "repo": "obra/superpowers",
+    "path": "skills/requesting-code-review/SKILL.md",
+    "commit": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "d71cc01ba56d2325cf8af5f7c11837819b63ecd57de0bfdb812f7f3ff7751df8",
+    "role": "Primary basis",
+    "url": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/requesting-code-review/SKILL.md",
+    "took": "the early-and-often principle, when to request, fixing a base and head commit, handing the reviewer crafted context instead of the session history, the Critical/Important/Minor handling, pushing back with reasoning, and the worked example."
+   },
+   {
+    "repo": "brunob54/superpowers-orchestrator",
+    "path": "skills/requesting-code-review/SKILL.md",
+    "commit": "90017a876a4d044934c9adcc7844a8cf1e34044d",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "e1986478fcdb5b51231f8ff38e80f6044c7321bb63e4d4000df1f81f97891703",
+    "role": "Added ideas",
+    "url": "https://github.com/brunob54/superpowers-orchestrator/blob/90017a876a4d044934c9adcc7844a8cf1e34044d/skills/requesting-code-review/SKILL.md",
+    "took": "the built-in security pass and the list of changes that trigger it, \"Critical and High security findings block merge\", the adversarial pass for tricky logic, and the requirement that a review give severity, file references and a merge-readiness verdict."
+   },
+   {
+    "repo": "thepragmaticbear/bearpaws",
+    "path": "skills/requesting-code-review/SKILL.md",
+    "commit": "9141dd043814d5e5c292d5d9c619adbdffdc4a05",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "cf9dfb6cab5dc210c3c16754b27b1ef735a8ee9a02cc425f991e8c9b2c1d78d1",
+    "role": "Added ideas",
+    "url": "https://github.com/thepragmaticbear/bearpaws/blob/9141dd043814d5e5c292d5d9c619adbdffdc4a05/skills/requesting-code-review/SKILL.md",
+    "took": "the brief a reviewer needs (project conventions, verification evidence, decisions already made, unresolved concerns) and the demand that a review enumerate failure modes, state what would make its own conclusion wrong, list what it did not check, and label break attempts as executed or reasoned."
+   },
+   {
+    "repo": "lsy041015/orchestra",
+    "path": "skills/requesting-code-review/SKILL.md",
+    "commit": "d23927aa31b1fcd1e2b2c2ac44c5e53136e27dc5",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "a90dfff3fb47d815227230706773fd6377b29eecae2fb6538a813c09e8bb655e",
+    "role": "Added ideas",
+    "url": "https://github.com/lsy041015/orchestra/blob/d23927aa31b1fcd1e2b2c2ac44c5e53136e27dc5/skills/requesting-code-review/SKILL.md",
+    "took": "never call a self-review independent, include staged, unstaged and untracked changes in the range, scope a re-review to the finding and its fix, and stop retrying after two failed fixes with the same cause."
+   }
+  ],
+  "canonical": true,
+  "path": "skills/requesting-code-review/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/skills/tree/main/skills/requesting-code-review",
+  "refactor": {
+   "summary": "It keeps the upstream idea (get a reviewer who has only the work product, early and often), makes it reviewer-agnostic, and adds what stronger variants require of a review.",
+   "changed": [
+    "The description says what the skill covers and lists the phrases that should trigger it. Upstream's was only \"Use when completing tasks, implementing major features, or before merging to verify work meets requirements\".",
+    "The reviewer can be another agent, a fresh session or a person. Upstream and every variant assume a particular subagent type.",
+    "Upstream's reviewer template lived in a separate file (code-reviewer.md). Its content is replaced by a short brief and a list of what a good review contains, written inline, so the skill stands alone. The template file itself was not read.",
+    "Added a severity table with what to do at each level.",
+    "Removed the \"superpowers\" paths and namespaces from the example."
+   ],
+   "dropped": [
+    "The red-team agent and the automatic fix pipeline from brunob54/superpowers-orchestrator, which need that repository's agents.",
+    "The context-snapshot.json handling from the same source, which is specific to its tooling.",
+    "The review-package helper script and ledger from lsy041015/orchestra.",
+    "The coordinator-context-budget argument for dispatching a reviewer. The independence argument is kept."
+   ],
+   "findings": [
+    {
+     "repo": "obra/superpowers",
+     "finding": "The description gives only the trigger. The reviewer template is in a separate file (code-reviewer.md) that a lone copy does not have, and the skill assumes a \"general-purpose subagent\" exists. It does not say what a usable review must contain."
+    },
+    {
+     "repo": "brunob54/superpowers-orchestrator",
+     "finding": "Routed by other skills of its own (using-superpowers, executing-plans), reads a context-snapshot.json that only its tooling writes, and dispatches its own named reviewer and red-team agents."
+    },
+    {
+     "repo": "thepragmaticbear/bearpaws",
+     "finding": "Dispatches a bp:code-reviewer agent and the strict \"four named gates\" format only works with that agent's template. The idea is sound and is kept in a portable form."
+    },
+    {
+     "repo": "lsy041015/orchestra",
+     "finding": "Depends on a review-package helper that needs a plan file and on orchestra: skill names, and mixes tool names for two different hosts in one step."
+    }
+   ],
+   "examined": [
+    {
+     "repo": "gylove1994/superpowers-deepseek-v4",
+     "note": "A variant of upstream (83% similar)."
+    },
+    {
+     "repo": "jnmetacode/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "leodorareluctant259/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "mzored/superpowers-cc-to-codex",
+     "note": "A Codex-backed port, tied to those tools."
+    }
+   ],
+   "excluded": [
+    {
+     "repo": "Athyrr/aikit",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Fintama/swisper-superpowers",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Itzalive/resistance-ai",
+     "why": "no license declared"
+    },
+    {
+     "repo": "orkeren21/shipshape",
+     "why": "no license declared"
+    }
+   ],
+   "date": "2026-10-20"
+  },
+  "verbatim": false,
+  "note": null,
+  "audit": []
  },
  {
   "slug": "science-figure-intelligence",
@@ -3938,6 +4603,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/science-figure-intelligence"
    }
   ],
+  "canonical": false,
+  "path": "skills/science-figure-intelligence/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/science-figure-intelligence",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -4012,6 +4681,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/science-figure-prompts"
    }
   ],
+  "canonical": false,
+  "path": "skills/science-figure-prompts/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/science-figure-prompts",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -4084,6 +4757,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/socratic-prompt-coach"
    }
   ],
+  "canonical": false,
+  "path": "skills/socratic-prompt-coach/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/socratic-prompt-coach",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -4275,6 +4952,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/software-design-doc"
    }
   ],
+  "canonical": false,
+  "path": "skills/software-design-doc/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/software-design-doc",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -4440,6 +5121,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/source-to-chapter"
    }
   ],
+  "canonical": false,
+  "path": "skills/source-to-chapter/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/source-to-chapter",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -4719,11 +5404,462 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/syllabus-architect"
    }
   ],
+  "canonical": false,
+  "path": "skills/syllabus-architect/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/syllabus-architect",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
    "very-long-body"
   ]
+ },
+ {
+  "slug": "systematic-debugging",
+  "name": "systematic-debugging",
+  "description": "Find the root cause of a bug before changing any code. Use whenever something is already broken or behaving unexpectedly - a failing or flaky test, crash, exception, stack trace, regression, build break, performance problem or integration failure - and especially when guessing at a fix is tempting. Not for writing new features or reviewing code that works.",
+  "does": "Find the root cause of a bug before changing any code.",
+  "useWhen": "Use whenever something is already broken or behaving unexpectedly - a failing or flaky test, crash, exception, stack trace, regression, build break, performance problem or integration failure - and especially when guessing at a fix is tempting. Not for writing new features or reviewing code that works.",
+  "kind": "protocol",
+  "job": "Software & games",
+  "persona": null,
+  "starts": null,
+  "pairs": [
+   "test-driven-development",
+   "dispatching-parallel-agents"
+  ],
+  "agents": [],
+  "words": 1508,
+  "descWords": 58,
+  "sections": [
+   {
+    "title": "The rule",
+    "words": 185
+   },
+   {
+    "title": "Four phases",
+    "words": 567
+   },
+   {
+    "title": "Three failed fixes means look at the design",
+    "words": 70
+   },
+   {
+    "title": "Techniques for particular situations",
+    "words": 133
+   },
+   {
+    "title": "Stop and go back to phase 1 if you catch yourself thinking",
+    "words": 124
+   },
+   {
+    "title": "Excuses you will hear yourself make",
+    "words": 151
+   },
+   {
+    "title": "When the investigation finds no single cause",
+    "words": 85
+   },
+   {
+    "title": "Quick reference",
+    "words": 93
+   }
+  ],
+  "commands": [],
+  "phases": [
+   {
+    "n": 1,
+    "title": "find the cause"
+   },
+   {
+    "n": 2,
+    "title": "compare with what works"
+   },
+   {
+    "n": 3,
+    "title": "one hypothesis at a time"
+   },
+   {
+    "n": 4,
+    "title": "fix the cause"
+   }
+  ],
+  "rules": null,
+  "extraFiles": [
+   "SOURCES.md",
+   "sources.json"
+  ],
+  "sha256": "42ebb7ebe22cf2639c6980390f4599085b859a5e0ce43182f224bbb45c1dd153",
+  "changed": "2026-10-20",
+  "derivedFrom": [
+   {
+    "repo": "obra/superpowers",
+    "path": "skills/systematic-debugging/SKILL.md",
+    "commit": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "808fc5717aa88ad65efff312b11c186294d3e6ee301afb584e2f86599b137787",
+    "role": "Primary basis",
+    "url": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/systematic-debugging/SKILL.md",
+    "took": "the rule (no fix without a root cause), the four phases, instrumenting component boundaries, the three-failed-fixes-means-question-the-design rule, the red-flags list, the excuses table and the quick reference."
+   },
+   {
+    "repo": "phmatray/ai-migration-kit",
+    "path": "skills/systematic-debugging/SKILL.md",
+    "commit": "d84cb9774909e885529047fd82821fa16740a0f0",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 Philippe Matray",
+    "sha256": "3a6022d758b31ffc7cab1052150dc40a90fb3eefd28f56d451df4ddf9a8a4dda",
+    "role": "Structure and wording",
+    "url": "https://github.com/phmatray/ai-migration-kit/blob/d84cb9774909e885529047fd82821fa16740a0f0/skills/systematic-debugging/SKILL.md",
+    "took": "the framing that a symptom fix hides the cause, the sharper trigger description with an explicit \"not for\" clause, the point that \"I don't understand yet\" is the correct starting state, the \"no single cause is a legitimate result, but check you did not stop early\" section, and the list of companion techniques (tracing, defense in depth, condition-based waiting, bisecting for a polluting test)."
+   },
+   {
+    "repo": "lsy041015/orchestra",
+    "path": "skills/systematic-debugging/SKILL.md",
+    "commit": "d23927aa31b1fcd1e2b2c2ac44c5e53136e27dc5",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "752218c69415603cb4eb047d800675e0f47588142a21f622a94b0cd842395a7c",
+    "role": "Added idea",
+    "url": "https://github.com/lsy041015/orchestra/blob/d23927aa31b1fcd1e2b2c2ac44c5e53136e27dc5/skills/systematic-debugging/SKILL.md",
+    "took": "when you were handed the work, report blocked with the evidence instead of making a fourth attempt."
+   }
+  ],
+  "canonical": true,
+  "path": "skills/systematic-debugging/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/skills/tree/main/skills/systematic-debugging",
+  "refactor": {
+   "summary": "It keeps the four-phase process of the version most others derive from (obra/superpowers), makes it stand alone, and removes claims no source backs up.",
+   "changed": [
+    "The description says what the skill does and what it is not for, with the symptoms that should trigger it. Upstream's was only \"Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes\".",
+    "The four companion techniques (tracing a value backward, defense in depth, waiting on a condition, bisecting a test that pollutes state) were separate files in the sources. They are now short sections in the skill so a lone copy is complete. These were written fresh from the one-line descriptions the sources give; the companion files themselves were not fetched or read.",
+    "Dropped every statistic. Upstream says \"95% of no-root-cause cases are incomplete investigation\", and older clones add a \"Real-World Impact\" table of timings and success rates. No source gives a basis for any of those numbers. The qualitative point is kept.",
+    "Fixed upstream's dangling pointer \"see Phase 4.5\" (the section is Phase 4, step 5), and removed the \"superpowers:\" namespace on the skills it names.",
+    "Replaced \"your human partner\" with \"the user\" or \"a person\", and the section of user catch-phrases with the same signals in neutral wording.",
+    "Removed the macOS code-signing example for boundary logging in favor of a description that works for any chain of components."
+   ],
+   "dropped": [
+    "The \"Real-World Impact\" timings and success rates found in older clones (see findings).",
+    "The worktree hard-gate added by gylove1994/superpowers-deepseek-v4, which depends on a skill that is not here.",
+    "The Codex-delegation machinery of mzored/superpowers-cc-to-codex, which is tied to those tools."
+   ],
+   "findings": [
+    {
+     "repo": "obra/superpowers",
+     "finding": "The description gives only the trigger. The skill points to three companion files and to skills by a \"superpowers:\" namespace, so a lone copy has dangling references. It cites \"Phase 4.5\", which does not exist (the section is Phase 4, step 5). It states \"95% of no-root-cause cases are incomplete investigation\" with no basis given."
+    },
+    {
+     "repo": "jsonlee12138/agent-team",
+     "finding": "Adds a \"Real-World Impact\" section: 15 to 30 minutes versus 2 to 3 hours, and a 95% versus 40% first-time fix rate. No source or measurement is given. The same table appears in gylove1994/superpowers-deepseek-v4."
+    },
+    {
+     "repo": "gylove1994/superpowers-deepseek-v4",
+     "finding": "Adds an instruction to invoke confirming-worktree-before-edit before any edit, a skill that is not part of this one. Cannot be satisfied without it."
+    },
+    {
+     "repo": "phmatray/ai-migration-kit",
+     "finding": "Names companion files (root-cause-tracing.md, defense-in-depth.md, condition-based-waiting.md, find-polluter.sh) and says they are in the same directory, but only SKILL.md was audited, so a lone copy points at files that are not there."
+    }
+   ],
+   "examined": [
+    {
+     "repo": "VictorStochero/fluxo-orca",
+     "note": "Upstream with only the skill names re-pointed (identical apart from two lines)."
+    },
+    {
+     "repo": "gylove1994/superpowers-deepseek-v4",
+     "note": "Upstream plus the worktree gate, an opening sentence and the unsourced statistics."
+    },
+    {
+     "repo": "jnmetacode/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "leodorareluctant259/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "cheng6563/litepowers",
+     "note": "A short Chinese-language summary (about 1 KB)."
+    },
+    {
+     "repo": "jsonlee12138/agent-team",
+     "note": "Upstream with its skill names changed plus the unsourced statistics."
+    },
+    {
+     "repo": "mzored/superpowers-cc-to-codex",
+     "note": "A port that hands investigation and fixes to Codex tools, invocable only on request. Its header says it diverges from upstream deliberately."
+    },
+    {
+     "repo": "sitien173/superpowers-ccg",
+     "note": "A very short summary that leaves delegation and the regression-test cycle to other skills."
+    },
+    {
+     "repo": "thepragmaticbear/bearpaws",
+     "note": "Upstream recast in XML tags and shortened."
+    }
+   ],
+   "excluded": [
+    {
+     "repo": "Athyrr/aikit",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Fintama/swisper-superpowers",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Itzalive/resistance-ai",
+     "why": "no license declared"
+    },
+    {
+     "repo": "lukekeith/builder",
+     "why": "no license declared"
+    },
+    {
+     "repo": "orkeren21/shipshape",
+     "why": "no license declared"
+    }
+   ],
+   "date": "2026-10-20"
+  },
+  "verbatim": false,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "test-driven-development",
+  "name": "test-driven-development",
+  "description": "Drive a feature, bug fix, refactor or behavior change with strict red-green-refactor - write one failing test, watch it fail for the right reason, write the least code that passes, then clean up while green. Use before writing any implementation code, when fixing a bug, or when the user says \"TDD\", \"test first\" or \"red-green-refactor\", or asks why a passing test proves nothing.",
+  "does": "Drive a feature, bug fix, refactor or behavior change with strict red-green-refactor - write one failing test, watch it fail for the right reason, write the least code that passes, then clean up while green.",
+  "useWhen": "Use before writing any implementation code, when fixing a bug, or when the user says \"TDD\", \"test first\" or \"red-green-refactor\", or asks why a passing test proves nothing.",
+  "kind": "protocol",
+  "job": "Software & games",
+  "persona": null,
+  "starts": null,
+  "pairs": [
+   "systematic-debugging",
+   "requesting-code-review",
+   "receiving-code-review"
+  ],
+  "agents": [],
+  "words": 2023,
+  "descWords": 63,
+  "sections": [
+   {
+    "title": "The rule",
+    "words": 236
+   },
+   {
+    "title": "The cycle",
+    "words": 643
+   },
+   {
+    "title": "When a failing test is the wrong tool",
+    "words": 101
+   },
+   {
+    "title": "Bug fixes start with the test",
+    "words": 87
+   },
+   {
+    "title": "Working from the outside in",
+    "words": 139
+   },
+   {
+    "title": "Excuses you will hear yourself make",
+    "words": 241
+   },
+   {
+    "title": "Stop and start over if you notice",
+    "words": 85
+   },
+   {
+    "title": "When stuck",
+    "words": 76
+   },
+   {
+    "title": "Before you say it is done",
+    "words": 229
+   },
+   {
+    "title": "Delegated work",
+    "words": 39
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [
+   "SOURCES.md",
+   "sources.json"
+  ],
+  "sha256": "4860673e6b2c4d0f760781bffe8cda0843655b3c964e02b0c8569a85324c794d",
+  "changed": "2026-10-20",
+  "derivedFrom": [
+   {
+    "repo": "obra/superpowers",
+    "path": "skills/test-driven-development/SKILL.md",
+    "commit": "44c9b2d6e889982ac18c27d05a19fefe335194e1",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "bf1b8216e523851a411e91d429a7c1c2a173e79d88957bc78e348218d50edd54",
+    "role": "Primary basis",
+    "url": "https://github.com/obra/superpowers/blob/44c9b2d6e889982ac18c27d05a19fefe335194e1/skills/test-driven-development/SKILL.md",
+    "took": "the core rule (\"no production code without a failing test first\"), the red-green-refactor cycle with good and bad examples, the verify-red and verify-green steps, the excuses table, the red-flags list, the checklist and the \"when stuck\" table. Every other source in this family reads as a copy, translation, adaptation or rewrite of it."
+   },
+   {
+    "repo": "leobbaroni/cockpit",
+    "path": "skills/test-driven-development/SKILL.md",
+    "commit": "67ad0773258f64a5e4a1bdbc0c3e7d757fc4fa84",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 leobbaroni",
+    "sha256": "efd725d490f62d41157a714eef8fe24c3ad55430188b063af670cc4f13144dc2",
+    "role": "Added ideas",
+    "url": "https://github.com/leobbaroni/cockpit/blob/67ad0773258f64a5e4a1bdbc0c3e7d757fc4fa84/skills/test-driven-development/SKILL.md",
+    "took": "why the failure matters, the \"right reason\" test for a red, the bug-fix-starts-with-a-test argument, the table of what actually proves a claim, and the rule that the iron law binds delegated work."
+   },
+   {
+    "repo": "j0hanz/squad-agents",
+    "path": "skills/test-driven-development/SKILL.md",
+    "commit": "af44079009dd3f21dc2f4fd3c18807b0d2978d73",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 j0hanz",
+    "sha256": "d1e03bf250642050660e4c4a263289379cdebad0ae4e57fd05a2944de47d0e3a",
+    "role": "Added ideas",
+    "url": "https://github.com/j0hanz/squad-agents/blob/af44079009dd3f21dc2f4fd3c18807b0d2978d73/skills/test-driven-development/SKILL.md",
+    "took": "the revert check (revert the implementation, expect red, restore, expect green), spikes must be thrown away and rebuilt through the cycle, never edit a test only to force a pass, and one full cycle before the next test."
+   },
+   {
+    "repo": "thoughtbot/rails-consultant",
+    "path": "skills/test-driven-development/SKILL.md",
+    "commit": "9807306250b2fa86886568be3a6d40cefabe5b4a",
+    "license": "MIT",
+    "copyright": "Copyright (c) Steve Polito and thoughtbot, inc.",
+    "sha256": "03dcf33a19b910d73c7e4e21c6ae70958dfe7f847404cc0340d595af5ce20507",
+    "role": "Added ideas",
+    "url": "https://github.com/thoughtbot/rails-consultant/blob/9807306250b2fa86886568be3a6d40cefabe5b4a/skills/test-driven-development/SKILL.md",
+    "took": "outside-in development: one change then one run, drop down a layer by writing the next failing test, and build inert glue directly. Kept framework-neutral; the Rails and RSpec specifics were left out."
+   },
+   {
+    "repo": "lsy041015/orchestra",
+    "path": "skills/test-driven-development/SKILL.md",
+    "commit": "d23927aa31b1fcd1e2b2c2ac44c5e53136e27dc5",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2025 Jesse Vincent",
+    "sha256": "3ec82745523c425e190211b5a8ef97e9c2be38f89e54273d4f844a939ea4dcfc",
+    "role": "Added ideas",
+    "url": "https://github.com/lsy041015/orchestra/blob/d23927aa31b1fcd1e2b2c2ac44c5e53136e27dc5/skills/test-driven-development/SKILL.md",
+    "took": "the safety rule against deleting the user's own work, \"report the evidence gap instead of claiming test-first\", and the two cases where a failing test is the wrong tool (behavior-preserving refactors, docs and config)."
+   }
+  ],
+  "canonical": true,
+  "path": "skills/test-driven-development/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/skills/tree/main/skills/test-driven-development",
+  "refactor": {
+   "summary": "It keeps the discipline of the version the others copy (obra/superpowers) and adds what the better variants found missing.",
+   "changed": [
+    "The description now says what the skill does and lists the phrases that should trigger it (\"TDD\", \"test first\", \"red-green-refactor\"). The upstream description was only \"Use when implementing any feature or bugfix, before writing implementation code\".",
+    "Rewritten as one self-contained file with no references to companion files, other skills in a bundle, or a particular agent harness or tool.",
+    "\"Delete the code written first\" became \"set it aside; delete only what you wrote this session; never delete the user's own work\". One source (lsy041015/orchestra) flags that the literal rule destroys real work.",
+    "Replaced the Graphviz diagram with the numbered cycle, and the pseudo-tags around examples with plain Good and Bad labels, so it reads the same in any host.",
+    "Added the revert check, the when-a-failing-test-is-the-wrong-tool section, and \"report pre-existing failures by name\" (the last from the VictorStochero/fluxo-orca fork of upstream).",
+    "Replaced \"your human partner\" with \"the user\"."
+   ],
+   "dropped": [
+    "The Rails and RSpec specifics and the example-file references from thoughtbot/rails-consultant.",
+    "The long \"why order matters\" essay, which repeats the excuses table; its points are kept in the table.",
+    "Interview-the-user steps from j0hanz/squad-agents, which depend on a specific question tool.",
+    "The upstream reference to writing-good-tests.md. Its four rules are folded into the cycle (name the change that would fail the test, assert real behavior, keep test-only code out of production, understand side effects before mocking)."
+   ],
+   "findings": [
+    {
+     "repo": "obra/superpowers",
+     "finding": "The description gives only the trigger, so a model matching on \"TDD\" or \"test first\" has little to match. The skill refers to writing-good-tests.md, a file that exists only in the original repository, so a copy of the lone SKILL.md has a dangling reference. It uses a Graphviz block and <Good>/<Bad> pseudo-tags that most hosts do not render, and \"your human partner\" assumes a persona."
+    },
+    {
+     "repo": "gylove1994/superpowers-deepseek-v4",
+     "finding": "Adds a HARD-GATE that tells the agent to invoke a skill (confirming-worktree-before-edit) which is not part of this skill. Without that other skill present, the gate cannot be satisfied."
+    },
+    {
+     "repo": "leobbaroni/cockpit",
+     "finding": "Refers to sibling skills (diagnosing-bugs, orchestrate) that exist only in its own repository."
+    },
+    {
+     "repo": "j0hanz/squad-agents",
+     "finding": "Depends on an AskUserQuestion tool and a request-plan skill, so it is not portable outside its harness."
+    },
+    {
+     "repo": "thoughtbot/rails-consultant",
+     "finding": "Rails and RSpec specific, links to example files that are not in the skill folder, and sets disable-model-invocation so it never triggers on its own."
+    },
+    {
+     "repo": "lsy041015/orchestra",
+     "finding": "Strong ideas but compressed into dense paragraphs and tied to its own orchestra: namespace for the skills it refers to."
+    }
+   ],
+   "examined": [
+    {
+     "repo": "VictorStochero/fluxo-orca",
+     "note": "A copy of upstream with one paragraph added, on running the project's whole suite. That paragraph is used."
+    },
+    {
+     "repo": "gylove1994/superpowers-deepseek-v4",
+     "note": "A variant of upstream (82% similar) with a worktree hard-gate and the \"why order matters\" essay restored."
+    },
+    {
+     "repo": "jnmetacode/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "leodorareluctant259/superpowers-zh",
+     "note": "A Chinese translation of upstream."
+    },
+    {
+     "repo": "mzored/superpowers-cc-to-codex",
+     "note": "A port that hands implementation to a Codex tool; tied to that tool."
+    },
+    {
+     "repo": "sitien173/superpowers-ccg",
+     "note": "A very short summary that also separates behavior-preserving refactors from changed behavior. The same point is made by orchestra and is used."
+    },
+    {
+     "repo": "thepragmaticbear/bearpaws",
+     "note": "The upstream text recast in XML tags and shortened; no new ideas."
+    }
+   ],
+   "excluded": [
+    {
+     "repo": "Athyrr/aikit",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Fintama/swisper-superpowers",
+     "why": "no license declared"
+    },
+    {
+     "repo": "FlameMida/spec-dev",
+     "why": "no license declared"
+    },
+    {
+     "repo": "Itzalive/resistance-ai",
+     "why": "no license declared"
+    },
+    {
+     "repo": "lukekeith/builder",
+     "why": "no license declared"
+    },
+    {
+     "repo": "orkeren21/shipshape",
+     "why": "no license declared"
+    }
+   ],
+   "date": "2026-10-20"
+  },
+  "verbatim": false,
+  "note": null,
+  "audit": []
  },
  {
   "slug": "textbook-architecture",
@@ -4974,6 +6110,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/textbook-architecture"
    }
   ],
+  "canonical": false,
+  "path": "skills/textbook-architecture/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/textbook-architecture",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -5200,6 +6340,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-aphoristic"
    }
   ],
+  "canonical": false,
+  "path": "skills/tone-aphoristic/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-aphoristic",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -5351,6 +6495,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-naturalist"
    }
   ],
+  "canonical": false,
+  "path": "skills/tone-naturalist/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-naturalist",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -5519,6 +6667,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-scenic"
    }
   ],
+  "canonical": false,
+  "path": "skills/tone-scenic/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-scenic",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -5557,6 +6709,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-spare"
    }
   ],
+  "canonical": false,
+  "path": "skills/tone-spare/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-spare",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -5820,6 +6976,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-witness"
    }
   ],
+  "canonical": false,
+  "path": "skills/tone-witness/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-witness",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -6002,6 +7162,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-wonder"
    }
   ],
+  "canonical": false,
+  "path": "skills/tone-wonder/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-wonder",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -6201,6 +7365,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/unity-refactoring"
    }
   ],
+  "canonical": false,
+  "path": "skills/unity-refactoring/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/unity-refactoring",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": [
@@ -6273,6 +7441,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/venture-pitch"
    }
   ],
+  "canonical": false,
+  "path": "skills/venture-pitch/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/venture-pitch",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []
@@ -6428,6 +7600,10 @@
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/volunteer-learning-journal"
    }
   ],
+  "canonical": false,
+  "path": "skills/volunteer-learning-journal/SKILL.md",
+  "repoUrl": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/volunteer-learning-journal",
+  "refactor": null,
   "verbatim": true,
   "note": null,
   "audit": []

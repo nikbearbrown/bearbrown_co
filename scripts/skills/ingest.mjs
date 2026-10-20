@@ -5,7 +5,9 @@
 //   content/skills/<slug>/SKILL.md        the skill text, verbatim (the page shows THIS, never a summary)
 //
 // Run from bearbrown_co/:   node scripts/skills/ingest.mjs [path/to/skills]
-// Default source: ../bear-brown-tools/skills (the public repo, github.com/nikbearbrown/bear-brown-tools).
+// Sources: ../bear-brown-tools/skills (github.com/nikbearbrown/bear-brown-tools, copied verbatim) and
+// ../nikbearbrown-skills/skills (github.com/nikbearbrown/skills: Bear Brown's refactored canonical skills, which
+// carry a sources.json citing everything they were derived from).
 //
 // Everything derived here is read off the text: headings, slash commands, phase headings, "hard no" lists.
 // Hand-written fields (job, persona, pairs-with, agents) live in data/skills/meta.json and are never
@@ -17,6 +19,8 @@ import { execFileSync } from 'node:child_process'
 
 const root = process.cwd()
 const SRC = path.resolve(root, process.argv[2] || '../bear-brown-tools/skills')
+const CANON = path.resolve(root, '../nikbearbrown-skills/skills')
+const CANON_URL = 'https://github.com/nikbearbrown/skills'
 const REPO_URL = 'https://github.com/nikbearbrown/bear-brown-tools'
 const meta = JSON.parse(fs.readFileSync(path.join(root, 'data/skills/meta.json'), 'utf8'))
 
@@ -113,9 +117,9 @@ function rulesOf(lines, marks) {
   return null
 }
 
-function git(slug, fmt) {
+function git(slug, fmt, srcdir = SRC) {
   try {
-    const repo = path.resolve(SRC, '..')
+    const repo = path.resolve(srcdir, '..')
     return execFileSync('git', ['-C', repo, 'log', '-1', `--format=${fmt}`, '--', `skills/${slug}`], { encoding: 'utf8' }).trim() || null
   } catch { return null }
 }
@@ -133,8 +137,9 @@ function auditOf({ fm, slug, sections, commands, useWhen, words }) {
 }
 
 const entries = []
-for (const slug of fs.readdirSync(SRC).sort()) {
-  const dir = path.join(SRC, slug)
+function ingest(SRCDIR, canonical) {
+for (const slug of fs.readdirSync(SRCDIR).sort()) {
+  const dir = path.join(SRCDIR, slug)
   const file = path.join(dir, 'SKILL.md')
   if (!fs.statSync(dir).isDirectory() || !fs.existsSync(file)) continue
   const sourceRaw = fs.readFileSync(file, 'utf8')
@@ -142,11 +147,12 @@ for (const slug of fs.readdirSync(SRC).sort()) {
   // An authored skill is one Bear rewrote or merged: its text lives in content/skills/<slug>/SKILL.md
   // and this script leaves it alone. Every other skill is copied verbatim from its source.
   const siteFile = path.join(root, 'content/skills', slug, 'SKILL.md')
-  const authored = !!m.authored && fs.existsSync(siteFile)
+  const authored = !canonical && !!m.authored && fs.existsSync(siteFile)
+  const cite = canonical ? JSON.parse(fs.readFileSync(path.join(dir, 'sources.json'), 'utf8')) : null
   const raw = authored ? fs.readFileSync(siteFile, 'utf8') : sourceRaw
   const { fm, body } = frontmatter(raw)
   if (fm.name !== slug) console.warn(`NOTE ${slug}: frontmatter name is "${fm.name}"`)
-  const split = (fm.description || '').split(/\s+(?=Use (?:when|this when|it when|for)\b)/i)
+  const split = (fm.description || '').split(/\s+(?=Use\b)/)
   const does = split[0].trim()
   const useWhen = split.slice(1).join(' ').trim()
   const { sections, marks, lines } = sectionsOf(body)
@@ -175,16 +181,20 @@ for (const slug of fs.readdirSync(SRC).sort()) {
     rules,
     extraFiles: others,
     sha256: sha(raw),
-    changed: git(slug, '%cs'),
+    changed: git(slug, '%cs', SRCDIR),
     // Where this skill came from. A merged skill lists every source; a rewrite says it is a rewrite.
-    derivedFrom: m.derivedFrom || [{
+    derivedFrom: cite ? cite.derivedFrom : (m.derivedFrom || [{
       repo: 'nikbearbrown/bear-brown-tools',
       path: `skills/${slug}/SKILL.md`,
-      commit: git(slug, '%h'),
+      commit: git(slug, '%h', SRCDIR),
       sha256: sha(sourceRaw),
       url: `${REPO_URL}/tree/main/skills/${slug}`,
-    }],
-    verbatim: !authored,
+    }]),
+    canonical: !!cite,
+    path: `skills/${slug}/SKILL.md`,
+    repoUrl: canonical ? `${CANON_URL}/tree/main/skills/${slug}` : `${REPO_URL}/tree/main/skills/${slug}`,
+    refactor: cite ? { summary: cite.summary, changed: cite.changed, dropped: cite.dropped, findings: cite.findings, examined: cite.examined, excluded: cite.excluded, date: cite.refactored } : null,
+    verbatim: !authored && !cite,
     note: m.note || null,
     audit: auditOf({ fm, slug, sections, commands, useWhen, words: wc(body) }),
   })
@@ -194,6 +204,9 @@ for (const slug of fs.readdirSync(SRC).sort()) {
     fs.writeFileSync(path.join(out, 'SKILL.md'), raw)
   }
 }
+}
+ingest(SRC, false)
+if (fs.existsSync(CANON)) ingest(CANON, true)
 
 entries.sort((a, b) => a.name.localeCompare(b.name))
 fs.writeFileSync(path.join(root, 'data/skills/catalog.json'), JSON.stringify(entries, null, 1) + '\n')

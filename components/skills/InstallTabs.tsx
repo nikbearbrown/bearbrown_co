@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import InstallCommand from '@/components/InstallCommand/InstallCommand'
 
-// Install steps are the ones in the bear-brown-tools README; nothing here is invented.
-export default function InstallTabs({ slug }: { slug: string }) {
+// Install steps are the ones in the bear-brown-tools and skills READMEs; nothing here is invented.
+export default function InstallTabs({ slug, canonical = false }: { slug: string; canonical?: boolean }) {
+  const clone = canonical ? `git clone https://github.com/nikbearbrown/skills\ncp -R skills/skills/${slug} ~/.claude/skills/` : `git clone https://github.com/nikbearbrown/bear-brown-tools\ncp -R bear-brown-tools/skills/${slug} ~/.claude/skills/`
   const tabs = ['Claude Code', 'Claude.ai', 'Any other chat']
   const [t, setT] = useState(0)
   return <div>
@@ -14,7 +15,7 @@ export default function InstallTabs({ slug }: { slug: string }) {
     </div>
     <div role="tabpanel" id="panel-0" aria-labelledby="tab-0" hidden={t !== 0} className="space-y-3 text-sm leading-relaxed">
       <p>Copy the folder into your skills directory, then ask for the job or type its start command.</p>
-      <InstallCommand command={`git clone https://github.com/nikbearbrown/bear-brown-tools\ncp -R bear-brown-tools/skills/${slug} ~/.claude/skills/`} />
+      <InstallCommand command={clone} />
     </div>
     <div role="tabpanel" id="panel-1" aria-labelledby="tab-1" hidden={t !== 1} className="space-y-3 text-sm leading-relaxed">
       <ol className="list-decimal space-y-2 pl-5"><li>Download <code>SKILL.md</code> with the button above, and put it in a folder named <code>{slug}</code>.</li><li>Zip the folder.</li><li>In Claude, open Settings → Skills and upload the zip.</li></ol>

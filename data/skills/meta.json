@@ -367,5 +367,42 @@
    "experiential-report-evaluator"
   ],
   "persona": "Addams"
+ },
+ "test-driven-development": {
+  "job": "Software & games",
+  "pairs": [
+   "systematic-debugging",
+   "requesting-code-review",
+   "receiving-code-review"
+  ]
+ },
+ "systematic-debugging": {
+  "job": "Software & games",
+  "pairs": [
+   "test-driven-development",
+   "dispatching-parallel-agents"
+  ]
+ },
+ "requesting-code-review": {
+  "job": "Software & games",
+  "pairs": [
+   "receiving-code-review",
+   "test-driven-development",
+   "dispatching-parallel-agents"
+  ]
+ },
+ "receiving-code-review": {
+  "job": "Software & games",
+  "pairs": [
+   "requesting-code-review",
+   "test-driven-development"
+  ]
+ },
+ "dispatching-parallel-agents": {
+  "job": "Software & games",
+  "pairs": [
+   "systematic-debugging",
+   "requesting-code-review"
+  ]
  }
 }

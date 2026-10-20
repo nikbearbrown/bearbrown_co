@@ -3,7 +3,8 @@
 import catalog from '@/data/skills/catalog.json'
 
 export type SkillKind = 'commands' | 'protocol' | 'voice'
-export type SkillSource = { repo: string; path: string; commit: string | null; sha256: string; url: string }
+export type SkillSource = { repo: string; path: string; commit: string | null; sha256: string; url: string; license?: string; copyright?: string; role?: string; took?: string }
+export type SkillRefactor = { summary: string; changed: string[]; dropped: string[]; findings: { repo: string; finding: string }[]; examined: { repo: string; note: string }[]; excluded: { repo: string; why: string }[]; date: string }
 export type SkillEntry = {
   slug: string; name: string; description: string; does: string; useWhen: string
   kind: SkillKind; job: string | null; persona: string | null; starts: string | null
@@ -13,7 +14,7 @@ export type SkillEntry = {
   phases: { n: number; title: string }[]
   rules: { from: string; items: string[] } | null
   extraFiles: string[]; sha256: string; changed: string | null; path: string; repoUrl: string
-  derivedFrom: SkillSource[]; verbatim: boolean; note: string | null; audit: string[]
+  derivedFrom: SkillSource[]; verbatim: boolean; canonical: boolean; refactor: SkillRefactor | null; note: string | null; audit: string[]
 }
 
 export const skills = catalog as unknown as SkillEntry[]
@@ -23,16 +24,17 @@ export function getSkill(slug: string) { return bySlug.get(slug) }
 export const KIND_LABEL: Record<SkillKind, string> = { commands: 'Command set', protocol: 'Protocol', voice: 'Voice' }
 export const KIND_BLURB: Record<SkillKind, string> = {
   commands: 'A named assistant with a menu of commands. Work in the order the stages suggest, or jump in at any command.',
-  protocol: 'A worked method: it asks for what it needs, applies the method, and pushes back on weak input.',
+  protocol: 'A written method: it lays out how the work is done and what to check along the way.',
   voice: 'A writing register. It changes how text sounds rather than what job gets done.',
 }
 export const REPO_URL = 'https://github.com/nikbearbrown/bear-brown-tools'
+export const CANON_REPO_URL = 'https://github.com/nikbearbrown/skills'
 
 /** What the browser needs per card: no sections, commands or rules. */
 export type SkillCard = {
   slug: string; name: string; does: string; useWhen: string; kind: SkillKind; job: string | null
   persona: string | null; starts: string | null; words: number; commandCount: number; phaseCount: number
-  bars: number[]; commandNames: string[]
+  bars: number[]; commandNames: string[]; canonical: boolean
 }
 export function toCard(s: SkillEntry): SkillCard {
   const total = s.sections.reduce((a, x) => a + x.words, 0) || 1
@@ -40,7 +42,7 @@ export function toCard(s: SkillEntry): SkillCard {
     slug: s.slug, name: s.name, does: s.does, useWhen: s.useWhen, kind: s.kind, job: s.job, persona: s.persona,
     starts: s.starts, words: s.words, commandCount: s.commands.length, phaseCount: s.phases.length,
     bars: s.sections.map(x => Math.max(0.02, x.words / total)),
-    commandNames: s.commands.map(c => c.name),
+    commandNames: s.commands.map(c => c.name), canonical: s.canonical,
   }
 }
 export function formatWords(n: number) { return `${n.toLocaleString('en-US')} words` }

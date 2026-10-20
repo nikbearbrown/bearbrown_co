@@ -12,7 +12,7 @@ const KINDS: SkillKind[] = ['commands', 'protocol', 'voice']
 
 export default function SkillBrowser({ entries }: { entries: SkillCard[] }) {
   const params = useSearchParams(); const router = useRouter(); const pathname = usePathname()
-  const query = params.get('q') || ''; const kind = params.get('kind') || ''; const job = params.get('job') || ''
+  const query = params.get('q') || ''; const kind = params.get('kind') || ''; const job = params.get('job') || ''; const lib = params.get('lib') || ''
   const [draft, setDraft] = useState(query)
   const deferred = useDeferredValue(draft)
   const [lastQuery, setLastQuery] = useState(query)
@@ -24,8 +24,8 @@ export default function SkillBrowser({ entries }: { entries: SkillCard[] }) {
   }), [entries])
   const results = useMemo(() => {
     const pool = deferred.trim() ? fuse.search(deferred.trim()).map(r => r.item) : entries
-    return pool.filter(e => (!kind || e.kind === kind) && (!job || e.job === job))
-  }, [entries, fuse, deferred, kind, job])
+    return pool.filter(e => (!kind || e.kind === kind) && (!job || e.job === job) && (!lib || (lib === 'rewrite') === e.canonical))
+  }, [entries, fuse, deferred, kind, job, lib])
   function update(changes: Record<string, string>) {
     const next = new URLSearchParams(params.toString())
     Object.entries(changes).forEach(([k, v]) => v ? next.set(k, v) : next.delete(k))
@@ -44,7 +44,8 @@ export default function SkillBrowser({ entries }: { entries: SkillCard[] }) {
       <div className="flex flex-wrap gap-3">
         <label className="flex flex-col gap-1 text-xs">Kind of skill<select aria-label="Kind of skill" value={kind} onChange={e => update({ kind: e.target.value, q: draft })} className={sel} style={{ borderColor: 'var(--p-border-strong)' }}><option value="">All kinds</option>{KINDS.map(k => <option key={k} value={k}>{KIND_LABEL[k]}</option>)}</select></label>
         <label className="flex flex-col gap-1 text-xs">Job<select aria-label="Job" value={job} onChange={e => update({ job: e.target.value, q: draft })} className={sel} style={{ borderColor: 'var(--p-border-strong)' }}><option value="">Any job</option>{jobs.map(j => <option key={j}>{j}</option>)}</select></label>
-        {(draft || kind || job) && <button type="button" onClick={reset} className="flex items-center gap-2 self-end px-3 py-2 text-sm underline"><X size={15} />Clear filters</button>}
+        <label className="flex flex-col gap-1 text-xs">Library<select aria-label="Library" value={lib} onChange={e => update({ lib: e.target.value, q: draft })} className={sel} style={{ borderColor: 'var(--p-border-strong)' }}><option value="">Everything</option><option value="rewrite">Rewrites (cited, refactored)</option><option value="original">Original skills</option></select></label>
+        {(draft || kind || job || lib) && <button type="button" onClick={reset} className="flex items-center gap-2 self-end px-3 py-2 text-sm underline"><X size={15} />Clear filters</button>}
       </div>
     </form>
     <div className="flex flex-wrap items-center justify-between gap-2 text-sm" style={{ color: 'var(--p-ink-soft)' }}>
@@ -52,13 +53,13 @@ export default function SkillBrowser({ entries }: { entries: SkillCard[] }) {
       <p>The strip on each card shows where the skill’s text goes, section by section.</p>
     </div>
     {results.length ? <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{results.map(e => <Link key={e.slug} href={`/skills/${e.slug}`} prefetch={false} className="group flex flex-col rounded-lg border p-6 transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4" style={{ borderColor: 'var(--p-border)', background: 'var(--p-bg-card)' }}>
-      <div className="mb-4 flex items-center justify-between gap-3 text-xs" style={{ color: 'var(--p-ink-soft)' }}><span>{KIND_LABEL[e.kind]}{e.job ? ` · ${e.job}` : ''}</span><span>{e.commandCount ? `${e.commandCount} commands · ` : ''}{e.words.toLocaleString('en-US')} words</span></div>
+      <div className="mb-4 flex items-center justify-between gap-3 text-xs" style={{ color: 'var(--p-ink-soft)' }}><span>{e.canonical ? 'Rewrite · ' : ''}{KIND_LABEL[e.kind]}{e.job ? ` · ${e.job}` : ''}</span><span>{e.commandCount ? `${e.commandCount} commands · ` : ''}{e.words.toLocaleString('en-US')} words</span></div>
       <h3 className="mb-1 break-words text-xl font-semibold" style={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)' }}>{e.name}</h3>
       {e.persona && <p className="mb-2 text-xs" style={{ color: 'var(--p-ink-soft)' }}>Persona: {e.persona}</p>}
       <p className="mb-5 line-clamp-3 text-sm leading-relaxed" style={{ color: 'var(--p-ink-soft)' }}>{e.does}</p>
       {e.starts && <p className="mb-4 rounded border px-2.5 py-1.5 text-xs" style={{ borderColor: 'var(--p-border)', background: 'var(--p-bg)', fontFamily: 'ui-monospace, monospace' }}>▸ {e.starts}</p>}
       <div className="mt-auto"><SkillShape bars={e.bars} />
-        <div className="mt-4 flex items-center justify-between border-t pt-3 text-xs" style={{ borderColor: 'var(--p-border)', color: 'var(--p-ink-soft)' }}><span>{e.useWhen ? 'Has a trigger' : 'No trigger sentence'}</span><span className="flex items-center gap-1">Read the skill <ArrowUpRight size={14} /></span></div></div>
+        <div className="mt-4 flex items-center justify-between border-t pt-3 text-xs" style={{ borderColor: 'var(--p-border)', color: 'var(--p-ink-soft)' }}><span>{e.canonical ? 'Sources cited' : e.useWhen ? 'Has a trigger' : 'No trigger sentence'}</span><span className="flex items-center gap-1">Read the skill <ArrowUpRight size={14} /></span></div></div>
     </Link>)}</div> : <div className="rounded-lg border py-16 text-center" style={{ borderColor: 'var(--p-border)' }}><h3 className="text-2xl" style={{ fontFamily: 'var(--font-serif)' }}>No matching skills</h3><p className="mt-2">Try a job (“review”, “syllabus”) or clear a filter.</p><button onClick={reset} className="mt-5 underline">Reset search</button></div>}
   </section>
 }
