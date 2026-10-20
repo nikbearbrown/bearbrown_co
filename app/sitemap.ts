@@ -3,6 +3,7 @@ import { neon } from '@neondatabase/serverless'
 import { CLAUDE_TYPES, sampleSlug } from '@/data/claude-types'
 import { getAllVideos } from '@/lib/video-articles'
 import n8nWorkflows from '@/data/n8n/catalog.json'
+import { skills } from '@/lib/skill-catalog'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bearbrown.co'
 
@@ -29,6 +30,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   entries.push({ url: `${BASE_URL}/agents`, changeFrequency: 'weekly', priority: 0.9 })
   for (const workflow of n8nWorkflows) {
     entries.push({ url: `${BASE_URL}/agents/n8n/${workflow.slug}`, changeFrequency: 'monthly', priority: 0.6 })
+  }
+
+  entries.push({ url: `${BASE_URL}/skills`, changeFrequency: 'weekly', priority: 0.9 })
+  for (const skill of skills) {
+    entries.push({ url: `${BASE_URL}/skills/${skill.slug}`, changeFrequency: 'monthly', priority: 0.7 })
   }
 
   // AI section: the "How to AI" playlist, one article per video (data/youtube)

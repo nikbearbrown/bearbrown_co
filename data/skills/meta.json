@@ -1,0 +1,371 @@
+{
+ "academic-writing-coach": {
+  "job": "Writing",
+  "pairs": [
+   "peer-review",
+   "graduate-writing-clinic"
+  ],
+  "persona": "Bacon"
+ },
+ "ai-build-planner": {
+  "job": "Software & games",
+  "pairs": [
+   "software-design-doc",
+   "unity-refactoring",
+   "gpt-deployment"
+  ],
+  "persona": "Gru"
+ },
+ "brand-comms-audit": {
+  "job": "Branding",
+  "pairs": [
+   "brand-identity",
+   "nonprofit-brand-audit",
+   "music-brand-audit"
+  ]
+ },
+ "brand-identity": {
+  "job": "Branding",
+  "pairs": [
+   "brand-comms-audit",
+   "nonprofit-brand-audit",
+   "copywriting-coach"
+  ],
+  "persona": "Nina"
+ },
+ "cinematic-prompt-sequences": {
+  "job": "Video & image",
+  "pairs": [
+   "explainer-storyboard",
+   "hero-image-direction"
+  ],
+  "persona": "Méliès"
+ },
+ "consulting-case": {
+  "job": "Business",
+  "pairs": [
+   "venture-pitch"
+  ]
+ },
+ "copywriting-coach": {
+  "job": "Writing",
+  "pairs": [
+   "newsletter-editor",
+   "brand-identity"
+  ],
+  "persona": "Ogilvy"
+ },
+ "course-artifacts": {
+  "job": "Teaching",
+  "pairs": [
+   "instructional-design-engine",
+   "syllabus-architect"
+  ],
+  "persona": "Humanitarians Courses"
+ },
+ "engineering-textbook-author": {
+  "job": "Teaching",
+  "pairs": [
+   "textbook-architecture",
+   "source-to-chapter"
+  ]
+ },
+ "experiential-learning-log": {
+  "job": "Teaching",
+  "pairs": [
+   "experiential-report-evaluator",
+   "volunteer-learning-journal"
+  ]
+ },
+ "experiential-report-evaluator": {
+  "job": "Teaching",
+  "pairs": [
+   "experiential-learning-log",
+   "volunteer-learning-journal"
+  ],
+  "persona": "WAYPOINT"
+ },
+ "explainer-storyboard": {
+  "job": "Video & image",
+  "pairs": [
+   "cinematic-prompt-sequences",
+   "hero-image-direction"
+  ],
+  "persona": "Eddy"
+ },
+ "game-design-doc": {
+  "job": "Software & games",
+  "pairs": [
+   "software-design-doc",
+   "unity-refactoring"
+  ]
+ },
+ "gpt-deployment": {
+  "job": "Software & games",
+  "pairs": [
+   "ai-build-planner",
+   "socratic-prompt-coach"
+  ],
+  "persona": "Archie"
+ },
+ "graduate-writing-clinic": {
+  "job": "Writing",
+  "pairs": [
+   "academic-writing-coach",
+   "peer-review"
+  ]
+ },
+ "hero-image-direction": {
+  "job": "Video & image",
+  "pairs": [
+   "cinematic-prompt-sequences",
+   "explainer-storyboard"
+  ],
+  "persona": "Iris"
+ },
+ "instructional-design-engine": {
+  "job": "Teaching",
+  "pairs": [
+   "syllabus-architect",
+   "course-artifacts",
+   "llm-exercise-design"
+  ],
+  "persona": "Brutalist"
+ },
+ "llm-exercise-design": {
+  "job": "Teaching",
+  "pairs": [
+   "socratic-prompt-coach",
+   "instructional-design-engine"
+  ],
+  "persona": "Mega"
+ },
+ "music-artist-branding": {
+  "job": "Music",
+  "pairs": [
+   "music-brand-audit",
+   "music-venture-pitch",
+   "brand-identity"
+  ],
+  "persona": "Gordy"
+ },
+ "music-brand-audit": {
+  "job": "Music",
+  "pairs": [
+   "music-artist-branding",
+   "playlist-fraud-audit"
+  ],
+  "persona": "Aria"
+ },
+ "music-journalism": {
+  "job": "Music",
+  "pairs": [
+   "public-domain-song-research",
+   "newsletter-writer"
+  ],
+  "persona": "Verse"
+ },
+ "music-venture-pitch": {
+  "job": "Music",
+  "pairs": [
+   "venture-pitch",
+   "music-artist-branding"
+  ],
+  "persona": "Marvin"
+ },
+ "newsletter-editor": {
+  "job": "Writing",
+  "pairs": [
+   "newsletter-writer",
+   "copywriting-coach"
+  ]
+ },
+ "newsletter-writer": {
+  "job": "Writing",
+  "pairs": [
+   "newsletter-editor",
+   "copywriting-coach"
+  ],
+  "agents": [
+   "personalized-ai-tech-newsletter-using-rss-openai-and-gmail"
+  ]
+ },
+ "nonprofit-brand-audit": {
+  "job": "Branding",
+  "pairs": [
+   "brand-comms-audit",
+   "nonprofit-storytelling",
+   "brand-identity"
+  ],
+  "persona": "PROOF"
+ },
+ "nonprofit-storytelling": {
+  "job": "Branding",
+  "pairs": [
+   "nonprofit-brand-audit",
+   "profile-interview"
+  ]
+ },
+ "peer-review": {
+  "job": "Research",
+  "pairs": [
+   "academic-writing-coach",
+   "graduate-writing-clinic",
+   "socratic-prompt-coach"
+  ],
+  "persona": "CRITIQ"
+ },
+ "playlist-fraud-audit": {
+  "job": "Music",
+  "pairs": [
+   "music-brand-audit",
+   "music-journalism"
+  ],
+  "persona": "Vera"
+ },
+ "profile-interview": {
+  "job": "Writing",
+  "pairs": [
+   "nonprofit-storytelling",
+   "newsletter-writer"
+  ],
+  "persona": "Rose",
+  "agents": [
+   "conversational-interviews-with-ai-agents-and-n8n-forms"
+  ]
+ },
+ "public-domain-song-research": {
+  "job": "Music",
+  "pairs": [
+   "music-journalism"
+  ]
+ },
+ "science-figure-intelligence": {
+  "job": "Research",
+  "pairs": [
+   "science-figure-prompts"
+  ],
+  "persona": "CAJAL"
+ },
+ "science-figure-prompts": {
+  "job": "Research",
+  "pairs": [
+   "science-figure-intelligence"
+  ],
+  "persona": "Figure Architect"
+ },
+ "socratic-prompt-coach": {
+  "job": "Teaching",
+  "pairs": [
+   "llm-exercise-design",
+   "gpt-deployment"
+  ],
+  "persona": "SOCRIT"
+ },
+ "software-design-doc": {
+  "job": "Software & games",
+  "pairs": [
+   "ai-build-planner",
+   "game-design-doc"
+  ],
+  "persona": "Ada"
+ },
+ "source-to-chapter": {
+  "job": "Writing",
+  "pairs": [
+   "textbook-architecture",
+   "engineering-textbook-author"
+  ]
+ },
+ "syllabus-architect": {
+  "job": "Teaching",
+  "pairs": [
+   "textbook-architecture",
+   "instructional-design-engine",
+   "course-artifacts"
+  ],
+  "persona": "Silly Bus"
+ },
+ "textbook-architecture": {
+  "job": "Teaching",
+  "pairs": [
+   "syllabus-architect",
+   "engineering-textbook-author",
+   "source-to-chapter"
+  ],
+  "persona": "Tik TOC"
+ },
+ "tone-aphoristic": {
+  "job": "Writing",
+  "pairs": [
+   "tone-spare",
+   "tone-witness",
+   "tone-wonder"
+  ]
+ },
+ "tone-naturalist": {
+  "job": "Writing",
+  "pairs": [
+   "tone-scenic",
+   "tone-wonder",
+   "tone-spare"
+  ]
+ },
+ "tone-scenic": {
+  "job": "Writing",
+  "pairs": [
+   "tone-naturalist",
+   "tone-wonder",
+   "tone-spare"
+  ]
+ },
+ "tone-spare": {
+  "job": "Writing",
+  "pairs": [
+   "tone-witness",
+   "tone-aphoristic",
+   "tone-naturalist"
+  ]
+ },
+ "tone-witness": {
+  "job": "Writing",
+  "pairs": [
+   "tone-spare",
+   "tone-aphoristic",
+   "tone-wonder"
+  ],
+  "persona": "Baldwin"
+ },
+ "tone-wonder": {
+  "job": "Writing",
+  "pairs": [
+   "tone-naturalist",
+   "tone-scenic",
+   "tone-witness"
+  ]
+ },
+ "unity-refactoring": {
+  "job": "Software & games",
+  "pairs": [
+   "game-design-doc",
+   "software-design-doc"
+  ],
+  "persona": "Walker"
+ },
+ "venture-pitch": {
+  "job": "Business",
+  "pairs": [
+   "music-venture-pitch",
+   "consulting-case"
+  ],
+  "persona": "Madison"
+ },
+ "volunteer-learning-journal": {
+  "job": "Teaching",
+  "pairs": [
+   "experiential-learning-log",
+   "experiential-report-evaluator"
+  ],
+  "persona": "Addams"
+ }
+}

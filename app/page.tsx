@@ -5,6 +5,7 @@ import {
   ClipboardCheck,
   Briefcase,
   Users,
+  BookOpenText,
   ArrowUpRight,
 } from 'lucide-react'
 
@@ -30,6 +31,15 @@ const MENU_CARDS = [
     cta: 'Browse the directory',
   },
   {
+    name: 'Consulting',
+    href: '/consulting',
+    Icon: Briefcase,
+    heading: 'Consulting',
+    body:
+      'Bespoke AI for startups that need to move — as consultant, equity advisor, and talent connector. No bloated retainers, no generalists, no team of five where one will do.',
+    cta: 'How I work',
+  },
+  {
     name: 'Corpus',
     href: '/corpus',
     Icon: ClipboardCheck,
@@ -39,13 +49,13 @@ const MENU_CARDS = [
     cta: 'How it works',
   },
   {
-    name: 'Consulting',
-    href: '/consulting',
-    Icon: Briefcase,
-    heading: 'Consulting',
+    name: 'Skills',
+    href: '/skills',
+    Icon: BookOpenText,
+    heading: 'Skills you can read first',
     body:
-      'Bespoke AI for startups that need to move — as consultant, equity advisor, and talent connector. No bloated retainers, no generalists, no team of five where one will do.',
-    cta: 'How I work',
+      'Written procedures Claude loads when your request matches. Search by the job you need done, see how each is built, and read the whole text before you install it.',
+    cta: 'Browse skills',
   },
   {
     name: 'Talent',

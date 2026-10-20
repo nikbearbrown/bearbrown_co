@@ -1,0 +1,6435 @@
+[
+ {
+  "slug": "academic-writing-coach",
+  "name": "academic-writing-coach",
+  "description": "Coach academic writing through five stages from raw project description to peer-reviewable paper — structure first, no confident prose over invisible gaps. Use when the user is drafting a research paper and wants staged guidance.",
+  "does": "Coach academic writing through five stages from raw project description to peer-reviewable paper — structure first, no confident prose over invisible gaps.",
+  "useWhen": "Use when the user is drafting a research paper and wants staged guidance.",
+  "kind": "commands",
+  "job": "Writing",
+  "persona": "Bacon",
+  "starts": "/help",
+  "pairs": [
+   "peer-review",
+   "graduate-writing-clinic"
+  ],
+  "agents": [],
+  "words": 2367,
+  "descWords": 35,
+  "sections": [
+   {
+    "title": "Two Ways to Work",
+    "words": 76
+   },
+   {
+    "title": "Five Stages",
+    "words": 148
+   },
+   {
+    "title": "Placeholder Tag Standard",
+    "words": 68
+   },
+   {
+    "title": "Command Reference",
+    "words": 207
+   }
+  ],
+  "commands": [
+   {
+    "name": "/scan",
+    "desc": ""
+   },
+   {
+    "name": "/checklist",
+    "desc": ""
+   },
+   {
+    "name": "/outline",
+    "desc": ""
+   },
+   {
+    "name": "/draft",
+    "desc": ""
+   },
+   {
+    "name": "/review",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "48b4e7bdf0549eb4651925ed0c79b2d5a1d92016223df1829f56cc046ed66680",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/academic-writing-coach/SKILL.md",
+    "commit": "d976664",
+    "sha256": "48b4e7bdf0549eb4651925ed0c79b2d5a1d92016223df1829f56cc046ed66680",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/academic-writing-coach"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "ai-build-planner",
+  "name": "ai-build-planner",
+  "description": "Plan a software build as a conductor's score: produce the design doc, then split every step into what an AI agent should build versus what only a human can decide, with copy-pasteable prompts and explicit handoff conditions. Use when the user asks for a build plan, a delegation plan, or what to hand to an AI coding agent versus keep.",
+  "does": "Plan a software build as a conductor's score: produce the design doc, then split every step into what an AI agent should build versus what only a human can decide, with copy-pasteable prompts and explicit handoff conditions.",
+  "useWhen": "Use when the user asks for a build plan, a delegation plan, or what to hand to an AI coding agent versus keep.",
+  "kind": "commands",
+  "job": "Software & games",
+  "persona": "Gru",
+  "starts": "/help",
+  "pairs": [
+   "software-design-doc",
+   "unity-refactoring",
+   "gpt-deployment"
+  ],
+  "agents": [],
+  "words": 10424,
+  "descWords": 60,
+  "sections": [
+   {
+    "title": "SYSTEM PROMPT (Core Identity)",
+    "words": 1121
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 589
+   },
+   {
+    "title": "/v0 · /brief — Problem Formulation Gate",
+    "words": 582
+   },
+   {
+    "title": "THE BOONDOGGLE COMMAND",
+    "words": 1137
+   },
+   {
+    "title": "BOONDOGGLE PROMPT WRITING PRINCIPLES",
+    "words": 496
+   },
+   {
+    "title": "/recipe · /snickerdoodle — Claude Code Agent Prompt Generator",
+    "words": 3200
+   },
+   {
+    "title": "/list — Full Command Reference",
+    "words": 547
+   },
+   {
+    "title": "ALL ADA COMMANDS — UNCHANGED",
+    "words": 1914
+   },
+   {
+    "title": "REFINEMENT TOOLS",
+    "words": 220
+   },
+   {
+    "title": "PUSHBACK LAYER",
+    "words": 277
+   },
+   {
+    "title": "PHASE GATES",
+    "words": 241
+   }
+  ],
+  "commands": [
+   {
+    "name": "/v0",
+    "desc": "Problem Formulation Gate"
+   },
+   {
+    "name": "/claude",
+    "desc": "Generate the Boondoggle Score"
+   },
+   {
+    "name": "/recipe",
+    "desc": "Claude Code Agent Prompt Generator"
+   },
+   {
+    "name": "/list",
+    "desc": "Full Command Reference"
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu + command overview"
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo in both silent and interactive modes"
+   },
+   {
+    "name": "/v1",
+    "desc": "Problem intake"
+   },
+   {
+    "name": "/v2",
+    "desc": "Architecture principles"
+   },
+   {
+    "name": "/v3",
+    "desc": "Core user flows + system interaction map"
+   },
+   {
+    "name": "/v4",
+    "desc": "User and business needs"
+   },
+   {
+    "name": "/s1",
+    "desc": "Core component documentation"
+   },
+   {
+    "name": "/s2",
+    "desc": "External integrations and dependencies"
+   },
+   {
+    "name": "/s3",
+    "desc": "Data architecture and state management"
+   },
+   {
+    "name": "/s4",
+    "desc": "Edge cases and failure states"
+   },
+   {
+    "name": "/d1",
+    "desc": "Domain model and entity definitions"
+   },
+   {
+    "name": "/d2",
+    "desc": "API contract documentation"
+   },
+   {
+    "name": "/d3",
+    "desc": "Data flow and sequence diagrams"
+   },
+   {
+    "name": "/p1",
+    "desc": "Component list with priority tagging"
+   },
+   {
+    "name": "/p2",
+    "desc": "Out-of-scope section"
+   },
+   {
+    "name": "/p3",
+    "desc": "Infrastructure and deployment requirements"
+   },
+   {
+    "name": "/p4",
+    "desc": "Technical and design risk register"
+   },
+   {
+    "name": "/p5",
+    "desc": "Open Questions Log"
+   },
+   {
+    "name": "/g1",
+    "desc": "Compile full SDD draft"
+   },
+   {
+    "name": "/g2",
+    "desc": "SDD audit against the 7 Failure Modes"
+   },
+   {
+    "name": "/g3",
+    "desc": "One-page executive summary"
+   },
+   {
+    "name": "/g4",
+    "desc": "New Engineer Onboarding Test"
+   },
+   {
+    "name": "/tasks",
+    "desc": "Implementation task document"
+   },
+   {
+    "name": "/problemstatement",
+    "desc": "Write or stress-test a problem statement"
+   },
+   {
+    "name": "/constraints",
+    "desc": "Define and pressure-test system constraints"
+   },
+   {
+    "name": "/comparable",
+    "desc": "Comparable systems analysis"
+   },
+   {
+    "name": "/flowtest",
+    "desc": "Stress-test a core user flow"
+   },
+   {
+    "name": "/scopecheck",
+    "desc": "MoSCoW priority audit"
+   },
+   {
+    "name": "/failmodes",
+    "desc": ""
+   },
+   {
+    "name": "/security",
+    "desc": "Security posture review"
+   },
+   {
+    "name": "/changelog",
+    "desc": "Version control changelog entry"
+   }
+  ],
+  "phases": [],
+  "rules": {
+   "from": "WHAT GRU DOES NOT PRODUCE",
+   "items": [
+    "An interactive recipe audit (that is Claude Code's job)",
+    "A Boondoggle Score (use /claude after the recipe is RUNNABLE)",
+    "A React artifact or browser tool",
+    "A partial prompt — if Gru cannot fill in a required field, it asks"
+   ]
+  },
+  "extraFiles": [],
+  "sha256": "3bf20d39ca222ac8734bf423d7cae6dbd6f984bec4ca69c3078f3dbcd0106c18",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/ai-build-planner/SKILL.md",
+    "commit": "d976664",
+    "sha256": "3bf20d39ca222ac8734bf423d7cae6dbd6f984bec4ca69c3078f3dbcd0106c18",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/ai-build-planner"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "very-long-body"
+  ]
+ },
+ {
+  "slug": "brand-comms-audit",
+  "name": "brand-comms-audit",
+  "description": "Audit a brand's communications end to end: observe every touchpoint, label all evidence in an observation matrix, and produce a strategic memo where every recommendation traces to a labeled observation. Use when the user asks for a brand audit, competitive communications analysis, or touchpoint review.",
+  "does": "Audit a brand's communications end to end: observe every touchpoint, label all evidence in an observation matrix, and produce a strategic memo where every recommendation traces to a labeled observation.",
+  "useWhen": "Use when the user asks for a brand audit, competitive communications analysis, or touchpoint review.",
+  "kind": "commands",
+  "job": "Branding",
+  "persona": null,
+  "starts": "help",
+  "pairs": [
+   "brand-identity",
+   "nonprofit-brand-audit",
+   "music-brand-audit"
+  ],
+  "agents": [],
+  "words": 7205,
+  "descWords": 45,
+  "sections": [
+   {
+    "title": "COMMAND: help",
+    "words": 205
+   },
+   {
+    "title": "COMMAND: brandy",
+    "words": 1277
+   },
+   {
+    "title": "COMMAND: data",
+    "words": 337
+   },
+   {
+    "title": "SECTION 1 — BRAND DATA PROFILE",
+    "words": 19
+   },
+   {
+    "title": "SECTION 2 — PRIORITIZED DATA SOURCE STACK",
+    "words": 102
+   },
+   {
+    "title": "SECTION 3 — ANALYSIS PLAYBOOK",
+    "words": 28
+   },
+   {
+    "title": "SECTION 4 — BRAND-SPECIFIC RED FLAGS",
+    "words": 68
+   },
+   {
+    "title": "SECTION 5 — COMPETITIVE DATA PAIRS",
+    "words": 138
+   },
+   {
+    "title": "COMMAND: Artifact Naming Convention",
+    "words": 166
+   },
+   {
+    "title": "COMMAND: xls",
+    "words": 1868
+   },
+   {
+    "title": "COMMAND: memo",
+    "words": 1445
+   },
+   {
+    "title": "WHAT onepage IS NOT",
+    "words": 88
+   },
+   {
+    "title": "EXAMPLE INVOCATIONS",
+    "words": 56
+   },
+   {
+    "title": "STRUCTURAL RULES",
+    "words": 137
+   },
+   {
+    "title": "DISTILLATION PROTOCOL",
+    "words": 367
+   },
+   {
+    "title": "LANGUAGE RULES",
+    "words": 174
+   },
+   {
+    "title": "OUTPUT FORMAT",
+    "words": 203
+   },
+   {
+    "title": "ONE-PAGE INTEGRITY TEST",
+    "words": 135
+   },
+   {
+    "title": "INTEGRATION WITH OTHER COMMANDS",
+    "words": 97
+   },
+   {
+    "title": "WHY onepage IS A SEPARATE COMMAND FROM memo",
+    "words": 131
+   }
+  ],
+  "commands": [
+   {
+    "name": "help",
+    "desc": ""
+   },
+   {
+    "name": "brandy",
+    "desc": ""
+   },
+   {
+    "name": "data",
+    "desc": ""
+   },
+   {
+    "name": "artifact",
+    "desc": ""
+   },
+   {
+    "name": "xls",
+    "desc": ""
+   },
+   {
+    "name": "memo",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": {
+   "from": "Forbidden Patterns",
+   "items": [
+    "\"Strong social media presence\" (→ which platforms, what engagement rate, compared to whom?)",
+    "\"Good brand consistency\" (→ name one specific inconsistency or confirm uniformity with evidence)",
+    "\"They could improve their TikTok\" (→ how, specifically, and what is the strategic payoff?)",
+    "\"Very engaged audience\" (→ what is the comment-to-like ratio? Are comments substantive or emoji responses?)",
+    "\"X platform shows [evidence] suggesting [strategic interpretation]\"",
+    "\"Compared to [competitor], [audited brand] is [ahead / behind / at parity] on [specific dimension] because [observable signal]\"",
+    "\"Absence from [platform] represents [opportunity / deliberate choice] because [reasoning]\""
+   ]
+  },
+  "extraFiles": [],
+  "sha256": "b5b567c9ab034b0791b5108552ce1b8d14e71ed750dccd187ef85a55d2159c13",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/brand-comms-audit/SKILL.md",
+    "commit": "d976664",
+    "sha256": "b5b567c9ab034b0791b5108552ce1b8d14e71ed750dccd187ef85a55d2159c13",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/brand-comms-audit"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "brand-identity",
+  "name": "brand-identity",
+  "description": "Build a full brand identity from intake to style guide: archetype, personas, positioning, voice, visual direction, taglines — strategy before aesthetics, with honest pushback on weak briefs. Use when the user wants a brand identity, creative brief, positioning statement, or brand critique.",
+  "does": "Build a full brand identity from intake to style guide: archetype, personas, positioning, voice, visual direction, taglines — strategy before aesthetics, with honest pushback on weak briefs.",
+  "useWhen": "Use when the user wants a brand identity, creative brief, positioning statement, or brand critique.",
+  "kind": "commands",
+  "job": "Branding",
+  "persona": "Nina",
+  "starts": "/help",
+  "pairs": [
+   "brand-comms-audit",
+   "nonprofit-brand-audit",
+   "copywriting-coach"
+  ],
+  "agents": [],
+  "words": 5580,
+  "descWords": 42,
+  "sections": [
+   {
+    "title": "SYSTEM PROMPT (Core Identity)",
+    "words": 183
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 260
+   },
+   {
+    "title": "PHASE 1: DISCOVERY",
+    "words": 589
+   },
+   {
+    "title": "PHASE 2: STRATEGY",
+    "words": 579
+   },
+   {
+    "title": "PHASE 3: IDENTITY",
+    "words": 576
+   },
+   {
+    "title": "PHASE 4: BUILD",
+    "words": 488
+   },
+   {
+    "title": "REFINEMENT TOOLS",
+    "words": 2578
+   },
+   {
+    "title": "COMMAND QUICK REFERENCE",
+    "words": 274
+   }
+  ],
+  "commands": [
+   {
+    "name": "/n1",
+    "desc": "Brand Intake"
+   },
+   {
+    "name": "/n2",
+    "desc": "Archetype Map"
+   },
+   {
+    "name": "/n3",
+    "desc": "Audience Personas"
+   },
+   {
+    "name": "/n4",
+    "desc": "Creative Brief"
+   },
+   {
+    "name": "/n5",
+    "desc": "Single-Minded Proposition + UVP"
+   },
+   {
+    "name": "/n6",
+    "desc": "Voice & Tone Guide"
+   },
+   {
+    "name": "/n7",
+    "desc": "Visual Direction"
+   },
+   {
+    "name": "/n8",
+    "desc": "Color System + Typography"
+   },
+   {
+    "name": "/n9",
+    "desc": "Logo Concept Directions"
+   },
+   {
+    "name": "/n10",
+    "desc": "Wireframe Strategy"
+   },
+   {
+    "name": "/n11",
+    "desc": "Style Guide Draft"
+   },
+   {
+    "name": "/n12",
+    "desc": "Brand Audit & Critique"
+   },
+   {
+    "name": "/tagline",
+    "desc": "Tagline Generator"
+   },
+   {
+    "name": "/benefit",
+    "desc": "Feature-to-Outcome Transformer"
+   },
+   {
+    "name": "/emotion",
+    "desc": "Emotional Impact Check"
+   },
+   {
+    "name": "/edit",
+    "desc": "Refinement Pass"
+   },
+   {
+    "name": "/manifesto",
+    "desc": "Brand Manifesto"
+   },
+   {
+    "name": "/competitor",
+    "desc": "Competitive Landscape Audit"
+   },
+   {
+    "name": "/positioning",
+    "desc": "Positioning Statement Generator"
+   },
+   {
+    "name": "/jargon",
+    "desc": "Brand Copy Jargon Audit"
+   },
+   {
+    "name": "/polish",
+    "desc": "Document Polish Pass"
+   },
+   {
+    "name": "/ready",
+    "desc": "Client Readiness Check"
+   },
+   {
+    "name": "/present",
+    "desc": "Presentation Script Generator"
+   },
+   {
+    "name": "/onepager",
+    "desc": "One-Page Brand Summary"
+   },
+   {
+    "name": "/help",
+    "desc": ""
+   }
+  ],
+  "phases": [
+   {
+    "n": 1,
+    "title": "DISCOVERY"
+   },
+   {
+    "n": 2,
+    "title": "STRATEGY"
+   },
+   {
+    "n": 3,
+    "title": "IDENTITY"
+   },
+   {
+    "n": 4,
+    "title": "BUILD"
+   }
+  ],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "2b1bb59276bf48b7f59af53292a9ba24b0d96703e9eb4499762470e91b28f20a",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/brand-identity/SKILL.md",
+    "commit": "d976664",
+    "sha256": "2b1bb59276bf48b7f59af53292a9ba24b0d96703e9eb4499762470e91b28f20a",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/brand-identity"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "cinematic-prompt-sequences",
+  "name": "cinematic-prompt-sequences",
+  "description": "Transform songs, stories, and images into phone-footage-style prompt sequences for AI image and video generation — shot grammar, sequence design, documentation aesthetic. Use when the user wants generation prompts that make impossible things look documented.",
+  "does": "Transform songs, stories, and images into phone-footage-style prompt sequences for AI image and video generation — shot grammar, sequence design, documentation aesthetic.",
+  "useWhen": "Use when the user wants generation prompts that make impossible things look documented.",
+  "kind": "protocol",
+  "job": "Video & image",
+  "persona": "Méliès",
+  "starts": "/help",
+  "pairs": [
+   "explainer-storyboard",
+   "hero-image-direction"
+  ],
+  "agents": [],
+  "words": 1957,
+  "descWords": 35,
+  "sections": [
+   {
+    "title": "What Méliès Does",
+    "words": 114
+   },
+   {
+    "title": "Two Modes of Operation",
+    "words": 105
+   },
+   {
+    "title": "Command Library",
+    "words": 192
+   },
+   {
+    "title": "Sequence IDs & Shot Grammar",
+    "words": 316
+   },
+   {
+    "title": "Seven Rules That Apply in Both Modes",
+    "words": 184
+   },
+   {
+    "title": "Banned Language",
+    "words": 90
+   },
+   {
+    "title": "The Pushback Layer",
+    "words": 239
+   },
+   {
+    "title": "Full Command Reference",
+    "words": 196
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": {
+   "from": "Seven Rules That Apply in Both Modes",
+   "items": [
+    "Always start with sequence ID. A0, A1, A2… then B0, B1, B2… Every prompt carries its position in the sequence.",
+    "Sequence is critical. Assume 5-second clips per prompt. Design cuts so the viewer never notices them. Every cut must push the story forward — not just look good.",
+    "Maintain documentation aesthetic. Everything feels like real phone or camera footage of impossible events. If it feels rendered, the aesthetic has failed.",
+    "No style or engine language. Never use \"cinematic,\" \"render,\" \"Unreal Engine,\" \"octane,\" \"4K,\" or AI-generation terms. These signal generation, not footage.",
+    "Subject actions matter. Always include what the subject is doing — not just what they look like. A subject standing still is a choice; a subject standing still with their hand pressed against invisible air is a shot.",
+    "Vary perspectives. Mix angles and camera types using vocab from the active .md rule files. A sequence that never changes angle is not a sequence — it's a slideshow.",
+    "Apply .md rule files silently. Never inline or quote their contents. The rules are behavior, not documentation."
+   ]
+  },
+  "extraFiles": [],
+  "sha256": "1bfea6d4d84d376996b26d7d5dcf63ce1a33a889b39161b8f988417c197a51cc",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/cinematic-prompt-sequences/SKILL.md",
+    "commit": "d976664",
+    "sha256": "1bfea6d4d84d376996b26d7d5dcf63ce1a33a889b39161b8f988417c197a51cc",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/cinematic-prompt-sequences"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "consulting-case",
+  "name": "consulting-case",
+  "description": "Generate consulting case interviews and rigorous real-company strategic diagnostics — every claim sourced or labeled, contradictions flagged before analysis. Use when the user is prepping case interviews or asks for a strategic diagnostic, unit-economics read, or valuation audit.",
+  "does": "Generate consulting case interviews and rigorous real-company strategic diagnostics — every claim sourced or labeled, contradictions flagged before analysis.",
+  "useWhen": "Use when the user is prepping case interviews or asks for a strategic diagnostic, unit-economics read, or valuation audit.",
+  "kind": "commands",
+  "job": "Business",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "venture-pitch"
+  ],
+  "agents": [],
+  "words": 2484,
+  "descWords": 38,
+  "sections": [
+   {
+    "title": "Two Ways to Work",
+    "words": 73
+   },
+   {
+    "title": "Commands",
+    "words": 118
+   },
+   {
+    "title": "Supported Case Styles (/mycaze)",
+    "words": 29
+   },
+   {
+    "title": "Sourcing Rules",
+    "words": 39
+   },
+   {
+    "title": "What CAZE Never Does",
+    "words": 54
+   },
+   {
+    "title": "Command Reference",
+    "words": 106
+   }
+  ],
+  "commands": [
+   {
+    "name": "/mycaze",
+    "desc": ""
+   },
+   {
+    "name": "/caze",
+    "desc": ""
+   },
+   {
+    "name": "/answers",
+    "desc": ""
+   },
+   {
+    "name": "/show",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "bda879bfb5aa5a882a4c2d954a7125dbdfa7e81f6a328bd9c8b84eba3287bb42",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/consulting-case/SKILL.md",
+    "commit": "d976664",
+    "sha256": "bda879bfb5aa5a882a4c2d954a7125dbdfa7e81f6a328bd9c8b84eba3287bb42",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/consulting-case"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "copywriting-coach",
+  "name": "copywriting-coach",
+  "description": "Coach copywriting on David Ogilvy's principles: headlines, ad copy, platform copy, brand voice — with a silent mode for fast output. Use when the user wants ad or marketing copy written or critiqued.",
+  "does": "Coach copywriting on David Ogilvy's principles: headlines, ad copy, platform copy, brand voice — with a silent mode for fast output.",
+  "useWhen": "Use when the user wants ad or marketing copy written or critiqued.",
+  "kind": "commands",
+  "job": "Writing",
+  "persona": "Ogilvy",
+  "starts": "/help",
+  "pairs": [
+   "newsletter-editor",
+   "brand-identity"
+  ],
+  "agents": [],
+  "words": 15544,
+  "descWords": 33,
+  "sections": [
+   {
+    "title": "SYSTEM PROMPT (Core Identity)",
+    "words": 457
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 342
+   },
+   {
+    "title": "/list — Command Reference",
+    "words": 518
+   },
+   {
+    "title": "BRAND VOICE INTAKE PROMPT",
+    "words": 256
+   },
+   {
+    "title": "PUSHBACK LAYER",
+    "words": 357
+   },
+   {
+    "title": "PHASE GATES",
+    "words": 303
+   },
+   {
+    "title": "PLATFORM-SPECIFIC COPY PROMPTS",
+    "words": 1540
+   },
+   {
+    "title": "CAMPAIGN PROMPTS",
+    "words": 166
+   },
+   {
+    "title": "REFINEMENT PROMPTS",
+    "words": 303
+   },
+   {
+    "title": "/walkthru — Product Demo Walkthrough Builder",
+    "words": 1194
+   },
+   {
+    "title": "/vercel — Tool Description Generator",
+    "words": 295
+   },
+   {
+    "title": "/urso — Substack Article Teaser Script",
+    "words": 502
+   },
+   {
+    "title": "/byline — Writer's Byline Builder",
+    "words": 597
+   },
+   {
+    "title": "/show — Live Demo",
+    "words": 369
+   },
+   {
+    "title": "/medhavy — Medhavy YouTube Script Builder",
+    "words": 3419
+   },
+   {
+    "title": "/causal — Living Models YouTube Script Builder",
+    "words": 4507
+   },
+   {
+    "title": "UNIVERSAL OUTPUT RULE",
+    "words": 32
+   },
+   {
+    "title": "POSTING FREQUENCY REFERENCE (2026)",
+    "words": 282
+   }
+  ],
+  "commands": [
+   {
+    "name": "/list",
+    "desc": "Command Reference"
+   },
+   {
+    "name": "/youtube",
+    "desc": "Full YouTube Script"
+   },
+   {
+    "name": "/shorts",
+    "desc": "YouTube Shorts Script"
+   },
+   {
+    "name": "/description",
+    "desc": "YouTube Video Description"
+   },
+   {
+    "name": "/tweet",
+    "desc": "X/Twitter Post"
+   },
+   {
+    "name": "/reel",
+    "desc": "Instagram Reel Caption"
+   },
+   {
+    "name": "/story",
+    "desc": "Instagram/Facebook Story Copy"
+   },
+   {
+    "name": "/carousel",
+    "desc": "Instagram/Facebook Carousel"
+   },
+   {
+    "name": "/facebook",
+    "desc": "Facebook Feed Post"
+   },
+   {
+    "name": "/linkedin",
+    "desc": "LinkedIn Post"
+   },
+   {
+    "name": "/blurb",
+    "desc": "Social Blurb & Web Copy Passages"
+   },
+   {
+    "name": "/crowdfund",
+    "desc": "Crowdfunding Campaign Copy"
+   },
+   {
+    "name": "/tagline",
+    "desc": "Catchphrase Creator"
+   },
+   {
+    "name": "/cta",
+    "desc": "CTA Optimizer"
+   },
+   {
+    "name": "/benefit",
+    "desc": "Feature-to-Benefit Transformer"
+   },
+   {
+    "name": "/emotion",
+    "desc": "Emotional Impact Analyzer"
+   },
+   {
+    "name": "/credibility",
+    "desc": "Credibility Booster"
+   },
+   {
+    "name": "/seo",
+    "desc": "SEO Surgeon"
+   },
+   {
+    "name": "/edit",
+    "desc": "Editing Scalpel"
+   },
+   {
+    "name": "/walkthru",
+    "desc": "Product Demo Walkthrough Builder"
+   },
+   {
+    "name": "/vercel",
+    "desc": "Tool Description Generator"
+   },
+   {
+    "name": "/urso",
+    "desc": "Substack Article Teaser Script"
+   },
+   {
+    "name": "/byline",
+    "desc": "Writer's Byline Builder"
+   },
+   {
+    "name": "/show",
+    "desc": "Live Demo"
+   },
+   {
+    "name": "/medhavy",
+    "desc": "Medhavy YouTube Script Builder"
+   },
+   {
+    "name": "/causal",
+    "desc": "Living Models YouTube Script Builder"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "f461f3022fd10e601711211f99dff347bf18d04c199869b172d118607d6dd4f1",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/copywriting-coach/SKILL.md",
+    "commit": "d976664",
+    "sha256": "f461f3022fd10e601711211f99dff347bf18d04c199869b172d118607d6dd4f1",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/copywriting-coach"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "very-long-body"
+  ]
+ },
+ {
+  "slug": "course-artifacts",
+  "name": "course-artifacts",
+  "description": "Turn source content into course-ready artifacts: slide decks, video storyboards, outcomes, assessments, visual production recipes — backwards design throughout. Use when the user wants teaching materials generated from a document or topic.",
+  "does": "Turn source content into course-ready artifacts: slide decks, video storyboards, outcomes, assessments, visual production recipes — backwards design throughout.",
+  "useWhen": "Use when the user wants teaching materials generated from a document or topic.",
+  "kind": "protocol",
+  "job": "Teaching",
+  "persona": "Humanitarians Courses",
+  "starts": null,
+  "pairs": [
+   "instructional-design-engine",
+   "syllabus-architect"
+  ],
+  "agents": [],
+  "words": 5129,
+  "descWords": 32,
+  "sections": [
+   {
+    "title": "KNOWLEDGE FILES",
+    "words": 85
+   },
+   {
+    "title": "START",
+    "words": 10
+   },
+   {
+    "title": "GLOBAL STYLE & PEDAGOGY",
+    "words": 86
+   },
+   {
+    "title": "COMMANDS OVERVIEW",
+    "words": 113
+   },
+   {
+    "title": "LIST COMMAND",
+    "words": 90
+   },
+   {
+    "title": "SLIDES COMMAND",
+    "words": 98
+   },
+   {
+    "title": "SHOWTELL COMMAND",
+    "words": 135
+   },
+   {
+    "title": "LECTURE COMMAND",
+    "words": 87
+   },
+   {
+    "title": "DOODLE COMMAND",
+    "words": 72
+   },
+   {
+    "title": "INFOGRAPHIC COMMAND",
+    "words": 109
+   },
+   {
+    "title": "VIDEO COMMAND",
+    "words": 55
+   },
+   {
+    "title": "DEFAULT BEHAVIOR",
+    "words": 48
+   },
+   {
+    "title": "Global Principles",
+    "words": 291
+   },
+   {
+    "title": "Function: slides",
+    "words": 327
+   },
+   {
+    "title": "Function: showtell",
+    "words": 308
+   },
+   {
+    "title": "Function: lecture (visual backfill)",
+    "words": 230
+   },
+   {
+    "title": "Summary: How to Think Before Generating",
+    "words": 78
+   },
+   {
+    "title": "Purpose",
+    "words": 21
+   },
+   {
+    "title": "Visual Style",
+    "words": 240
+   },
+   {
+    "title": "Composition Rules",
+    "words": 264
+   },
+   {
+    "title": "Image Prompts",
+    "words": 220
+   },
+   {
+    "title": "5-Second Micro-Video",
+    "words": 366
+   },
+   {
+    "title": "Purpose",
+    "words": 24
+   },
+   {
+    "title": "Chart Selection",
+    "words": 264
+   },
+   {
+    "title": "Layout Patterns",
+    "words": 177
+   },
+   {
+    "title": "Data Storytelling",
+    "words": 162
+   },
+   {
+    "title": "Accessibility & Style",
+    "words": 191
+   },
+   {
+    "title": "Purpose",
+    "words": 29
+   },
+   {
+    "title": "Libraries",
+    "words": 126
+   },
+   {
+    "title": "Code Style",
+    "words": 277
+   },
+   {
+    "title": "Templates",
+    "words": 374
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "ccc87410a341364d7fb60a7c47aa956783b9e0f2efc2910f0e84643276c49100",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/course-artifacts/SKILL.md",
+    "commit": "d976664",
+    "sha256": "ccc87410a341364d7fb60a7c47aa956783b9e0f2efc2910f0e84643276c49100",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/course-artifacts"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "engineering-textbook-author",
+  "name": "engineering-textbook-author",
+  "description": "Write publication-ready engineering textbook chapters with phenomenon-first pedagogy, failure-analysis framing, and outcome alignment. Use when the user is authoring a technical textbook chapter.",
+  "does": "Write publication-ready engineering textbook chapters with phenomenon-first pedagogy, failure-analysis framing, and outcome alignment.",
+  "useWhen": "Use when the user is authoring a technical textbook chapter.",
+  "kind": "commands",
+  "job": "Teaching",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "textbook-architecture",
+   "source-to-chapter"
+  ],
+  "agents": [],
+  "words": 2970,
+  "descWords": 23,
+  "sections": [
+   {
+    "title": "Two Modes",
+    "words": 106
+   },
+   {
+    "title": "Chapter Architecture",
+    "words": 194
+   },
+   {
+    "title": "10 Authoring Standards",
+    "words": 331
+   },
+   {
+    "title": "Command Reference",
+    "words": 255
+   },
+   {
+    "title": "The 8-Question Intake",
+    "words": 587
+   },
+   {
+    "title": "Pushback Layer",
+    "words": 274
+   },
+   {
+    "title": "What Bookie Never Does",
+    "words": 124
+   },
+   {
+    "title": "About This Tool",
+    "words": 163
+   }
+  ],
+  "commands": [
+   {
+    "name": "/write",
+    "desc": "Write a full chapter. Runs intake in interactive mode. Writes immediately in silent mode."
+   },
+   {
+    "name": "/section",
+    "desc": "Write a specific chapter section."
+   },
+   {
+    "name": "/revise",
+    "desc": "Rewrite or strengthen a draft."
+   },
+   {
+    "name": "/critique",
+    "desc": "Full structured critique against all 10 standards."
+   },
+   {
+    "name": "/intake",
+    "desc": "Run full intake sequence before writing."
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo in both modes."
+   },
+   {
+    "name": "/list",
+    "desc": "Command reference table."
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu."
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "dac9c639db0c59a7f0958dce2386aff98a3defc947a8b42678559573baa6055d",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/engineering-textbook-author/SKILL.md",
+    "commit": "d976664",
+    "sha256": "dac9c639db0c59a7f0958dce2386aff98a3defc947a8b42678559573baa6055d",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/engineering-textbook-author"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "experiential-learning-log",
+  "name": "experiential-learning-log",
+  "description": "Convert experiential placements into structured learning evidence: weekly progress reports, reflective journal entries, compliance audits, capstone narratives. Use when the user is documenting a co-op, internship, clinical rotation, or practicum.",
+  "does": "Convert experiential placements into structured learning evidence: weekly progress reports, reflective journal entries, compliance audits, capstone narratives.",
+  "useWhen": "Use when the user is documenting a co-op, internship, clinical rotation, or practicum.",
+  "kind": "protocol",
+  "job": "Teaching",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "experiential-report-evaluator",
+   "volunteer-learning-journal"
+  ],
+  "agents": [],
+  "words": 2168,
+  "descWords": 30,
+  "sections": [
+   {
+    "title": "What Sherpa Does — and Why",
+    "words": 161
+   },
+   {
+    "title": "Two Modes of Operation",
+    "words": 118
+   },
+   {
+    "title": "The MVAL Protocol",
+    "words": 145
+   },
+   {
+    "title": "Four-Phase Documentation System",
+    "words": 152
+   },
+   {
+    "title": "Four Quality Gates",
+    "words": 109
+   },
+   {
+    "title": "Full Command Reference",
+    "words": 275
+   },
+   {
+    "title": "The Pushback Layer",
+    "words": 234
+   },
+   {
+    "title": "Weekly Report Sections",
+    "words": 212
+   },
+   {
+    "title": "The Six-Point Compliance Check — /compliance",
+    "words": 178
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "8b1750254c2aaf993626007e06933b793ce1f8ff8002587517b3d4b44f55a444",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/experiential-learning-log/SKILL.md",
+    "commit": "d976664",
+    "sha256": "8b1750254c2aaf993626007e06933b793ce1f8ff8002587517b3d4b44f55a444",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/experiential-learning-log"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "experiential-report-evaluator",
+  "name": "experiential-report-evaluator",
+  "description": "Evaluate experiential-learning reports on compliance and developmental quality across co-op, study-abroad, clinical, and apprenticeship tracks. Use when the user is assessing student placement reports or reflection journals.",
+  "does": "Evaluate experiential-learning reports on compliance and developmental quality across co-op, study-abroad, clinical, and apprenticeship tracks.",
+  "useWhen": "Use when the user is assessing student placement reports or reflection journals.",
+  "kind": "protocol",
+  "job": "Teaching",
+  "persona": "WAYPOINT",
+  "starts": "/help",
+  "pairs": [
+   "experiential-learning-log",
+   "volunteer-learning-journal"
+  ],
+  "agents": [],
+  "words": 3317,
+  "descWords": 27,
+  "sections": [
+   {
+    "title": "Two Modes",
+    "words": 138
+   },
+   {
+    "title": "Two Output Registers",
+    "words": 102
+   },
+   {
+    "title": "Command Reference",
+    "words": 329
+   },
+   {
+    "title": "Compliance Framework",
+    "words": 561
+   },
+   {
+    "title": "Developmental Framework",
+    "words": 301
+   },
+   {
+    "title": "MVAL Protocol Assessment",
+    "words": 238
+   },
+   {
+    "title": "Five Domain-Specific Frameworks",
+    "words": 445
+   },
+   {
+    "title": "Pushback Layer",
+    "words": 266
+   },
+   {
+    "title": "WAYPOINT's Limits",
+    "words": 174
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "78805380cdea3258c18df9120f9316bf1371fd01e088b059f07df7e733eba451",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/experiential-report-evaluator/SKILL.md",
+    "commit": "d976664",
+    "sha256": "78805380cdea3258c18df9120f9316bf1371fd01e088b059f07df7e733eba451",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/experiential-report-evaluator"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "explainer-storyboard",
+  "name": "explainer-storyboard",
+  "description": "Turn source content into a production-ready explainer-video storyboard: scene architecture, narration, visual direction, per-shot notes. Use when the user wants a video storyboard from a document or lesson.",
+  "does": "Turn source content into a production-ready explainer-video storyboard: scene architecture, narration, visual direction, per-shot notes.",
+  "useWhen": "Use when the user wants a video storyboard from a document or lesson.",
+  "kind": "commands",
+  "job": "Video & image",
+  "persona": "Eddy",
+  "starts": "/help",
+  "pairs": [
+   "cinematic-prompt-sequences",
+   "hero-image-direction"
+  ],
+  "agents": [],
+  "words": 2579,
+  "descWords": 28,
+  "sections": [
+   {
+    "title": "Two Modes",
+    "words": 121
+   },
+   {
+    "title": "Three-Act Spine",
+    "words": 165
+   },
+   {
+    "title": "Scene Format",
+    "words": 236
+   },
+   {
+    "title": "Command Reference",
+    "words": 295
+   },
+   {
+    "title": "Intake Protocol",
+    "words": 234
+   },
+   {
+    "title": "Hook Rules (Scene 1)",
+    "words": 121
+   },
+   {
+    "title": "Pushback Layer",
+    "words": 255
+   },
+   {
+    "title": "Hard Nos",
+    "words": 110
+   },
+   {
+    "title": "About This Tool",
+    "words": 174
+   }
+  ],
+  "commands": [
+   {
+    "name": "/storyboard",
+    "desc": "Full intake → reflect → complete storyboard (supports /silent)"
+   },
+   {
+    "name": "/hook",
+    "desc": "Generate just the hook scene"
+   },
+   {
+    "name": "/scene",
+    "desc": "Generate or regenerate a specific scene"
+   },
+   {
+    "name": "/revise",
+    "desc": "Rework scene N with new direction"
+   },
+   {
+    "name": "/notes",
+    "desc": "Generate or rework the production notes block"
+   },
+   {
+    "name": "/edit",
+    "desc": "Refine a specific section"
+   },
+   {
+    "name": "/assemble",
+    "desc": "Compile all sections into one paste-ready document"
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu"
+   },
+   {
+    "name": "/list",
+    "desc": "Command reference table"
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo in both modes"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "84afa67bcfbca3900a712c1e36c342acdca865b1f1a5e16047096fc7ef48cd81",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/explainer-storyboard/SKILL.md",
+    "commit": "d976664",
+    "sha256": "84afa67bcfbca3900a712c1e36c342acdca865b1f1a5e16047096fc7ef48cd81",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/explainer-storyboard"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "game-design-doc",
+  "name": "game-design-doc",
+  "description": "Act as a senior game designer building a game design document: vision, systems, world, scope — with phase gates and pushback on vague concepts before they become production debt. Use when the user asks for a GDD, game concept development, or scope review.",
+  "does": "Act as a senior game designer building a game design document: vision, systems, world, scope — with phase gates and pushback on vague concepts before they become production debt.",
+  "useWhen": "Use when the user asks for a GDD, game concept development, or scope review.",
+  "kind": "commands",
+  "job": "Software & games",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "software-design-doc",
+   "unity-refactoring"
+  ],
+  "agents": [],
+  "words": 8983,
+  "descWords": 43,
+  "sections": [
+   {
+    "title": "SYSTEM PROMPT (Core Identity)",
+    "words": 691
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 361
+   },
+   {
+    "title": "PHASE 1: VISION & CONCEPT",
+    "words": 1095
+   },
+   {
+    "title": "PHASE 2: SYSTEMS & MECHANICS",
+    "words": 1062
+   },
+   {
+    "title": "PHASE 3: WORLD & NARRATIVE",
+    "words": 798
+   },
+   {
+    "title": "PHASE 4: SCOPE & PRODUCTION",
+    "words": 1263
+   },
+   {
+    "title": "BUILD & FINALIZATION",
+    "words": 2091
+   },
+   {
+    "title": "REFINEMENT TOOLS",
+    "words": 1234
+   },
+   {
+    "title": "COMMAND QUICK REFERENCE",
+    "words": 321
+   }
+  ],
+  "commands": [
+   {
+    "name": "/v1",
+    "desc": "Vision Intake"
+   },
+   {
+    "name": "/v2",
+    "desc": "Design Pillars"
+   },
+   {
+    "name": "/v3",
+    "desc": "Core Gameplay Loop + 30-Second Experience"
+   },
+   {
+    "name": "/v4",
+    "desc": "Player Experience Goals"
+   },
+   {
+    "name": "/s1",
+    "desc": "Core Mechanics Documentation"
+   },
+   {
+    "name": "/s2",
+    "desc": "Systemic Design Documentation"
+   },
+   {
+    "name": "/s3",
+    "desc": "Player Progression Architecture"
+   },
+   {
+    "name": "/s4",
+    "desc": "Edge Cases and Failure States"
+   },
+   {
+    "name": "/w1",
+    "desc": "World Rules and Environment Documentation"
+   },
+   {
+    "name": "/w2",
+    "desc": "Narrative Architecture"
+   },
+   {
+    "name": "/w3",
+    "desc": "Character Profiles and Character Web"
+   },
+   {
+    "name": "/p1",
+    "desc": "Feature List with Priority Tagging"
+   },
+   {
+    "name": "/p2",
+    "desc": "Out of Scope Section"
+   },
+   {
+    "name": "/p3",
+    "desc": "Technical Requirements and Asset Pipeline"
+   },
+   {
+    "name": "/p4",
+    "desc": "Technical and Design Risk Register"
+   },
+   {
+    "name": "/p5",
+    "desc": "Open Questions Log"
+   },
+   {
+    "name": "/g1",
+    "desc": "Compile Full GDD Draft"
+   },
+   {
+    "name": "/g2",
+    "desc": "GDD Audit Against the 7 Failure Modes"
+   },
+   {
+    "name": "/g3",
+    "desc": "One-Page Pitch Summary"
+   },
+   {
+    "name": "/g4",
+    "desc": "New Team Member Test"
+   },
+   {
+    "name": "/tasks",
+    "desc": "Production Task Document"
+   },
+   {
+    "name": "/edu",
+    "desc": "Educational Game Audit"
+   },
+   {
+    "name": "/logline",
+    "desc": "Logline Writer and Stress-Test"
+   },
+   {
+    "name": "/fantasy",
+    "desc": "Player Fantasy Definition"
+   },
+   {
+    "name": "/comparable",
+    "desc": "Comparable Titles Analysis"
+   },
+   {
+    "name": "/looptest",
+    "desc": "Core Loop Stress Test"
+   },
+   {
+    "name": "/scopecheck",
+    "desc": "MoSCoW Priority Audit"
+   },
+   {
+    "name": "/failmodes",
+    "desc": ""
+   },
+   {
+    "name": "/changelog",
+    "desc": "Version Control Entry Generator"
+   },
+   {
+    "name": "/uiux",
+    "desc": "UI/UX Wireframe Strategy and Flow"
+   },
+   {
+    "name": "/help",
+    "desc": ""
+   }
+  ],
+  "phases": [
+   {
+    "n": 1,
+    "title": "VISION & CONCEPT"
+   },
+   {
+    "n": 2,
+    "title": "SYSTEMS & MECHANICS"
+   },
+   {
+    "n": 3,
+    "title": "WORLD & NARRATIVE"
+   },
+   {
+    "n": 4,
+    "title": "SCOPE & PRODUCTION"
+   }
+  ],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "d90343149c073a2cdb7f25269afd36597b732d922738fb88804c8c06433dccf4",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/game-design-doc/SKILL.md",
+    "commit": "d976664",
+    "sha256": "d90343149c073a2cdb7f25269afd36597b732d922738fb88804c8c06433dccf4",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/game-design-doc"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "gpt-deployment",
+  "name": "gpt-deployment",
+  "description": "Convert a Claude prompt into a production-ready Custom GPT configuration using a strict two-file architecture with navigation rules — validated before launch, not debugged after. Use when the user wants to port a prompt or tool to a Custom GPT.",
+  "does": "Convert a Claude prompt into a production-ready Custom GPT configuration using a strict two-file architecture with navigation rules — validated before launch, not debugged after.",
+  "useWhen": "Use when the user wants to port a prompt or tool to a Custom GPT.",
+  "kind": "protocol",
+  "job": "Software & games",
+  "persona": "Archie",
+  "starts": "/help",
+  "pairs": [
+   "ai-build-planner",
+   "socratic-prompt-coach"
+  ],
+  "agents": [],
+  "words": 1976,
+  "descWords": 40,
+  "sections": [
+   {
+    "title": "What Archie Does",
+    "words": 132
+   },
+   {
+    "title": "Two Ways to Work",
+    "words": 67
+   },
+   {
+    "title": "The Conversion Phases",
+    "words": 67
+   },
+   {
+    "title": "Command Reference",
+    "words": 311
+   },
+   {
+    "title": "Known Failure Modes",
+    "words": 244
+   },
+   {
+    "title": "Who Should Use This",
+    "words": 60
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "4d02b31552700606cd3bef2b18c3189fe0dea5c193274a62054e257574610b7e",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/gpt-deployment/SKILL.md",
+    "commit": "d976664",
+    "sha256": "4d02b31552700606cd3bef2b18c3189fe0dea5c193274a62054e257574610b7e",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/gpt-deployment"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "graduate-writing-clinic",
+  "name": "graduate-writing-clinic",
+  "description": "Coach graduate and professional writing Socratically across disciplines — thesis, legal, engineering, business — with direct diagnosis and genre-specific failure patterns. Use when a student asks for writing help on academic or professional documents.",
+  "does": "Coach graduate and professional writing Socratically across disciplines — thesis, legal, engineering, business — with direct diagnosis and genre-specific failure patterns.",
+  "useWhen": "Use when a student asks for writing help on academic or professional documents.",
+  "kind": "commands",
+  "job": "Writing",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "academic-writing-coach",
+   "peer-review"
+  ],
+  "agents": [],
+  "words": 3080,
+  "descWords": 34,
+  "sections": [
+   {
+    "title": "Two Modes",
+    "words": 162
+   },
+   {
+    "title": "Command Reference",
+    "words": 254
+   },
+   {
+    "title": "Ten College Tracks",
+    "words": 730
+   },
+   {
+    "title": "Teaching Protocol — Phase A & Phase B",
+    "words": 464
+   },
+   {
+    "title": "Intake Protocol",
+    "words": 214
+   },
+   {
+    "title": "Pushback Layer",
+    "words": 258
+   },
+   {
+    "title": "Hard Nos",
+    "words": 211
+   }
+  ],
+  "commands": [
+   {
+    "name": "/cs",
+    "desc": ""
+   },
+   {
+    "name": "/business",
+    "desc": ""
+   },
+   {
+    "name": "/engineering",
+    "desc": ""
+   },
+   {
+    "name": "/health",
+    "desc": ""
+   },
+   {
+    "name": "/science",
+    "desc": ""
+   },
+   {
+    "name": "/camd",
+    "desc": ""
+   },
+   {
+    "name": "/ssh",
+    "desc": ""
+   },
+   {
+    "name": "/law",
+    "desc": ""
+   },
+   {
+    "name": "/cps",
+    "desc": ""
+   },
+   {
+    "name": "/grad",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "32d06f96adbc1438e27a58b594d7832a287c83ed375f2e7fc04197c699c46148",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/graduate-writing-clinic/SKILL.md",
+    "commit": "d976664",
+    "sha256": "32d06f96adbc1438e27a58b594d7832a287c83ed375f2e7fc04197c699c46148",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/graduate-writing-clinic"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "hero-image-direction",
+  "name": "hero-image-direction",
+  "description": "Art-direct hero images for long-form writing: extract themes, build visual metaphors, emit generation-ready prompts with typography pairing and an imperfection directive. Use when the user needs a header or hero image concept for an article.",
+  "does": "Art-direct hero images for long-form writing: extract themes, build visual metaphors, emit generation-ready prompts with typography pairing and an imperfection directive.",
+  "useWhen": "Use when the user needs a header or hero image concept for an article.",
+  "kind": "commands",
+  "job": "Video & image",
+  "persona": "Iris",
+  "starts": "/help",
+  "pairs": [
+   "cinematic-prompt-sequences",
+   "explainer-storyboard"
+  ],
+  "agents": [],
+  "words": 2691,
+  "descWords": 35,
+  "sections": [
+   {
+    "title": "Two Ways to Work",
+    "words": 143
+   },
+   {
+    "title": "Five Phases",
+    "words": 193
+   },
+   {
+    "title": "Concept Type Classification",
+    "words": 88
+   },
+   {
+    "title": "Three Variant Directions",
+    "words": 67
+   },
+   {
+    "title": "Hard Nos",
+    "words": 91
+   },
+   {
+    "title": "Command Reference",
+    "words": 146
+   }
+  ],
+  "commands": [
+   {
+    "name": "/extract",
+    "desc": ""
+   },
+   {
+    "name": "/spec",
+    "desc": ""
+   },
+   {
+    "name": "/imperfect",
+    "desc": ""
+   },
+   {
+    "name": "/type",
+    "desc": ""
+   },
+   {
+    "name": "/ethics",
+    "desc": ""
+   },
+   {
+    "name": "/variants",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "02cd566d09cd06987cdf5ceb2d509eb326e8bf7eab5c155598f1fc8c0adbcac4",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/hero-image-direction/SKILL.md",
+    "commit": "d976664",
+    "sha256": "02cd566d09cd06987cdf5ceb2d509eb326e8bf7eab5c155598f1fc8c0adbcac4",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/hero-image-direction"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "instructional-design-engine",
+  "name": "instructional-design-engine",
+  "description": "Convert source content into slide-deck blueprints, deployable minimalist HTML presentations, video storyboards, and course artifacts via backwards design. Use when the user wants teaching materials or a deck generated from content.",
+  "does": "Convert source content into slide-deck blueprints, deployable minimalist HTML presentations, video storyboards, and course artifacts via backwards design.",
+  "useWhen": "Use when the user wants teaching materials or a deck generated from content.",
+  "kind": "commands",
+  "job": "Teaching",
+  "persona": "Brutalist",
+  "starts": "/help",
+  "pairs": [
+   "syllabus-architect",
+   "course-artifacts",
+   "llm-exercise-design"
+  ],
+  "agents": [],
+  "words": 5637,
+  "descWords": 31,
+  "sections": [
+   {
+    "title": "SYSTEM PROMPT (Core Identity)",
+    "words": 534
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 216
+   },
+   {
+    "title": "/list — Command Reference",
+    "words": 278
+   },
+   {
+    "title": "PHASE SYSTEM",
+    "words": 359
+   },
+   {
+    "title": "PUSHBACK LAYER",
+    "words": 384
+   },
+   {
+    "title": "/init — Project Initialization",
+    "words": 173
+   },
+   {
+    "title": "/research — Deep Research Pass",
+    "words": 300
+   },
+   {
+    "title": "/claude — Generate or Update CLAUDE.md",
+    "words": 560
+   },
+   {
+    "title": "/design — Generate or Update DESIGN.md",
+    "words": 926
+   },
+   {
+    "title": "/project — Generate or Update PROJECT.md",
+    "words": 827
+   },
+   {
+    "title": "/update — Surface New Information",
+    "words": 189
+   },
+   {
+    "title": "/verify — Design Audit",
+    "words": 138
+   },
+   {
+    "title": "/status — Project State Report",
+    "words": 101
+   },
+   {
+    "title": "/handoff — Project Handoff",
+    "words": 115
+   },
+   {
+    "title": "/show — Live Demo",
+    "words": 389
+   },
+   {
+    "title": "UNIVERSAL RULE",
+    "words": 44
+   }
+  ],
+  "commands": [
+   {
+    "name": "/list",
+    "desc": "Command Reference"
+   },
+   {
+    "name": "/init",
+    "desc": "Project Initialization"
+   },
+   {
+    "name": "/research",
+    "desc": "Deep Research Pass"
+   },
+   {
+    "name": "/claude",
+    "desc": "Generate or Update CLAUDE.md"
+   },
+   {
+    "name": "/design",
+    "desc": "Generate or Update DESIGN.md"
+   },
+   {
+    "name": "/project",
+    "desc": "Generate or Update PROJECT.md"
+   },
+   {
+    "name": "/update",
+    "desc": "Surface New Information"
+   },
+   {
+    "name": "/verify",
+    "desc": "Design Audit"
+   },
+   {
+    "name": "/status",
+    "desc": "Project State Report"
+   },
+   {
+    "name": "/handoff",
+    "desc": "Project Handoff"
+   },
+   {
+    "name": "/show",
+    "desc": "Live Demo"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "10879db8f72be4926648a74e982b602c143f0cb2e84ca077b26ecfc63e2d8c92",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/instructional-design-engine/SKILL.md",
+    "commit": "d976664",
+    "sha256": "10879db8f72be4926648a74e982b602c143f0cb2e84ca077b26ecfc63e2d8c92",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/instructional-design-engine"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "llm-exercise-design",
+  "name": "llm-exercise-design",
+  "description": "Transform end-of-chapter exercises into LLM-integrated problem sets that teach WHICH prompting strategy to use and why — direct calculation, step-by-step, multi-model comparison. Use when the user is designing exercises for a quantitative course.",
+  "does": "Transform end-of-chapter exercises into LLM-integrated problem sets that teach WHICH prompting strategy to use and why — direct calculation, step-by-step, multi-model comparison.",
+  "useWhen": "Use when the user is designing exercises for a quantitative course.",
+  "kind": "commands",
+  "job": "Teaching",
+  "persona": "Mega",
+  "starts": "/help",
+  "pairs": [
+   "socratic-prompt-coach",
+   "instructional-design-engine"
+  ],
+  "agents": [],
+  "words": 2162,
+  "descWords": 33,
+  "sections": [
+   {
+    "title": "Two Ways to Work",
+    "words": 73
+   },
+   {
+    "title": "Three Strategies",
+    "words": 124
+   },
+   {
+    "title": "The 40/30/30 Distribution",
+    "words": 51
+   },
+   {
+    "title": "The Three-Question Decision Test",
+    "words": 88
+   },
+   {
+    "title": "Hard Nos",
+    "words": 61
+   },
+   {
+    "title": "Commands",
+    "words": 160
+   },
+   {
+    "title": "Quality Checklist — /check",
+    "words": 77
+   },
+   {
+    "title": "Command Reference",
+    "words": 109
+   }
+  ],
+  "commands": [
+   {
+    "name": "/distribute",
+    "desc": ""
+   },
+   {
+    "name": "/direct",
+    "desc": ""
+   },
+   {
+    "name": "/stepbystep",
+    "desc": ""
+   },
+   {
+    "name": "/multillm",
+    "desc": ""
+   },
+   {
+    "name": "/check",
+    "desc": ""
+   },
+   {
+    "name": "/reflect",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "63c26c13bff0d230021c16e3cb9a85a28f41d9635bb223d62d0c50f58cb8c947",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/llm-exercise-design/SKILL.md",
+    "commit": "d976664",
+    "sha256": "63c26c13bff0d230021c16e3cb9a85a28f41d9635bb223d62d0c50f58cb8c947",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/llm-exercise-design"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "music-artist-branding",
+  "name": "music-artist-branding",
+  "description": "Develop a music artist's brand and sonic identity: discovery, strategy, sonic DNA, era concepts, release campaigns, playlist pitches, bios and EPKs. Use when the user is an independent artist or team working on artist branding or a release.",
+  "does": "Develop a music artist's brand and sonic identity: discovery, strategy, sonic DNA, era concepts, release campaigns, playlist pitches, bios and EPKs.",
+  "useWhen": "Use when the user is an independent artist or team working on artist branding or a release.",
+  "kind": "commands",
+  "job": "Music",
+  "persona": "Gordy",
+  "starts": "/help",
+  "pairs": [
+   "music-brand-audit",
+   "music-venture-pitch",
+   "brand-identity"
+  ],
+  "agents": [],
+  "words": 4397,
+  "descWords": 38,
+  "sections": [
+   {
+    "title": "How Gordy operates",
+    "words": 102
+   },
+   {
+    "title": "Four hard nos",
+    "words": 140
+   },
+   {
+    "title": "Discovery → Strategy → Identity → Build",
+    "words": 200
+   },
+   {
+    "title": "Two archetype lenses",
+    "words": 107
+   },
+   {
+    "title": "Submission readiness: five dimensions",
+    "words": 164
+   },
+   {
+    "title": "All commands",
+    "words": 621
+   }
+  ],
+  "commands": [
+   {
+    "name": "/a1",
+    "desc": "Artist intake. Ask 9 questions one at a time, waiting for each answer. (1) Artist name and story behind it. (2) One plain sentence: what kind of music, about what, for what purpose. (3) The one specific listener — a pers"
+   },
+   {
+    "name": "/a2",
+    "desc": ""
+   },
+   {
+    "name": "/a3",
+    "desc": "Three audience pen portraits. For each: name and one-line descriptor, relationship to the problem or feeling this music addresses, the sentence they say to themselves when that feeling is acute, what they've already list"
+   },
+   {
+    "name": "/a4",
+    "desc": "Artist creative brief: OBJECTIVE (specific and measurable goal), TARGET LISTENER (behavioral signal per persona, not demographic), KEY MESSAGE / UNIQUE SONIC PROPOSITION (one sentence only this artist can say), SONIC SUP"
+   },
+   {
+    "name": "/a5",
+    "desc": "Score the draft USP on four tests (1–5): Focus (one idea), Clarity (curator can repeat it back), Distinctiveness (would be false if another artist said it), Inspiration (gives creative team something to build from). Rewr"
+   },
+   {
+    "name": "/a6",
+    "desc": ""
+   },
+   {
+    "name": "/a7",
+    "desc": ""
+   },
+   {
+    "name": "/a8",
+    "desc": ""
+   },
+   {
+    "name": "/a9",
+    "desc": "Primary palette (2–3 colors): hex code, artist-specific name, one-sentence rationale connecting to archetype and sonic DNA, primary use case. Secondary palette (2–3 colors). Accessibility check: WCAG 2.1 AA compliance, f"
+   },
+   {
+    "name": "/a10",
+    "desc": "Mood in three specific real-world scenes a photographer could shoot. The visual metaphor: one image for cover art that instantly communicates what this artist makes, and why it's right for this artist specifically. The a"
+   },
+   {
+    "name": "/a11",
+    "desc": "EPK structure strategy: header (artist name treatment, tagline direction, hero image description), two bio versions (75-word pitch + 200-word case — or flag that /bio should run first), three key tracks with one-sentence"
+   },
+   {
+    "name": "/a12",
+    "desc": "Four logo concept directions. For each: direction name, type (wordmark/lettermark/icon/combination/emblem), visual description precise enough for a designer, strategic idea connecting to sonic archetype, best use case, w"
+   },
+   {
+    "name": "/a13",
+    "desc": "For each platform: what the algorithm actually rewards, what content format serves this artist's sonic identity, which metric indicates durable audience relationship vs. rented algorithmic position. SPOTIFY: primary sign"
+   },
+   {
+    "name": "/a14",
+    "desc": "Compiled style guide in 10 sections: (1) artist foundation, (2) voice and tone, (3) sonic DNA, (4) sonic logo, (5) color system, (6) typography, (7) logo usage rules, (8) visual direction, (9) platform defaults, (10) EPK"
+   },
+   {
+    "name": "/a15",
+    "desc": "Five-lens audit: (1) Sonic-visual coherence — do they express the same artist? (2) Differentiation — if another artist adopted this identity, would anyone notice? What is truly defensible? (3) Listener fit — score 1–5 pe"
+   },
+   {
+    "name": "/release",
+    "desc": ""
+   },
+   {
+    "name": "/era",
+    "desc": "Era concept direction. Era concept: internal name, thematic core (one sentence with specific tension), sonic territory (what's new, what's preserved, the specific production choice signaling the shift), visual register ("
+   },
+   {
+    "name": "/pitch",
+    "desc": "Playlist pitch in three-sentence format: (1) what it is and does in plain language — no genre labels without specifics, (2) why it belongs on this specific playlist, (3) one direct action ask. Include one behavioral sign"
+   },
+   {
+    "name": "/bio",
+    "desc": "Three lengths. 75 words (streaming profiles, social, pitch headers): one claim, maximum two biographical details. 200 words (EPKs, press releases, About page): opens with scroll-stopping hook, develops USP through two sp"
+   },
+   {
+    "name": "/manifesto",
+    "desc": ""
+   },
+   {
+    "name": "/tagline",
+    "desc": "Five options across modes: sonic (what it sounds like, only this artist), emotional (what it does to the listener, specifically), belief-forward (what this artist stands for that others won't), question-based (opens a lo"
+   },
+   {
+    "name": "/jargon",
+    "desc": "Jargon audit with RED/YELLOW/GREEN ratings. RED = never in pitch, bio, or public copy. YELLOW = rephrase for deliverables. GREEN = acceptable as-is. Apply Gordy Translation Guide: \"Unique sound\" → name the specific sound"
+   },
+   {
+    "name": "/polish",
+    "desc": "Five-rule polish pass. Rule 1: Strip scaffolding (remove internal labels, phase labels, step numbers, meta-instructions). Rule 2: SAS title standard — every section header is a Standalone Sentence (subject + active verb "
+   },
+   {
+    "name": "/ready",
+    "desc": "Readiness score 0–100. Five dimensions 0–20 each: (1) Strategic clarity — USP unambiguous, curator can repeat it back. (2) Sonic distinctiveness — territory a competitor cannot claim. (3) Listener fit — language and tone"
+   },
+   {
+    "name": "/present",
+    "desc": "Spoken presentation script (3 minutes / ~390 words). Part 1: Strategic case (60 seconds) — the insight that drove every decision, stated as an argument. Do not open with \"Today I'll be presenting.\" Part 2: Three decision"
+   },
+   {
+    "name": "/benefit",
+    "desc": "transform features into audience outcomes"
+   },
+   {
+    "name": "/emotion",
+    "desc": "emotional impact check on any copy or brief"
+   },
+   {
+    "name": "/edit",
+    "desc": "full refinement pass on any output"
+   },
+   {
+    "name": "/competitor",
+    "desc": "competitive artist landscape audit"
+   },
+   {
+    "name": "/positioning",
+    "desc": "artist positioning statement"
+   },
+   {
+    "name": "/onepager",
+    "desc": "one-page artist brand summary"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "6d8342ce8c0f6343154fe523bbcd4fc691dc659bb03042bfebd0ae5aa6def5cb",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/music-artist-branding/SKILL.md",
+    "commit": "d976664",
+    "sha256": "6d8342ce8c0f6343154fe523bbcd4fc691dc659bb03042bfebd0ae5aa6def5cb",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-artist-branding"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "music-brand-audit",
+  "name": "music-brand-audit",
+  "description": "Audit an independent artist's brand communications and streaming health: playlist integrity, algorithmic signals, sonic identity consistency. Use when the user asks to audit an artist's brand, streaming analytics, or playlist strategy.",
+  "does": "Audit an independent artist's brand communications and streaming health: playlist integrity, algorithmic signals, sonic identity consistency.",
+  "useWhen": "Use when the user asks to audit an artist's brand, streaming analytics, or playlist strategy.",
+  "kind": "protocol",
+  "job": "Music",
+  "persona": "Aria",
+  "starts": "/help",
+  "pairs": [
+   "music-artist-branding",
+   "playlist-fraud-audit"
+  ],
+  "agents": [],
+  "words": 2507,
+  "descWords": 31,
+  "sections": [
+   {
+    "title": "What Aria Does",
+    "words": 138
+   },
+   {
+    "title": "Two Modes of Operation",
+    "words": 117
+   },
+   {
+    "title": "The Four-Phase Audit Workflow",
+    "words": 47
+   },
+   {
+    "title": "Full Command Reference",
+    "words": 268
+   },
+   {
+    "title": "The Full Touchpoint Stack",
+    "words": 321
+   },
+   {
+    "title": "The Four Evidence Labels",
+    "words": 48
+   },
+   {
+    "title": "The Pushback Layer",
+    "words": 187
+   },
+   {
+    "title": "Forbidden Phrases",
+    "words": 121
+   },
+   {
+    "title": "The Artist Constellation",
+    "words": 279
+   },
+   {
+    "title": "Playlist Integrity Signals",
+    "words": 133
+   },
+   {
+    "title": "Artifact Naming",
+    "words": 47
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "7fc3ca6dd89dae89ea2be7e7833b6b7a9d8207b5e14c31ea62253c949e861594",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/music-brand-audit/SKILL.md",
+    "commit": "d976664",
+    "sha256": "7fc3ca6dd89dae89ea2be7e7833b6b7a9d8207b5e14c31ea62253c949e861594",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-brand-audit"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "music-journalism",
+  "name": "music-journalism",
+  "description": "Write music journalism: reviews, artist profiles, streaming-economics analysis, and reported pieces with critical rigor. Use when the user asks for a music review, artist profile, or essay about the music industry.",
+  "does": "Write music journalism: reviews, artist profiles, streaming-economics analysis, and reported pieces with critical rigor.",
+  "useWhen": "Use when the user asks for a music review, artist profile, or essay about the music industry.",
+  "kind": "commands",
+  "job": "Music",
+  "persona": "Verse",
+  "starts": "/help",
+  "pairs": [
+   "public-domain-song-research",
+   "newsletter-writer"
+  ],
+  "agents": [],
+  "words": 3790,
+  "descWords": 31,
+  "sections": [
+   {
+    "title": "How Verse operates",
+    "words": 90
+   },
+   {
+    "title": "Five hard nos",
+    "words": 192
+   },
+   {
+    "title": "Command groups and word ranges",
+    "words": 56
+   },
+   {
+    "title": "Six pushback behaviors",
+    "words": 238
+   },
+   {
+    "title": "The the music imprint streaming research",
+    "words": 190
+   },
+   {
+    "title": "Standing artist knowledge",
+    "words": 311
+   },
+   {
+    "title": "All commands",
+    "words": 422
+   }
+  ],
+  "commands": [
+   {
+    "name": "/note",
+    "desc": ""
+   },
+   {
+    "name": "/letter",
+    "desc": ""
+   },
+   {
+    "name": "/take",
+    "desc": ""
+   },
+   {
+    "name": "/listenlist",
+    "desc": ""
+   },
+   {
+    "name": "/review",
+    "desc": ""
+   },
+   {
+    "name": "/profile",
+    "desc": ""
+   },
+   {
+    "name": "/scene",
+    "desc": ""
+   },
+   {
+    "name": "/reported",
+    "desc": ""
+   },
+   {
+    "name": "/streaming",
+    "desc": ""
+   },
+   {
+    "name": "/explainer",
+    "desc": ""
+   },
+   {
+    "name": "/essay",
+    "desc": ""
+   },
+   {
+    "name": "/critic",
+    "desc": ""
+   },
+   {
+    "name": "/serial",
+    "desc": ""
+   },
+   {
+    "name": "/interview",
+    "desc": "Editorial introduction 300–500 words (argument for why this conversation matters, not bio). Open-ended questions sequenced as a conversation arc. If from transcript: edit for clarity, preserve subject's voice, flag cuts "
+   },
+   {
+    "name": "/manifesto",
+    "desc": ""
+   },
+   {
+    "name": "/subject",
+    "desc": ""
+   },
+   {
+    "name": "/preview",
+    "desc": ""
+   },
+   {
+    "name": "/about",
+    "desc": ""
+   },
+   {
+    "name": "/welcome",
+    "desc": ""
+   },
+   {
+    "name": "/paywall",
+    "desc": ""
+   },
+   {
+    "name": "/note300",
+    "desc": ""
+   },
+   {
+    "name": "/letter400",
+    "desc": ""
+   },
+   {
+    "name": "/take500",
+    "desc": ""
+   },
+   {
+    "name": "/listenlist600",
+    "desc": ""
+   },
+   {
+    "name": "/review600",
+    "desc": ""
+   },
+   {
+    "name": "/profile1",
+    "desc": ""
+   },
+   {
+    "name": "/scene800",
+    "desc": ""
+   },
+   {
+    "name": "/reported1",
+    "desc": ""
+   },
+   {
+    "name": "/streaming800",
+    "desc": ""
+   },
+   {
+    "name": "/explainer800",
+    "desc": ""
+   },
+   {
+    "name": "/essay800",
+    "desc": ""
+   },
+   {
+    "name": "/critic1",
+    "desc": ""
+   },
+   {
+    "name": "/serial1",
+    "desc": ""
+   },
+   {
+    "name": "/interviewvariable",
+    "desc": ""
+   },
+   {
+    "name": "/manifesto600",
+    "desc": ""
+   },
+   {
+    "name": "/subject5",
+    "desc": ""
+   },
+   {
+    "name": "/preview3",
+    "desc": ""
+   },
+   {
+    "name": "/about400",
+    "desc": ""
+   },
+   {
+    "name": "/welcome300",
+    "desc": ""
+   },
+   {
+    "name": "/paywall150",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "f0c17b25ea29df0afa5c5f32d8c6ae8374c113a0c166beff058442c5f4fd1bf1",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/music-journalism/SKILL.md",
+    "commit": "d976664",
+    "sha256": "f0c17b25ea29df0afa5c5f32d8c6ae8374c113a0c166beff058442c5f4fd1bf1",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-journalism"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "music-venture-pitch",
+  "name": "music-venture-pitch",
+  "description": "Build a venture pitch for music tech, educational music, or independent music infrastructure — ten slides, human stakes before technology. Use when the user pitches anything at the intersection of music and business.",
+  "does": "Build a venture pitch for music tech, educational music, or independent music infrastructure — ten slides, human stakes before technology.",
+  "useWhen": "Use when the user pitches anything at the intersection of music and business.",
+  "kind": "commands",
+  "job": "Music",
+  "persona": "Marvin",
+  "starts": "/help",
+  "pairs": [
+   "venture-pitch",
+   "music-artist-branding"
+  ],
+  "agents": [],
+  "words": 2892,
+  "descWords": 33,
+  "sections": [
+   {
+    "title": "Two Ways to Work",
+    "words": 86
+   },
+   {
+    "title": "Audience Calibration",
+    "words": 111
+   },
+   {
+    "title": "Ten Slides — The Madison Framework",
+    "words": 243
+   },
+   {
+    "title": "8-Minute Timing Budget",
+    "words": 40
+   },
+   {
+    "title": "Translation Guide — Jargon to Plain Language",
+    "words": 124
+   },
+   {
+    "title": "Audit & Quality Tools",
+    "words": 124
+   },
+   {
+    "title": "Command Reference",
+    "words": 111
+   }
+  ],
+  "commands": [
+   {
+    "name": "/slide1",
+    "desc": ""
+   },
+   {
+    "name": "/slide2",
+    "desc": ""
+   },
+   {
+    "name": "/slide3",
+    "desc": ""
+   },
+   {
+    "name": "/slide4",
+    "desc": ""
+   },
+   {
+    "name": "/slide5",
+    "desc": ""
+   },
+   {
+    "name": "/slide6",
+    "desc": ""
+   },
+   {
+    "name": "/slide7",
+    "desc": ""
+   },
+   {
+    "name": "/slide8",
+    "desc": ""
+   },
+   {
+    "name": "/slide9",
+    "desc": ""
+   },
+   {
+    "name": "/slide10",
+    "desc": ""
+   },
+   {
+    "name": "/jargon",
+    "desc": ""
+   },
+   {
+    "name": "/timer",
+    "desc": ""
+   },
+   {
+    "name": "/investortest",
+    "desc": ""
+   },
+   {
+    "name": "/cleanup",
+    "desc": ""
+   },
+   {
+    "name": "/fullpitch",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "9beff44f4637826df2f8c2a0c1c35c1a3b13215493d28a022ffdc69c3d87cb30",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/music-venture-pitch/SKILL.md",
+    "commit": "d976664",
+    "sha256": "9beff44f4637826df2f8c2a0c1c35c1a3b13215493d28a022ffdc69c3d87cb30",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/music-venture-pitch"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "newsletter-editor",
+  "name": "newsletter-editor",
+  "description": "Review and strengthen newsletter articles through a seven-stage editorial framework: headlines, hooks, structure, line edits, publish strategy. Use when the user wants a draft post reviewed or edited before publishing.",
+  "does": "Review and strengthen newsletter articles through a seven-stage editorial framework: headlines, hooks, structure, line edits, publish strategy.",
+  "useWhen": "Use when the user wants a draft post reviewed or edited before publishing.",
+  "kind": "commands",
+  "job": "Writing",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "newsletter-writer",
+   "copywriting-coach"
+  ],
+  "agents": [],
+  "words": 2622,
+  "descWords": 30,
+  "sections": [
+   {
+    "title": "Two Modes",
+    "words": 116
+   },
+   {
+    "title": "The Seven-Stage Review",
+    "words": 351
+   },
+   {
+    "title": "Command Reference",
+    "words": 391
+   },
+   {
+    "title": "Line Edit Format (Stage 3)",
+    "words": 89
+   },
+   {
+    "title": "Publish-Ready Checklist (Stage 7)",
+    "words": 146
+   },
+   {
+    "title": "The 60-Minute Surge Protocol",
+    "words": 188
+   },
+   {
+    "title": "Pushback Layer",
+    "words": 204
+   },
+   {
+    "title": "Tone Rules",
+    "words": 144
+   },
+   {
+    "title": "What Eddy Never Does",
+    "words": 132
+   }
+  ],
+  "commands": [
+   {
+    "name": "/review",
+    "desc": "Full seven-stage review (supports /silent)"
+   },
+   {
+    "name": "/headline",
+    "desc": "Evaluate and rewrite headline + subheadline, three alternatives with angles"
+   },
+   {
+    "name": "/hook",
+    "desc": "Evaluate and rewrite first three sentences"
+   },
+   {
+    "name": "/structure",
+    "desc": "Stage 2 only: bones, sections, flow, payoff, CTA"
+   },
+   {
+    "name": "/lines",
+    "desc": "Stage 3 only: 5 specific passages, Line/Issue/Fix format"
+   },
+   {
+    "name": "/seo",
+    "desc": "Stage 4 only: SEO, tags, slug, answer-first formatting"
+   },
+   {
+    "name": "/image",
+    "desc": "Stage 5 only: hero image brief, Midjourney prompt, alt text"
+   },
+   {
+    "name": "/publish",
+    "desc": "Stage 6 only: optimal publish window + 60-Minute Surge Protocol"
+   },
+   {
+    "name": "/checklist",
+    "desc": "Stage 7 only: all four checklist dimensions, flag the one item most likely missed at publish time"
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo in both modes"
+   },
+   {
+    "name": "/list",
+    "desc": "Command reference table"
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "3fed0b1f81ad08a793489857ea6f0dda8544f1b58400e7537d9eccaf4ef471dc",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/newsletter-editor/SKILL.md",
+    "commit": "d976664",
+    "sha256": "3fed0b1f81ad08a793489857ea6f0dda8544f1b58400e7537d9eccaf4ef471dc",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/newsletter-editor"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "newsletter-writer",
+  "name": "newsletter-writer",
+  "description": "Write newsletter content across nineteen formats — notes, essays, hot takes, reported pieces, manifestos, subject lines — asking before writing and refusing takes without a specific claim. Use when the user wants newsletter or blog content drafted.",
+  "does": "Write newsletter content across nineteen formats — notes, essays, hot takes, reported pieces, manifestos, subject lines — asking before writing and refusing takes without a specific claim.",
+  "useWhen": "Use when the user wants newsletter or blog content drafted.",
+  "kind": "commands",
+  "job": "Writing",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "newsletter-editor",
+   "copywriting-coach"
+  ],
+  "agents": [
+   "personalized-ai-tech-newsletter-using-rss-openai-and-gmail"
+  ],
+  "words": 4414,
+  "descWords": 37,
+  "sections": [],
+  "commands": [
+   {
+    "name": "/help",
+    "desc": "Welcome Menu"
+   },
+   {
+    "name": "/note",
+    "desc": "Substack Note (300 words max)"
+   },
+   {
+    "name": "/letter",
+    "desc": "Newsletter letter (400–800 words)"
+   },
+   {
+    "name": "/take",
+    "desc": "Hot take / provocation (500–700 words)"
+   },
+   {
+    "name": "/roundup",
+    "desc": "Link digest / reading list (600–1,000 words)"
+   },
+   {
+    "name": "/essay",
+    "desc": "Personal or argumentative essay (800–2,000 words)"
+   },
+   {
+    "name": "/critic",
+    "desc": "Cultural criticism (1,000–2,000 words)"
+   },
+   {
+    "name": "/reported",
+    "desc": "Reported Substack piece (1,200–2,500 words)"
+   },
+   {
+    "name": "/explainer",
+    "desc": "Concept breakdown for general audience (800–1,500 words)"
+   },
+   {
+    "name": "/serial",
+    "desc": "One series installment (1,500–3,000 words)"
+   },
+   {
+    "name": "/interview",
+    "desc": "Q&A formatted for Substack"
+   },
+   {
+    "name": "/manifesto",
+    "desc": "Statement of purpose / belief (600–1,000 words)"
+   },
+   {
+    "name": "/subject",
+    "desc": "The post being promoted; target open rate goal if known"
+   },
+   {
+    "name": "/preview",
+    "desc": "The subject line being used (or options being considered)"
+   },
+   {
+    "name": "/about",
+    "desc": "Substack About page (400–700 words)"
+   },
+   {
+    "name": "/welcome",
+    "desc": "Welcome email, paid and/or free (300–500 words)"
+   },
+   {
+    "name": "/paywall",
+    "desc": "Paywall pitch paragraph (150–250 words)"
+   },
+   {
+    "name": "/list",
+    "desc": "Command Reference"
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo in both silent and interactive modes"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "ece7b08beea77f3d89ea22ff4693c6548842b5fb14bb74d2dbf2936b0c010b62",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/newsletter-writer/SKILL.md",
+    "commit": "d976664",
+    "sha256": "ece7b08beea77f3d89ea22ff4693c6548842b5fb14bb74d2dbf2936b0c010b62",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/newsletter-writer"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "no-headings"
+  ]
+ },
+ {
+  "slug": "nonprofit-brand-audit",
+  "name": "nonprofit-brand-audit",
+  "description": "Audit what a non-profit's brand actually establishes — not what it claims — across saying/doing/perceived, with every finding labeled and traceable. Use when the user asks to audit a 501(c)(3) brand, assess donor trust signals, or check mission alignment.",
+  "does": "Audit what a non-profit's brand actually establishes — not what it claims — across saying/doing/perceived, with every finding labeled and traceable.",
+  "useWhen": "Use when the user asks to audit a 501(c)(3) brand, assess donor trust signals, or check mission alignment.",
+  "kind": "protocol",
+  "job": "Branding",
+  "persona": "PROOF",
+  "starts": null,
+  "pairs": [
+   "brand-comms-audit",
+   "nonprofit-storytelling",
+   "brand-identity"
+  ],
+  "agents": [],
+  "words": 2745,
+  "descWords": 39,
+  "sections": [
+   {
+    "title": "Two Ways to Work",
+    "words": 81
+   },
+   {
+    "title": "Five Commands",
+    "words": 182
+   },
+   {
+    "title": "Evidence Labels — Required on Every Finding",
+    "words": 74
+   },
+   {
+    "title": "The Saying / Doing / Perceived Framework",
+    "words": 73
+   },
+   {
+    "title": "Five Strategic Anchors of Non-Profit Brand Identity",
+    "words": 49
+   },
+   {
+    "title": "Forbidden vs. Required Language",
+    "words": 91
+   },
+   {
+    "title": "Six Behavioral Rules",
+    "words": 135
+   },
+   {
+    "title": "One-Page Structure — Pyramid Principle",
+    "words": 91
+   },
+   {
+    "title": "Audit Integrity Test",
+    "words": 109
+   },
+   {
+    "title": "Command Reference",
+    "words": 101
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "5e69b4998bb0c8961bc0fb841b1f166d25dbd70b519ab14cde0438097a0e2086",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/nonprofit-brand-audit/SKILL.md",
+    "commit": "d976664",
+    "sha256": "5e69b4998bb0c8961bc0fb841b1f166d25dbd70b519ab14cde0438097a0e2086",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/nonprofit-brand-audit"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "nonprofit-storytelling",
+  "name": "nonprofit-storytelling",
+  "description": "Write narrative journalism for mission-driven organizations: intimate, witness-based profiles and documentary arcs that earn the ask, never preach. Use when the user wants non-profit stories, donor narratives, or field-log pieces.",
+  "does": "Write narrative journalism for mission-driven organizations: intimate, witness-based profiles and documentary arcs that earn the ask, never preach.",
+  "useWhen": "Use when the user wants non-profit stories, donor narratives, or field-log pieces.",
+  "kind": "commands",
+  "job": "Branding",
+  "persona": null,
+  "starts": "help",
+  "pairs": [
+   "nonprofit-brand-audit",
+   "profile-interview"
+  ],
+  "agents": [],
+  "words": 2733,
+  "descWords": 30,
+  "sections": [
+   {
+    "title": "COMMAND: help",
+    "words": 78
+   },
+   {
+    "title": "COMMAND: profile",
+    "words": 333
+   },
+   {
+    "title": "COMMAND: doc",
+    "words": 328
+   },
+   {
+    "title": "COMMAND: social",
+    "words": 377
+   },
+   {
+    "title": "COMMAND: review",
+    "words": 359
+   },
+   {
+    "title": "COMMAND: youtube",
+    "words": 430
+   },
+   {
+    "title": "GLOBAL RULES (All Commands)",
+    "words": 171
+   },
+   {
+    "title": "FACTUAL FOUNDATION",
+    "words": 283
+   },
+   {
+    "title": "COMMAND: log",
+    "words": 289
+   }
+  ],
+  "commands": [
+   {
+    "name": "help",
+    "desc": ""
+   },
+   {
+    "name": "profile",
+    "desc": ""
+   },
+   {
+    "name": "doc",
+    "desc": ""
+   },
+   {
+    "name": "social",
+    "desc": ""
+   },
+   {
+    "name": "review",
+    "desc": ""
+   },
+   {
+    "name": "youtube",
+    "desc": ""
+   },
+   {
+    "name": "log",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "43448e60e5f8e9382febf07f4d24802b7dabb79c78e6de453264e6d9f7589a3e",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/nonprofit-storytelling/SKILL.md",
+    "commit": "d976664",
+    "sha256": "43448e60e5f8e9382febf07f4d24802b7dabb79c78e6de453264e6d9f7589a3e",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/nonprofit-storytelling"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "peer-review",
+  "name": "peer-review",
+  "description": "Review and develop research manuscripts across the full lifecycle: hypothesis formation, IMRaD drafting, eight-dimension peer review, reviewer-response letters. Use when the user asks for a paper review or help developing a manuscript.",
+  "does": "Review and develop research manuscripts across the full lifecycle: hypothesis formation, IMRaD drafting, eight-dimension peer review, reviewer-response letters.",
+  "useWhen": "Use when the user asks for a paper review or help developing a manuscript.",
+  "kind": "commands",
+  "job": "Research",
+  "persona": "CRITIQ",
+  "starts": "/help",
+  "pairs": [
+   "academic-writing-coach",
+   "graduate-writing-clinic",
+   "socratic-prompt-coach"
+  ],
+  "agents": [],
+  "words": 6275,
+  "descWords": 32,
+  "sections": [
+   {
+    "title": "CORE OPERATING PRINCIPLES",
+    "words": 205
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 376
+   },
+   {
+    "title": "/list — Command Reference",
+    "words": 380
+   },
+   {
+    "title": "LEARNING COMMANDS",
+    "words": 1252
+   },
+   {
+    "title": "DRAFTING COMMANDS",
+    "words": 1319
+   },
+   {
+    "title": "REVIEW COMMANDS",
+    "words": 912
+   },
+   {
+    "title": "REFINEMENT COMMANDS",
+    "words": 339
+   },
+   {
+    "title": "/show — Live Demo",
+    "words": 124
+   },
+   {
+    "title": "FINALIZATION COMMANDS",
+    "words": 260
+   },
+   {
+    "title": "TONE CALIBRATION",
+    "words": 147
+   },
+   {
+    "title": "SPECIAL CASES",
+    "words": 140
+   },
+   {
+    "title": "REVIEW OUTPUT FORMAT",
+    "words": 78
+   },
+   {
+    "title": "COMMAND QUICK REFERENCE",
+    "words": 567
+   }
+  ],
+  "commands": [
+   {
+    "name": "/rewrite",
+    "desc": ""
+   },
+   {
+    "name": "/list",
+    "desc": "Command Reference"
+   },
+   {
+    "name": "/brainstorm",
+    "desc": "Curiosity to Research Question"
+   },
+   {
+    "name": "/learn",
+    "desc": "Concept Explainer"
+   },
+   {
+    "name": "/idea",
+    "desc": "Concept to Research Proposal"
+   },
+   {
+    "name": "/outline",
+    "desc": "IMRaD Outline Builder"
+   },
+   {
+    "name": "/draft",
+    "desc": "Section or Full Manuscript Writer"
+   },
+   {
+    "name": "/lit",
+    "desc": "Literature Review Drafter"
+   },
+   {
+    "name": "/abstract",
+    "desc": "Abstract Writer / Rewriter"
+   },
+   {
+    "name": "/review",
+    "desc": "Full Peer Review"
+   },
+   {
+    "name": "/methods",
+    "desc": "Methodological Reality Check"
+   },
+   {
+    "name": "/stats",
+    "desc": "Statistical Integrity Audit"
+   },
+   {
+    "name": "/structure",
+    "desc": "Structural and Logic Diagnosis"
+   },
+   {
+    "name": "/writing",
+    "desc": "Clarity and Claim Audit"
+   },
+   {
+    "name": "/ethics",
+    "desc": "Ethical and Bias Screening"
+   },
+   {
+    "name": "/respond",
+    "desc": "Reviewer Response Drafter"
+   },
+   {
+    "name": "/revise",
+    "desc": "Targeted Section Revision"
+   },
+   {
+    "name": "/compare",
+    "desc": "Before / After Comparison"
+   },
+   {
+    "name": "/show",
+    "desc": "Live Demo"
+   },
+   {
+    "name": "/assemble",
+    "desc": "Full Manuscript Compiler"
+   },
+   {
+    "name": "/submit",
+    "desc": "Journal Selection + Pre-Submission Checklist"
+   },
+   {
+    "name": "/help",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "1a631a328bec60d66d01f6baee9676eb56bcdda4c55ea3c897a86351535adb58",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/peer-review/SKILL.md",
+    "commit": "d976664",
+    "sha256": "1a631a328bec60d66d01f6baee9676eb56bcdda4c55ea3c897a86351535adb58",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/peer-review"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "playlist-fraud-audit",
+  "name": "playlist-fraud-audit",
+  "description": "Run a forensic audit for streaming fraud: stream-to-follower ratios, geographic bot signatures, post-cancellation decay, drip-script evasion. Use when the user suspects fake streams, bot playlists, or wants to vet a playlist-placement service.",
+  "does": "Run a forensic audit for streaming fraud: stream-to-follower ratios, geographic bot signatures, post-cancellation decay, drip-script evasion.",
+  "useWhen": "Use when the user suspects fake streams, bot playlists, or wants to vet a playlist-placement service.",
+  "kind": "commands",
+  "job": "Music",
+  "persona": "Vera",
+  "starts": "/help",
+  "pairs": [
+   "music-brand-audit",
+   "music-journalism"
+  ],
+  "agents": [],
+  "words": 1937,
+  "descWords": 32,
+  "sections": [
+   {
+    "title": "What Vera Does — and Why",
+    "words": 119
+   },
+   {
+    "title": "Two Modes of Operation",
+    "words": 116
+   },
+   {
+    "title": "Four-Phase Audit Sequence",
+    "words": 49
+   },
+   {
+    "title": "Forensic Prompt Sequence",
+    "words": 331
+   },
+   {
+    "title": "Stream-to-Follower Ratio Bands",
+    "words": 131
+   },
+   {
+    "title": "Three Action Tiers",
+    "words": 102
+   },
+   {
+    "title": "Step 0 — Input Form",
+    "words": 99
+   },
+   {
+    "title": "The Pushback Layer",
+    "words": 227
+   },
+   {
+    "title": "Full Command Reference",
+    "words": 259
+   }
+  ],
+  "commands": [
+   {
+    "name": "/input",
+    "desc": ""
+   },
+   {
+    "name": "/p1",
+    "desc": ""
+   },
+   {
+    "name": "/synthesis",
+    "desc": ""
+   },
+   {
+    "name": "/p2",
+    "desc": ""
+   },
+   {
+    "name": "/p3",
+    "desc": ""
+   },
+   {
+    "name": "/p4",
+    "desc": ""
+   },
+   {
+    "name": "/p5",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "e98268c29b5c268100c836063f34f8e8a272a67d1e8792c4cc1b1e27f1fcf882",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/playlist-fraud-audit/SKILL.md",
+    "commit": "d976664",
+    "sha256": "e98268c29b5c268100c836063f34f8e8a272a67d1e8792c4cc1b1e27f1fcf882",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/playlist-fraud-audit"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "profile-interview",
+  "name": "profile-interview",
+  "description": "Conduct profile-intake interviews for long-form stories — probing, synthesizing, unhurried, with an oral-history mode of short questions and long silences. Use when the user wants to gather raw material about a person for a story.",
+  "does": "Conduct profile-intake interviews for long-form stories — probing, synthesizing, unhurried, with an oral-history mode of short questions and long silences.",
+  "useWhen": "Use when the user wants to gather raw material about a person for a story.",
+  "kind": "protocol",
+  "job": "Writing",
+  "persona": "Rose",
+  "starts": null,
+  "pairs": [
+   "nonprofit-storytelling",
+   "newsletter-writer"
+  ],
+  "agents": [
+   "conversational-interviews-with-ai-agents-and-n8n-forms"
+  ],
+  "words": 2381,
+  "descWords": 35,
+  "sections": [
+   {
+    "title": "How to deploy this tool",
+    "words": 475
+   },
+   {
+    "title": "Not extraction. Conversation.",
+    "words": 235
+   },
+   {
+    "title": "Rose and Terkel. The same interview, differently conducted.",
+    "words": 123
+   },
+   {
+    "title": "Two outputs. Two ways into the draft.",
+    "words": 175
+   },
+   {
+    "title": "Full command list",
+    "words": 199
+   },
+   {
+    "title": "The eleven fields",
+    "words": 305
+   },
+   {
+    "title": "Six rules. Always active.",
+    "words": 231
+   },
+   {
+    "title": "Four phase gates",
+    "words": 282
+   },
+   {
+    "title": "Rose's voice. Terkel's voice.",
+    "words": 243
+   }
+  ],
+  "commands": [
+   {
+    "name": "/profile",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "d6cf9b0fb741f4d731e3ff764146f2380451690bc5688db745dfb17bfd028d34",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/profile-interview/SKILL.md",
+    "commit": "d976664",
+    "sha256": "d6cf9b0fb741f4d731e3ff764146f2380451690bc5688db745dfb17bfd028d34",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/profile-interview"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "public-domain-song-research",
+  "name": "public-domain-song-research",
+  "description": "Research and preserve public-domain songs: origins, full historical texts, extensions, and phonetic respelling with metrically accurate stress marks. Use when the user asks about a folk song, spiritual, carol, ballad, or nursery rhyme, or needs singable lyrics prepared.",
+  "does": "Research and preserve public-domain songs: origins, full historical texts, extensions, and phonetic respelling with metrically accurate stress marks.",
+  "useWhen": "Use when the user asks about a folk song, spiritual, carol, ballad, or nursery rhyme, or needs singable lyrics prepared.",
+  "kind": "commands",
+  "job": "Music",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "music-journalism"
+  ],
+  "agents": [],
+  "words": 2637,
+  "descWords": 38,
+  "sections": [
+   {
+    "title": "How the music imprint operates",
+    "words": 84
+   },
+   {
+    "title": "What each command produces",
+    "words": 314
+   },
+   {
+    "title": "Full sequence mode",
+    "words": 106
+   },
+   {
+    "title": "Standard respelling conventions",
+    "words": 127
+   },
+   {
+    "title": "Structural labels in brackets",
+    "words": 94
+   },
+   {
+    "title": "Accuracy rules",
+    "words": 159
+   },
+   {
+    "title": "Public-domain text types",
+    "words": 79
+   },
+   {
+    "title": "All commands",
+    "words": 153
+   }
+  ],
+  "commands": [
+   {
+    "name": "/lyrics",
+    "desc": ""
+   },
+   {
+    "name": "/history",
+    "desc": ""
+   },
+   {
+    "name": "/respell",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "a52c3ec14a499bf5aff8185e8bb0bd4c0be02a86a8a7d2d26209d970904462ea",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/public-domain-song-research/SKILL.md",
+    "commit": "d976664",
+    "sha256": "a52c3ec14a499bf5aff8185e8bb0bd4c0be02a86a8a7d2d26209d970904462ea",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/public-domain-song-research"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "science-figure-intelligence",
+  "name": "science-figure-intelligence",
+  "description": "Plan and audit scientific figures: SCOPE-framework prompt generation for illustration, plus forensic image audits with severity-rated findings and reparative prompts. Use when the user asks for figure planning, a figure prompt, or a scientific-image integrity check.",
+  "does": "Plan and audit scientific figures: SCOPE-framework prompt generation for illustration, plus forensic image audits with severity-rated findings and reparative prompts.",
+  "useWhen": "Use when the user asks for figure planning, a figure prompt, or a scientific-image integrity check.",
+  "kind": "commands",
+  "job": "Research",
+  "persona": "CAJAL",
+  "starts": "/help",
+  "pairs": [
+   "science-figure-prompts"
+  ],
+  "agents": [],
+  "words": 6211,
+  "descWords": 36,
+  "sections": [
+   {
+    "title": "SYSTEM PROMPT (Core Identity)",
+    "words": 979
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 355
+   },
+   {
+    "title": "/list — Command Reference",
+    "words": 233
+   },
+   {
+    "title": "/intake — Intake Sequence",
+    "words": 472
+   },
+   {
+    "title": "PUSHBACK LAYER",
+    "words": 481
+   },
+   {
+    "title": "PHASE GATES",
+    "words": 399
+   },
+   {
+    "title": "/show — Live Demo",
+    "words": 269
+   },
+   {
+    "title": "OUTPUT FORMAT",
+    "words": 178
+   },
+   {
+    "title": "/cajal — Chapter Markup Command",
+    "words": 647
+   },
+   {
+    "title": "FIGURE DETECTION HEURISTICS (/scan and /cajal)",
+    "words": 376
+   },
+   {
+    "title": "VIDEO CANDIDATE TRIAGE (/video)",
+    "words": 546
+   },
+   {
+    "title": "SINGLE FIGURE VS. MULTIPLE FIGURES — DECISION FRAMEWORK (/split)",
+    "words": 188
+   },
+   {
+    "title": "COLORBLIND-SAFE PALETTE REFERENCE",
+    "words": 144
+   },
+   {
+    "title": "PUBLISHER STYLE REFERENCE",
+    "words": 124
+   },
+   {
+    "title": "GLOBAL CONSTRAINTS",
+    "words": 154
+   },
+   {
+    "title": "COMMAND QUICK REFERENCE TABLE",
+    "words": 196
+   },
+   {
+    "title": "TAGS",
+    "words": 68
+   },
+   {
+    "title": "TOOL DESCRIPTION",
+    "words": 292
+   }
+  ],
+  "commands": [
+   {
+    "name": "/list",
+    "desc": "Command Reference"
+   },
+   {
+    "name": "/intake",
+    "desc": "Intake Sequence"
+   },
+   {
+    "name": "/show",
+    "desc": "Live Demo"
+   },
+   {
+    "name": "/cajal",
+    "desc": "Chapter Markup Command"
+   },
+   {
+    "name": "/help",
+    "desc": "Platform"
+   },
+   {
+    "name": "/scope",
+    "desc": "Single Figure"
+   },
+   {
+    "name": "/hero",
+    "desc": "Single Figure"
+   },
+   {
+    "name": "/negative",
+    "desc": "Single Figure"
+   },
+   {
+    "name": "/scan",
+    "desc": "Chapter Analysis"
+   },
+   {
+    "name": "/video",
+    "desc": "Chapter Analysis"
+   },
+   {
+    "name": "/split",
+    "desc": "Chapter Analysis"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "bdb5dee2f419b779df4568bd7e053bed4ade1e2b4199099e8c114dd4a0d59969",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/science-figure-intelligence/SKILL.md",
+    "commit": "d976664",
+    "sha256": "bdb5dee2f419b779df4568bd7e053bed4ade1e2b4199099e8c114dd4a0d59969",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/science-figure-intelligence"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "science-figure-prompts",
+  "name": "science-figure-prompts",
+  "description": "Scan technical text for high-assertion zones and generate publication-quality figure prompts — mechanism diagrams, graphical abstracts, hero images — for illustration tools. Use when the user asks what figures a paper or chapter needs.",
+  "does": "Scan technical text for high-assertion zones and generate publication-quality figure prompts — mechanism diagrams, graphical abstracts, hero images — for illustration tools.",
+  "useWhen": "Use when the user asks what figures a paper or chapter needs.",
+  "kind": "protocol",
+  "job": "Research",
+  "persona": "Figure Architect",
+  "starts": "/help",
+  "pairs": [
+   "science-figure-intelligence"
+  ],
+  "agents": [],
+  "words": 2833,
+  "descWords": 34,
+  "sections": [
+   {
+    "title": "How Figure Architect operates",
+    "words": 87
+   },
+   {
+    "title": "What /analyze produces",
+    "words": 167
+   },
+   {
+    "title": "Three high-assertion zone heuristics",
+    "words": 90
+   },
+   {
+    "title": "Three-component prompt set",
+    "words": 180
+   },
+   {
+    "title": "Proportional Ink rules",
+    "words": 130
+   },
+   {
+    "title": "6 behavioral rules",
+    "words": 205
+   },
+   {
+    "title": "Hero Image checklist",
+    "words": 74
+   },
+   {
+    "title": "All commands",
+    "words": 274
+   }
+  ],
+  "commands": [
+   {
+    "name": "/analyze",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "9397ce1e451f44c4fb80429810a243e9002b4cee59d529f21d23c88db26c599d",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/science-figure-prompts/SKILL.md",
+    "commit": "d976664",
+    "sha256": "9397ce1e451f44c4fb80429810a243e9002b4cee59d529f21d23c88db26c599d",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/science-figure-prompts"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "socratic-prompt-coach",
+  "name": "socratic-prompt-coach",
+  "description": "Evaluate and transform prompts through a Socratic lens: eight-section evaluation, Paul-Elder coverage, learner-state classification, cognitive-labor checks. Use when the user asks whether a prompt teaches or does the thinking for the student.",
+  "does": "Evaluate and transform prompts through a Socratic lens: eight-section evaluation, Paul-Elder coverage, learner-state classification, cognitive-labor checks.",
+  "useWhen": "Use when the user asks whether a prompt teaches or does the thinking for the student.",
+  "kind": "protocol",
+  "job": "Teaching",
+  "persona": "SOCRIT",
+  "starts": "/help",
+  "pairs": [
+   "llm-exercise-design",
+   "gpt-deployment"
+  ],
+  "agents": [],
+  "words": 2755,
+  "descWords": 32,
+  "sections": [
+   {
+    "title": "Two Modes",
+    "words": 151
+   },
+   {
+    "title": "Command Reference",
+    "words": 365
+   },
+   {
+    "title": "The Eight-Section Evaluation",
+    "words": 445
+   },
+   {
+    "title": "Prompt Taxonomy",
+    "words": 199
+   },
+   {
+    "title": "Linguistic Transformation Rules",
+    "words": 210
+   },
+   {
+    "title": "Psychological Safety Audit",
+    "words": 130
+   },
+   {
+    "title": "Pushback Layer",
+    "words": 236
+   },
+   {
+    "title": "Output Format",
+    "words": 251
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "0d16a1aea7dbdaee64fedf826e708cede9c7c7851895d33c4ade136075e2f59c",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/socratic-prompt-coach/SKILL.md",
+    "commit": "d976664",
+    "sha256": "0d16a1aea7dbdaee64fedf826e708cede9c7c7851895d33c4ade136075e2f59c",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/socratic-prompt-coach"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "software-design-doc",
+  "name": "software-design-doc",
+  "description": "Build a rigorous software design document from problem definition to ship-ready spec — system architecture, API contracts, domain models, phase-gated. Use when the user asks for an SDD, design doc, architecture spec, or API contract review.",
+  "does": "Build a rigorous software design document from problem definition to ship-ready spec — system architecture, API contracts, domain models, phase-gated.",
+  "useWhen": "Use when the user asks for an SDD, design doc, architecture spec, or API contract review.",
+  "kind": "commands",
+  "job": "Software & games",
+  "persona": "Ada",
+  "starts": "/help",
+  "pairs": [
+   "ai-build-planner",
+   "game-design-doc"
+  ],
+  "agents": [],
+  "words": 2384,
+  "descWords": 36,
+  "sections": [
+   {
+    "title": "Two Modes",
+    "words": 90
+   },
+   {
+    "title": "Four Phases",
+    "words": 121
+   },
+   {
+    "title": "Full Command Reference",
+    "words": 584
+   },
+   {
+    "title": "The 7 Failure Modes",
+    "words": 200
+   },
+   {
+    "title": "Pushback Layer",
+    "words": 197
+   },
+   {
+    "title": "About This Tool",
+    "words": 288
+   }
+  ],
+  "commands": [
+   {
+    "name": "/v1",
+    "desc": "Problem intake (start here)"
+   },
+   {
+    "name": "/v2",
+    "desc": "Architecture principles"
+   },
+   {
+    "name": "/v3",
+    "desc": "Core user flows + system interaction map"
+   },
+   {
+    "name": "/v4",
+    "desc": "User and business needs"
+   },
+   {
+    "name": "/s1",
+    "desc": "Core component documentation"
+   },
+   {
+    "name": "/s2",
+    "desc": "External integrations and dependencies"
+   },
+   {
+    "name": "/s3",
+    "desc": "Data architecture and state management"
+   },
+   {
+    "name": "/s4",
+    "desc": "Edge cases and failure states"
+   },
+   {
+    "name": "/d1",
+    "desc": "Domain model and entity definitions"
+   },
+   {
+    "name": "/d2",
+    "desc": "API contract documentation"
+   },
+   {
+    "name": "/d3",
+    "desc": "Data flow and sequence diagrams"
+   },
+   {
+    "name": "/p1",
+    "desc": "Component list with priority tagging"
+   },
+   {
+    "name": "/p2",
+    "desc": "Out-of-scope section"
+   },
+   {
+    "name": "/p3",
+    "desc": "Infrastructure and deployment requirements"
+   },
+   {
+    "name": "/p4",
+    "desc": "Technical and design risk register"
+   },
+   {
+    "name": "/p5",
+    "desc": "Open Questions Log"
+   },
+   {
+    "name": "/g1",
+    "desc": "Compile full SDD draft"
+   },
+   {
+    "name": "/g2",
+    "desc": "SDD audit against the 7 Failure Modes"
+   },
+   {
+    "name": "/g3",
+    "desc": "One-page executive summary"
+   },
+   {
+    "name": "/g4",
+    "desc": "New Engineer Onboarding Test"
+   },
+   {
+    "name": "/tasks",
+    "desc": "Implementation task document (ask first)"
+   },
+   {
+    "name": "/problemstatement",
+    "desc": "Write or stress-test a problem statement"
+   },
+   {
+    "name": "/constraints",
+    "desc": "Define and pressure-test system constraints"
+   },
+   {
+    "name": "/comparable",
+    "desc": "Comparable systems analysis"
+   },
+   {
+    "name": "/flowtest",
+    "desc": "Stress-test a core user flow"
+   },
+   {
+    "name": "/scopecheck",
+    "desc": "MoSCoW priority audit"
+   },
+   {
+    "name": "/failmodes",
+    "desc": "Run the 7 Failure Mode diagnostic"
+   },
+   {
+    "name": "/security",
+    "desc": "Security posture review"
+   },
+   {
+    "name": "/changelog",
+    "desc": "Generate a version control changelog entry"
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu + command overview"
+   },
+   {
+    "name": "/list",
+    "desc": "Full command reference table"
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo in silent and interactive modes"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "50bfcf4e4dd1c547e824ff0035498bd5f0bc61fffdb144a170ef37fc09778457",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/software-design-doc/SKILL.md",
+    "commit": "d976664",
+    "sha256": "50bfcf4e4dd1c547e824ff0035498bd5f0bc61fffdb144a170ef37fc09778457",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/software-design-doc"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "source-to-chapter",
+  "name": "source-to-chapter",
+  "description": "Transform source material — papers, transcripts, notes — into a structured book chapter with consistent pedagogy. Use when the user wants raw material turned into chapter prose.",
+  "does": "Transform source material — papers, transcripts, notes — into a structured book chapter with consistent pedagogy.",
+  "useWhen": "Use when the user wants raw material turned into chapter prose.",
+  "kind": "commands",
+  "job": "Writing",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "textbook-architecture",
+   "engineering-textbook-author"
+  ],
+  "agents": [],
+  "words": 4957,
+  "descWords": 27,
+  "sections": [
+   {
+    "title": "Global Constraints (Apply to Every Command)",
+    "words": 326
+   },
+   {
+    "title": "Command Index",
+    "words": 87
+   },
+   {
+    "title": "Emma's Voice: Transformer, Not Author",
+    "words": 135
+   },
+   {
+    "title": "Voice and Stance (When Emma Writes Her Own Prose)",
+    "words": 102
+   },
+   {
+    "title": "Forbidden Phrases (Cut on Sight)",
+    "words": 112
+   },
+   {
+    "title": "Replacements",
+    "words": 77
+   },
+   {
+    "title": "COMMAND: /help",
+    "words": 303
+   },
+   {
+    "title": "COMMAND: /list",
+    "words": 116
+   },
+   {
+    "title": "COMMAND: /silent — Modifier Rule",
+    "words": 236
+   },
+   {
+    "title": "COMMAND: /audit",
+    "words": 533
+   },
+   {
+    "title": "COMMAND: /emma",
+    "words": 1522
+   },
+   {
+    "title": "COMMAND: /show",
+    "words": 188
+   },
+   {
+    "title": "Author Direct Address Rule",
+    "words": 128
+   },
+   {
+    "title": "Automatic Substack HTML Conversion",
+    "words": 216
+   },
+   {
+    "title": "Output Format",
+    "words": 108
+   },
+   {
+    "title": "The Combined Test",
+    "words": 164
+   },
+   {
+    "title": "The Core Principle",
+    "words": 115
+   },
+   {
+    "title": "Naming Convention",
+    "words": 302
+   }
+  ],
+  "commands": [
+   {
+    "name": "help",
+    "desc": ""
+   },
+   {
+    "name": "list",
+    "desc": ""
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu"
+   },
+   {
+    "name": "/list",
+    "desc": "This table"
+   },
+   {
+    "name": "/audit",
+    "desc": "Pre-flight read of source: what's there, what's missing, what contradicts"
+   },
+   {
+    "name": "/emma",
+    "desc": "Transform source into textbook chapter with provenance map"
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo — silent vs. interactive on the same source"
+   },
+   {
+    "name": "silent",
+    "desc": ""
+   },
+   {
+    "name": "audit",
+    "desc": ""
+   },
+   {
+    "name": "emma",
+    "desc": ""
+   },
+   {
+    "name": "show",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": {
+   "from": "Forbidden Phrases (Cut on Sight)",
+   "items": [
+    "\"I've enhanced this section...\" — preservation-first means don't enhance; restructure or scaffold, and say which.",
+    "\"The author writes that...\" — Emma is not narrating the author. She's working with their material directly.",
+    "\"This could be improved by...\" — improved how, for whom, at what cost? Name the trade-off or stay quiet.",
+    "\"I've taken the liberty of...\" — never silently. Either flag the change in the provenance map or don't make it.",
+    "\"Polished prose,\" \"elevated language,\" \"more academic register\" — Emma does not elevate. She scaffolds and preserves. If the author writes casually, the chapter is casual.",
+    "\"Smoothed out,\" \"tightened,\" \"refined\" without specifying what changed and why."
+   ]
+  },
+  "extraFiles": [],
+  "sha256": "c63cd46d5e54a56a32b0f251ff1a56a83c84de05b23b882a77c5e3796842b70d",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/source-to-chapter/SKILL.md",
+    "commit": "d976664",
+    "sha256": "c63cd46d5e54a56a32b0f251ff1a56a83c84de05b23b882a77c5e3796842b70d",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/source-to-chapter"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "syllabus-architect",
+  "name": "syllabus-architect",
+  "description": "Design a full course syllabus: intake, outcomes, arc design, constructive-alignment audits, policy writing, accessibility. Use when the user is building or overhauling a syllabus.",
+  "does": "Design a full course syllabus: intake, outcomes, arc design, constructive-alignment audits, policy writing, accessibility.",
+  "useWhen": "Use when the user is building or overhauling a syllabus.",
+  "kind": "commands",
+  "job": "Teaching",
+  "persona": "Silly Bus",
+  "starts": "/help",
+  "pairs": [
+   "textbook-architecture",
+   "instructional-design-engine",
+   "course-artifacts"
+  ],
+  "agents": [],
+  "words": 12593,
+  "descWords": 24,
+  "sections": [
+   {
+    "title": "SYSTEM PROMPT (Core Identity)",
+    "words": 454
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 491
+   },
+   {
+    "title": "PHASE 1: COURSE VISION",
+    "words": 1330
+   },
+   {
+    "title": "PHASE 2: LEARNING ARCHITECTURE",
+    "words": 1463
+   },
+   {
+    "title": "PHASE 3: SYLLABUS CONSTRUCTION",
+    "words": 1388
+   },
+   {
+    "title": "PHASE 4: POLICIES & CLIMATE",
+    "words": 2369
+   },
+   {
+    "title": "PHASE 5: TONE & CLIMATE",
+    "words": 994
+   },
+   {
+    "title": "PHASE 6: FORMAT & ACCESSIBILITY",
+    "words": 1406
+   },
+   {
+    "title": "PHASE 7: FINALIZATION",
+    "words": 1438
+   },
+   {
+    "title": "REFINEMENT TOOLS",
+    "words": 768
+   },
+   {
+    "title": "COMMAND QUICK REFERENCE",
+    "words": 413
+   }
+  ],
+  "commands": [
+   {
+    "name": "/s1",
+    "desc": "Course Intake"
+   },
+   {
+    "name": "/s2",
+    "desc": "Course Format and Deployment Context"
+   },
+   {
+    "name": "/s3",
+    "desc": "Student Profile and Prerequisite Map"
+   },
+   {
+    "name": "/s4",
+    "desc": "Course Argument and Disciplinary Positioning"
+   },
+   {
+    "name": "/l1",
+    "desc": "Learning Outcomes"
+   },
+   {
+    "name": "/l2",
+    "desc": "Weekly Sequence and Pacing Logic"
+   },
+   {
+    "name": "/l3",
+    "desc": "Semester Arc (Three Acts)"
+   },
+   {
+    "name": "/l4",
+    "desc": "Constructive Alignment Audit"
+   },
+   {
+    "name": "/c1",
+    "desc": "Baseline Logistics Block"
+   },
+   {
+    "name": "/c2",
+    "desc": "Full Course Schedule"
+   },
+   {
+    "name": "/c3",
+    "desc": "Assessment Architecture and Grading Breakdown"
+   },
+   {
+    "name": "/c4",
+    "desc": "Rubric Strategy and Assessment Transparency"
+   },
+   {
+    "name": "/p1",
+    "desc": "Attendance and Participation Policy"
+   },
+   {
+    "name": "/p2",
+    "desc": "Late and Missed Work Policy"
+   },
+   {
+    "name": "/p3",
+    "desc": "Academic Integrity Policy"
+   },
+   {
+    "name": "/p4",
+    "desc": "Generative AI Policy"
+   },
+   {
+    "name": "/p5",
+    "desc": "Mental Health and Wellness Statement"
+   },
+   {
+    "name": "/p6",
+    "desc": "Diversity, Equity, and Inclusion Statement"
+   },
+   {
+    "name": "/p7",
+    "desc": "Accessibility and Accommodations Statement"
+   },
+   {
+    "name": "/p8",
+    "desc": "Full Institutional Policy Block"
+   },
+   {
+    "name": "/t1",
+    "desc": "Punitive-to-Supportive Language Audit"
+   },
+   {
+    "name": "/t2",
+    "desc": "Course Welcome Statement"
+   },
+   {
+    "name": "/t3",
+    "desc": "Student Hours Reframe"
+   },
+   {
+    "name": "/t4",
+    "desc": "Learning Community Statement"
+   },
+   {
+    "name": "/f1",
+    "desc": "Document Structure and Navigation"
+   },
+   {
+    "name": "/f2",
+    "desc": "Universal Design for Learning Audit"
+   },
+   {
+    "name": "/f3",
+    "desc": "Accessibility Compliance Check (ADA/WCAG)"
+   },
+   {
+    "name": "/f4",
+    "desc": "Liquid Syllabus Conversion"
+   },
+   {
+    "name": "/f5",
+    "desc": "Infographic Syllabus Strategy"
+   },
+   {
+    "name": "/g1",
+    "desc": "Compile Full Syllabus Draft"
+   },
+   {
+    "name": "/g2",
+    "desc": "Syllabus Audit Against the 7 Failure Modes"
+   },
+   {
+    "name": "/g3",
+    "desc": "Day-One Course Overview (Student-Facing)"
+   },
+   {
+    "name": "/g4",
+    "desc": "Student Navigation Test"
+   },
+   {
+    "name": "/g5",
+    "desc": "Peer Faculty Review Simulation"
+   },
+   {
+    "name": "/tonecheck",
+    "desc": "Stress-Test a Specific Policy for Punitive Language"
+   },
+   {
+    "name": "/aligncheck",
+    "desc": "Verify Outcome → Activity → Assessment Chain"
+   },
+   {
+    "name": "/looptest",
+    "desc": "Stress-Test the Weekly Learning Progression"
+   },
+   {
+    "name": "/scopecheck",
+    "desc": "MoSCoW Audit for Course Content"
+   },
+   {
+    "name": "/failmodes",
+    "desc": "Run the 7 Syllabus Failure Mode Diagnostic"
+   },
+   {
+    "name": "/changelog",
+    "desc": "Syllabus Version Control Entry"
+   },
+   {
+    "name": "/help",
+    "desc": ""
+   }
+  ],
+  "phases": [
+   {
+    "n": 1,
+    "title": "COURSE VISION"
+   },
+   {
+    "n": 2,
+    "title": "LEARNING ARCHITECTURE"
+   },
+   {
+    "n": 3,
+    "title": "SYLLABUS CONSTRUCTION"
+   },
+   {
+    "n": 4,
+    "title": "POLICIES & CLIMATE"
+   },
+   {
+    "n": 5,
+    "title": "TONE & CLIMATE"
+   },
+   {
+    "n": 6,
+    "title": "FORMAT & ACCESSIBILITY"
+   },
+   {
+    "n": 7,
+    "title": "FINALIZATION"
+   }
+  ],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "0582bffd1325868aef023e8eed874466310cb6e8a7af547728e1541114d04ff8",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/syllabus-architect/SKILL.md",
+    "commit": "d976664",
+    "sha256": "0582bffd1325868aef023e8eed874466310cb6e8a7af547728e1541114d04ff8",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/syllabus-architect"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "very-long-body"
+  ]
+ },
+ {
+  "slug": "textbook-architecture",
+  "name": "textbook-architecture",
+  "description": "Design a textbook's architecture: table of contents, backward design from learning outcomes, chapter mapping, faculty-adoption strategy. Use when the user is planning a textbook or restructuring one.",
+  "does": "Design a textbook's architecture: table of contents, backward design from learning outcomes, chapter mapping, faculty-adoption strategy.",
+  "useWhen": "Use when the user is planning a textbook or restructuring one.",
+  "kind": "commands",
+  "job": "Teaching",
+  "persona": "Tik TOC",
+  "starts": "/help",
+  "pairs": [
+   "syllabus-architect",
+   "engineering-textbook-author",
+   "source-to-chapter"
+  ],
+  "agents": [],
+  "words": 14968,
+  "descWords": 27,
+  "sections": [
+   {
+    "title": "SYSTEM PROMPT (Core Identity)",
+    "words": 2141
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 458
+   },
+   {
+    "title": "/list — Command Reference",
+    "words": 474
+   },
+   {
+    "title": "/show — Live Demo",
+    "words": 1002
+   },
+   {
+    "title": "PHASE 1: VISION & POSITIONING",
+    "words": 1278
+   },
+   {
+    "title": "PHASE 2: LEARNING ARCHITECTURE",
+    "words": 1326
+   },
+   {
+    "title": "PHASE 3: CHAPTER ARCHITECTURE",
+    "words": 1587
+   },
+   {
+    "title": "PHASE 4: SCOPE & MARKET",
+    "words": 1009
+   },
+   {
+    "title": "PHASE 5: PRODUCTION",
+    "words": 930
+   },
+   {
+    "title": "BUILD & FINALIZATION",
+    "words": 2404
+   },
+   {
+    "title": "REFINEMENT TOOLS",
+    "words": 1576
+   },
+   {
+    "title": "COMMAND QUICK REFERENCE",
+    "words": 703
+   }
+  ],
+  "commands": [
+   {
+    "name": "/list",
+    "desc": "Command Reference"
+   },
+   {
+    "name": "/show",
+    "desc": "Live Demo"
+   },
+   {
+    "name": "/i1",
+    "desc": "Book Intake"
+   },
+   {
+    "name": "/i2",
+    "desc": "Book Type and Deployment Context"
+   },
+   {
+    "name": "/i3",
+    "desc": "Learner Profile and Prerequisite Map"
+   },
+   {
+    "name": "/i4",
+    "desc": "Central Argument and Field Positioning"
+   },
+   {
+    "name": "/l1",
+    "desc": "Learning Outcomes"
+   },
+   {
+    "name": "/l2",
+    "desc": "Sequencing Logic and Progression Model"
+   },
+   {
+    "name": "/l3",
+    "desc": "Three-Act Learning Arc"
+   },
+   {
+    "name": "/l4",
+    "desc": "Prerequisite Mapping and Front-Loading Decisions"
+   },
+   {
+    "name": "/c1",
+    "desc": "Chapter-by-Chapter Documentation"
+   },
+   {
+    "name": "/c2",
+    "desc": "Chapter Anatomy Template"
+   },
+   {
+    "name": "/c3",
+    "desc": "Case Study and Worked Example Strategy"
+   },
+   {
+    "name": "/c4",
+    "desc": "Hard Topics, Contested Claims, Coverage Gaps"
+   },
+   {
+    "name": "/m1",
+    "desc": "Market Positioning and Comparable Texts"
+   },
+   {
+    "name": "/m2",
+    "desc": "Feature List with Priority Tagging"
+   },
+   {
+    "name": "/m3",
+    "desc": "Out of Scope Section"
+   },
+   {
+    "name": "/m4",
+    "desc": "Adoption Risks and Mitigation"
+   },
+   {
+    "name": "/p1",
+    "desc": "Publisher Proposal Draft"
+   },
+   {
+    "name": "/p2",
+    "desc": "Open Questions Log"
+   },
+   {
+    "name": "/p3",
+    "desc": "Volunteer Task Assignment System"
+   },
+   {
+    "name": "/g1",
+    "desc": "Compile Full TOC Draft"
+   },
+   {
+    "name": "/scaffold",
+    "desc": "Cowork-Native Planning File Synthesis"
+   },
+   {
+    "name": "/g2",
+    "desc": "TOC Audit Against the 7 Adoption Failure Modes"
+   },
+   {
+    "name": "/g3",
+    "desc": "One-Page Book Pitch Summary"
+   },
+   {
+    "name": "/g4",
+    "desc": "Faculty Adoption Test"
+   },
+   {
+    "name": "/g5",
+    "desc": "Student Navigation Test"
+   },
+   {
+    "name": "/logline",
+    "desc": "Book Logline Writer and Stress-Test"
+   },
+   {
+    "name": "/positioning",
+    "desc": "Positioning Statement Tool"
+   },
+   {
+    "name": "/looptest",
+    "desc": "Learning Progression Stress Test"
+   },
+   {
+    "name": "/scopecheck",
+    "desc": "MoSCoW Chapter Audit"
+   },
+   {
+    "name": "/substack",
+    "desc": "Substack Content Pipeline Generator"
+   },
+   {
+    "name": "/volunteers",
+    "desc": "Volunteer Task Generator"
+   },
+   {
+    "name": "/failmodes",
+    "desc": "Targeted Failure Mode Diagnostic"
+   },
+   {
+    "name": "/changelog",
+    "desc": "Version Control Changelog Entry"
+   },
+   {
+    "name": "/help",
+    "desc": ""
+   }
+  ],
+  "phases": [
+   {
+    "n": 1,
+    "title": "VISION & POSITIONING"
+   },
+   {
+    "n": 2,
+    "title": "LEARNING ARCHITECTURE"
+   },
+   {
+    "n": 3,
+    "title": "CHAPTER ARCHITECTURE"
+   },
+   {
+    "n": 4,
+    "title": "SCOPE & MARKET"
+   },
+   {
+    "n": 5,
+    "title": "PRODUCTION"
+   }
+  ],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "67590743f8fdef5b1429e68932bceeb52533241603686a8f352c6276706bec99",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/textbook-architecture/SKILL.md",
+    "commit": "d976664",
+    "sha256": "67590743f8fdef5b1429e68932bceeb52533241603686a8f352c6276706bec99",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/textbook-architecture"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "very-long-body"
+  ]
+ },
+ {
+  "slug": "tone-aphoristic",
+  "name": "tone-aphoristic",
+  "description": "Write in the aphoristic register — short lines, one sharpened idea, generous provocation (inspired by Seth Godin). Use when the user asks for punchy, aphoristic writing.",
+  "does": "Write in the aphoristic register — short lines, one sharpened idea, generous provocation (inspired by Seth Godin).",
+  "useWhen": "Use when the user asks for punchy, aphoristic writing.",
+  "kind": "voice",
+  "job": "Writing",
+  "persona": null,
+  "starts": "help",
+  "pairs": [
+   "tone-spare",
+   "tone-witness",
+   "tone-wonder"
+  ],
+  "agents": [],
+  "words": 13616,
+  "descWords": 26,
+  "sections": [
+   {
+    "title": "Core Philosophy",
+    "words": 38
+   },
+   {
+    "title": "Global Constraints (Apply to Every Command)",
+    "words": 371
+   },
+   {
+    "title": "PROMPT",
+    "words": 27
+   },
+   {
+    "title": "Core Principles",
+    "words": 87
+   },
+   {
+    "title": "Style Characteristics",
+    "words": 193
+   },
+   {
+    "title": "Structure (1,800-2,500 words)",
+    "words": 257
+   },
+   {
+    "title": "What This Approach Demands",
+    "words": 84
+   },
+   {
+    "title": "Rhythm & Technique",
+    "words": 94
+   },
+   {
+    "title": "Example Openings",
+    "words": 221
+   },
+   {
+    "title": "Tone",
+    "words": 131
+   },
+   {
+    "title": "PROMPT",
+    "words": 141
+   },
+   {
+    "title": "Style Characteristics",
+    "words": 158
+   },
+   {
+    "title": "Structure (1,800-2,500 words)",
+    "words": 207
+   },
+   {
+    "title": "Forbidden Phrases",
+    "words": 70
+   },
+   {
+    "title": "The Litmus Test",
+    "words": 67
+   },
+   {
+    "title": "PROMPT",
+    "words": 348
+   },
+   {
+    "title": "PROMPT",
+    "words": 109
+   },
+   {
+    "title": "PROMPT",
+    "words": 386
+   },
+   {
+    "title": "PROMPT",
+    "words": 242
+   },
+   {
+    "title": "PROMPT",
+    "words": 294
+   },
+   {
+    "title": "PROMPT",
+    "words": 134
+   },
+   {
+    "title": "PROMPT",
+    "words": 558
+   },
+   {
+    "title": "Core Principle Across All Commands",
+    "words": 8346
+   },
+   {
+    "title": "What ISE Is",
+    "words": 120
+   },
+   {
+    "title": "How to Use ISE",
+    "words": 103
+   },
+   {
+    "title": "Command Index",
+    "words": 231
+   },
+   {
+    "title": "The Four Global Rules (Every Command, Every Time)",
+    "words": 145
+   },
+   {
+    "title": "What ISE Challenges (Always)",
+    "words": 77
+   },
+   {
+    "title": "What ISE Does Not Do",
+    "words": 64
+   },
+   {
+    "title": "Command Syntax Examples",
+    "words": 68
+   },
+   {
+    "title": "The Auto-Tags Rule",
+    "words": 43
+   },
+   {
+    "title": "The One-Sentence Version",
+    "words": 36
+   }
+  ],
+  "commands": [
+   {
+    "name": "ezsay",
+    "desc": ""
+   },
+   {
+    "name": "bookmap",
+    "desc": ""
+   },
+   {
+    "name": "rollirev",
+    "desc": ""
+   },
+   {
+    "name": "investnon",
+    "desc": ""
+   },
+   {
+    "name": "narteach",
+    "desc": ""
+   },
+   {
+    "name": "bear",
+    "desc": ""
+   },
+   {
+    "name": "beargress",
+    "desc": ""
+   },
+   {
+    "name": "litsci",
+    "desc": ""
+   },
+   {
+    "name": "teachnar",
+    "desc": ""
+   },
+   {
+    "name": "caseprep",
+    "desc": ""
+   },
+   {
+    "name": "help",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": {
+   "from": "Forbidden Phrases",
+   "items": [
+    "\"One could argue...\" (Either argue it yourself or don't)",
+    "\"In many ways...\" (Specify which ways, with evidence)",
+    "\"Seems to suggest...\" (Either it suggests or it doesn't; show why)",
+    "\"Raises important questions...\" (Which questions? Why important? How answered?)",
+    "\"This works because [specific mechanism]...\"",
+    "\"This fails when [testable condition]...\"",
+    "\"The evidence shows...\"",
+    "\"The logical flaw is...\""
+   ]
+  },
+  "extraFiles": [],
+  "sha256": "1c65c07d75287a18e1e42c65e5fa74c6d4252bab592fc928b75590edb730572e",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/tone-aphoristic/SKILL.md",
+    "commit": "397d731",
+    "sha256": "1c65c07d75287a18e1e42c65e5fa74c6d4252bab592fc928b75590edb730572e",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-aphoristic"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "very-long-body",
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "tone-naturalist",
+  "name": "tone-naturalist",
+  "description": "Write in the naturalist register — reverent field observation, patient scene-setting, the subject watched in its habitat (inspired by David Attenborough). Use when the user asks for naturalist or Attenborough-style narration.",
+  "does": "Write in the naturalist register — reverent field observation, patient scene-setting, the subject watched in its habitat (inspired by David Attenborough).",
+  "useWhen": "Use when the user asks for naturalist or Attenborough-style narration.",
+  "kind": "voice",
+  "job": "Writing",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "tone-scenic",
+   "tone-wonder",
+   "tone-spare"
+  ],
+  "agents": [],
+  "words": 3362,
+  "descWords": 31,
+  "sections": [
+   {
+    "title": "Global Constraints (Apply to Every Command)",
+    "words": 277
+   },
+   {
+    "title": "Command Index",
+    "words": 75
+   },
+   {
+    "title": "The Hybrid Voice: What This Means in Practice",
+    "words": 391
+   },
+   {
+    "title": "Style Characteristics (Apply Across All Commands)",
+    "words": 342
+   },
+   {
+    "title": "COMMAND: /help",
+    "words": 244
+   },
+   {
+    "title": "COMMAND: /list",
+    "words": 145
+   },
+   {
+    "title": "COMMAND: /essay",
+    "words": 410
+   },
+   {
+    "title": "COMMAND: /nart",
+    "words": 155
+   },
+   {
+    "title": "COMMAND: /write",
+    "words": 734
+   },
+   {
+    "title": "Author Direct Address Rule",
+    "words": 65
+   },
+   {
+    "title": "The Combined Test: Attenborough × Feynman",
+    "words": 222
+   },
+   {
+    "title": "The Core Principle",
+    "words": 150
+   }
+  ],
+  "commands": [
+   {
+    "name": "help",
+    "desc": ""
+   },
+   {
+    "name": "list",
+    "desc": ""
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu"
+   },
+   {
+    "name": "/list",
+    "desc": "This table"
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo — silent vs. interactive on the same brief"
+   },
+   {
+    "name": "/essay",
+    "desc": "Narrative-explanatory longform (2,000–3,000 words)"
+   },
+   {
+    "name": "/nart",
+    "desc": "Narrative nonfiction (New Yorker / Atlantic register)"
+   },
+   {
+    "name": "/write",
+    "desc": "Full textbook chapter (5,000–8,000 words) with pedagogy and exercises"
+   },
+   {
+    "name": "/bookmap",
+    "desc": "Chapter-by-chapter analysis + bridge + lit review"
+   },
+   {
+    "name": "essay",
+    "desc": ""
+   },
+   {
+    "name": "nart",
+    "desc": ""
+   },
+   {
+    "name": "write",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": {
+   "from": "Forbidden Phrases",
+   "items": [
+    "\"Fascinating\" or \"remarkable\" without showing why (let the fact be",
+    "\"It is worth noting that...\" (Just note it)",
+    "\"Interestingly...\" (Everything is interesting or nothing is — choose)",
+    "\"One could argue...\" (Make the argument)",
+    "\"Obviously\" or \"clearly\" (If it were obvious, skip it)",
+    "\"Revolutionary\" or \"innovative\" without explaining what specifically changed",
+    "Jargon without etymology or plain-English gloss on first use",
+    "The specific fact, number, or mechanism that earns the wonder"
+   ]
+  },
+  "extraFiles": [],
+  "sha256": "4f87d98da96300bfae635a1981e5be2ec105275f01d869eaafbdf8c791aaacbb",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/tone-naturalist/SKILL.md",
+    "commit": "397d731",
+    "sha256": "4f87d98da96300bfae635a1981e5be2ec105275f01d869eaafbdf8c791aaacbb",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-naturalist"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "tone-scenic",
+  "name": "tone-scenic",
+  "description": "Write in the scenic register — every explanation opens inside a scene, mechanism from first principles, scale shifts, the moral arrives on its own (inspired by Attenborough crossed with Feynman). Use when the user asks for scene-anchored explanatory prose.",
+  "does": "Write in the scenic register — every explanation opens inside a scene, mechanism from first principles, scale shifts, the moral arrives on its own (inspired by Attenborough crossed with Feynman).",
+  "useWhen": "Use when the user asks for scene-anchored explanatory prose.",
+  "kind": "voice",
+  "job": "Writing",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "tone-naturalist",
+   "tone-wonder",
+   "tone-spare"
+  ],
+  "agents": [],
+  "words": 5234,
+  "descWords": 39,
+  "sections": [
+   {
+    "title": "Global Constraints (Apply to Every Command)",
+    "words": 277
+   },
+   {
+    "title": "Command Index",
+    "words": 75
+   },
+   {
+    "title": "The Hybrid Voice: What This Means in Practice",
+    "words": 391
+   },
+   {
+    "title": "Style Characteristics (Apply Across All Commands)",
+    "words": 342
+   },
+   {
+    "title": "The Pushback Layer",
+    "words": 477
+   },
+   {
+    "title": "COMMAND: /help",
+    "words": 244
+   },
+   {
+    "title": "COMMAND: /list",
+    "words": 145
+   },
+   {
+    "title": "COMMAND: /show",
+    "words": 413
+   },
+   {
+    "title": "COMMAND: /essay",
+    "words": 536
+   },
+   {
+    "title": "COMMAND: /nart",
+    "words": 336
+   },
+   {
+    "title": "COMMAND: /write",
+    "words": 737
+   },
+   {
+    "title": "COMMAND: /bookmap",
+    "words": 472
+   },
+   {
+    "title": "Author Direct Address Rule",
+    "words": 65
+   },
+   {
+    "title": "The Combined Test: Attenborough × Feynman",
+    "words": 222
+   },
+   {
+    "title": "The Core Principle",
+    "words": 340
+   }
+  ],
+  "commands": [
+   {
+    "name": "help",
+    "desc": ""
+   },
+   {
+    "name": "list",
+    "desc": ""
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu"
+   },
+   {
+    "name": "/list",
+    "desc": "This table"
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo — silent vs. interactive on the same brief"
+   },
+   {
+    "name": "/essay",
+    "desc": "Narrative-explanatory longform (2,000–3,000 words)"
+   },
+   {
+    "name": "/nart",
+    "desc": "Narrative nonfiction (New Yorker / Atlantic register)"
+   },
+   {
+    "name": "/write",
+    "desc": "Full textbook chapter (5,000–8,000 words) with pedagogy and exercises"
+   },
+   {
+    "name": "/bookmap",
+    "desc": "Chapter-by-chapter analysis + bridge + lit review"
+   },
+   {
+    "name": "show",
+    "desc": ""
+   },
+   {
+    "name": "essay",
+    "desc": ""
+   },
+   {
+    "name": "nart",
+    "desc": ""
+   },
+   {
+    "name": "write",
+    "desc": ""
+   },
+   {
+    "name": "bookmap",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": {
+   "from": "Forbidden Phrases",
+   "items": [
+    "\"Fascinating\" or \"remarkable\" without showing why (let the fact be",
+    "\"It is worth noting that...\" (Just note it)",
+    "\"Interestingly...\" (Everything is interesting or nothing is — choose)",
+    "\"One could argue...\" (Make the argument)",
+    "\"Obviously\" or \"clearly\" (If it were obvious, skip it)",
+    "\"Revolutionary\" or \"innovative\" without explaining what specifically changed",
+    "Jargon without etymology or plain-English gloss on first use",
+    "The specific fact, number, or mechanism that earns the wonder"
+   ]
+  },
+  "extraFiles": [],
+  "sha256": "95a99f1dba6ede6336458634eb1668ff2fe4dd65d15dc4d1c2c036002746688a",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/tone-scenic/SKILL.md",
+    "commit": "397d731",
+    "sha256": "95a99f1dba6ede6336458634eb1668ff2fe4dd65d15dc4d1c2c036002746688a",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-scenic"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "tone-spare",
+  "name": "tone-spare",
+  "description": "Write in the spare register — cool, exact, unsentimental; sentences cut to the bone and the detail does the arguing (inspired by Joan Didion). Use when the user asks for spare, incisive prose.",
+  "does": "Write in the spare register — cool, exact, unsentimental; sentences cut to the bone and the detail does the arguing (inspired by Joan Didion).",
+  "useWhen": "Use when the user asks for spare, incisive prose.",
+  "kind": "voice",
+  "job": "Writing",
+  "persona": null,
+  "starts": null,
+  "pairs": [
+   "tone-witness",
+   "tone-aphoristic",
+   "tone-naturalist"
+  ],
+  "agents": [],
+  "words": 13319,
+  "descWords": 33,
+  "sections": [],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "a63214f426eafce6c8ee7dcfa9765d406f3a48c4cb8bb2a26a3785cfa5a0046e",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/tone-spare/SKILL.md",
+    "commit": "397d731",
+    "sha256": "a63214f426eafce6c8ee7dcfa9765d406f3a48c4cb8bb2a26a3785cfa5a0046e",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-spare"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "no-headings",
+   "very-long-body"
+  ]
+ },
+ {
+  "slug": "tone-witness",
+  "name": "tone-witness",
+  "description": "Write in the witness register — personal moral testimony, direct address, urgency without ornament (inspired by James Baldwin). Use when the user asks for witness-register or morally urgent prose.",
+  "does": "Write in the witness register — personal moral testimony, direct address, urgency without ornament (inspired by James Baldwin).",
+  "useWhen": "Use when the user asks for witness-register or morally urgent prose.",
+  "kind": "voice",
+  "job": "Writing",
+  "persona": "Baldwin",
+  "starts": "/help",
+  "pairs": [
+   "tone-spare",
+   "tone-aphoristic",
+   "tone-wonder"
+  ],
+  "agents": [],
+  "words": 14313,
+  "descWords": 29,
+  "sections": [
+   {
+    "title": "SYSTEM PROMPT (Core Identity)",
+    "words": 791
+   },
+   {
+    "title": "WELCOME MENU — /help",
+    "words": 477
+   },
+   {
+    "title": "/list — Command Reference",
+    "words": 482
+   },
+   {
+    "title": "/intake — Intake Sequence",
+    "words": 783
+   },
+   {
+    "title": "PUSHBACK LAYER",
+    "words": 402
+   },
+   {
+    "title": "PHASE GATES",
+    "words": 641
+   },
+   {
+    "title": "/show — Live Demo",
+    "words": 342
+   },
+   {
+    "title": "Global Constraints (Apply to Every Command)",
+    "words": 91
+   },
+   {
+    "title": "Substack-Specific Style Rules",
+    "words": 266
+   },
+   {
+    "title": "Baldwin's Voice: What This Means in Practice",
+    "words": 184
+   },
+   {
+    "title": "Forbidden Phrases (Expanded)",
+    "words": 151
+   },
+   {
+    "title": "The Baldwin Test",
+    "words": 89
+   },
+   {
+    "title": "The Core Principle",
+    "words": 116
+   },
+   {
+    "title": "GROUP 1: LITERARY ESSAYS",
+    "words": 430
+   },
+   {
+    "title": "VENUE SPECIFICATIONS (referenced by /essay Phase 4A)",
+    "words": 2001
+   },
+   {
+    "title": "GROUP 2: INVESTIGATIVE & NARRATIVE",
+    "words": 303
+   },
+   {
+    "title": "GROUP 3: ACADEMIC PEDAGOGY (PROF BEAR)",
+    "words": 416
+   },
+   {
+    "title": "GROUP 4: MUSINIQUE ECOSYSTEM",
+    "words": 735
+   },
+   {
+    "title": "GROUP 5: AI+1 EDUCATION SERIES",
+    "words": 1637
+   },
+   {
+    "title": "GROUP 6: SUBSTACK SHORT FORM",
+    "words": 1325
+   },
+   {
+    "title": "GROUP 7: SUBSTACK LONG FORM & SERIES",
+    "words": 445
+   },
+   {
+    "title": "GROUP 8: PLATFORM WRITING",
+    "words": 767
+   },
+   {
+    "title": "AUTO_TAGS",
+    "words": 226
+   },
+   {
+    "title": "COMMAND QUICK REFERENCE TABLE",
+    "words": 512
+   },
+   {
+    "title": "MUSINIQUE ARTIST CONSTELLATION REFERENCE",
+    "words": 102
+   },
+   {
+    "title": "MUSINIQUE BRAND VOICE PROFILE",
+    "words": 36
+   },
+   {
+    "title": "TAGS",
+    "words": 104
+   },
+   {
+    "title": "TOOL DESCRIPTION",
+    "words": 294
+   }
+  ],
+  "commands": [
+   {
+    "name": "/list",
+    "desc": "Command Reference"
+   },
+   {
+    "name": "/intake",
+    "desc": "Intake Sequence"
+   },
+   {
+    "name": "/show",
+    "desc": "Live Demo"
+   },
+   {
+    "name": "/essay",
+    "desc": "The Literary Review Essay"
+   },
+   {
+    "name": "/bookmap",
+    "desc": "Chapter Summaries + Literary Review"
+   },
+   {
+    "name": "/rollirev",
+    "desc": "Rolling Stone Literary Review"
+   },
+   {
+    "name": "/litsci",
+    "desc": "Literary Review Essay for Scientific Papers"
+   },
+   {
+    "name": "/investnon",
+    "desc": "Investigative Narrative Nonfiction"
+   },
+   {
+    "name": "/narteach",
+    "desc": "Teach Facts as Moral Inquiry"
+   },
+   {
+    "name": "/beargress",
+    "desc": "Professor's Progress Report Critique"
+   },
+   {
+    "name": "/nique",
+    "desc": "The the music imprint Essay"
+   },
+   {
+    "name": "/patronus",
+    "desc": "The Spirit Songs Case Study Essay"
+   },
+   {
+    "name": "/ogily",
+    "desc": "Direct-Response YouTube Script"
+   },
+   {
+    "name": "/ai1",
+    "desc": "The AI+1 Education Essay"
+   },
+   {
+    "name": "/note",
+    "desc": "Substack Note"
+   },
+   {
+    "name": "/letter",
+    "desc": "Newsletter Letter"
+   },
+   {
+    "name": "/take",
+    "desc": "Hot Take / Provocation"
+   },
+   {
+    "name": "/roundup",
+    "desc": "Link Digest with Editorial Judgment"
+   },
+   {
+    "name": "/serial",
+    "desc": "Serial Installment"
+   },
+   {
+    "name": "/manifesto",
+    "desc": "Statement of Belief"
+   },
+   {
+    "name": "/about",
+    "desc": "Substack About Page"
+   },
+   {
+    "name": "/welcome",
+    "desc": "Welcome Email for New Subscribers"
+   },
+   {
+    "name": "/paywall",
+    "desc": "Paywall Pitch Paragraph"
+   },
+   {
+    "name": "/subject",
+    "desc": "Email Subject Line Options"
+   },
+   {
+    "name": "/preview",
+    "desc": "Email Preview Text Options"
+   },
+   {
+    "name": "/help",
+    "desc": "Meta"
+   },
+   {
+    "name": "/bear",
+    "desc": "Academic Pedagogy"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "8d0438ef8803981e6709025c9e50f8b1b82d836b710a125a4cea01411dc43537",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/tone-witness/SKILL.md",
+    "commit": "397d731",
+    "sha256": "8d0438ef8803981e6709025c9e50f8b1b82d836b710a125a4cea01411dc43537",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-witness"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "very-long-body"
+  ]
+ },
+ {
+  "slug": "tone-wonder",
+  "name": "tone-wonder",
+  "description": "Write in the wonder register — first principles, playful clarity, intellectual honesty, awe that earns itself (inspired by Richard Feynman's lectures). Use when the user asks for wonder-register or Feynman-style prose.",
+  "does": "Write in the wonder register — first principles, playful clarity, intellectual honesty, awe that earns itself (inspired by Richard Feynman's lectures).",
+  "useWhen": "Use when the user asks for wonder-register or Feynman-style prose.",
+  "kind": "voice",
+  "job": "Writing",
+  "persona": null,
+  "starts": "/help",
+  "pairs": [
+   "tone-naturalist",
+   "tone-scenic",
+   "tone-witness"
+  ],
+  "agents": [],
+  "words": 6184,
+  "descWords": 31,
+  "sections": [
+   {
+    "title": "Global Constraints (Apply to Every Command)",
+    "words": 325
+   },
+   {
+    "title": "Command Index",
+    "words": 112
+   },
+   {
+    "title": "The Hybrid Voice: What This Means in Practice",
+    "words": 158
+   },
+   {
+    "title": "Style Characteristics (Apply Across All Commands)",
+    "words": 318
+   },
+   {
+    "title": "COMMAND: /help",
+    "words": 368
+   },
+   {
+    "title": "COMMAND: /list",
+    "words": 180
+   },
+   {
+    "title": "COMMAND: /silent — Modifier Rule",
+    "words": 192
+   },
+   {
+    "title": "COMMAND: /essay",
+    "words": 585
+   },
+   {
+    "title": "COMMAND: /nart",
+    "words": 199
+   },
+   {
+    "title": "COMMAND: /write",
+    "words": 1789
+   },
+   {
+    "title": "COMMAND: /done",
+    "words": 684
+   },
+   {
+    "title": "COMMAND: /show",
+    "words": 165
+   },
+   {
+    "title": "Output Format",
+    "words": 60
+   },
+   {
+    "title": "The Combined Test: Feynman × MKBHD",
+    "words": 275
+   },
+   {
+    "title": "The Core Principle",
+    "words": 137
+   },
+   {
+    "title": "Artifact Naming Convention",
+    "words": 430
+   }
+  ],
+  "commands": [
+   {
+    "name": "help",
+    "desc": ""
+   },
+   {
+    "name": "list",
+    "desc": ""
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu"
+   },
+   {
+    "name": "/list",
+    "desc": "This table"
+   },
+   {
+    "name": "/show",
+    "desc": "Live demo — silent mode vs. interactive mode on the same input"
+   },
+   {
+    "name": "/essay",
+    "desc": "Longform non-fiction essay (1,800–2,500 words)"
+   },
+   {
+    "name": "/bookmap",
+    "desc": "Chapter-by-chapter analysis + bridge + litreview"
+   },
+   {
+    "name": "/nart",
+    "desc": "Narrative nonfiction teaching (New Yorker / Atlantic style)"
+   },
+   {
+    "name": "/write",
+    "desc": "Full textbook chapter (5,000–8,000 words) with exercises and pedagogy"
+   },
+   {
+    "name": "/done",
+    "desc": "Finishing pass: adds subtitle if missing, adds exercises if missing, seeds visual suggestions as comments"
+   },
+   {
+    "name": "silent",
+    "desc": ""
+   },
+   {
+    "name": "essay",
+    "desc": ""
+   },
+   {
+    "name": "nart",
+    "desc": ""
+   },
+   {
+    "name": "write",
+    "desc": ""
+   },
+   {
+    "name": "done",
+    "desc": ""
+   },
+   {
+    "name": "show",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": {
+   "from": "Forbidden Phrases",
+   "items": [
+    "\"One could argue...\" (Just make the argument)",
+    "\"It seems as though...\" (Describe what's actually happening)",
+    "\"The UX could be improved\" (How? For whom? What did they optimize instead?)",
+    "\"Innovative\" or \"revolutionary\" without explaining what actually changed",
+    "\"Premium\" or \"sleek\" without defining what that means functionally",
+    "Technical specs without context (6GB RAM means nothing; 6GB RAM enabling X feature means something)",
+    "\"Obviously\" or \"clearly\" (if it were obvious, you wouldn't need to say so)",
+    "\"Here's what's actually happening...\""
+   ]
+  },
+  "extraFiles": [],
+  "sha256": "0d1c0fedc639c78814542a26f1a2e188484c945136bade490136ab8aa0b3df5a",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/tone-wonder/SKILL.md",
+    "commit": "397d731",
+    "sha256": "0d1c0fedc639c78814542a26f1a2e188484c945136bade490136ab8aa0b3df5a",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/tone-wonder"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "unity-refactoring",
+  "name": "unity-refactoring",
+  "description": "Refactor legacy Unity codebases safely: characterization tests first, assembly definitions, ScriptableObject migration, step-by-step with an AI pair. Use when the user asks to refactor, untangle, or modernise a Unity project.",
+  "does": "Refactor legacy Unity codebases safely: characterization tests first, assembly definitions, ScriptableObject migration, step-by-step with an AI pair.",
+  "useWhen": "Use when the user asks to refactor, untangle, or modernise a Unity project.",
+  "kind": "commands",
+  "job": "Software & games",
+  "persona": "Walker",
+  "starts": "/help",
+  "pairs": [
+   "game-design-doc",
+   "software-design-doc"
+  ],
+  "agents": [],
+  "words": 3682,
+  "descWords": 30,
+  "sections": [
+   {
+    "title": "How to Use Walker",
+    "words": 148
+   },
+   {
+    "title": "What Walker Does",
+    "words": 264
+   },
+   {
+    "title": "The Five-Phase Refactor",
+    "words": 194
+   },
+   {
+    "title": "Five Supervisory Capacities",
+    "words": 238
+   },
+   {
+    "title": "Command Set",
+    "words": 768
+   },
+   {
+    "title": "Labor Separation",
+    "words": 327
+   },
+   {
+    "title": "The 7 Unity Failure Modes",
+    "words": 332
+   },
+   {
+    "title": "Copy into Your Claude Project",
+    "words": 1322
+   }
+  ],
+  "commands": [
+   {
+    "name": "/v1",
+    "desc": ""
+   },
+   {
+    "name": "/v2",
+    "desc": ""
+   },
+   {
+    "name": "/v3",
+    "desc": ""
+   },
+   {
+    "name": "/v4",
+    "desc": ""
+   },
+   {
+    "name": "/audit",
+    "desc": ""
+   },
+   {
+    "name": "/legacy",
+    "desc": ""
+   },
+   {
+    "name": "/asmdef",
+    "desc": ""
+   },
+   {
+    "name": "/claudemd",
+    "desc": ""
+   },
+   {
+    "name": "/standards",
+    "desc": ""
+   },
+   {
+    "name": "/s1",
+    "desc": ""
+   },
+   {
+    "name": "/s2",
+    "desc": ""
+   },
+   {
+    "name": "/s3",
+    "desc": ""
+   },
+   {
+    "name": "/s4",
+    "desc": ""
+   },
+   {
+    "name": "/p1",
+    "desc": ""
+   },
+   {
+    "name": "/p2",
+    "desc": ""
+   },
+   {
+    "name": "/p3",
+    "desc": ""
+   },
+   {
+    "name": "/p4",
+    "desc": ""
+   },
+   {
+    "name": "/p5",
+    "desc": ""
+   },
+   {
+    "name": "/claude",
+    "desc": ""
+   },
+   {
+    "name": "/movetable",
+    "desc": ""
+   },
+   {
+    "name": "/testgen",
+    "desc": ""
+   },
+   {
+    "name": "/phasecheck",
+    "desc": ""
+   },
+   {
+    "name": "/g1",
+    "desc": ""
+   },
+   {
+    "name": "/g2",
+    "desc": ""
+   },
+   {
+    "name": "/g3",
+    "desc": ""
+   },
+   {
+    "name": "/g4",
+    "desc": ""
+   },
+   {
+    "name": "/tasks",
+    "desc": ""
+   },
+   {
+    "name": "/show",
+    "desc": ""
+   },
+   {
+    "name": "/help",
+    "desc": ""
+   },
+   {
+    "name": "/security",
+    "desc": ""
+   },
+   {
+    "name": "/scopecheck",
+    "desc": ""
+   },
+   {
+    "name": "/changelog",
+    "desc": ""
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "eb7bfaecda5b4bc7dc5160ecedc37ddb668d7f34e5680eac7dfd4441f32a053e",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/unity-refactoring/SKILL.md",
+    "commit": "d976664",
+    "sha256": "eb7bfaecda5b4bc7dc5160ecedc37ddb668d7f34e5680eac7dfd4441f32a053e",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/unity-refactoring"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": [
+   "commands-mostly-undescribed"
+  ]
+ },
+ {
+  "slug": "venture-pitch",
+  "name": "venture-pitch",
+  "description": "Build a ten-slide venture pitch with timing discipline (8 minutes, ~130 WPM), jargon audits, and AI-scaffolding removal before anything reaches an investor. Use when the user asks for a pitch deck, investor narrative, or pitch critique.",
+  "does": "Build a ten-slide venture pitch with timing discipline (8 minutes, ~130 WPM), jargon audits, and AI-scaffolding removal before anything reaches an investor.",
+  "useWhen": "Use when the user asks for a pitch deck, investor narrative, or pitch critique.",
+  "kind": "protocol",
+  "job": "Business",
+  "persona": "Madison",
+  "starts": "/help",
+  "pairs": [
+   "music-venture-pitch",
+   "consulting-case"
+  ],
+  "agents": [],
+  "words": 2355,
+  "descWords": 36,
+  "sections": [
+   {
+    "title": "What Madison Does",
+    "words": 140
+   },
+   {
+    "title": "Two Modes of Operation",
+    "words": 106
+   },
+   {
+    "title": "Ten-Slide Madison Pitch — Structure & Timing",
+    "words": 464
+   },
+   {
+    "title": "Full Command Reference",
+    "words": 225
+   },
+   {
+    "title": "Engine Language → Destination Language",
+    "words": 221
+   },
+   {
+    "title": "The Pushback Layer",
+    "words": 218
+   },
+   {
+    "title": "The Investor Test — /investortest",
+    "words": 110
+   },
+   {
+    "title": "The Cleanup Pass — /cleanup",
+    "words": 220
+   }
+  ],
+  "commands": [],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "d4ece634b8cdaf31eaf64ce92d55dc003d0c859efcd91d3773ccee99b840f2d0",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/venture-pitch/SKILL.md",
+    "commit": "d976664",
+    "sha256": "d4ece634b8cdaf31eaf64ce92d55dc003d0c859efcd91d3773ccee99b840f2d0",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/venture-pitch"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ },
+ {
+  "slug": "volunteer-learning-journal",
+  "name": "volunteer-learning-journal",
+  "description": "Run a structured learning journal for volunteers whose sessions double as documentation evidence — weekly entries, tier justification, renewal packets. Use when the user needs to document volunteer or training work as learning evidence.",
+  "does": "Run a structured learning journal for volunteers whose sessions double as documentation evidence — weekly entries, tier justification, renewal packets.",
+  "useWhen": "Use when the user needs to document volunteer or training work as learning evidence.",
+  "kind": "commands",
+  "job": "Teaching",
+  "persona": "Addams",
+  "starts": "/help",
+  "pairs": [
+   "experiential-learning-log",
+   "experiential-report-evaluator"
+  ],
+  "agents": [],
+  "words": 5578,
+  "descWords": 34,
+  "sections": [
+   {
+    "title": "How to use this prompt",
+    "words": 79
+   },
+   {
+    "title": "Full system prompt",
+    "words": 35
+   },
+   {
+    "title": "What Addams is — and isn't",
+    "words": 216
+   },
+   {
+    "title": "Quick command reference",
+    "words": 256
+   },
+   {
+    "title": "/onboard — First-time setup",
+    "words": 179
+   },
+   {
+    "title": "/hai · /substack · /artifact",
+    "words": 328
+   },
+   {
+    "title": "/tier · /hours · /struggle · /nextsteps · /compliance",
+    "words": 291
+   },
+   {
+    "title": "/addams — Renewal request report",
+    "words": 265
+   },
+   {
+    "title": "The 7 cognitive tiers",
+    "words": 396
+   },
+   {
+    "title": "The 25% exploration rule",
+    "words": 218
+   },
+   {
+    "title": "The tool ecosystem",
+    "words": 240
+   },
+   {
+    "title": "GLP friction traces",
+    "words": 283
+   },
+   {
+    "title": "Quality gates — what Addams will not pass",
+    "words": 274
+   },
+   {
+    "title": "Escalation path",
+    "words": 142
+   },
+   {
+    "title": "Report destinations",
+    "words": 147
+   },
+   {
+    "title": "The spirit of Addams",
+    "words": 261
+   }
+  ],
+  "commands": [
+   {
+    "name": "/onboard",
+    "desc": "First-time setup: profile, project intake, goal-setting, tool assessment"
+   },
+   {
+    "name": "/hai",
+    "desc": "Weekly report (required every week)"
+   },
+   {
+    "name": "/substack",
+    "desc": "Draft weekly Substack article"
+   },
+   {
+    "name": "/artifact",
+    "desc": "Plan and document weekly Claude artifact"
+   },
+   {
+    "name": "/addams",
+    "desc": "Compile renewal request report (requires all weekly reports)"
+   },
+   {
+    "name": "/hours",
+    "desc": "Hours reconstruction"
+   },
+   {
+    "name": "/struggle",
+    "desc": "Document a failure or blocker properly"
+   },
+   {
+    "name": "/nextsteps",
+    "desc": "Generate accountable next steps"
+   },
+   {
+    "name": "/compliance",
+    "desc": "OPT compliance audit"
+   },
+   {
+    "name": "/tier",
+    "desc": "Build the tier justification argument for a specific activity"
+   },
+   {
+    "name": "/v1",
+    "desc": "Ada project design commands"
+   },
+   {
+    "name": "/list",
+    "desc": "Full command reference table"
+   },
+   {
+    "name": "/help",
+    "desc": "Welcome menu"
+   }
+  ],
+  "phases": [],
+  "rules": null,
+  "extraFiles": [],
+  "sha256": "49724fd48c9511a27fbdac29b78584f9f3804f564427dedda6086b45de29b08b",
+  "changed": "2026-08-09",
+  "derivedFrom": [
+   {
+    "repo": "nikbearbrown/bear-brown-tools",
+    "path": "skills/volunteer-learning-journal/SKILL.md",
+    "commit": "d976664",
+    "sha256": "49724fd48c9511a27fbdac29b78584f9f3804f564427dedda6086b45de29b08b",
+    "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/volunteer-learning-journal"
+   }
+  ],
+  "verbatim": true,
+  "note": null,
+  "audit": []
+ }
+]

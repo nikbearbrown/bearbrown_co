@@ -30,6 +30,8 @@ A curated Claude plugin/skill directory — a few dozen entries that earned thei
 | `/corpus` | **CORPUS** — what the corpus is (definition card at the top), then the method: gate sequence, checks, what is not assessed. Was `/criteria`; that URL redirects here. Carries **no counts** by design — they belong on `/directory` |
 | `/corpus/workflows` | Workflow-component criteria. Was `/criteria/workflows`; redirected |
 | `/plugins/[slug]` | **Verdict page** — what it is, tier WITH RECEIPTS (sha, date, each check), install command with copy button, repo link |
+| `/skills` | **SKILLS** — Bear Brown's own skills, searchable (Fuse.js, kind and job filters). 46 from `bear-brown-tools` at launch (2026-10-20). Separate from the audited third-party directory at `/claude/skills` |
+| `/skills/[slug]` | One skill: what it does, what's inside, commands, rules, the full text, install tabs, and a "where this came from" citation. `/skills/[slug]/skill.md` serves the raw text |
 | `/consulting` | **Consulting** — the manifesto (Bear Brown Method, The Belief, Three Ways to Work, method TOC). Was the old home. |
 | `/talent` | **Talent** — the year-long big-tech job search, the graduates stuck inside it, the people who need software built, and Bear as the connector. Two lanes (Open $35/hr, Bespoke $200+/hr). No placement fee, no non-solicit. |
 | `/essays` | **Essays** — surface for the five Substack publications |
@@ -50,7 +52,7 @@ A curated Claude plugin/skill directory — a few dozen entries that earned thei
 ## Persistent layout
 
 ### Header (`/components/Header/Header.tsx`)
-Primary nav: **AI** (`/ai`) | **Claude ▾** (`/directory`) | **Consulting** (`/consulting`) | **Corpus** (`/corpus`) | **Talent** (`/talent`). There is no Home item (2026-10-17): the "Bear Brown" wordmark on the left links to `/`.
+Primary nav, **alphabetical (Bear, 2026-10-20 — keep it that way when adding items)**: **Agents** (`/agents`) | **AI** (`/ai`) | **Claude ▾** (`/directory`) | **Consulting** (`/consulting`) | **Corpus** (`/corpus`) | **Skills** (`/skills`) | **Talent** (`/talent`). There is no Home item (2026-10-17): the "Bear Brown" wordmark on the left links to `/`.
 The Claude ▾ dropdown (`CLAUDE_MENU`) lists Plugins (`/directory`) plus the eleven component-type pages and Roll your own. `isClaudeSection` marks the trigger active across `/directory`, `/claude/*`, `/plugins/*` and `/roll-your-own`.
 The home page duplicates `CLAUDE_MENU` in `app/page.tsx` — **keep the two lists in sync.**
 Right: GitHub, YouTube, Substack pills · ThemeToggle · mobile hamburger
@@ -363,3 +365,22 @@ The approved Liam walkthrough is published at https://www.youtube.com/watch?v=1m
 The repository is now `nikbearbrown/Agents`. `/agents` searches 1,877 agent packages (1,876 collected sources plus the separately authored Lectern package); `/agents/[slug]` is the implementation-neutral agent page. It links the Mermaid graph, specification, implementation matrix, assistant build/operate prompts and evidence. Existing `/agents/n8n/[slug]` pages remain n8n implementation inspectors, with stable JSON download URLs. Their GitHub links now point into `agents/<slug>/implementations/n8n/`.
 
 `data/agents/catalog.json` and `data/agents/details.json` are generated from the public repository agent manifests. Keep the n8n catalog/detail files as the preserved implementation data, not a second agent count. `MermaidDiagram.tsx` uses strict security, encoded source labels and an accessible source fallback. Planned ports never appear as available implementations in the filter. All generated specs are source-derived drafts unless reviewed; do not imply that port plans, prompt files or Mermaid diagrams are execution evidence. No product capability or subscription access is promised by assistant-specific prompts.
+
+
+## Skills library (2026-10-20)
+
+`/skills` is the **Bear Brown versions** of skills. Plan (Bear): step 1 ships the 46 skills from `bear-brown-tools/skills/`; step 2 goes through what the Hetzner auditor pulled down, keeps only the *generally useful* skills (no count target), merges duplicate families (clones of clones) and **audits and rewrites** each into one canonical Bear Brown skill. Skill text on the site need not be verbatim, but **every skill must cite what it was derived from** (all sources, for a merge) and must say when it is a rewrite. Third-party skills stay findable in the audited directory (`/claude/skills`).
+
+```bash
+node scripts/skills/ingest.mjs            # from bearbrown_co/; reads ../bear-brown-tools/skills
+#   writes data/skills/catalog.json and copies each SKILL.md to content/skills/<slug>/SKILL.md (verbatim)
+npx next build                            # then commit data/skills, content/skills
+```
+
+- `data/skills/meta.json` is hand-written (job, persona, `pairs` = related skills, `agents` = related agent slugs, `derivedFrom`, `authored`, `note`). The script never overwrites it.
+- **An authored skill** (`"authored": true` in meta) is one Bear rewrote or merged: edit `content/skills/<slug>/SKILL.md` by hand, list every source in `derivedFrom`, add a `note` saying what changed. The script leaves its text alone and the page shows "Bear Brown's rewrite" instead of "exactly as it appears in its source".
+- Derived from the text by the script, never invented: sections (word counts), slash commands (+ one-line description where the text has one), phase headings, rule lists, and `audit` flags (no use-when sentence, very long body, commands mostly undescribed). `audit` is for the rewrite queue and is not shown on the site.
+- Kind: `voice` for `tone-*`, `commands` when 3+ commands were found, else `protocol`. Start command: `/help` when the text mentions it.
+- Agents cross-links are deliberate and few (two so far: newsletter-writer, profile-interview). The Agents pages do not link back to skills yet.
+- Do not call these audited: the status box says "Not audited" until a skill has gone through the auditor pipeline.
+- Install tabs repeat the bear-brown-tools README steps (Claude Code, Claude.ai Settings → Skills, paste anywhere); there is no API tab until someone verifies one.
