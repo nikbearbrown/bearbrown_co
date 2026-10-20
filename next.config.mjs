@@ -16,6 +16,7 @@ const nextConfig = {
   async redirects() {
     return [
       ...Object.entries(n8nAliases).flatMap(([oldSlug, slug]) => [
+        { source: `/agents/${oldSlug}`, destination: `/agents/${slug}`, permanent: true },
         { source: `/agents/n8n/${oldSlug}`, destination: `/agents/n8n/${slug}`, permanent: true },
         { source: `/n8n/workflows/${oldSlug}.json`, destination: `/n8n/workflows/${slug}.json`, permanent: true },
       ]),

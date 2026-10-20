@@ -19,7 +19,7 @@ const serif = 'var(--font-serif)'
 
 /* One card per item in the primary menu. */
 const MENU_CARDS = [
-  { name: 'Agents', href: '/agents', Icon: Boxes, heading: 'The workflow library', body: 'Search documented n8n workflows, inspect their connections and setup requirements, and download a starting point to configure and test.', cta: 'Explore N8N workflows' },
+  { name: 'Agents', href: '/agents', Icon: Boxes, heading: 'One purpose, many implementations', body: 'Explore shared agent designs, inspect n8n sources, and find implementation plans and assistant prompts for building in other forms.', cta: 'Explore agents' },
   {
     name: 'Claude',
     href: '/directory',

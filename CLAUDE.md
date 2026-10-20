@@ -356,3 +356,10 @@ The Liam repository explainer will link to https://www.bearbrown.co/agents and s
 The published n8n catalog now has 1,876 entries after consolidating 24 pairs whose executable graphs match after horizontal-whitespace normalization inside strings. This is family-level consolidation, not runtime equivalence. `data/n8n/aliases.json` records retired slugs; `next.config.mjs` permanently redirects both old detail URLs and JSON download URLs. Preserve these aliases on future refreshes. Retained JSON files are unchanged; both source/license records are in the public repository consolidation manifest.
 
 The approved Liam walkthrough is published at https://www.youtube.com/watch?v=1mtH871u8bM in the Agentic AI playlist (PLH5UELa_jheA) and embedded on `/agents` using youtube-nocookie.com. The 6:03 native-4K film records the earlier 1,900-entry catalog; both the page and YouTube description explain the later consolidation. Keep the existing How to AI playlist feed separate.
+
+
+## Generic Agents migration (2026-10-20)
+
+The repository is now `nikbearbrown/Agents`. `/agents` searches 1,877 agent packages (1,876 collected sources plus the separately authored Lectern package); `/agents/[slug]` is the implementation-neutral agent page. It links the Mermaid graph, specification, implementation matrix, assistant build/operate prompts and evidence. Existing `/agents/n8n/[slug]` pages remain n8n implementation inspectors, with stable JSON download URLs. Their GitHub links now point into `agents/<slug>/implementations/n8n/`.
+
+`data/agents/catalog.json` and `data/agents/details.json` are generated from the public repository agent manifests. Keep the n8n catalog/detail files as the preserved implementation data, not a second agent count. `MermaidDiagram.tsx` uses strict security, encoded source labels and an accessible source fallback. Planned ports never appear as available implementations in the filter. All generated specs are source-derived drafts unless reviewed; do not imply that port plans, prompt files or Mermaid diagrams are execution evidence. No product capability or subscription access is promised by assistant-specific prompts.

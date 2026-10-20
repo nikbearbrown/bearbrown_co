@@ -5,6 +5,7 @@ import details from '@/data/n8n/details.json'
 export type WorkflowEntry = {
   slug: string; title: string; description: string; nodeCount: number
   integrations: string[]; category: string; license: string; file: string
+  implementations?: { id: string; label: string; status: string }[]
 }
 export type WorkflowNode = { id: string; name: string; type: string; position: number[]; note: string; sticky: boolean; operation: string }
 export type WorkflowDetail = {
@@ -20,4 +21,4 @@ export function getWorkflowDetail(slug: string): WorkflowDetail | undefined {
   const detail = (details as Record<string, WorkflowDetail>)[slug]
   return { ...detail, nodes: detail.nodes.map(node => ({ ...node, type: formatN8nLabel(node.type) })) }
 }
-export const repositoryUrl = 'https://github.com/nikbearbrown/N8N'
+export const repositoryUrl = 'https://github.com/nikbearbrown/Agents'
