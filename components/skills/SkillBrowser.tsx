@@ -6,7 +6,7 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import Fuse from 'fuse.js'
 import { Search, ArrowUpRight, X } from 'lucide-react'
 import SkillShape from './SkillShape'
-import { KIND_LABEL, type SkillCard, type SkillKind } from '@/lib/skill-catalog'
+import { KIND_LABEL, type SkillCard, type SkillKind } from '@/lib/skill-meta'
 
 const KINDS: SkillKind[] = ['commands', 'protocol', 'voice']
 

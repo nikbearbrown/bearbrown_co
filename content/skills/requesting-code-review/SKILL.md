@@ -47,7 +47,7 @@ A review that is only "looks good" is not a review. Send it back.
 
 **4. Add a security pass when the change touches it.** If the diff touches authentication or authorization, input validation or output encoding, endpoints handling user data, secrets or credentials, cryptography or tokens, or deployment and CI configuration, the review must also cover: injection (SQL, script, command), broken access control, session and token handling, secrets in code or logs, vulnerable dependencies, and error messages that leak detail. Critical and High security findings block the merge until fixed, or until the user accepts the risk in writing.
 
-For changes with tricky logic (concurrency, state machines, retry or rollback paths, data pipelines), also ask for an adversarial pass: concrete inputs, orderings and states that break it, rather than a checklist.
+For changes with tricky logic (concurrency, state machines, retry or rollback paths, data pipelines), also ask for an adversarial pass: concrete inputs, orderings and states that break it, rather than a checklist. Where a miss would be costly, ask for more than one independent review; `performing-code-review` explains how to hand them the same range and reconcile what they return.
 
 ## Severity
 

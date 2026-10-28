@@ -373,14 +373,16 @@
   "pairs": [
    "systematic-debugging",
    "requesting-code-review",
-   "receiving-code-review"
+   "receiving-code-review",
+   "verification-before-completion"
   ]
  },
  "systematic-debugging": {
   "job": "Software & games",
   "pairs": [
    "test-driven-development",
-   "dispatching-parallel-agents"
+   "dispatching-parallel-agents",
+   "verification-before-completion"
   ]
  },
  "requesting-code-review": {
@@ -388,21 +390,174 @@
   "pairs": [
    "receiving-code-review",
    "test-driven-development",
-   "dispatching-parallel-agents"
+   "dispatching-parallel-agents",
+   "performing-code-review"
   ]
  },
  "receiving-code-review": {
   "job": "Software & games",
   "pairs": [
    "requesting-code-review",
-   "test-driven-development"
+   "test-driven-development",
+   "performing-code-review"
   ]
  },
  "dispatching-parallel-agents": {
   "job": "Software & games",
   "pairs": [
    "systematic-debugging",
-   "requesting-code-review"
+   "requesting-code-review",
+   "subagent-driven-development"
   ]
+ },
+ "brainstorming": {
+  "job": "Planning",
+  "pairs": [
+   "writing-plans",
+   "grilling",
+   "to-spec"
+  ]
+ },
+ "writing-plans": {
+  "job": "Planning",
+  "pairs": [
+   "executing-plans",
+   "brainstorming",
+   "subagent-driven-development"
+  ]
+ },
+ "executing-plans": {
+  "job": "Planning",
+  "pairs": [
+   "writing-plans",
+   "subagent-driven-development",
+   "verification-before-completion"
+  ]
+ },
+ "subagent-driven-development": {
+  "job": "Software & games",
+  "pairs": [
+   "dispatching-parallel-agents",
+   "requesting-code-review",
+   "executing-plans"
+  ]
+ },
+ "verification-before-completion": {
+  "job": "Software & games",
+  "pairs": [
+   "test-driven-development",
+   "self-review-before-submitting",
+   "finishing-a-development-branch"
+  ]
+ },
+ "using-git-worktrees": {
+  "job": "Software & games",
+  "pairs": [
+   "finishing-a-development-branch",
+   "resolving-merge-conflicts"
+  ]
+ },
+ "finishing-a-development-branch": {
+  "job": "Software & games",
+  "pairs": [
+   "using-git-worktrees",
+   "resolving-merge-conflicts",
+   "verification-before-completion"
+  ]
+ },
+ "resolving-merge-conflicts": {
+  "job": "Software & games",
+  "pairs": [
+   "finishing-a-development-branch",
+   "using-git-worktrees"
+  ]
+ },
+ "performing-code-review": {
+  "job": "Software & games",
+  "pairs": [
+   "requesting-code-review",
+   "receiving-code-review",
+   "self-review-before-submitting"
+  ]
+ },
+ "self-review-before-submitting": {
+  "job": "Software & games",
+  "pairs": [
+   "performing-code-review",
+   "verification-before-completion",
+   "test-driven-development"
+  ]
+ },
+ "domain-modeling": {
+  "job": "Software & games",
+  "pairs": [
+   "domain-model-design",
+   "grilling",
+   "codebase-design"
+  ]
+ },
+ "domain-model-design": {
+  "job": "Software & games",
+  "pairs": [
+   "domain-modeling",
+   "codebase-design"
+  ]
+ },
+ "codebase-design": {
+  "job": "Software & games",
+  "pairs": [
+   "improve-codebase-architecture",
+   "domain-modeling",
+   "prototype"
+  ]
+ },
+ "improve-codebase-architecture": {
+  "job": "Software & games",
+  "pairs": [
+   "codebase-design",
+   "domain-modeling"
+  ]
+ },
+ "prototype": {
+  "job": "Software & games",
+  "pairs": [
+   "brainstorming",
+   "codebase-design",
+   "to-spec"
+  ]
+ },
+ "handoff": {
+  "job": "Planning",
+  "pairs": [
+   "executing-plans",
+   "writing-plans"
+  ]
+ },
+ "grilling": {
+  "job": "Planning",
+  "pairs": [
+   "brainstorming",
+   "to-spec",
+   "domain-modeling"
+  ]
+ },
+ "to-spec": {
+  "job": "Planning",
+  "pairs": [
+   "grilling",
+   "brainstorming",
+   "writing-plans"
+  ]
+ },
+ "research": {
+  "job": "Research",
+  "pairs": [
+   "brainstorming",
+   "to-spec"
+  ]
+ },
+ "writing-skills": {
+  "job": "Writing",
+  "pairs": []
  }
 }

@@ -181,7 +181,7 @@ Every one of these means the same thing: set the code-first work aside, return t
 
 ## Before you say it is done
 
-Claim completion only with fresh evidence from this turn:
+Claim completion only with fresh evidence from this turn (`verification-before-completion` covers the rule in full):
 
 | Claim | What actually proves it |
 |---|---|
