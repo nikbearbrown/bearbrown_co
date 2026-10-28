@@ -388,3 +388,25 @@ npx next build                            # then commit data/skills, content/ski
 - Agents cross-links are deliberate and few (two so far: newsletter-writer, profile-interview). The Agents pages do not link back to skills yet.
 - Do not call these audited: the status box says "Not audited" until a skill has gone through the auditor pipeline.
 - Install tabs repeat the bear-brown-tools README steps (Claude Code, Claude.ai Settings → Skills, paste anywhere); there is no API tab until someone verifies one.
+
+
+## Agent diagram zoom (2026-10-28)
+
+`components/agents/MermaidDiagram.tsx` (the diagram on `/agents/[slug]`) is zoomable: −/+ buttons with a % readout, Fit diagram, Readable size, Ctrl/⌘+wheel or trackpad pinch (zooms about the cursor), drag to pan, and `+`/`-`/`0` keys when focused. Zoom is a width multiplier (0.5x–10x of fit) on the rendered SVG inside the scroll box; touch devices pan by native scroll. `WorkflowPreview.tsx` (n8n inspector pages) already had its own zoom. Uncommitted, not pushed.
+
+`notes/goal-engineering.md` holds Bear's 2026-10-28 draft notes on goals, measurement and reward shaping. Draft, unpublished; placement on the site undecided.
+
+
+## Agent loop patterns (2026-10-28)
+
+`/agents/loops` (`app/agents/loops/page.tsx`, data in `lib/agent-loop-patterns.ts`) is a draft taxonomy of 11 common agent loops (ReAct, plan-execute, critique-revise, program-verified, retry, human gate, batch/poll, orchestrator-workers, router, memory, outer improvement), each with a zoomable Mermaid diagram and five descriptors: what iterates, what is fed back, what stops it, who judges, typical failure. It claims NO prevalence: Bear's video says 7,000 loops were compared, but no count from this repo backs that. Linked from a section on `/agents` (above the library); uncommitted, unpushed.
+Opens with a 'Reasoning is a plan, and plans loop' section (plan shown before long work; diagram vs to-do list; loops = repeat until a step is done).
+Also has 'Not every loop can run by itself' (quality-vs-iterations curve; full automation only when every step has a checkable good/bad).
+
+`/agents/loops` also opens with a "Nobody draws it the same way" gallery: 26 paradigm cards (`lib/agent-paradigms.ts`) in Bear's card template (diagram, plain-language quote, one-line description, source tag). Only the Anthropic essay was read in full; the rest are labelled "described from search summaries". `MermaidDiagram` has a `compact` prop for card diagrams. Gap list on the page now: MCP-style tool protocols, evaluation loops, RL-trained agents.
+The 'Reasoning is a plan' section defines effort mainly as willingness to replan midstream (high effort changes a failing plan; low rarely does), with a replan diagram, plus step count and repeats.
+
+
+## Loop Library snapshot (2026-10-28)
+
+`data/agents/loop-library/` holds a snapshot of the Forward Future Loop Library (https://signals.forwardfuture.com/loop-library/, code github.com/Forward-Future/loopy, MIT): `catalog.json` (85 loops, fetched 2026-10-28; the catalog's own `updated` is 2026-07-07), the MIT `LICENSE`, `SOURCE.md`, and `patterns.json` (OUR hand-sorted meta-patterns + approximate keyword counts; partial reading, labelled as such). Loops keep their named contributors (many are Matthew Berman's); link to each loop's `url`, never present them as our own. `/agents/loops` has a "Loop engineering is finding the loop that fits" section (Bear: choosing the loop is an inherently human problem; unbounded loops, so human intuition picks the likely fits) and a "What 85 published loops show" section. Do not hand-edit `catalog.json`; re-fetch. Nothing committed or pushed. `data/agents/catalog.json` and `details.json` remain generated from the Agents repo; this folder is separate.

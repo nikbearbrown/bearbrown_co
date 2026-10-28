@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { Suspense } from 'react'
 import WorkflowBrowser from '@/components/agents/WorkflowBrowser'
 import { agents, repositoryUrl } from '@/lib/agent-catalog'
@@ -21,6 +22,12 @@ export default function AgentsPage() {
         </div>
         <p className="mt-3 text-sm" style={{ color: 'var(--p-ink-soft)' }}>6-minute walkthrough · Native 4K master · AI narration. Filmed before the catalog was consolidated from 1,900 to 1,876 workflows.</p>
         <a className="mt-3 inline-block text-sm underline underline-offset-4" href="https://www.youtube.com/playlist?list=PLH5UELa_jheA" target="_blank" rel="noopener noreferrer">Watch the Agentic AI playlist ↗</a>
+      </section>
+      <section aria-labelledby="loops-heading" className="mb-14 max-w-4xl">
+        <p className="mb-2 text-xs uppercase tracking-widest" style={{ color: 'var(--p-ink-soft)' }}>Patterns · Draft</p>
+        <h2 id="loops-heading" className="mb-3 text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>Agent loop patterns</h2>
+        <p className="mb-3 leading-relaxed" style={{ color: 'var(--p-ink-soft)' }}>Nobody draws an agent loop the same way. Eleven common loop shapes, compared by what iterates, what is fed back, what stops it and who judges.</p>
+        <Link href="/agents/loops" className="text-sm underline underline-offset-4">Read the loop patterns →</Link>
       </section>
       <span id="n8n" /><section aria-labelledby="library-heading" id="library">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-5 border-b pb-6" style={{ borderColor: 'var(--p-border-strong)' }}><div><p className="mb-2 text-xs uppercase tracking-widest" style={{ color: 'var(--p-ink-soft)' }}>Agent library</p><h2 id="library-heading" className="text-4xl" style={{ fontFamily: 'var(--font-serif)' }}>Agents <span className="ml-2 text-xl" style={{ color: 'var(--p-ink-soft)' }}>{agents.length.toLocaleString()} agents</span></h2></div><a href={repositoryUrl} target="_blank" rel="noopener noreferrer" className="rounded border px-4 py-2 text-sm" style={{ borderColor: 'var(--p-border-strong)' }}>Browse the GitHub repository ↗</a></div>

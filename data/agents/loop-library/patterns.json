@@ -1,0 +1,191 @@
+{
+ "method": "Keyword counts are regular-expression matches over each loop's prompt, verification, steps, why and note; they are approximate and over/under-count. Pattern assignments were made by hand from reading each loop's title, verification line and the first ~260 characters of its prompt, not the full text of every loop. A loop can belong to several patterns. Source catalog: Forward Future Loop Library, fetched 2026-10-28, 85 loops.",
+ "loopCount": 85,
+ "keywordCounts": [
+  {
+   "key": "measure_rerun",
+   "label": "Re-measures with the same check",
+   "count": 38
+  },
+  {
+   "key": "one_change",
+   "label": "Changes one thing at a time",
+   "count": 25
+  },
+  {
+   "key": "keep_if_better",
+   "label": "Keeps a change only if it helps",
+   "count": 31
+  },
+  {
+   "key": "independent_reviewer",
+   "label": "Uses an independent reviewer or critic",
+   "count": 19
+  },
+  {
+   "key": "fresh_state",
+   "label": "Tests from a clean or held-out state",
+   "count": 7
+  },
+  {
+   "key": "budget",
+   "label": "Names a budget, pass limit or cap",
+   "count": 40
+  },
+  {
+   "key": "stop",
+   "label": "States a stop condition",
+   "count": 78
+  },
+  {
+   "key": "human_gate",
+   "label": "Mentions approval, a question to the user, or handing back",
+   "count": 51
+  },
+  {
+   "key": "state_file",
+   "label": "Keeps a state file, ledger or log",
+   "count": 30
+  },
+  {
+   "key": "trigger",
+   "label": "Runs on a schedule or trigger",
+   "count": 12
+  },
+  {
+   "key": "program_check",
+   "label": "Names a program-run check (tests, build, scan, benchmark)",
+   "count": 59
+  }
+ ],
+ "patterns": [
+  {
+   "id": "ratchet",
+   "name": "Ratchet",
+   "summary": "Measure, change one thing, measure again with the same check, keep it only if it helped.",
+   "loops": [
+    "003",
+    "005",
+    "011",
+    "029",
+    "037",
+    "038",
+    "054",
+    "065",
+    "067",
+    "080",
+    "023"
+   ]
+  },
+  {
+   "id": "ledger",
+   "name": "Inventory and ledger",
+   "summary": "List every item in scope, then label each with its evidence status. Done when no item lacks a status.",
+   "loops": [
+    "010",
+    "032",
+    "048",
+    "058",
+    "062",
+    "064",
+    "072",
+    "076"
+   ]
+  },
+  {
+   "id": "pair",
+   "name": "Builder and independent reviewer",
+   "summary": "One session or model makes the change; a separate one checks it, ideally from a different model family or a clean context.",
+   "loops": [
+    "019",
+    "020",
+    "024",
+    "027",
+    "034",
+    "043",
+    "075",
+    "082"
+   ]
+  },
+  {
+   "id": "streak",
+   "name": "Streak",
+   "summary": "Success must repeat N times in a row; any failure resets the count.",
+   "loops": [
+    "009",
+    "044"
+   ]
+  },
+  {
+   "id": "clean-room",
+   "name": "Clean-room replay",
+   "summary": "Start from a fresh clone, session or restored backup and follow only the documented steps.",
+   "loops": [
+    "025",
+    "036",
+    "039",
+    "049"
+   ]
+  },
+  {
+   "id": "scheduled",
+   "name": "Scheduled sweep",
+   "summary": "A timer or event wakes the loop; with nothing to do, it stops without changes.",
+   "loops": [
+    "001",
+    "004",
+    "008",
+    "018",
+    "030",
+    "047",
+    "077"
+   ]
+  },
+  {
+   "id": "handoff",
+   "name": "State file and handoff",
+   "summary": "State lives in a file, so a new session can resume without guessing.",
+   "loops": [
+    "002",
+    "027",
+    "047",
+    "055",
+    "066",
+    "081"
+   ]
+  },
+  {
+   "id": "approval",
+   "name": "Approval gate",
+   "summary": "The loop must ask before outside actions or when judgment is needed.",
+   "loops": [
+    "051",
+    "059",
+    "060",
+    "084"
+   ]
+  },
+  {
+   "id": "meta",
+   "name": "Loops about loops",
+   "summary": "The loop examines, mines or hires other loops, or writes the plan for a long run.",
+   "loops": [
+    "035",
+    "045",
+    "046",
+    "055",
+    "057",
+    "058"
+   ]
+  },
+  {
+   "id": "terminal",
+   "name": "Persist to an external finish",
+   "summary": "Keep following up until the outside world reaches a terminal state, or a real blocker needs the person.",
+   "loops": [
+    "017",
+    "050"
+   ]
+  }
+ ]
+}
