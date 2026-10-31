@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { name: 'Consulting', href: '/consulting' },
   { name: 'Corpus',     href: '/corpus' },
   { name: 'Skills',     href: '/skills' },
+  { name: 'Startups',   href: '/startups' },
   { name: 'Talent',     href: '/talent' },
 ]
 
