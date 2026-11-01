@@ -1,6 +1,6 @@
 # Bay Area AI startup map
 
-Route: `/startups`. The canonical company dataset is `public/data/startups/companies.json`, also served directly as the complete evidence download. The map and CSV export use this same file. Run `node scripts/startups/validate.mjs` before publishing an update.
+Earlier study route: `/startups/bay-area`. The U.S. atlas now lives at `/startups`; see `NATIONAL.md`. The canonical company dataset is `public/data/startups/companies.json`, also served directly as the complete evidence download. The map and CSV export use this same file. Run `node scripts/startups/validate.mjs` before publishing an update.
 
 This first edition is a curated collection of 12 sourced companies, checked 2026-10-31. Ema and Sierra have city and product category corroborated against independent reporting plus company sources. The other ten are explicitly labeled **independent confirmation pending**, in each collapsed card and its evidence panel. Source review is not independent verification. It is not a census, an automated classification benchmark, or an endorsement. Eight task-performing agent products and four builders/infrastructure providers are separate classifications. Website domains identify companies. City reference points are in `lib/startup-map.ts`; they are not company coordinates. All company latitude/longitude fields remain null.
 

@@ -1,36 +1,33 @@
 import type { Metadata } from 'next'
-import StartupMap from '@/components/startups/StartupMap'
-import { startupMeta } from '@/lib/startup-map'
+import NationalStartupMap from '@/components/startups/NationalStartupMap'
 import './startups.css'
+import './national.css'
 
 export const metadata: Metadata = {
-  title: 'Bay Area AI Startup Map | Bear Brown & Co.',
-  description: 'Explore a sourced D3 map of Bay Area AI agent startups. City-level counts, product evidence, activity checks, and downloadable research.',
+  title: 'U.S. Startup Atlas | Bear Brown & Co.',
+  description: 'Explore U.S. startup discovery by state, with source evidence and separate SEC fundraising research layers. AI and hiring review are pending.',
   alternates: { canonical: 'https://www.bearbrown.co/startups' },
 }
 
 export default function StartupsPage() {
-  return <div className="startup-atlas">
+  return <div className="startup-atlas national-atlas">
     <header className="atlas-intro">
-      <div className="atlas-kicker">FIELD NOTES / 001 <span>BAY AREA · CALIFORNIA</span></div>
-      <div className="atlas-title-row">
-        <div><h1>Where agents<br /><em>are being built.</em></h1>
-          <p className="atlas-deck">An AI startup map with the evidence left in. Explore the companies building agents that do work, and the tools that make them possible.</p>
-        </div>
-        <div className="atlas-edition"><span className="atlas-status">● RESEARCH SNAPSHOT</span><strong>31 October 2026</strong><p>A curated starting collection.<br />Every circle is a city, not an office.</p><a href="#method">Read the method ↗</a></div>
-      </div>
-      <p className="atlas-definition"><strong>What counts as an agent?</strong> A primary product that carries out multistep tasks through tools or computer interfaces, according to its own website. Builders and infrastructure form a separate layer.</p>
+      <div className="atlas-kicker">FIELD NOTES / 002 <span>UNITED STATES · 50 STATES + DC</span></div>
+      <div className="atlas-title-row"><div><h1>Find the next<br /><em>place to build.</em></h1>
+        <p className="atlas-deck">A startup atlas for finding where AI skills could matter. First, find the companies. Then follow the evidence in their products and job postings.</p></div>
+        <div className="atlas-edition"><span className="atlas-status">● DISCOVERY EDITION</span><strong>1 November 2026</strong><p>Source-backed geography.<br />AI and hiring review pending.</p><a href="#method">Read the method ↗</a></div></div>
+      <p className="atlas-definition"><strong>A starting collection, not a census.</strong> YC startup records are directory-reported. Boston research leads and SEC issuers have separate layers and have not been confirmed as active startups.</p>
     </header>
-    <StartupMap />
+    <NationalStartupMap />
     <section id="method" className="atlas-method" aria-labelledby="method-title">
-      <div><div className="atlas-kicker">READ THE MAP</div><h2 id="method-title">Precision is a promise.</h2><p>The dots belong to cities. They do not tell you where a company rents an office. A bigger circle means more companies in this collection, not a denser neighborhood.</p><a href="/data/startups/companies.json" download>Download the complete evidence · JSON ↗</a></div>
+      <div><div className="atlas-kicker">READ THE MAP</div><h2 id="method-title">Evidence before labels.</h2><p>Every shape is a state. No dot claims to be a company office. A blank state means no records in this collection, not no startups.</p><a href="/startups/bay-area">Explore the earlier Bay Area evidence study ↗</a><p><a href="/data/startups/national.json" download>Download directory & coverage · JSON ↗</a></p></div>
       <div className="atlas-method-grid">
-        <article><h3>01 / A bounded collection</h3><p>{startupMeta.scope} Discovery used the public YC directory and company sites; there is no paid database export behind this edition. Missing cities do not mean there are no startups there.</p></article>
-        <article><h3>02 / Independent verification</h3><p>{startupMeta.verification_policy} {startupMeta.review_method} “Source-reviewed” means the cited pages were inspected; it is not a certification of product performance, office occupancy, or corporate status. Confidence labels describe the clarity of the cited product claim.</p></article>
-        <article><h3>03 / Location without invention</h3><p>{startupMeta.location_policy} For future address work, inspect the latest Form D, then DataSF, then a company office or job address. Validate that it is an operating location, not a registered agent or home, before pinning it.</p></article>
-        <article><h3>04 / Activity has an expiry</h3><p>{startupMeta.activity_policy} All websites and sources were checked on {startupMeta.as_of}. Recheck sources before relying on a company’s location or hiring status.</p></article>
+        <article><h3>01 / A U.S. foundation</h3><p>The existing YC discovery snapshot supplies companies marked active, for profit, and in the United States. This is a community mirror of directory information, checked on 31 October 2026; activity and locations need independent confirmation. Boston leads retain their original source evidence. Exact, unambiguous website-domain matches combine records; shared domains are flagged for review.</p></article>
+        <article><h3>02 / Filings are leads</h3><p>Form D covers exempt securities offerings. Form C covers crowdfunding offerings, including ordinary small businesses. The SEC layers count unique primary issuers with a latest filing since January 2024, through September 2026. Funds, ambiguous vehicles, real-estate categories, and withdrawn or reporting-terminated Form C records are held out. These filters do not establish startup status, current activity or final money raised. CIK overlap across forms is not added together.</p></article>
+        <article><h3>03 / Location has limits</h3><p>Directory records are grouped by reported state, including multiple states where listed. Boston affiliation is not proof of an office. SEC states come from issuer addresses, never related-person addresses; those may still be mailing or registered-agent locations. State counts may include a company in more than one state. U.S. territories are outside this initial map.</p></article>
+        <article><h3>04 / AI review comes next</h3><p>No new AI classification or hiring inference has been made. The next pass will attach dated product and job evidence to “primarily AI” or “uses AI skills.” “No AI evidence” will describe a reviewed scope, never prove a company has no AI. Unreviewed companies remain unknown. Employer matching must resolve domains and legal names before linking job archives.</p></article>
       </div>
-      <div className="atlas-source-line"><strong>Sources & geography</strong><a href="https://www.ycombinator.com/companies">YC directory</a><a href="https://github.com/yc-oss/api">yc-oss discovery data</a><a href="https://www.naturalearthdata.com/about/terms-of-use/">Natural Earth land · public domain</a><span>D3 geographic projection · city reference points are approximate</span></div>
+      <div className="atlas-source-line"><strong>Sources & geography</strong><a href="https://www.ycombinator.com/companies">YC directory</a><a href="https://github.com/yc-oss/api">YC discovery mirror</a><a href="https://www.sec.gov/data-research/sec-markets-data/form-d-data-sets">SEC Form D</a><a href="https://www.sec.gov/data-research/sec-markets-data/crowdfunding-offerings-data-sets">SEC Form C</a><a href="https://www.naturalearthdata.com/about/terms-of-use/">Natural Earth · public domain</a><span>D3 Albers USA · Alaska and Hawaii insets</span></div>
     </section>
   </div>
 }
