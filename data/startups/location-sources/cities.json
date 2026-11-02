@@ -1,0 +1,1619 @@
+{
+  "source": "https://download.geonames.org/export/dump/cities15000.zip",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "retrieved_on": "2026-11-02",
+  "upstream_sha256": "1d1a86cc57a641387453beae0a0f89a59cbea636143fccb17368580df23776eb",
+  "matches": {
+    "Akron|OH": {
+      "id": "5145476",
+      "name": "Akron",
+      "state": "OH",
+      "latitude": 41.08144,
+      "longitude": -81.51901,
+      "source": "https://www.geonames.org/5145476/",
+      "modified_on": "2021-08-01"
+    },
+    "Alameda|CA": {
+      "id": "5322737",
+      "name": "Alameda",
+      "state": "CA",
+      "latitude": 37.77099,
+      "longitude": -122.26087,
+      "source": "https://www.geonames.org/5322737/",
+      "modified_on": "2020-01-14"
+    },
+    "Albany|NY": {
+      "id": "5106834",
+      "name": "Albany",
+      "state": "NY",
+      "latitude": 42.65258,
+      "longitude": -73.75623,
+      "source": "https://www.geonames.org/5106834/",
+      "modified_on": "2026-04-14"
+    },
+    "Alexandria|VA": {
+      "id": "4744091",
+      "name": "Alexandria",
+      "state": "VA",
+      "latitude": 38.80484,
+      "longitude": -77.04692,
+      "source": "https://www.geonames.org/4744091/",
+      "modified_on": "2024-04-01"
+    },
+    "Ann Arbor|MI": {
+      "id": "4984247",
+      "name": "Ann Arbor",
+      "state": "MI",
+      "latitude": 42.27756,
+      "longitude": -83.74088,
+      "source": "https://www.geonames.org/4984247/",
+      "modified_on": "2017-05-23"
+    },
+    "Ashburn|VA": {
+      "id": "4744870",
+      "name": "Ashburn",
+      "state": "VA",
+      "latitude": 39.04372,
+      "longitude": -77.48749,
+      "source": "https://www.geonames.org/4744870/",
+      "modified_on": "2015-03-17"
+    },
+    "Asheville|NC": {
+      "id": "4453066",
+      "name": "Asheville",
+      "state": "NC",
+      "latitude": 35.60095,
+      "longitude": -82.55402,
+      "source": "https://www.geonames.org/4453066/",
+      "modified_on": "2025-04-16"
+    },
+    "Atlanta|GA": {
+      "id": "4180439",
+      "name": "Atlanta",
+      "state": "GA",
+      "latitude": 33.749,
+      "longitude": -84.38798,
+      "source": "https://www.geonames.org/4180439/",
+      "modified_on": "2026-04-14"
+    },
+    "Austin|TX": {
+      "id": "4671654",
+      "name": "Austin",
+      "state": "TX",
+      "latitude": 30.26715,
+      "longitude": -97.74306,
+      "source": "https://www.geonames.org/4671654/",
+      "modified_on": "2026-04-14"
+    },
+    "Baltimore|MD": {
+      "id": "4347778",
+      "name": "Baltimore",
+      "state": "MD",
+      "latitude": 39.29038,
+      "longitude": -76.61219,
+      "source": "https://www.geonames.org/4347778/",
+      "modified_on": "2025-07-24"
+    },
+    "Bend|OR": {
+      "id": "5713587",
+      "name": "Bend",
+      "state": "OR",
+      "latitude": 44.05817,
+      "longitude": -121.31531,
+      "source": "https://www.geonames.org/5713587/",
+      "modified_on": "2017-03-09"
+    },
+    "Bentonville|AR": {
+      "id": "4101260",
+      "name": "Bentonville",
+      "state": "AR",
+      "latitude": 36.37285,
+      "longitude": -94.20882,
+      "source": "https://www.geonames.org/4101260/",
+      "modified_on": "2019-07-11"
+    },
+    "Berkeley|CA": {
+      "id": "5327684",
+      "name": "Berkeley",
+      "state": "CA",
+      "latitude": 37.87159,
+      "longitude": -122.27275,
+      "source": "https://www.geonames.org/5327684/",
+      "modified_on": "2019-09-05"
+    },
+    "Boston|MA": {
+      "id": "4930956",
+      "name": "Boston",
+      "state": "MA",
+      "latitude": 42.35843,
+      "longitude": -71.05977,
+      "source": "https://www.geonames.org/4930956/",
+      "modified_on": "2026-04-14"
+    },
+    "Bothell|WA": {
+      "id": "5787829",
+      "name": "Bothell",
+      "state": "WA",
+      "latitude": 47.76232,
+      "longitude": -122.2054,
+      "source": "https://www.geonames.org/5787829/",
+      "modified_on": "2026-09-16"
+    },
+    "Boulder|CO": {
+      "id": "5574991",
+      "name": "Boulder",
+      "state": "CO",
+      "latitude": 40.01499,
+      "longitude": -105.27055,
+      "source": "https://www.geonames.org/5574991/",
+      "modified_on": "2025-06-26"
+    },
+    "Brookline|MA": {
+      "id": "4931482",
+      "name": "Brookline",
+      "state": "MA",
+      "latitude": 42.33176,
+      "longitude": -71.12116,
+      "source": "https://www.geonames.org/4931482/",
+      "modified_on": "2017-05-23"
+    },
+    "Brooklyn|NY": {
+      "id": "5110302",
+      "name": "Brooklyn",
+      "state": "NY",
+      "latitude": 40.6501,
+      "longitude": -73.94958,
+      "source": "https://www.geonames.org/5110302/",
+      "modified_on": "2022-08-24"
+    },
+    "Burlingame|CA": {
+      "id": "5331920",
+      "name": "Burlingame",
+      "state": "CA",
+      "latitude": 37.5841,
+      "longitude": -122.36608,
+      "source": "https://www.geonames.org/5331920/",
+      "modified_on": "2017-03-09"
+    },
+    "Cambridge|MA": {
+      "id": "4931972",
+      "name": "Cambridge",
+      "state": "MA",
+      "latitude": 42.3751,
+      "longitude": -71.10561,
+      "source": "https://www.geonames.org/4931972/",
+      "modified_on": "2019-09-05"
+    },
+    "Campbell|CA": {
+      "id": "5333689",
+      "name": "Campbell",
+      "state": "CA",
+      "latitude": 37.28717,
+      "longitude": -121.94996,
+      "source": "https://www.geonames.org/5333689/",
+      "modified_on": "2021-11-17"
+    },
+    "Carlsbad|CA": {
+      "id": "5334223",
+      "name": "Carlsbad",
+      "state": "CA",
+      "latitude": 33.15809,
+      "longitude": -117.35059,
+      "source": "https://www.geonames.org/5334223/",
+      "modified_on": "2021-12-21"
+    },
+    "Carmel|IN": {
+      "id": "4255466",
+      "name": "Carmel",
+      "state": "IN",
+      "latitude": 39.97837,
+      "longitude": -86.11804,
+      "source": "https://www.geonames.org/4255466/",
+      "modified_on": "2017-05-23"
+    },
+    "Champaign|IL": {
+      "id": "4887158",
+      "name": "Champaign",
+      "state": "IL",
+      "latitude": 40.11642,
+      "longitude": -88.24338,
+      "source": "https://www.geonames.org/4887158/",
+      "modified_on": "2017-05-23"
+    },
+    "Charleston|SC": {
+      "id": "4574324",
+      "name": "Charleston",
+      "state": "SC",
+      "latitude": 32.77632,
+      "longitude": -79.93275,
+      "source": "https://www.geonames.org/4574324/",
+      "modified_on": "2024-11-26"
+    },
+    "Charlotte|NC": {
+      "id": "4460243",
+      "name": "Charlotte",
+      "state": "NC",
+      "latitude": 35.22709,
+      "longitude": -80.84313,
+      "source": "https://www.geonames.org/4460243/",
+      "modified_on": "2025-06-25"
+    },
+    "Chattanooga|TN": {
+      "id": "4612862",
+      "name": "Chattanooga",
+      "state": "TN",
+      "latitude": 35.04563,
+      "longitude": -85.30968,
+      "source": "https://www.geonames.org/4612862/",
+      "modified_on": "2022-08-24"
+    },
+    "Chicago|IL": {
+      "id": "4887398",
+      "name": "Chicago",
+      "state": "IL",
+      "latitude": 41.85003,
+      "longitude": -87.65005,
+      "source": "https://www.geonames.org/4887398/",
+      "modified_on": "2025-06-21"
+    },
+    "Cincinnati|OH": {
+      "id": "4508722",
+      "name": "Cincinnati",
+      "state": "OH",
+      "latitude": 39.12711,
+      "longitude": -84.51439,
+      "source": "https://www.geonames.org/4508722/",
+      "modified_on": "2025-04-15"
+    },
+    "Cleburne|TX": {
+      "id": "4681976",
+      "name": "Cleburne",
+      "state": "TX",
+      "latitude": 32.34764,
+      "longitude": -97.38668,
+      "source": "https://www.geonames.org/4681976/",
+      "modified_on": "2026-09-16"
+    },
+    "Cleveland|OH": {
+      "id": "5150529",
+      "name": "Cleveland",
+      "state": "OH",
+      "latitude": 41.4995,
+      "longitude": -81.69541,
+      "source": "https://www.geonames.org/5150529/",
+      "modified_on": "2025-06-25"
+    },
+    "Columbia|MD": {
+      "id": "4352053",
+      "name": "Columbia",
+      "state": "MD",
+      "latitude": 39.24038,
+      "longitude": -76.83942,
+      "source": "https://www.geonames.org/4352053/",
+      "modified_on": "2011-05-14"
+    },
+    "Columbus|OH": {
+      "id": "4509177",
+      "name": "Columbus",
+      "state": "OH",
+      "latitude": 39.96118,
+      "longitude": -82.99879,
+      "source": "https://www.geonames.org/4509177/",
+      "modified_on": "2026-04-14"
+    },
+    "Culver City|CA": {
+      "id": "5341114",
+      "name": "Culver City",
+      "state": "CA",
+      "latitude": 34.02112,
+      "longitude": -118.39647,
+      "source": "https://www.geonames.org/5341114/",
+      "modified_on": "2025-03-12"
+    },
+    "Cupertino|CA": {
+      "id": "5341145",
+      "name": "Cupertino",
+      "state": "CA",
+      "latitude": 37.323,
+      "longitude": -122.03218,
+      "source": "https://www.geonames.org/5341145/",
+      "modified_on": "2021-08-05"
+    },
+    "Dallas|TX": {
+      "id": "4684888",
+      "name": "Dallas",
+      "state": "TX",
+      "latitude": 32.78306,
+      "longitude": -96.80667,
+      "source": "https://www.geonames.org/4684888/",
+      "modified_on": "2025-06-25"
+    },
+    "Davis|CA": {
+      "id": "5341704",
+      "name": "Davis",
+      "state": "CA",
+      "latitude": 38.54491,
+      "longitude": -121.74052,
+      "source": "https://www.geonames.org/5341704/",
+      "modified_on": "2019-09-19"
+    },
+    "Dayton|OH": {
+      "id": "4509884",
+      "name": "Dayton",
+      "state": "OH",
+      "latitude": 39.75895,
+      "longitude": -84.19161,
+      "source": "https://www.geonames.org/4509884/",
+      "modified_on": "2025-04-15"
+    },
+    "Denver|CO": {
+      "id": "5419384",
+      "name": "Denver",
+      "state": "CO",
+      "latitude": 39.73915,
+      "longitude": -104.9847,
+      "source": "https://www.geonames.org/5419384/",
+      "modified_on": "2026-04-14"
+    },
+    "Detroit|MI": {
+      "id": "4990729",
+      "name": "Detroit",
+      "state": "MI",
+      "latitude": 42.33143,
+      "longitude": -83.04575,
+      "source": "https://www.geonames.org/4990729/",
+      "modified_on": "2025-06-25"
+    },
+    "Dover|DE": {
+      "id": "4142290",
+      "name": "Dover",
+      "state": "DE",
+      "latitude": 39.15817,
+      "longitude": -75.52437,
+      "source": "https://www.geonames.org/4142290/",
+      "modified_on": "2026-04-14"
+    },
+    "Downers Grove|IL": {
+      "id": "4890119",
+      "name": "Downers Grove",
+      "state": "IL",
+      "latitude": 41.80892,
+      "longitude": -88.01117,
+      "source": "https://www.geonames.org/4890119/",
+      "modified_on": "2026-09-16"
+    },
+    "Durham|NC": {
+      "id": "4464368",
+      "name": "Durham",
+      "state": "NC",
+      "latitude": 35.99403,
+      "longitude": -78.89862,
+      "source": "https://www.geonames.org/4464368/",
+      "modified_on": "2019-09-05"
+    },
+    "East Palo Alto|CA": {
+      "id": "5345032",
+      "name": "East Palo Alto",
+      "state": "CA",
+      "latitude": 37.46883,
+      "longitude": -122.14108,
+      "source": "https://www.geonames.org/5345032/",
+      "modified_on": "2017-03-09"
+    },
+    "El Cerrito|CA": {
+      "id": "5345623",
+      "name": "El Cerrito",
+      "state": "CA",
+      "latitude": 37.91576,
+      "longitude": -122.31164,
+      "source": "https://www.geonames.org/5345623/",
+      "modified_on": "2011-05-14"
+    },
+    "El Segundo|CA": {
+      "id": "5345860",
+      "name": "El Segundo",
+      "state": "CA",
+      "latitude": 33.91918,
+      "longitude": -118.41647,
+      "source": "https://www.geonames.org/5345860/",
+      "modified_on": "2017-03-09"
+    },
+    "Englewood|CO": {
+      "id": "5421250",
+      "name": "Englewood",
+      "state": "CO",
+      "latitude": 39.64777,
+      "longitude": -104.98776,
+      "source": "https://www.geonames.org/5421250/",
+      "modified_on": "2018-07-03"
+    },
+    "Eugene|OR": {
+      "id": "5725846",
+      "name": "Eugene",
+      "state": "OR",
+      "latitude": 44.05207,
+      "longitude": -123.08675,
+      "source": "https://www.geonames.org/5725846/",
+      "modified_on": "2025-06-26"
+    },
+    "Everett|WA": {
+      "id": "5793933",
+      "name": "Everett",
+      "state": "WA",
+      "latitude": 47.97898,
+      "longitude": -122.20208,
+      "source": "https://www.geonames.org/5793933/",
+      "modified_on": "2017-03-09"
+    },
+    "Fort Collins|CO": {
+      "id": "5577147",
+      "name": "Fort Collins",
+      "state": "CO",
+      "latitude": 40.58526,
+      "longitude": -105.08442,
+      "source": "https://www.geonames.org/5577147/",
+      "modified_on": "2025-06-26"
+    },
+    "Fort Lauderdale|FL": {
+      "id": "4155966",
+      "name": "Fort Lauderdale",
+      "state": "FL",
+      "latitude": 26.12231,
+      "longitude": -80.14338,
+      "source": "https://www.geonames.org/4155966/",
+      "modified_on": "2025-06-26"
+    },
+    "Fort Worth|TX": {
+      "id": "4691930",
+      "name": "Fort Worth",
+      "state": "TX",
+      "latitude": 32.72541,
+      "longitude": -97.32085,
+      "source": "https://www.geonames.org/4691930/",
+      "modified_on": "2025-06-25"
+    },
+    "Foster City|CA": {
+      "id": "5350159",
+      "name": "Foster City",
+      "state": "CA",
+      "latitude": 37.55855,
+      "longitude": -122.27108,
+      "source": "https://www.geonames.org/5350159/",
+      "modified_on": "2017-03-09"
+    },
+    "Fresno|CA": {
+      "id": "5350937",
+      "name": "Fresno",
+      "state": "CA",
+      "latitude": 36.74773,
+      "longitude": -119.77237,
+      "source": "https://www.geonames.org/5350937/",
+      "modified_on": "2025-06-25"
+    },
+    "Frisco|TX": {
+      "id": "4692559",
+      "name": "Frisco",
+      "state": "TX",
+      "latitude": 33.15067,
+      "longitude": -96.82361,
+      "source": "https://www.geonames.org/4692559/",
+      "modified_on": "2019-02-26"
+    },
+    "Hayward|CA": {
+      "id": "5355933",
+      "name": "Hayward",
+      "state": "CA",
+      "latitude": 37.66882,
+      "longitude": -122.0808,
+      "source": "https://www.geonames.org/5355933/",
+      "modified_on": "2021-09-18"
+    },
+    "Honolulu|HI": {
+      "id": "5856195",
+      "name": "Honolulu",
+      "state": "HI",
+      "latitude": 21.30694,
+      "longitude": -157.85833,
+      "source": "https://www.geonames.org/5856195/",
+      "modified_on": "2026-04-14"
+    },
+    "Houston|TX": {
+      "id": "4699066",
+      "name": "Houston",
+      "state": "TX",
+      "latitude": 29.76328,
+      "longitude": -95.36327,
+      "source": "https://www.geonames.org/4699066/",
+      "modified_on": "2025-05-08"
+    },
+    "Huntington Beach|CA": {
+      "id": "5358705",
+      "name": "Huntington Beach",
+      "state": "CA",
+      "latitude": 33.6603,
+      "longitude": -117.99923,
+      "source": "https://www.geonames.org/5358705/",
+      "modified_on": "2017-03-09"
+    },
+    "Irvine|CA": {
+      "id": "5359777",
+      "name": "Irvine",
+      "state": "CA",
+      "latitude": 33.66946,
+      "longitude": -117.82311,
+      "source": "https://www.geonames.org/5359777/",
+      "modified_on": "2017-03-09"
+    },
+    "Issaquah|WA": {
+      "id": "5798487",
+      "name": "Issaquah",
+      "state": "WA",
+      "latitude": 47.5301,
+      "longitude": -122.03262,
+      "source": "https://www.geonames.org/5798487/",
+      "modified_on": "2026-09-16"
+    },
+    "Jacksonville|FL": {
+      "id": "4160021",
+      "name": "Jacksonville",
+      "state": "FL",
+      "latitude": 30.33218,
+      "longitude": -81.65565,
+      "source": "https://www.geonames.org/4160021/",
+      "modified_on": "2025-06-25"
+    },
+    "Joplin|MO": {
+      "id": "4392768",
+      "name": "Joplin",
+      "state": "MO",
+      "latitude": 37.08423,
+      "longitude": -94.51328,
+      "source": "https://www.geonames.org/4392768/",
+      "modified_on": "2017-05-23"
+    },
+    "Kailua|HI": {
+      "id": "5847486",
+      "name": "Kailua",
+      "state": "HI",
+      "latitude": 21.40241,
+      "longitude": -157.74054,
+      "source": "https://www.geonames.org/5847486/",
+      "modified_on": "2017-09-05"
+    },
+    "Las Vegas|NV": {
+      "id": "5506956",
+      "name": "Las Vegas",
+      "state": "NV",
+      "latitude": 36.17497,
+      "longitude": -115.13722,
+      "source": "https://www.geonames.org/5506956/",
+      "modified_on": "2025-06-25"
+    },
+    "Lehi|UT": {
+      "id": "5777224",
+      "name": "Lehi",
+      "state": "UT",
+      "latitude": 40.39162,
+      "longitude": -111.85077,
+      "source": "https://www.geonames.org/5777224/",
+      "modified_on": "2017-03-09"
+    },
+    "Lexington|MA": {
+      "id": "4941935",
+      "name": "Lexington",
+      "state": "MA",
+      "latitude": 42.44732,
+      "longitude": -71.2245,
+      "source": "https://www.geonames.org/4941935/",
+      "modified_on": "2026-01-14"
+    },
+    "Little Rock|AR": {
+      "id": "4119403",
+      "name": "Little Rock",
+      "state": "AR",
+      "latitude": 34.74648,
+      "longitude": -92.28959,
+      "source": "https://www.geonames.org/4119403/",
+      "modified_on": "2026-04-14"
+    },
+    "Livermore|CA": {
+      "id": "5367440",
+      "name": "Livermore",
+      "state": "CA",
+      "latitude": 37.68187,
+      "longitude": -121.76801,
+      "source": "https://www.geonames.org/5367440/",
+      "modified_on": "2017-03-09"
+    },
+    "Los Altos|CA": {
+      "id": "5368335",
+      "name": "Los Altos",
+      "state": "CA",
+      "latitude": 37.38522,
+      "longitude": -122.11413,
+      "source": "https://www.geonames.org/5368335/",
+      "modified_on": "2017-03-09"
+    },
+    "Los Angeles|CA": {
+      "id": "5368361",
+      "name": "Los Angeles",
+      "state": "CA",
+      "latitude": 34.05223,
+      "longitude": -118.24368,
+      "source": "https://www.geonames.org/5368361/",
+      "modified_on": "2025-07-22"
+    },
+    "Los Gatos|CA": {
+      "id": "5368518",
+      "name": "Los Gatos",
+      "state": "CA",
+      "latitude": 37.22661,
+      "longitude": -121.97468,
+      "source": "https://www.geonames.org/5368518/",
+      "modified_on": "2026-09-16"
+    },
+    "Louisville|KY": {
+      "id": "4299276",
+      "name": "Louisville",
+      "state": "KY",
+      "latitude": 38.25424,
+      "longitude": -85.75941,
+      "source": "https://www.geonames.org/4299276/",
+      "modified_on": "2025-04-14"
+    },
+    "Lowell|MA": {
+      "id": "4942618",
+      "name": "Lowell",
+      "state": "MA",
+      "latitude": 42.63342,
+      "longitude": -71.31617,
+      "source": "https://www.geonames.org/4942618/",
+      "modified_on": "2026-10-22"
+    },
+    "Mansfield|MA": {
+      "id": "4943021",
+      "name": "Mansfield",
+      "state": "MA",
+      "latitude": 42.03343,
+      "longitude": -71.21894,
+      "source": "https://www.geonames.org/4943021/",
+      "modified_on": "2017-05-23"
+    },
+    "Marlborough|MA": {
+      "id": "4943170",
+      "name": "Marlborough",
+      "state": "MA",
+      "latitude": 42.34593,
+      "longitude": -71.55229,
+      "source": "https://www.geonames.org/4943170/",
+      "modified_on": "2017-05-23"
+    },
+    "McKinney|TX": {
+      "id": "4710178",
+      "name": "McKinney",
+      "state": "TX",
+      "latitude": 33.19762,
+      "longitude": -96.61527,
+      "source": "https://www.geonames.org/4710178/",
+      "modified_on": "2026-06-16"
+    },
+    "Medford|MA": {
+      "id": "4943629",
+      "name": "Medford",
+      "state": "MA",
+      "latitude": 42.41843,
+      "longitude": -71.10616,
+      "source": "https://www.geonames.org/4943629/",
+      "modified_on": "2017-05-23"
+    },
+    "Memphis|TN": {
+      "id": "4641239",
+      "name": "Memphis",
+      "state": "TN",
+      "latitude": 35.14953,
+      "longitude": -90.04898,
+      "source": "https://www.geonames.org/4641239/",
+      "modified_on": "2025-07-15"
+    },
+    "Menlo Park|CA": {
+      "id": "5372223",
+      "name": "Menlo Park",
+      "state": "CA",
+      "latitude": 37.45383,
+      "longitude": -122.18219,
+      "source": "https://www.geonames.org/5372223/",
+      "modified_on": "2017-03-09"
+    },
+    "Merritt Island|FL": {
+      "id": "4164092",
+      "name": "Merritt Island",
+      "state": "FL",
+      "latitude": 28.359,
+      "longitude": -80.69,
+      "source": "https://www.geonames.org/4164092/",
+      "modified_on": "2026-09-16"
+    },
+    "Mesa|AZ": {
+      "id": "5304391",
+      "name": "Mesa",
+      "state": "AZ",
+      "latitude": 33.42227,
+      "longitude": -111.82264,
+      "source": "https://www.geonames.org/5304391/",
+      "modified_on": "2019-09-05"
+    },
+    "Miami|FL": {
+      "id": "4164138",
+      "name": "Miami",
+      "state": "FL",
+      "latitude": 25.77427,
+      "longitude": -80.19366,
+      "source": "https://www.geonames.org/4164138/",
+      "modified_on": "2025-06-25"
+    },
+    "Miami Beach|FL": {
+      "id": "4164143",
+      "name": "Miami Beach",
+      "state": "FL",
+      "latitude": 25.79065,
+      "longitude": -80.13005,
+      "source": "https://www.geonames.org/4164143/",
+      "modified_on": "2017-03-09"
+    },
+    "Milpitas|CA": {
+      "id": "5373327",
+      "name": "Milpitas",
+      "state": "CA",
+      "latitude": 37.42827,
+      "longitude": -121.90662,
+      "source": "https://www.geonames.org/5373327/",
+      "modified_on": "2026-08-30"
+    },
+    "Minneapolis|MN": {
+      "id": "5037649",
+      "name": "Minneapolis",
+      "state": "MN",
+      "latitude": 44.97997,
+      "longitude": -93.26384,
+      "source": "https://www.geonames.org/5037649/",
+      "modified_on": "2019-09-05"
+    },
+    "Missoula|MT": {
+      "id": "5666639",
+      "name": "Missoula",
+      "state": "MT",
+      "latitude": 46.87215,
+      "longitude": -113.994,
+      "source": "https://www.geonames.org/5666639/",
+      "modified_on": "2017-03-09"
+    },
+    "Mountain View|CA": {
+      "id": "5375480",
+      "name": "Mountain View",
+      "state": "CA",
+      "latitude": 37.38605,
+      "longitude": -122.08385,
+      "source": "https://www.geonames.org/5375480/",
+      "modified_on": "2017-03-09"
+    },
+    "Myrtle Beach|SC": {
+      "id": "4588718",
+      "name": "Myrtle Beach",
+      "state": "SC",
+      "latitude": 33.68906,
+      "longitude": -78.88669,
+      "source": "https://www.geonames.org/4588718/",
+      "modified_on": "2017-03-09"
+    },
+    "Nashville|TN": {
+      "id": "4644585",
+      "name": "Nashville",
+      "state": "TN",
+      "latitude": 36.16589,
+      "longitude": -86.78444,
+      "source": "https://www.geonames.org/4644585/",
+      "modified_on": "2026-04-14"
+    },
+    "Natick|MA": {
+      "id": "4944994",
+      "name": "Natick",
+      "state": "MA",
+      "latitude": 42.28343,
+      "longitude": -71.3495,
+      "source": "https://www.geonames.org/4944994/",
+      "modified_on": "2017-05-23"
+    },
+    "New Haven|CT": {
+      "id": "4839366",
+      "name": "New Haven",
+      "state": "CT",
+      "latitude": 41.30815,
+      "longitude": -72.92816,
+      "source": "https://www.geonames.org/4839366/",
+      "modified_on": "2024-05-21"
+    },
+    "New Orleans|LA": {
+      "id": "4335045",
+      "name": "New Orleans",
+      "state": "LA",
+      "latitude": 29.95465,
+      "longitude": -90.07507,
+      "source": "https://www.geonames.org/4335045/",
+      "modified_on": "2025-06-25"
+    },
+    "New York|NY": {
+      "id": "5128581",
+      "name": "New York City",
+      "state": "NY",
+      "latitude": 40.71427,
+      "longitude": -74.00597,
+      "source": "https://www.geonames.org/5128581/",
+      "modified_on": "2026-03-07"
+    },
+    "New York City|NY": {
+      "id": "5128581",
+      "name": "New York City",
+      "state": "NY",
+      "latitude": 40.71427,
+      "longitude": -74.00597,
+      "source": "https://www.geonames.org/5128581/",
+      "modified_on": "2026-03-07"
+    },
+    "Newport Beach|CA": {
+      "id": "5376890",
+      "name": "Newport Beach",
+      "state": "CA",
+      "latitude": 33.61891,
+      "longitude": -117.92895,
+      "source": "https://www.geonames.org/5376890/",
+      "modified_on": "2026-09-16"
+    },
+    "Newton|MA": {
+      "id": "4945283",
+      "name": "Newton",
+      "state": "MA",
+      "latitude": 42.33704,
+      "longitude": -71.20922,
+      "source": "https://www.geonames.org/4945283/",
+      "modified_on": "2017-05-23"
+    },
+    "Niagara Falls|NY": {
+      "id": "5128723",
+      "name": "Niagara Falls",
+      "state": "NY",
+      "latitude": 43.0945,
+      "longitude": -79.05671,
+      "source": "https://www.geonames.org/5128723/",
+      "modified_on": "2026-03-26"
+    },
+    "North Kingstown|RI": {
+      "id": "5223672",
+      "name": "North Kingstown",
+      "state": "RI",
+      "latitude": 41.5501,
+      "longitude": -71.46617,
+      "source": "https://www.geonames.org/5223672/",
+      "modified_on": "2025-06-13"
+    },
+    "Norwalk|CT": {
+      "id": "4839822",
+      "name": "Norwalk",
+      "state": "CT",
+      "latitude": 41.1176,
+      "longitude": -73.4079,
+      "source": "https://www.geonames.org/4839822/",
+      "modified_on": "2024-05-21"
+    },
+    "Oakland|CA": {
+      "id": "5378538",
+      "name": "Oakland",
+      "state": "CA",
+      "latitude": 37.80437,
+      "longitude": -122.2708,
+      "source": "https://www.geonames.org/5378538/",
+      "modified_on": "2019-09-05"
+    },
+    "Olathe|KS": {
+      "id": "4276614",
+      "name": "Olathe",
+      "state": "KS",
+      "latitude": 38.8814,
+      "longitude": -94.81913,
+      "source": "https://www.geonames.org/4276614/",
+      "modified_on": "2017-05-23"
+    },
+    "Omaha|NE": {
+      "id": "5074472",
+      "name": "Omaha",
+      "state": "NE",
+      "latitude": 41.25626,
+      "longitude": -95.94043,
+      "source": "https://www.geonames.org/5074472/",
+      "modified_on": "2025-06-25"
+    },
+    "Ontario|CA": {
+      "id": "5379439",
+      "name": "Ontario",
+      "state": "CA",
+      "latitude": 34.06334,
+      "longitude": -117.65089,
+      "source": "https://www.geonames.org/5379439/",
+      "modified_on": "2017-03-09"
+    },
+    "Orem|UT": {
+      "id": "5779334",
+      "name": "Orem",
+      "state": "UT",
+      "latitude": 40.2969,
+      "longitude": -111.69465,
+      "source": "https://www.geonames.org/5779334/",
+      "modified_on": "2017-03-09"
+    },
+    "Orlando|FL": {
+      "id": "4167147",
+      "name": "Orlando",
+      "state": "FL",
+      "latitude": 28.53834,
+      "longitude": -81.37924,
+      "source": "https://www.geonames.org/4167147/",
+      "modified_on": "2025-06-25"
+    },
+    "Palo Alto|CA": {
+      "id": "5380748",
+      "name": "Palo Alto",
+      "state": "CA",
+      "latitude": 37.44188,
+      "longitude": -122.14302,
+      "source": "https://www.geonames.org/5380748/",
+      "modified_on": "2019-09-05"
+    },
+    "Philadelphia|PA": {
+      "id": "4560349",
+      "name": "Philadelphia",
+      "state": "PA",
+      "latitude": 39.95238,
+      "longitude": -75.16362,
+      "source": "https://www.geonames.org/4560349/",
+      "modified_on": "2025-04-14"
+    },
+    "Phoenix|AZ": {
+      "id": "5308655",
+      "name": "Phoenix",
+      "state": "AZ",
+      "latitude": 33.44838,
+      "longitude": -112.07404,
+      "source": "https://www.geonames.org/5308655/",
+      "modified_on": "2026-04-14"
+    },
+    "Pittsburgh|PA": {
+      "id": "5206379",
+      "name": "Pittsburgh",
+      "state": "PA",
+      "latitude": 40.44062,
+      "longitude": -79.99589,
+      "source": "https://www.geonames.org/5206379/",
+      "modified_on": "2021-08-08"
+    },
+    "Pleasanton|CA": {
+      "id": "5383777",
+      "name": "Pleasanton",
+      "state": "CA",
+      "latitude": 37.66243,
+      "longitude": -121.87468,
+      "source": "https://www.geonames.org/5383777/",
+      "modified_on": "2017-03-09"
+    },
+    "Portland|OR": {
+      "id": "5746545",
+      "name": "Portland",
+      "state": "OR",
+      "latitude": 45.52345,
+      "longitude": -122.67621,
+      "source": "https://www.geonames.org/5746545/",
+      "modified_on": "2025-06-25"
+    },
+    "Providence|RI": {
+      "id": "5224151",
+      "name": "Providence",
+      "state": "RI",
+      "latitude": 41.82399,
+      "longitude": -71.41283,
+      "source": "https://www.geonames.org/5224151/",
+      "modified_on": "2026-04-14"
+    },
+    "Provo|UT": {
+      "id": "5780026",
+      "name": "Provo",
+      "state": "UT",
+      "latitude": 40.23384,
+      "longitude": -111.65853,
+      "source": "https://www.geonames.org/5780026/",
+      "modified_on": "2025-06-26"
+    },
+    "Raleigh|NC": {
+      "id": "4487042",
+      "name": "Raleigh",
+      "state": "NC",
+      "latitude": 35.7721,
+      "longitude": -78.63861,
+      "source": "https://www.geonames.org/4487042/",
+      "modified_on": "2026-04-14"
+    },
+    "Redwood City|CA": {
+      "id": "5386834",
+      "name": "Redwood City",
+      "state": "CA",
+      "latitude": 37.48522,
+      "longitude": -122.23635,
+      "source": "https://www.geonames.org/5386834/",
+      "modified_on": "2017-03-09"
+    },
+    "Reston|VA": {
+      "id": "4781530",
+      "name": "Reston",
+      "state": "VA",
+      "latitude": 38.96872,
+      "longitude": -77.3411,
+      "source": "https://www.geonames.org/4781530/",
+      "modified_on": "2025-02-13"
+    },
+    "Rochester|MN": {
+      "id": "5043473",
+      "name": "Rochester",
+      "state": "MN",
+      "latitude": 44.02163,
+      "longitude": -92.4699,
+      "source": "https://www.geonames.org/5043473/",
+      "modified_on": "2021-01-23"
+    },
+    "Rochester|NY": {
+      "id": "5134086",
+      "name": "Rochester",
+      "state": "NY",
+      "latitude": 43.15478,
+      "longitude": -77.61556,
+      "source": "https://www.geonames.org/5134086/",
+      "modified_on": "2017-05-23"
+    },
+    "Sacramento|CA": {
+      "id": "5389489",
+      "name": "Sacramento",
+      "state": "CA",
+      "latitude": 38.58157,
+      "longitude": -121.4944,
+      "source": "https://www.geonames.org/5389489/",
+      "modified_on": "2026-04-14"
+    },
+    "Salt Lake City|UT": {
+      "id": "5780993",
+      "name": "Salt Lake City",
+      "state": "UT",
+      "latitude": 40.76078,
+      "longitude": -111.89105,
+      "source": "https://www.geonames.org/5780993/",
+      "modified_on": "2026-04-14"
+    },
+    "San Carlos|CA": {
+      "id": "5391760",
+      "name": "San Carlos",
+      "state": "CA",
+      "latitude": 37.50716,
+      "longitude": -122.26052,
+      "source": "https://www.geonames.org/5391760/",
+      "modified_on": "2017-03-09"
+    },
+    "San Clemente|CA": {
+      "id": "5391791",
+      "name": "San Clemente",
+      "state": "CA",
+      "latitude": 33.42697,
+      "longitude": -117.61199,
+      "source": "https://www.geonames.org/5391791/",
+      "modified_on": "2017-03-09"
+    },
+    "San Diego|CA": {
+      "id": "5391811",
+      "name": "San Diego",
+      "state": "CA",
+      "latitude": 32.71571,
+      "longitude": -117.16472,
+      "source": "https://www.geonames.org/5391811/",
+      "modified_on": "2025-06-25"
+    },
+    "San Francisco|CA": {
+      "id": "5391959",
+      "name": "San Francisco",
+      "state": "CA",
+      "latitude": 37.77493,
+      "longitude": -122.41942,
+      "source": "https://www.geonames.org/5391959/",
+      "modified_on": "2025-07-22"
+    },
+    "San Jose|CA": {
+      "id": "5392171",
+      "name": "San Jose",
+      "state": "CA",
+      "latitude": 37.33939,
+      "longitude": -121.89496,
+      "source": "https://www.geonames.org/5392171/",
+      "modified_on": "2025-06-25"
+    },
+    "San Leandro|CA": {
+      "id": "5392263",
+      "name": "San Leandro",
+      "state": "CA",
+      "latitude": 37.72493,
+      "longitude": -122.15608,
+      "source": "https://www.geonames.org/5392263/",
+      "modified_on": "2017-03-09"
+    },
+    "San Mateo|CA": {
+      "id": "5392423",
+      "name": "San Mateo",
+      "state": "CA",
+      "latitude": 37.56299,
+      "longitude": -122.32553,
+      "source": "https://www.geonames.org/5392423/",
+      "modified_on": "2019-02-27"
+    },
+    "Santa Barbara|CA": {
+      "id": "5392952",
+      "name": "Santa Barbara",
+      "state": "CA",
+      "latitude": 34.42083,
+      "longitude": -119.69819,
+      "source": "https://www.geonames.org/5392952/",
+      "modified_on": "2017-03-09"
+    },
+    "Santa Clara|CA": {
+      "id": "5393015",
+      "name": "Santa Clara",
+      "state": "CA",
+      "latitude": 37.35411,
+      "longitude": -121.95524,
+      "source": "https://www.geonames.org/5393015/",
+      "modified_on": "2017-03-09"
+    },
+    "Santa Cruz|CA": {
+      "id": "5393052",
+      "name": "Santa Cruz",
+      "state": "CA",
+      "latitude": 36.97412,
+      "longitude": -122.0308,
+      "source": "https://www.geonames.org/5393052/",
+      "modified_on": "2021-10-23"
+    },
+    "Santa Fe|NM": {
+      "id": "5490263",
+      "name": "Santa Fe",
+      "state": "NM",
+      "latitude": 35.68698,
+      "longitude": -105.9378,
+      "source": "https://www.geonames.org/5490263/",
+      "modified_on": "2026-04-14"
+    },
+    "Santa Monica|CA": {
+      "id": "5393212",
+      "name": "Santa Monica",
+      "state": "CA",
+      "latitude": 34.01949,
+      "longitude": -118.49138,
+      "source": "https://www.geonames.org/5393212/",
+      "modified_on": "2021-05-06"
+    },
+    "Saratoga Springs|NY": {
+      "id": "5136334",
+      "name": "Saratoga Springs",
+      "state": "NY",
+      "latitude": 43.08313,
+      "longitude": -73.78457,
+      "source": "https://www.geonames.org/5136334/",
+      "modified_on": "2025-06-16"
+    },
+    "Seattle|WA": {
+      "id": "5809844",
+      "name": "Seattle",
+      "state": "WA",
+      "latitude": 47.60621,
+      "longitude": -122.33207,
+      "source": "https://www.geonames.org/5809844/",
+      "modified_on": "2025-06-25"
+    },
+    "Somerville|MA": {
+      "id": "4951257",
+      "name": "Somerville",
+      "state": "MA",
+      "latitude": 42.3876,
+      "longitude": -71.0995,
+      "source": "https://www.geonames.org/4951257/",
+      "modified_on": "2017-05-23"
+    },
+    "South Bend|IN": {
+      "id": "4926563",
+      "name": "South Bend",
+      "state": "IN",
+      "latitude": 41.68338,
+      "longitude": -86.25001,
+      "source": "https://www.geonames.org/4926563/",
+      "modified_on": "2019-09-05"
+    },
+    "South Lake Tahoe|CA": {
+      "id": "5397664",
+      "name": "South Lake Tahoe",
+      "state": "CA",
+      "latitude": 38.93324,
+      "longitude": -119.98435,
+      "source": "https://www.geonames.org/5397664/",
+      "modified_on": "2017-03-09"
+    },
+    "South San Francisco|CA": {
+      "id": "5397765",
+      "name": "South San Francisco",
+      "state": "CA",
+      "latitude": 37.65466,
+      "longitude": -122.40775,
+      "source": "https://www.geonames.org/5397765/",
+      "modified_on": "2026-09-16"
+    },
+    "Springfield|MO": {
+      "id": "4409896",
+      "name": "Springfield",
+      "state": "MO",
+      "latitude": 37.21533,
+      "longitude": -93.29824,
+      "source": "https://www.geonames.org/4409896/",
+      "modified_on": "2025-04-15"
+    },
+    "St. Louis|MO": {
+      "id": "4407066",
+      "name": "St. Louis",
+      "state": "MO",
+      "latitude": 38.62727,
+      "longitude": -90.19789,
+      "source": "https://www.geonames.org/4407066/",
+      "modified_on": "2025-06-25"
+    },
+    "St. Petersburg|FL": {
+      "id": "4171563",
+      "name": "St. Petersburg",
+      "state": "FL",
+      "latitude": 27.77086,
+      "longitude": -82.67927,
+      "source": "https://www.geonames.org/4171563/",
+      "modified_on": "2026-09-14"
+    },
+    "State College|PA": {
+      "id": "5213681",
+      "name": "State College",
+      "state": "PA",
+      "latitude": 40.79339,
+      "longitude": -77.86,
+      "source": "https://www.geonames.org/5213681/",
+      "modified_on": "2017-05-23"
+    },
+    "Stockton|CA": {
+      "id": "5399020",
+      "name": "Stockton",
+      "state": "CA",
+      "latitude": 37.9577,
+      "longitude": -121.29078,
+      "source": "https://www.geonames.org/5399020/",
+      "modified_on": "2022-03-01"
+    },
+    "Sunnyvale|CA": {
+      "id": "5400075",
+      "name": "Sunnyvale",
+      "state": "CA",
+      "latitude": 37.36883,
+      "longitude": -122.03635,
+      "source": "https://www.geonames.org/5400075/",
+      "modified_on": "2021-12-21"
+    },
+    "Temecula|CA": {
+      "id": "5401395",
+      "name": "Temecula",
+      "state": "CA",
+      "latitude": 33.49364,
+      "longitude": -117.14836,
+      "source": "https://www.geonames.org/5401395/",
+      "modified_on": "2021-12-21"
+    },
+    "Tempe|AZ": {
+      "id": "5317058",
+      "name": "Tempe",
+      "state": "AZ",
+      "latitude": 33.41477,
+      "longitude": -111.90931,
+      "source": "https://www.geonames.org/5317058/",
+      "modified_on": "2023-11-21"
+    },
+    "Torrance|CA": {
+      "id": "5403022",
+      "name": "Torrance",
+      "state": "CA",
+      "latitude": 33.83585,
+      "longitude": -118.34063,
+      "source": "https://www.geonames.org/5403022/",
+      "modified_on": "2021-12-21"
+    },
+    "Troy|MI": {
+      "id": "5012639",
+      "name": "Troy",
+      "state": "MI",
+      "latitude": 42.60559,
+      "longitude": -83.14993,
+      "source": "https://www.geonames.org/5012639/",
+      "modified_on": "2017-05-23"
+    },
+    "Truckee|CA": {
+      "id": "5403676",
+      "name": "Truckee",
+      "state": "CA",
+      "latitude": 39.32796,
+      "longitude": -120.18325,
+      "source": "https://www.geonames.org/5403676/",
+      "modified_on": "2017-03-09"
+    },
+    "Urbana|IL": {
+      "id": "4914570",
+      "name": "Urbana",
+      "state": "IL",
+      "latitude": 40.11059,
+      "longitude": -88.20727,
+      "source": "https://www.geonames.org/4914570/",
+      "modified_on": "2017-05-23"
+    },
+    "Vancouver|WA": {
+      "id": "5814616",
+      "name": "Vancouver",
+      "state": "WA",
+      "latitude": 45.63873,
+      "longitude": -122.66149,
+      "source": "https://www.geonames.org/5814616/",
+      "modified_on": "2025-10-24"
+    },
+    "Virginia Beach|VA": {
+      "id": "4791259",
+      "name": "Virginia Beach",
+      "state": "VA",
+      "latitude": 36.85293,
+      "longitude": -75.97799,
+      "source": "https://www.geonames.org/4791259/",
+      "modified_on": "2025-06-25"
+    },
+    "Walnut|CA": {
+      "id": "5406976",
+      "name": "Walnut",
+      "state": "CA",
+      "latitude": 34.02029,
+      "longitude": -117.86534,
+      "source": "https://www.geonames.org/5406976/",
+      "modified_on": "2017-03-09"
+    },
+    "Walnut Creek|CA": {
+      "id": "5406990",
+      "name": "Walnut Creek",
+      "state": "CA",
+      "latitude": 37.90631,
+      "longitude": -122.06496,
+      "source": "https://www.geonames.org/5406990/",
+      "modified_on": "2017-03-09"
+    },
+    "Waltham|MA": {
+      "id": "4954380",
+      "name": "Waltham",
+      "state": "MA",
+      "latitude": 42.37649,
+      "longitude": -71.23561,
+      "source": "https://www.geonames.org/4954380/",
+      "modified_on": "2017-05-23"
+    },
+    "Washington|DC": {
+      "id": "4140963",
+      "name": "Washington",
+      "state": "DC",
+      "latitude": 38.89511,
+      "longitude": -77.03637,
+      "source": "https://www.geonames.org/4140963/",
+      "modified_on": "2026-06-12"
+    },
+    "Watertown|MA": {
+      "id": "4954611",
+      "name": "Watertown",
+      "state": "MA",
+      "latitude": 42.37093,
+      "longitude": -71.18283,
+      "source": "https://www.geonames.org/4954611/",
+      "modified_on": "2017-05-23"
+    },
+    "Williamsburg|VA": {
+      "id": "4793846",
+      "name": "Williamsburg",
+      "state": "VA",
+      "latitude": 37.2707,
+      "longitude": -76.70746,
+      "source": "https://www.geonames.org/4793846/",
+      "modified_on": "2026-01-30"
+    },
+    "Wilmington|DE": {
+      "id": "4145381",
+      "name": "Wilmington",
+      "state": "DE",
+      "latitude": 39.74595,
+      "longitude": -75.54659,
+      "source": "https://www.geonames.org/4145381/",
+      "modified_on": "2025-06-26"
+    },
+    "Woburn|MA": {
+      "id": "4956032",
+      "name": "Woburn",
+      "state": "MA",
+      "latitude": 42.47926,
+      "longitude": -71.15228,
+      "source": "https://www.geonames.org/4956032/",
+      "modified_on": "2017-05-23"
+    }
+  },
+  "unresolved": [
+    [
+      "Aspen",
+      "CO"
+    ],
+    [
+      "Bedford",
+      "MA"
+    ],
+    [
+      "Blountville",
+      "TN"
+    ],
+    [
+      "Claymont",
+      "DE"
+    ],
+    [
+      "Devens",
+      "MA"
+    ],
+    [
+      "Emeryville",
+      "CA"
+    ],
+    [
+      "Frisco",
+      "CO"
+    ],
+    [
+      "Greater Boston",
+      "MA"
+    ],
+    [
+      "Kilauea",
+      "HI"
+    ],
+    [
+      "Port St. Lucie",
+      "FL"
+    ],
+    [
+      "Remote",
+      "AZ"
+    ],
+    [
+      "Remote",
+      "CA"
+    ],
+    [
+      "Remote",
+      "CO"
+    ],
+    [
+      "Remote",
+      "DC"
+    ],
+    [
+      "Remote",
+      "DE"
+    ],
+    [
+      "Remote",
+      "FL"
+    ],
+    [
+      "Remote",
+      "GA"
+    ],
+    [
+      "Remote",
+      "HI"
+    ],
+    [
+      "Remote",
+      "IL"
+    ],
+    [
+      "Remote",
+      "MA"
+    ],
+    [
+      "Remote",
+      "MI"
+    ],
+    [
+      "Remote",
+      "MN"
+    ],
+    [
+      "Remote",
+      "MO"
+    ],
+    [
+      "Remote",
+      "MT"
+    ],
+    [
+      "Remote",
+      "NC"
+    ],
+    [
+      "Remote",
+      "NE"
+    ],
+    [
+      "Remote",
+      "NV"
+    ],
+    [
+      "Remote",
+      "NY"
+    ],
+    [
+      "Remote",
+      "OH"
+    ],
+    [
+      "Remote",
+      "OR"
+    ],
+    [
+      "Remote",
+      "PA"
+    ],
+    [
+      "Remote",
+      "TN"
+    ],
+    [
+      "Remote",
+      "TX"
+    ],
+    [
+      "Remote",
+      "UT"
+    ],
+    [
+      "Remote",
+      "VA"
+    ],
+    [
+      "Remote",
+      "WA"
+    ],
+    [
+      "Saint Petersburg",
+      "FL"
+    ],
+    [
+      "Southern Pines",
+      "NC"
+    ],
+    [
+      "Tyngsborough",
+      "MA"
+    ],
+    [
+      "United States",
+      "DC"
+    ]
+  ]
+}

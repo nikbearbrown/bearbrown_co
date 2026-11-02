@@ -72,3 +72,35 @@ npm run build
 Input hashes are in `national.json` metadata. The local task also preserves those exact input snapshots. Derived local outputs are `processed/sec-discovery.sqlite`, `form-d-issuer-review.jsonl`, `form-c-issuer-review.jsonl`, and `sec-summary.json`. Rebuilding replaces only the generated SQLite tables and generated review files. No downloader or transfer process is started for Kaggle.
 
 The website build passes; its existing configuration skips global TypeScript checking. A separate `tsc --noEmit` finds six pre-existing errors in blog, sitemap, substack and tools data typing, none in startup-map files. Browser QA verified the source JSON renders, MA filtering yields 64 YC records, search for 1910 yields one, evidence opens, and CSV contains that one MA record with `unreviewed` AI status. SEC D/C layers show 25,786/3,020. Mobile width 390 has no horizontal overflow. Screenshots and logs are in the task's sibling `evidence/` folder. Draft/preview only; no production release.
+
+## Street-map and affiliation update — 2026-11-02
+
+The primary company view now uses Leaflet 1.9.4 and normal interactive OpenStreetMap raster tiles, following the existing `jobs.humanitarians.ai/ecosystem` implementation (`jobs-marker-scale/components/EntityMapCanvas.tsx`). The site retains its cream, warm ink, green and rust palette. SEC research stays in separate D3 state layers. No production release is authorized.
+
+`locations.json` is a separate evidence layer; original directory location claims are unchanged. It contains:
+
+- **63 reviewed address records**, matched by exact, unambiguous normalized website host against the current ecosystem snapshot. Company `kind=startup` is an upstream category, not confirmation of startup status. Coordinates, precision, source URLs, review dates, roles, notes and source hashes are retained verbatim. There are 42 unique positions; shared addresses are never jittered. The largest shared position has ten companies, all selectable in the sidebar. Some coordinates are Census street-range interpolations, not rooftops or independently audited occupancy.
+- **160 city reference points** from the official [GeoNames cities15000 download](https://download.geonames.org/export/dump/), retrieved 2026-11-02; [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Exact primary/ASCII city name plus state matches only; explicit `New York → New York City` and `Washington DC → Washington` spelling aliases. Ambiguous or missing matches remain unresolved. These are approximate city positions, not company coordinates. Boston city claims can represent affiliations. City circles open accessible individual-company lists; zooming never manufactures office locations.
+- **3,348 distinct companies** with address or city geography; **17 unplaced** companies remain searchable in the directory. Address evidence takes precedence over city groups for the same entity. Multiple reported cities may share an entity, but sidebar, density and hub totals use unique entity IDs.
+
+The 2025 Census Gazetteer was also downloaded locally for evaluation. Its San Francisco internal point lies offshore because the administrative geography includes islands/water. It is not used in the website; GeoNames supplies the city reference layer instead. Raw upstream snapshots remain outside Git; committed reduced source extracts plus SHA-256 receipts support reproducible derivation.
+
+### Calculated opening view
+
+Evaluate every one of the 160 matched city reference points. For each, count unique directory company IDs within **25 km great-circle distance**, using the reviewed address when present and city reference coordinates otherwise. Choose the greatest count; ties use ascending GeoNames ID. This yields **South San Francisco, CA (37.65466, -122.40775), 2,117 unique companies**, zoom 11. This is a concentration of records in a YC-heavy sample, not real-world startup density or a comprehensive census. The map viewport count differs from the circular calculation because a viewport is rectangular and responsive. The top ten results and exact calculation description are published in location metadata.
+
+Hub shortcuts use source-backed central city points and documented regional radii for unique-count badges (baseline before filters): Bay Area 80 km / 2,123; Seattle 50 km / 56; Los Angeles 60 km / 133; Austin 45 km / 59; Boston/Cambridge 40 km / 211; New York 40 km / 542; Miami 40 km / 25; Chicago 40 km / 18. Miami and Chicago are additional represented hubs. Counts are not metropolitan statistical area definitions and can overlap. Hub buttons pan/zoom while preserving program/search filters.
+
+### Many-to-many affiliations
+
+`affiliations.json` stores evidence edges by company ID and program ID, with source link, observed date, original cohort label, nullable exact start/end dates, and affiliation type. Filter options are generated only from supported accelerator/incubator records: **YC 3,213** and **MassRobotics residency 78**. Three entities have both, so the union is **3,288**, never 3,291. Selection is OR across programs and AND with other filters. Existing YC season/year batch labels are retained; no exact cohort dates are invented. **Engine Ventures 31** portfolio relationships appear in profiles explicitly as investor relationships, not accelerator options. Missing affiliations mean unknown. No supported StartX or Alchemist records were identified in the existing snapshots, so neither is offered as a filter. No additional accelerator dataset was ingested. To expand, add evidence edges and a typed program record; never create another company solely for another program.
+
+Rebuild the two new public layers from the committed extracts:
+
+```sh
+python3 scripts/startups/build-locations.py
+python3 scripts/startups/build-affiliations.py
+python3 scripts/startups/test-locations.py
+```
+
+To refresh extracts from already acquired snapshots, use `build-locations.py --ecosystem PATH --cities PATH` and `build-affiliations.py --yc PATH`. `location-sources/addresses.json`, `cities.json` and `yc-cohorts.json` preserve input provenance. No AI labels or job evidence were changed. OpenStreetMap attribution remains visible; tiles use standard browser caching without bulk/prefetch requests.
