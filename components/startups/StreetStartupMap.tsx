@@ -16,6 +16,11 @@ export const affiliations = affiliationData.by_company as Record<string,Affiliat
 export const programs = affiliationData.programs
 const opening = locationData.meta.opening
 const number = (n:number) => n.toLocaleString('en-US')
+function focusOpening(map:Leaflet.Map) {
+  const [lat,lng]=opening.center
+  const dy=opening.radius_km/111.195, dx=dy/Math.cos(lat*Math.PI/180)
+  map.fitBounds([[lat-dy,lng-dx],[lat+dy,lng+dx]],{padding:[16,16],maxZoom:opening.zoom})
+}
 
 export function ProgramEvidence({id}:{id:string}) {
   const list=affiliations[id] || []
@@ -54,7 +59,8 @@ export default function StreetStartupMap({companies}:{companies:MapCompany[]}) {
     import('leaflet').then(L=>{
       if(cancelled || !container.current)return
       leaflet.current=L
-      const map=L.map(container.current,{scrollWheelZoom:true}).setView(opening.center as [number,number],opening.zoom)
+      const map=L.map(container.current,{scrollWheelZoom:true})
+      focusOpening(map)
       mapRef.current=map
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).on('tileerror',()=>setTileError(true)).addTo(map)
       L.control.scale({imperial:true,metric:true}).addTo(map)
@@ -91,7 +97,7 @@ export default function StreetStartupMap({companies}:{companies:MapCompany[]}) {
   const company=companies.find(c=>c.id===selected)
   const address=company?locations[company.id]?.address:null
   const unplaced=companies.filter(c=>!locations[c.id]?.address&&!locations[c.id]?.city_ids.length).length
-  function go(center:number[],zoom:number,name:string){setGroup(null);setSelected(null);setFocus(name);mapRef.current?.setView(center as [number,number],zoom)}
+  function go(center:number[],zoom:number,name:string){setGroup(null);setSelected(null);setFocus(name);const map=mapRef.current;if(map){if(name==='Densest area')focusOpening(map);else map.setView(center as [number,number],zoom)}}
   return <section className="street-atlas" aria-label="Geographic company explorer">
     <div className="street-toolbar"><div><span className="atlas-kicker">JUMP TO A HUB</span><p>Explore places. Follow the evidence.</p></div><div className="street-hubs">{locationData.hubs.map(h=><button key={h.name} aria-pressed={focus===h.name} onClick={()=>go(h.center,h.zoom,h.name)}>{h.name}<small>{number(h.count)}</small></button>)}</div></div>
     <div className="street-map-top"><span><strong>{focus}</strong> / Street map</span><div><button onClick={()=>go(opening.center,opening.zoom,'Densest area')}>Densest area ↗</button><button onClick={()=>go([39,-98],4,'United States')}>U.S. overview</button></div></div>
