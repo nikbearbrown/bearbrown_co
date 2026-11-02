@@ -104,3 +104,9 @@ python3 scripts/startups/test-locations.py
 ```
 
 To refresh extracts from already acquired snapshots, use `build-locations.py --ecosystem PATH --cities PATH` and `build-affiliations.py --yc PATH`. `location-sources/addresses.json`, `cities.json` and `yc-cohorts.json` preserve input provenance. No AI labels or job evidence were changed. OpenStreetMap attribution remains visible; tiles use standard browser caching without bulk/prefetch requests.
+
+### Verification of the street-map update
+
+Production build and seven focused Python tests pass, along with the existing national data/geography validator. Separate TypeScript checking still reports the six unrelated baseline errors and no startup-map errors. The protected Vercel preview was opened using the existing signed-in Chrome session, without changing deployment protection. At 1280×1000 and 390×844, street tiles load and there is no horizontal page overflow. All eight hub controls change the view; city circles expose individual records; shared addresses expose ten Boston and eight Cambridge companies; profiles show address-source links, geocoding precision and residency/YC cohort evidence. Selecting both programs yields 3,288 distinct records. Searching Cerulion yields one entity with both YC Summer 2024 and MassRobotics evidence. No browser runtime errors were recorded during those checks. A keyboard Enter inconsistency found in QA was corrected with an explicit Enter/Space handler and live sidebar announcements.
+
+A temporary-share-link tool request was rejected by automatic approval review because a bearer link would broaden preview access. It was not retried or bypassed. Testing continued through existing account authentication; no new share link or protection change was needed. Screenshots and build/typecheck logs are retained in the sibling task `evidence/` folder.
