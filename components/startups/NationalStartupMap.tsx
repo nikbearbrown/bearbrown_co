@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { geoAlbersUsa, geoPath, scaleThreshold } from 'd3'
 import type { FeatureCollection } from 'geojson'
 import geography from '@/data/startups/us-states.json'
-import StreetStartupMap, { affiliations, programs, ProgramEvidence } from './StreetStartupMap'
+import StreetStartupMap, { affiliations, programs, ProgramEvidence, LocationEvidence, locationCoverage } from './StreetStartupMap'
 
 type Company = {
   id: string; name: string; website: string; domain: string; states: string[];
@@ -77,11 +77,11 @@ export default function NationalStartupMap() {
       <div><strong>{number(total)}</strong><span>{secLayer ? 'issuer review candidates' : 'directory records after filters'}</span></div>
       <div><strong>{Object.keys(counts).length}</strong><span>states + DC with records</span></div>
       <div><strong>Pending</strong><span>AI & job-evidence review</span></div>
-      <div><strong>{secLayer?'State':'63'}</strong><span>{secLayer?'issuer-address precision':'reviewed address records · full collection'}</span></div>
+      <div><strong>{secLayer?'State':locationCoverage.addresses}</strong><span>{secLayer?'issuer-address precision':'companies with address evidence · full collection'}</span></div>
     </div>
     <div className="national-controls">
       <label>Collection<select value={layer} onChange={e=>chooseLayer(e.target.value)}>{Object.entries(labels).map(([v,label])=><option key={v} value={v}>{label}</option>)}</select></label>
-      <label>State<select value={state} onChange={e=>chooseState(e.target.value)}><option value="">All states + DC</option>{shapes.map(s=><option key={s.code} value={s.code}>{s.name} ({number(counts[s.code] || 0)})</option>)}</select></label>
+      <label>Directory-reported state<select value={state} onChange={e=>chooseState(e.target.value)}><option value="">All states + DC</option>{shapes.map(s=><option key={s.code} value={s.code}>{s.name} ({number(counts[s.code] || 0)})</option>)}</select></label>
       <button className="atlas-text-button" onClick={reset}>Reset filters ↺</button>
     </div>
     <p className="national-layer-note">{secLayer ? 'Research queue only — these issuers are not confirmed startups. Counts exclude pooled funds and flagged vehicles; latest filing must be in 2024–September 2026. No funding totals or AI claims are inferred.' : layer==='YC' ? 'Companies marked active in the YC discovery snapshot. Directory status, U.S. presence and startup status need independent confirmation; no job listings have been classified.' : 'Research records, including accelerator affiliations. A source review is not confirmation of an active startup or a current office.'}</p>
@@ -109,9 +109,9 @@ export default function NationalStartupMap() {
       <p className="national-small">{unlocated>0 && `${number(unlocated)} matching records have no usable state and remain in the all-states list. `}Companies reporting multiple states appear in each; state counts do not sum to the unique directory total. Location evidence is shown in each record.</p>
       {!rows.length && <div className="national-empty">No records match these filters. <button onClick={reset}>Clear search and state</button></div>}
       <div className="national-company-grid">{rows.slice(page*18,(page+1)*18).map(c=><article className="national-company" key={c.id}>
-        <div className="national-card-top"><span>{c.sources.join(' + ')}</span><span>AI review pending</span></div><h3>{c.name}</h3><p>{c.industry || 'Industry not supplied'}</p><p className="national-location">{c.location || 'Location unresolved'}</p><p className="national-small">{c.status}</p>
+        <div className="national-card-top"><span>{c.sources.join(' + ')}</span><span>AI review pending</span></div><h3>{c.name}</h3><p>{c.industry || 'Industry not supplied'}</p><p className="national-location">Directory reports: {c.location || 'Location unresolved'}</p><p className="national-small">{c.status}</p>
         <button className="national-evidence-button" aria-expanded={selected===c.id} onClick={()=>setSelected(selected===c.id?null:c.id)}>{selected===c.id?'Close evidence −':'Source & location evidence +'}</button>
-        {selected===c.id && <div className="national-evidence"><ProgramEvidence id={c.id}/><p>{c.location_note}</p><p>Observed {c.observed_at} · directory-reported {c.location_precision} precision; street-map evidence is shown separately</p>{c.duplicate_domain && <p>Shared domain: entity resolution still needed.</p>}{c.source_url && <a href={c.source_url} target="_blank" rel="noreferrer">Directory / discovery source ↗</a>}{c.website && <a href={c.website} target="_blank" rel="noreferrer">Company website ↗</a>}{c.boston_evidence.map((e,i)=><p key={i}><a href={e.url} target="_blank" rel="noreferrer">{e.publisher} ↗</a> · {e.checked_on}<br />{e.note}</p>)}</div>}
+        {selected===c.id && <div className="national-evidence"><LocationEvidence id={c.id}/><ProgramEvidence id={c.id}/><p>{c.location_note}</p><p>Observed {c.observed_at} · directory-reported {c.location_precision} precision; street-map evidence is shown separately</p>{c.duplicate_domain && <p>Shared domain: entity resolution still needed.</p>}{c.source_url && <a href={c.source_url} target="_blank" rel="noreferrer">Directory / discovery source ↗</a>}{c.website && <a href={c.website} target="_blank" rel="noreferrer">Company website ↗</a>}{c.boston_evidence.map((e,i)=><p key={i}><a href={e.url} target="_blank" rel="noreferrer">{e.publisher} ↗</a> · {e.checked_on}<br />{e.note}</p>)}</div>}
       </article>)}</div>
       {rows.length>18 && <nav className="national-pagination" aria-label="Directory pages"><button disabled={page===0} onClick={()=>{setPage(p=>p-1);setSelected(null)}}>← Previous</button><span aria-live="polite">Page {page+1} of {Math.ceil(rows.length/18)}</span><button disabled={(page+1)*18>=rows.length} onClick={()=>{setPage(p=>p+1);setSelected(null)}}>Next →</button></nav>}
     </>}

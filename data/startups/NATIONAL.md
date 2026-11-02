@@ -112,3 +112,41 @@ Production build and seven focused Python tests pass, along with the existing na
 A temporary-share-link tool request was rejected by automatic approval review because a bearer link would broaden preview access. It was not retried or bypassed. Testing continued through existing account authentication; no new share link or protection change was needed. Screenshots and build/typecheck logs are retained in the sibling task `evidence/` folder.
 
 Responsive QA also caught a fixed-zoom opening view that could exclude San Francisco’s city point at phone width. The opening view now fits the calculated 25 km area with padding and a maximum zoom of 11, so the dense city group remains visible on narrow screens.
+
+## Company location enrichment — 2026-11-02
+
+This pass inspected 516 existing companies, prioritizing SEC match candidates, the Bay Area, and major hubs. No additional companies or accelerator datasets were imported. Official company-site navigation was collected with robots checks, conservative per-host pacing, and no access-control bypass. Full HTML receipts, hashes and geocoder responses remain in the local `../data/location-enrichment/` research folder; the repository contains reduced factual evidence and review decisions. The interrupted review append was checked before resuming: it had not executed. The append used evidence-ID deduplication; the final manifest has 346 distinct candidates, 313 accepted and 33 rejected. Rejected examples include government complaint addresses, an example invoice, third-party reseller addresses and rental properties.
+
+Rebuild, without network or private local data:
+
+```sh
+python3 scripts/startups/build-enrichment.py
+python3 scripts/startups/build-locations.py
+python3 scripts/startups/test-enrichment.py
+python3 scripts/startups/test-locations.py
+python3 scripts/startups/test-national.py
+node scripts/startups/validate-national.mjs
+```
+
+Refreshing from research receipts is an explicit separate operation (`build-enrichment.py --refresh`). `enrichment-review.json` preserves the company/evidence ID, source URL/hash, observation/review date, address role, requested precision, decision and conflict/history notes. Raw source excerpts are deliberately omitted. `enrichment-coordinates.json` preserves only needed official Census matches, ZCTA reference coordinates and observed careers navigation links. All accepted evidence stays in profiles even when it cannot produce a trustworthy map point.
+
+141 unique reviewed street candidates were submitted to the official Census geocoder. 114 returned one match whose street number, street-name tokens, state and ZIP agreed with the evidence; 27 were absent or failed these checks. The coordinate is street-range interpolation, not a rooftop, occupancy check or proof of headquarters. Legal, privacy and mailing addresses are deliberately coarsened to a Census 2025 ZCTA internal/reference point where available. These are **ZIP-area reference points**, not exact USPS boundaries or office pins. Conflicting ZIP evidence and historical sources do not become unsupported coordinates. The ZCTA archive SHA-256 and official URL are retained. Government sources: [Census geocoding API](https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.html), [2025 ZCTA Gazetteer](https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_zcta_national.zip).
+
+Coverage now reconciles to all 3,365 unique companies:
+
+| Best mapped precision | Companies | Change |
+| --- | ---: | ---: |
+| Reported street-address evidence | 132 | +69 from 63 |
+| Approximate ZIP-area reference | 130 | +130 |
+| City reference only | 3,086 | -199 |
+| Unplaced | 17 | unchanged |
+
+There are 294 reported site/reference entries: 163 street addresses and 131 ZIP areas. Distinct publicly reported offices, branches, stores and facilities remain separately positioned; company totals are deduplicated. Existing ecosystem evidence accounts for 63 site entries; company-website evidence accounts for 231. Near-identical geocodes for the same company/building are merged within 40 m only when the street number agrees. ZIP entries for a company are suppressed on the map when street evidence exists; all publication evidence remains in its profile. This avoids a mailing ZIP masquerading as an additional office. Older ecosystem address evidence is preserved as reported evidence, not asserted to establish current occupancy.
+
+Official-site navigation supplied careers links for 336 companies. The link's discovery source, hash and observation date are retained; neither vacancies nor AI requirements have been verified. All 3,365 AI statuses remain unreviewed. No SEC name-only match was promoted: the 209 local SEC address candidates include shared platform domains and legal-name ambiguity and still require entity resolution. Form D/C state-level research layers remain separate.
+
+The default map shows address and ZIP circles. City groups are optional, initially off; all records remain searchable in the directory. Shared positions enumerate all companies without invented offsets. Profiles show website, all address evidence and roles, dated sources, careers navigation, known many-to-many affiliations and unknown AI status. The state filter is explicitly labeled **Directory-reported state**; it does not silently reinterpret older directory claims using branches.
+
+The opening area is recomputed from all located records, counting each company once within each 25 km region, using reported sites first, ZIP-area evidence next and city points otherwise. The current winner is Alameda, CA, with 2,083 unique companies within 25 km. This is a sampling concentration dominated by the YC collection, not a claim about real-world comprehensive startup density. The maximum changes when coarse city assignments gain more precise evidence.
+
+Validation for this update: 11 Python tests pass across national data, location and enrichment suites; national source/state/SEC reconciliation passes. Production build passes (1,993 pages). Standalone TypeScript checking reports the same six pre-existing errors in blog/sitemap/substack/tools and no startup-component errors; the existing Next.js configuration skips type/lint validation, so the build alone is not claimed as a type check. Local Chrome testing at 1280×1000 and 390×844 confirmed individual selection, Enter/Space activation, all 10 entities at 12 Channel Street, city-layer toggling, source/careers visibility, searchable evidence, OR affiliation union of 3,288 without duplicates, loaded OSM tiles and no horizontal overflow or browser errors. Mobile tooltip wrapping was corrected during this review. Raw collected pages and ongoing unrelated download/transfer work were left untouched. Available disk space was about 120 GiB before preview publication.

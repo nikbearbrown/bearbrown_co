@@ -49,6 +49,7 @@ def build():
             else:unresolved.append(list(key))
         (SOURCES/'cities.json').write_text(json.dumps({'source':'https://download.geonames.org/export/dump/cities15000.zip','license':'https://creativecommons.org/licenses/by/4.0/','retrieved_on':'2026-11-02','upstream_sha256':hashlib.sha256(a.cities.read_bytes()).hexdigest(),'matches':matches,'unresolved':unresolved},indent=2)+'\n')
     address_source=json.loads((SOURCES/'addresses.json').read_text());city_source=json.loads((SOURCES/'cities.json').read_text())
+    enrichment=json.loads((ROOT/'public/data/startups/enrichment.json').read_text())['companies']
     cities={};locations={};points=[]
     for c in companies:
         address=address_source['addresses'].get(c['id']);city_ids=[]
@@ -56,8 +57,23 @@ def build():
             city=city_source['matches'].get('|'.join(key))
             if city:
                 cities[city['id']]=city;city_ids.append(city['id'])
-        locations[c['id']]={'city_ids':sorted(set(city_ids)),**({'address':address} if address else {})}
-        if address:points.append((c['id'],[address['latitude'],address['longitude']]))
+        sites=[]
+        # Keep distinct reported facilities, but merge repeated evidence for a building.
+        # An affiliation never creates another location or directory entity.
+        for site in ([{**address,'source_type':'ecosystem-reviewed'}] if address else [])+enrichment.get(c['id'],{}).get('sites',[]):
+            site=dict(site)
+            duplicate=next((old for old in sites if (old['precision']=='zip-area')==(site['precision']=='zip-area') and distance([old['latitude'],old['longitude']],[site['latitude'],site['longitude']])<0.04 and re.match(r'\d+',old['address']) and re.match(r'\d+',site['address']) and re.match(r'\d+',old['address'])[0]==re.match(r'\d+',site['address'])[0]),None)
+            if site['precision']=='zip-area':duplicate=next((old for old in sites if old.get('postal_code')==site['postal_code']),duplicate)
+            if duplicate:
+                duplicate['address_sources']=sorted(set(duplicate['address_sources']+site['address_sources']))
+                duplicate['evidence_ids']=sorted(set(duplicate.get('evidence_ids',[])+site.get('evidence_ids',[])))
+            else:sites.append(site)
+        street=[s for s in sites if s['precision']!='zip-area']
+        if street:sites=street  # Mailing ZIPs remain profile evidence, not additional facilities.
+        primary=sites[0] if sites else None
+        locations[c['id']]={'city_ids':sorted(set(city_ids)),'sites':sites,**({'address':primary} if primary else {})}
+        if sites:
+            for site in sites:points.append((c['id'],[site['latitude'],site['longitude']]))
         else:
             for cid in set(city_ids):points.append((c['id'],[cities[cid]['latitude'],cities[cid]['longitude']]))
     def nearby(center,radius):return sorted({cid for cid,coord in points if distance(center,coord)<=radius})
@@ -72,7 +88,7 @@ def build():
         found=next(c for c in cities.values() if c['name']==city and c['state']==state)
         center=[found['latitude'],found['longitude']]
         hubs.append({'name':name,'center':center,'zoom':zoom,'radius_km':radius,'count':len(nearby(center,radius))})
-    out={'meta':{'as_of':'2026-11-02','addresses':len(address_source['addresses']),'city_reference_points':len(cities),'located_companies':len({p[0] for p in points}),'unplaced_companies':len(companies)-len({p[0] for p in points}),'opening':{**scores[0],'radius_km':25,'zoom':11,'method':'Maximum unique companies within 25 km of each matched city reference point. Address coordinates take precedence; otherwise city reference points. Ties use ascending GeoNames ID. A directory sampling concentration, not measured real-world startup density.'},'density_ranking':scores[:10],'sources':{'addresses_sha256':address_source['upstream_sha256'],'cities_sha256':city_source['upstream_sha256']}},'cities':cities,'locations':locations,'hubs':hubs}
+    out={'meta':{'as_of':'2026-11-02','addresses':sum(any(s['precision']!='zip-area' for s in loc['sites']) for loc in locations.values()),'baseline_address_companies':len(address_source['addresses']),'zip_area_companies':sum(bool(loc['sites']) and all(s['precision']=='zip-area' for s in loc['sites']) for loc in locations.values()),'site_positions':sum(len(loc['sites']) for loc in locations.values()),'address_sites':sum(s['precision']!='zip-area' for loc in locations.values() for s in loc['sites']),'zip_area_sites':sum(s['precision']=='zip-area' for loc in locations.values() for s in loc['sites']),'city_only_companies':sum(not loc['sites'] and bool(loc['city_ids']) for loc in locations.values()),'site_source_counts':dict(collections.Counter(s['source_type'] for loc in locations.values() for s in loc['sites'])),'city_reference_points':len(cities),'located_companies':len({p[0] for p in points}),'unplaced_companies':len(companies)-len({p[0] for p in points}),'opening':{**scores[0],'radius_km':25,'zoom':11,'method':'Maximum unique companies within 25 km of each matched city reference point. Reported address sites take precedence, then ZIP-area reference points, otherwise city reference points. Multiple reported facilities count once per region. Ties use ascending GeoNames ID. A directory sampling concentration, not measured real-world startup density.'},'density_ranking':scores[:10],'sources':{'addresses_sha256':address_source['upstream_sha256'],'cities_sha256':city_source['upstream_sha256']}},'cities':cities,'locations':locations,'hubs':hubs}
     (ROOT/'public/data/startups/locations.json').write_text(json.dumps(out,separators=(',',':'))+'\n')
     print(json.dumps(out['meta'],indent=2));print('Hubs:',[(h['name'],h['count']) for h in hubs])
 if __name__=='__main__':build()
