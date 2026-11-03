@@ -63,7 +63,7 @@ def build():
         for site in ([{**address,'source_type':'ecosystem-reviewed'}] if address else [])+enrichment.get(c['id'],{}).get('sites',[]):
             site=dict(site)
             duplicate=next((old for old in sites if (old['precision']=='zip-area')==(site['precision']=='zip-area') and distance([old['latitude'],old['longitude']],[site['latitude'],site['longitude']])<0.04 and re.match(r'\d+',old['address']) and re.match(r'\d+',site['address']) and re.match(r'\d+',old['address'])[0]==re.match(r'\d+',site['address'])[0]),None)
-            if site['precision']=='zip-area':duplicate=next((old for old in sites if old.get('postal_code')==site['postal_code']),duplicate)
+            if site['precision']=='zip-area':duplicate=next((old for old in sites if old.get('postal_code')==site['postal_code'] and bool(old.get('privacy'))==bool(site.get('privacy'))),duplicate)
             if duplicate:
                 duplicate['address_sources']=sorted(set(duplicate['address_sources']+site['address_sources']))
                 duplicate['evidence_ids']=sorted(set(duplicate.get('evidence_ids',[])+site.get('evidence_ids',[])))

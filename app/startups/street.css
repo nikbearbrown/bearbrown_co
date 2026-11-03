@@ -16,3 +16,25 @@
 .street-marker-zip{border-radius:50%}
 .street-canvas .leaflet-tooltip{white-space:normal;width:260px;max-width:260px;overflow-wrap:anywhere}
 @media(max-width:700px){.street-canvas .leaflet-tooltip{width:210px;max-width:210px;font-size:11px}}
+.address-ledger{margin:38px 0 26px;padding-top:28px;border-top:1px solid var(--p-border-strong)}
+.address-ledger-heading{display:flex;justify-content:space-between;align-items:end;gap:20px}
+.address-ledger h2{font:32px/1.2 var(--font-serif);margin:10px 0}
+.address-ledger-heading>strong{font-size:12px;white-space:nowrap;margin-bottom:12px}
+.address-ledger>p{font-size:12px;line-height:1.75;max-width:110ch}
+.address-ledger-controls{display:flex;align-items:end;gap:16px;margin:22px 0}
+.address-ledger-controls label{display:flex;flex-direction:column;gap:7px;font-size:12px;flex:1}
+.address-ledger-controls input,.address-ledger-controls select{background:var(--p-bg);color:var(--p-ink);border:1px solid var(--p-border-strong);border-radius:0;min-height:42px;padding:10px;font:12px var(--font-sans);width:100%}
+.address-ledger button{border:1px solid var(--p-border-strong);background:var(--p-bg);color:var(--p-ink);padding:10px 12px;min-height:40px;font-size:11px;cursor:pointer}
+.address-ledger button:hover{background:#e5ede6}.address-ledger button:focus-visible,.address-ledger summary:focus-visible{outline:3px solid #b85f36;outline-offset:2px}
+.address-table-scroll{overflow-x:auto;border:1px solid var(--p-border-strong);margin:18px 0}
+.address-ledger table{width:100%;border-collapse:collapse;table-layout:fixed;text-align:left;font-size:12px}
+.address-ledger caption{text-align:left;padding:12px 16px;background:#253d30;color:#fff;font-size:12px}
+.address-ledger th{background:#eeeade;font-weight:600;padding:13px 16px;color:#253d30}
+.address-ledger td{vertical-align:top;padding:18px 16px;border-top:1px solid var(--p-border-strong);overflow-wrap:anywhere}
+.address-ledger th:nth-child(1){width:20%}.address-ledger th:nth-child(2){width:27%}.address-ledger th:nth-child(3){width:35%}.address-ledger th:nth-child(4){width:18%}
+.address-ledger td>strong{font:18px/1.35 var(--font-serif)}.address-ledger td p{font-size:11px;line-height:1.65;margin:10px 0}.address-ledger td small{display:block;margin:10px 0;font-size:10px}
+.address-ledger td a{display:block;margin:7px 0;text-decoration:underline}.address-ledger td button{display:block;margin-bottom:8px;width:100%;text-align:left}
+.address-ledger summary{cursor:pointer;font-size:11px;text-decoration:underline;text-underline-offset:3px}.address-ledger details{margin-top:12px}
+.address-badge{display:inline-block;font-size:10px;line-height:1.5;background:#e4ece2;color:#244a35;padding:4px 6px;margin:0 4px 5px 0}.address-badge-protected{background:#f1e2d7;color:#6d3c23}
+@media(max-width:700px){.address-ledger-heading{display:block}.address-ledger h2{font-size:27px}.address-ledger-controls{display:block}.address-ledger-controls label{margin-bottom:12px}.address-ledger th{display:none}.address-ledger table,.address-ledger tbody,.address-ledger tr,.address-ledger td{display:block;width:100%}.address-ledger tr{padding:10px 0;border-bottom:2px solid var(--p-border-strong)}.address-ledger td{border:0;padding:8px 14px}.address-ledger td button{width:auto}.address-ledger td>strong{font-size:19px}}
+@media(max-width:700px){.address-ledger caption{display:block;width:100%;box-sizing:border-box}}

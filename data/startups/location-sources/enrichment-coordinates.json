@@ -986,13 +986,9 @@
       "matched_address": "101 JEFFERSON DR, MENLO PARK, CA, 94025"
     },
     "5aac3190c5431c88": {
-      "status": "verified",
-      "source_url": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=981+Mission+Street%2C+Unit+%2321+San+Francisco%2C+CA+94103-2912&benchmark=Public_AR_Current&format=json",
       "observed_at": "2026-11-02",
       "response_sha256": "05a7905ba6041f914effd13052054e6b0270f3a5bda2c3b05e320324aed32739",
-      "latitude": 37.781237703012,
-      "longitude": -122.408268616919,
-      "matched_address": "981 MISSION ST, SAN FRANCISCO, CA, 94103"
+      "status": "withheld-privacy"
     },
     "7f415124f57a694b": {
       "status": "verified",
@@ -1088,13 +1084,9 @@
       "response_sha256": "f6732506fee18d65ac33b29e49ce425f9c82137384349c264cf1fd8a31a637ab"
     },
     "4983bbfbd2573b68": {
-      "status": "verified",
-      "source_url": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=6860+Broadway%2C+Unit+B%2C+Denver+CO+80221&benchmark=Public_AR_Current&format=json",
       "observed_at": "2026-11-02",
       "response_sha256": "b85444327c9d19861abfd951c50f1b89e2e6ff2c0840b3978c0c6411d96e4447",
-      "latitude": 39.821448005438,
-      "longitude": -104.98737657257,
-      "matched_address": "6860 BROADWAY ST, DENVER, CO, 80221"
+      "status": "withheld-privacy"
     },
     "6c5d78663e4c07d2": {
       "status": "unmatched-or-inconsistent",

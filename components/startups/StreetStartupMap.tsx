@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type * as Leaflet from 'leaflet'
+import AddressLedger, { type AddressRow } from './AddressLedger'
 import locationData from '@/public/data/startups/locations.json'
 import enrichmentData from '@/public/data/startups/enrichment.json'
 import affiliationData from '@/public/data/startups/affiliations.json'
 
-export type MapCompany = {id:string; name:string; location:string; website:string; source_url:string; location_note:string; sources:string[]}
+export type MapCompany = {id:string; name:string; industry?:string; location:string; website:string; source_url:string; location_note:string; sources:string[]}
 type Address = {postal_code?:string; latitude:number; longitude:number; address:string; precision:string; checked_on:string; location_role?:string; notes:string; coordinate_source:string; address_sources:string[]}
 type City = {id:string; name:string; state:string; latitude:number; longitude:number; source:string}
 type Location = {city_ids:string[]; address?:Address; sites:Address[]}
@@ -36,7 +37,7 @@ export function LocationEvidence({id}:{id:string}) {
   const sites=locations[id]?.sites || []
   const detail=enrichment[id]
   return <div className="street-location-evidence"><strong>Reported locations</strong>{sites.length ? sites.map((a,i)=><div className="street-location" key={i}><strong>{a.address}</strong><p>{a.location_role || 'Reported address; occupancy unverified'}</p><p>{a.precision==='zip-area'?'ZIP-area reference point · not an office pin':'Address geocode · not verified occupancy'} · checked {a.checked_on}</p><p>{a.notes}</p>{a.address_sources.map((url,j)=><a key={url} href={url} target="_blank" rel="noreferrer">Address source {j+1} ↗</a>)}<a href={a.coordinate_source} target="_blank" rel="noreferrer">Coordinate source ↗</a></div>) : <p>No usable address or ZIP point. Reported city locations remain approximate.</p>}
-    {!!detail?.evidence.length && <details><summary>All published address evidence ({detail.evidence.length})</summary>{detail.evidence.map((e,i)=><p key={i}><strong>{e.address}</strong><br />{e.location_role}<br />Observed {e.observed_at}{e.source_date?` · source dated ${e.source_date}`:''}{e.stale?' · historical; not mapped':''}{e.conflict_note && <><br />{e.conflict_note}</>}<br /><a href={e.source_url} target="_blank" rel="noreferrer">Company source ↗</a></p>)}</details>}
+    {!!detail?.evidence.length && <details><summary>All source address evidence ({detail.evidence.length})</summary>{detail.evidence.map((e,i)=><p key={i}><strong>{e.address}</strong><br />{e.location_role}<br />Observed {e.observed_at}{e.source_date?` · source dated ${e.source_date}`:''}{e.stale?' · historical; not mapped':''}{e.conflict_note && <><br />{e.conflict_note}</>}<br /><a href={e.source_url} target="_blank" rel="noreferrer">Company source ↗</a></p>)}</details>}
     {!!detail?.careers.length && <div className="street-careers"><strong>Careers links</strong><p>Links observed in official-site navigation; vacancies and AI requirements have not been verified.</p>{detail.careers.map(c=><p key={c.url}><a href={c.url} target="_blank" rel="noreferrer">Company careers ↗</a><a href={c.source_url} target="_blank" rel="noreferrer">Navigation source ↗</a><small>Observed {c.observed_at}</small></p>)}</div>}
   </div>
 }
@@ -56,6 +57,8 @@ export default function StreetStartupMap({companies}:{companies:MapCompany[]}) {
   const [limit,setLimit]=useState(30)
   const [focus,setFocus]=useState('Densest area')
   const [includeCities,setIncludeCities]=useState(false)
+  const [selectedEvidence,setSelectedEvidence]=useState<AddressRow|null>(null)
+  const profileRef=useRef<HTMLElement>(null)
   const groups=useMemo(()=>{
     const result=new Map<string,Group>()
     function add(key:string,kind:Group['kind'],lat:number,lng:number,label:string,c:MapCompany) {
@@ -67,8 +70,9 @@ export default function StreetStartupMap({companies}:{companies:MapCompany[]}) {
       if(loc.sites.length) {for(const a of loc.sites){const kind=a.precision==='zip-area'?'zip':'address';add(`${kind}:${a.latitude},${a.longitude}`,kind,a.latitude,a.longitude,kind==='zip'?`ZIP area · ${a.postal_code || 'approximate'}`:a.address,c)}}
       else if(includeCities) for(const id of loc.city_ids) {const city=cities[id];add(`c:${id}`,'city',city.latitude,city.longitude,`${city.name}, ${city.state}`,c)}
     }
+    if(selectedEvidence?.map){const m=selectedEvidence.map;const c=companies.find(c=>c.id===selectedEvidence.company_id);if(c)add(`${m.kind}:${m.latitude},${m.longitude}`,m.kind,m.latitude,m.longitude,selectedEvidence.address,c)}
     return [...result.values()]
-  },[companies,includeCities])
+  },[companies,includeCities,selectedEvidence])
   useEffect(()=>{
     let cancelled=false;let observer:ResizeObserver|undefined
     import('leaflet').then(L=>{
@@ -87,7 +91,7 @@ export default function StreetStartupMap({companies}:{companies:MapCompany[]}) {
     }).catch(()=>setFailed(true))
     return ()=>{cancelled=true;observer?.disconnect();mapRef.current?.remove();mapRef.current=null}
   },[])
-  useEffect(()=>{setGroup(null);setSelected(null);setLimit(30)},[companies])
+  useEffect(()=>{setGroup(null);setSelected(null);setSelectedEvidence(null);setLimit(30)},[companies])
   useEffect(()=>{
     const L=leaflet.current;const map=mapRef.current;const layer=markers.current
     if(!ready||!L||!map||!layer)return
@@ -111,16 +115,19 @@ export default function StreetStartupMap({companies}:{companies:MapCompany[]}) {
   },[companies,groups,activeGroup,view,ready])
   const company=companies.find(c=>c.id===selected)
   const unplaced=companies.filter(c=>!locations[c.id]?.address&&!locations[c.id]?.city_ids.length).length
-  function go(center:number[],zoom:number,name:string){setGroup(null);setSelected(null);setFocus(name);const map=mapRef.current;if(map){if(name==='Densest area')focusOpening(map);else map.setView(center as [number,number],zoom,{animate:false})}}
+  function go(center:number[],zoom:number,name:string){setGroup(null);setSelected(null);setSelectedEvidence(null);setFocus(name);const map=mapRef.current;if(map){if(name==='Densest area')focusOpening(map);else map.setView(center as [number,number],zoom,{animate:false})}}
+  function inspectCompany(id:string){setSelected(id);setGroup(null);setSelectedEvidence(null);profileRef.current?.scrollTo({top:0});profileRef.current?.scrollIntoView({block:'center',behavior:'auto'})}
+  function locateEvidence(row:AddressRow){if(!row.map)return;setSelectedEvidence(row);setSelected(row.company_id);setGroup(`${row.map.kind}:${row.map.latitude},${row.map.longitude}`);setFocus('Selected address evidence');mapRef.current?.setView([row.map.latitude,row.map.longitude],row.map.kind==='zip'?12:16,{animate:false});profileRef.current?.scrollTo({top:0});container.current?.scrollIntoView({block:'center',behavior:'auto'})}
   return <section className="street-atlas" aria-label="Geographic company explorer">
     <div className="street-toolbar"><div><span className="atlas-kicker">JUMP TO A HUB</span><p>Explore places. Follow the evidence.</p></div><div className="street-hubs">{locationData.hubs.map(h=><button key={h.name} aria-pressed={focus===h.name} onClick={()=>go(h.center,h.zoom,h.name)}>{h.name}<small>{number(h.count)}</small></button>)}</div></div>
-    <div className="street-precision-control"><label><input type="checkbox" checked={includeCities} onChange={e=>{setIncludeCities(e.target.checked);setGroup(null);setSelected(null)}} /> Include city-only groups</label><p>{number(locationCoverage.addresses)} companies with reported street addresses · {number(locationCoverage.zip_area_companies)} with ZIP-area evidence · {number(locationCoverage.city_only_companies)} city-only. Counts cover the full collection. Every record remains searchable below. A company may report several facilities; affiliation never duplicates an entity.</p></div>
+    <div className="street-precision-control"><a href="#address-evidence">Browse individual addresses ↓</a><label><input type="checkbox" checked={includeCities} onChange={e=>{setIncludeCities(e.target.checked);setGroup(null);setSelected(null)}} /> Include city-only groups</label><p>{number(locationCoverage.addresses)} companies with reported street addresses · {number(locationCoverage.zip_area_companies)} with ZIP-area evidence · {number(locationCoverage.city_only_companies)} city-only. Counts cover the full collection. Every record remains searchable below. A company may report several facilities; affiliation never duplicates an entity.</p></div>
     <div className="street-map-top"><span><strong>{focus}</strong> / Street map</span><div><button onClick={()=>go(opening.center,opening.zoom,'Densest area')}>Densest area ↗</button><button onClick={()=>go([39,-98],4,'United States')}>U.S. overview</button></div></div>
     <div className="street-layout"><div className="street-canvas-wrap"><div ref={container} className="street-canvas" role="region" aria-label="Street map of company address evidence and city groups" />{!ready&&<p className="street-loading" role={failed?'alert':'status'}>{failed?'The street map could not load. The full directory remains below.':'Loading the street map…'}</p>}<div className="street-legend"><span><i className="street-dot" /> Reported address</span><span><i className="street-zip-key" /> ZIP area · approximate</span><span><i className="street-city-key">#</i> City group · not office pins</span></div></div>
-      <aside className="street-sidebar" aria-label="Companies on the map"><div className="street-sidebar-heading" aria-live="polite"><span className="atlas-kicker">{activeGroup?.kind==='address'?'AT THIS ADDRESS':activeGroup?.kind==='zip'?'IN THIS ZIP AREA':activeGroup?'IN THIS CITY':'IN THE MAP VIEW'}</span><h3>{activeGroup?.label || 'Explore the companies'} <small>{number(visible.length)}</small></h3>{activeGroup&&<button onClick={()=>{setGroup(null);setSelected(null)}}>← All records in map view</button>}<p>{activeGroup?.kind==='address'?'Shared addresses retain one position. Select any company below.':'Select a circle or company below. ZIP and optional city groups are approximate reference points, not offices. Shared positions list every company without invented offsets.'}</p></div>
-      {company?<article className="street-profile"><button onClick={()=>setSelected(null)}>← Back to companies</button><span className="street-status">AI REVIEW PENDING</span><h3>{company.name}</h3><p>Directory reports: {company.location}</p><a href={company.website} target="_blank" rel="noreferrer">Company website ↗</a><LocationEvidence id={company.id}/><ProgramEvidence id={company.id}/><a href={company.source_url} target="_blank" rel="noreferrer">Directory source ↗</a></article>:<div className="street-list">{visible.slice(0,limit).map(c=><button key={c.id} onClick={()=>{setSelected(c.id);const a=locations[c.id]?.address;if(a&&!activeGroup)mapRef.current?.setView([a.latitude,a.longitude],a.precision==='zip-area'?12:16,{animate:false})}}><strong>{c.name}</strong><span>{locations[c.id]?.address?(locations[c.id].address!.precision==='zip-area'?'ZIP-area reference point':'Reported address'):'City-level location'} · {c.sources.join(' + ')}</span></button>)}{visible.length>limit&&<button className="street-more" onClick={()=>setLimit(n=>n+30)}>Show 30 more ({number(visible.length-limit)} remaining)</button>}{ready&&!visible.length&&<p>No matching records in this map view. Try another hub or clear the filters. Records without coordinates remain in the directory below.</p>}</div>}</aside>
+      <aside ref={profileRef} className="street-sidebar" aria-label="Companies on the map"><div className="street-sidebar-heading" aria-live="polite"><span className="atlas-kicker">{activeGroup?.kind==='address'?'AT THIS ADDRESS':activeGroup?.kind==='zip'?'IN THIS ZIP AREA':activeGroup?'IN THIS CITY':'IN THE MAP VIEW'}</span><h3>{activeGroup?.label || 'Explore the companies'} <small>{number(visible.length)}</small></h3>{activeGroup&&<button onClick={()=>{setGroup(null);setSelected(null)}}>← All records in map view</button>}<p>{activeGroup?.kind==='address'?'Shared addresses retain one position. Select any company below.':'Select a circle or company below. ZIP and optional city groups are approximate reference points, not offices. Shared positions list every company without invented offsets.'}</p></div>
+      {company?<article className="street-profile"><button onClick={()=>setSelected(null)}>← Back to companies</button><span className="street-status">AI REVIEW PENDING</span><h3>{company.name}</h3><p>{company.industry || 'Industry not supplied'}</p><p>Directory reports: {company.location}</p><a href={company.website} target="_blank" rel="noreferrer">Company website ↗</a><LocationEvidence id={company.id}/><ProgramEvidence id={company.id}/><a href={company.source_url} target="_blank" rel="noreferrer">Directory source ↗</a></article>:<div className="street-list">{visible.slice(0,limit).map(c=><button key={c.id} onClick={()=>{setSelected(c.id);const a=locations[c.id]?.address;if(a&&!activeGroup)mapRef.current?.setView([a.latitude,a.longitude],a.precision==='zip-area'?12:16,{animate:false})}}><strong>{c.name}</strong><span>{locations[c.id]?.address?(locations[c.id].address!.precision==='zip-area'?'ZIP-area reference point':'Reported address'):'City-level location'} · {c.sources.join(' + ')}</span></button>)}{visible.length>limit&&<button className="street-more" onClick={()=>setLimit(n=>n+30)}>Show 30 more ({number(visible.length-limit)} remaining)</button>}{ready&&!visible.length&&<p>No matching records in this map view. Try another hub or clear the filters. Records without coordinates remain in the directory below.</p>}</div>}</aside>
     </div>
     {tileError&&<p role="status" className="national-layer-note">Some street tiles did not load. Company markers and the directory remain available; refresh to retry.</p>}
+    <AddressLedger companies={companies} onLocate={locateEvidence} onCompany={inspectCompany} />
     <p className="street-method">Opening view: {opening.name}, the highest sampled concentration—{number(opening.count)} unique companies within 25 km of a matched city reference point. Computed across all {locationData.meta.located_companies.toLocaleString('en-US')} located records; directory coverage strongly favors YC. Hub counts use documented regional radii, before filters. {unplaced} matching records lack usable coordinates and remain below. <a href="#location-method">Location method ↗</a></p>
   </section>
 }
