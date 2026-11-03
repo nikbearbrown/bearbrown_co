@@ -6,6 +6,7 @@ import {
   Briefcase,
   Users,
   BookOpenText,
+  MapPin,
   ArrowUpRight,
 } from 'lucide-react'
 
@@ -56,6 +57,14 @@ const MENU_CARDS = [
     body:
       'Written procedures Claude loads when your request matches. Search by the job you need done, see how each is built, and read the whole text before you install it.',
     cta: 'Browse skills',
+  },
+  {
+    name: 'Startups',
+    href: '/startups',
+    Icon: MapPin,
+    heading: 'Where agents are being built',
+    body: 'Explore Bay Area AI startups on a D3 map with city-level counts, product evidence, and sources you can inspect. A curated starting collection, with no invented office pins.',
+    cta: 'Explore the startup map',
   },
   {
     name: 'Talent',
