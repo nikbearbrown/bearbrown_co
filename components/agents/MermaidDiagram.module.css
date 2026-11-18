@@ -1,0 +1,45 @@
+.viewButton {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  border: 2px solid var(--p-ink-soft);
+  border-radius: 0.5rem;
+  background: var(--p-bg-card);
+  color: var(--p-ink);
+  font-weight: 600;
+  line-height: 1.25;
+  cursor: pointer;
+  box-shadow: 0 2px 0 var(--p-border-strong);
+}
+
+.viewButton:hover {
+  border-color: var(--p-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.viewButton:active {
+  box-shadow: none;
+}
+
+.viewButton[aria-pressed='true'] {
+  border-color: var(--p-ink);
+  background: var(--p-ink);
+  color: var(--p-bg);
+}
+
+.viewButton:focus-visible {
+  outline: 3px solid var(--p-blue);
+  outline-offset: 3px;
+}
+
+.selectedIcon {
+  visibility: hidden;
+}
+
+.viewButton[aria-pressed='true'] .selectedIcon {
+  visibility: visible;
+}
