@@ -1,5 +1,7 @@
 'use client'
 import { useEffect, useId, useRef, useState } from 'react'
+import { Check, Maximize2, ScanText } from 'lucide-react'
+import styles from './MermaidDiagram.module.css'
 
 export default function MermaidDiagram({ source }: { source: string }) {
   const host = useRef<HTMLDivElement>(null)
@@ -30,8 +32,8 @@ export default function MermaidDiagram({ source }: { source: string }) {
     {!ready && !error && <p className="p-4 text-sm" role="status">Rendering the workflow diagram…</p>}
     {error && <p className="p-4 text-sm" role="status">The diagram could not be rendered. Its Mermaid source is available below.</p>}
     {ready && <div className="mb-3 flex flex-wrap items-center gap-3 text-sm">
-      <button type="button" className="rounded border px-3 py-2" aria-pressed={!readable} onClick={() => setReadable(false)}>Fit diagram</button>
-      <button type="button" className="rounded border px-3 py-2" aria-pressed={readable} onClick={() => setReadable(true)}>Readable size</button>
+      <button type="button" className={styles.viewButton} aria-pressed={!readable} onClick={() => setReadable(false)}><Maximize2 size={18} aria-hidden="true" /><span>Fit diagram</span><Check size={16} aria-hidden="true" className={styles.selectedIcon} /></button>
+      <button type="button" className={styles.viewButton} aria-pressed={readable} onClick={() => setReadable(true)}><ScanText size={18} aria-hidden="true" /><span>Readable size</span><Check size={16} aria-hidden="true" className={styles.selectedIcon} /></button>
       {readable && <span>Scroll inside the diagram to follow its branches.</span>}
     </div>}
     <div className="max-h-[70vh] overflow-auto rounded border bg-[#faf9f5] p-5 text-[#3d3929]" tabIndex={0} aria-label="Scrollable workflow diagram">
