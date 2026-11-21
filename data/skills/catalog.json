@@ -370,7 +370,7 @@
    "sources.json"
   ],
   "sha256": "69d6ca9768a4eaade083ffe979dfc973fa00b105fb2f624ecdc4d6e675c68ab5",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -1264,7 +1264,7 @@
    "sources.json"
   ],
   "sha256": "1a6de1f1de28de35eff9768838383cee4324d6acc90c9710a9d581fe1b3154e7",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "mattpocock/skills",
@@ -1950,7 +1950,7 @@
    "sources.json"
   ],
   "sha256": "54e4ff8bc23c129859ec5de17629623bf47b110619738a82c7c9e7c7c8d01c29",
-  "changed": "2026-10-20",
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -2119,7 +2119,7 @@
    "sources.json"
   ],
   "sha256": "fae4fd875229de93d8686cf2f2fee196a699bcf46895d076276672d1d7be0b1c",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "xd4o/praxis",
@@ -2315,7 +2315,7 @@
    "sources.json"
   ],
   "sha256": "1b9194a53a34fda31e409d4070c933ab27a0aa67aa7a1497aaadc978c3c290c0",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "mattpocock/skills",
@@ -2656,7 +2656,7 @@
    "sources.json"
   ],
   "sha256": "8e1eccb6302c9a3bed23d79af455599e236016beeea62c7269763eeb56d0587e",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -3160,7 +3160,7 @@
    "sources.json"
   ],
   "sha256": "5f8ba640f990ae2819bfb91b0d4869da6be61837c617f03ee3ab015e3307030f",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -3381,7 +3381,7 @@
    "unity-refactoring"
   ],
   "agents": [],
-  "words": 8983,
+  "words": 10141,
   "descWords": 43,
   "sections": [
    {
@@ -3390,7 +3390,7 @@
    },
    {
     "title": "WELCOME MENU — /help",
-    "words": 361
+    "words": 382
    },
    {
     "title": "PHASE 1: VISION & CONCEPT",
@@ -3402,7 +3402,7 @@
    },
    {
     "title": "PHASE 3: WORLD & NARRATIVE",
-    "words": 798
+    "words": 1844
    },
    {
     "title": "PHASE 4: SCOPE & PRODUCTION",
@@ -3410,7 +3410,7 @@
    },
    {
     "title": "BUILD & FINALIZATION",
-    "words": 2091
+    "words": 2158
    },
    {
     "title": "REFINEMENT TOOLS",
@@ -3418,7 +3418,7 @@
    },
    {
     "title": "COMMAND QUICK REFERENCE",
-    "words": 321
+    "words": 345
    }
   ],
   "commands": [
@@ -3465,6 +3465,14 @@
    {
     "name": "/w3",
     "desc": "Character Profiles and Character Web"
+   },
+   {
+    "name": "/w4",
+    "desc": "Art Direction"
+   },
+   {
+    "name": "/w5",
+    "desc": "Sound and Music"
    },
    {
     "name": "/p1",
@@ -3567,14 +3575,14 @@
   ],
   "rules": null,
   "extraFiles": [],
-  "sha256": "d90343149c073a2cdb7f25269afd36597b732d922738fb88804c8c06433dccf4",
-  "changed": "2026-08-09",
+  "sha256": "5247a25ca252401652ef42737ecf7b870cdc94213d89453f3eb32abfb6d6abbd",
+  "changed": "2026-11-21",
   "derivedFrom": [
    {
     "repo": "nikbearbrown/bear-brown-tools",
     "path": "skills/game-design-doc/SKILL.md",
-    "commit": "d976664",
-    "sha256": "d90343149c073a2cdb7f25269afd36597b732d922738fb88804c8c06433dccf4",
+    "commit": "3a7271f",
+    "sha256": "5247a25ca252401652ef42737ecf7b870cdc94213d89453f3eb32abfb6d6abbd",
     "url": "https://github.com/nikbearbrown/bear-brown-tools/tree/main/skills/game-design-doc"
    }
   ],
@@ -3584,7 +3592,9 @@
   "refactor": null,
   "verbatim": true,
   "note": null,
-  "audit": []
+  "audit": [
+   "very-long-body"
+  ]
  },
  {
   "slug": "gpt-deployment",
@@ -3833,7 +3843,7 @@
    "sources.json"
   ],
   "sha256": "9e14e953161a1f47c2edac48e7cb4b18ba4e4a92af21cdecf5c11cb1320eaafe",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "the-inconvenience-store/skills",
@@ -4212,7 +4222,7 @@
    "sources.json"
   ],
   "sha256": "81363e0c3ce4ab1d4b71ceb9331b24fa44ebf0f5bcfcdbe3e5f1896c951e6d0e",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "the-inconvenience-store/skills",
@@ -4741,7 +4751,7 @@
    "sources.json"
   ],
   "sha256": "fdd8da5fecf4f5ee1b42d37640de27b2c2cba48c910176a7875fa78b106b61b7",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "mattpocock/skills",
@@ -6492,7 +6502,7 @@
    "sources.json"
   ],
   "sha256": "5864f3004bf9c0e279601f8c46d261fa2ed6946788e489d3834a07b5c0fc46ca",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "mattpocock/skills",
@@ -7107,7 +7117,7 @@
    "sources.json"
   ],
   "sha256": "dd63e44ed20a3ed0fa8122c307e5603c4858b89fc73c4ffe71a64cda772d3979",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "mattpocock/skills",
@@ -7404,7 +7414,7 @@
    "sources.json"
   ],
   "sha256": "8180f922d7a6f4baa9f81ae5322fb9de1d73ec660b420b9295e69e7a32eb14ce",
-  "changed": "2026-10-20",
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -7581,7 +7591,7 @@
    "sources.json"
   ],
   "sha256": "58074fae258542c81a9eec3357ec4964dfdad333898cce39791e20abb56638d5",
-  "changed": "2026-10-20",
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -7766,7 +7776,7 @@
    "sources.json"
   ],
   "sha256": "82ffa826b3f7c72f3284194c33a9dee9387f8ca81c9f1f99d2714430dfd14492",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "mattpocock/skills",
@@ -8024,7 +8034,7 @@
    "sources.json"
   ],
   "sha256": "ea108468168add6a8b8c672d24bc45bc75ba9670f64318622355ca83cfc19314",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "mattpocock/skills",
@@ -8406,7 +8416,7 @@
    "sources.json"
   ],
   "sha256": "116397d50bb11b7b2cc149e8fed33567056ab17f0a891723fe55f3fb48916018",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "tedeuxx/tadeumendonca-skills",
@@ -9104,7 +9114,7 @@
    "sources.json"
   ],
   "sha256": "81a8ceb45acf06e544e6d5270ea7c1af1bcb7637d6779672891c2dbe02188f6d",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -9587,7 +9597,7 @@
    "sources.json"
   ],
   "sha256": "01e3936ff50609da9153ac07539c6f28490eb6102f81dd4dfd8c88d195422cb8",
-  "changed": "2026-10-20",
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -9890,7 +9900,7 @@
    "sources.json"
   ],
   "sha256": "254548a20758f2b2a2f55287d790c7eaa27be09a0d48a06abecef29f769dc215",
-  "changed": "2026-10-20",
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -10367,7 +10377,7 @@
    "sources.json"
   ],
   "sha256": "64676b33257d03baaebf10bfdd18124adfe7ab768306dea169ca431ca3894424",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "mattpocock/skills",
@@ -11839,7 +11849,7 @@
    "sources.json"
   ],
   "sha256": "d150f1e6416ef0eab19aa0130ce7da906d4350841e340af2f2e68532f5be282c",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -12159,7 +12169,7 @@
    "sources.json"
   ],
   "sha256": "b8a7d38e6c0a8ac62d6f040e2e8f5870a8b6f82da691bf13c9a536cad4224c86",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -12550,7 +12560,7 @@
    "sources.json"
   ],
   "sha256": "15d60b2f67cf459f7a1cf643e291b632fa7c866d9e72a67372bf67dd9da8c79b",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
@@ -12759,7 +12769,7 @@
    "sources.json"
   ],
   "sha256": "1b43dcfd001967adb87856b3c48548461f08a8a3b17cc3bb04aacfdaeb516c1f",
-  "changed": null,
+  "changed": "2026-10-28",
   "derivedFrom": [
    {
     "repo": "obra/superpowers",
