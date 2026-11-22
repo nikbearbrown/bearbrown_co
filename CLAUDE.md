@@ -392,7 +392,7 @@ npx next build                            # then commit data/skills, content/ski
 
 ## Agent diagram zoom (2026-10-28)
 
-`components/agents/MermaidDiagram.tsx` (the diagram on `/agents/[slug]`) is zoomable: −/+ buttons with a % readout, Fit diagram, Readable size, Ctrl/⌘+wheel or trackpad pinch (zooms about the cursor), drag to pan, and `+`/`-`/`0` keys when focused. Zoom is a width multiplier (0.5x–10x of fit) on the rendered SVG inside the scroll box; touch devices pan by native scroll. `WorkflowPreview.tsx` (n8n inspector pages) already had its own zoom. Uncommitted, not pushed.
+`components/agents/MermaidDiagram.tsx` (the diagram on `/agents/[slug]`) is zoomable: −/+ buttons with a % readout, Fit diagram, Readable size, Ctrl/⌘+wheel or trackpad pinch (zooms about the cursor), drag to pan, and `+`/`-`/`0` keys when focused. Zoom is a width multiplier (0.5x–10x of fit) on the rendered SVG inside the scroll box; touch devices pan by native scroll. `WorkflowPreview.tsx` (n8n inspector pages) already had its own zoom. Pushed to main 2026-11-22.
 
 `notes/goal-engineering.md` holds Bear's 2026-10-28 draft notes on goals, measurement and reward shaping. Draft, unpublished; placement on the site undecided.
 
