@@ -345,6 +345,34 @@ export default function TalentPage() {
           </div>
         </Section>
 
+        {/* AI job map */}
+        <Section title="Job hunting? Start with the map">
+          <Body>
+            The{' '}
+            <a
+              href="https://jobs.humanitarians.ai/ecosystem"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--p-blue)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+            >
+              AI job map
+            </a>
+            {' '}is a free, public map of AI startups and research groups, built by
+            Humanitarians AI. It shows where AI work is being done. It is not a list of
+            job postings: most of the places on it are research labs. For postings,
+            the same site has a{' '}
+            <a
+              href="https://jobs.humanitarians.ai/jobs"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--p-blue)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+            >
+              job board
+            </a>
+            .
+          </Body>
+        </Section>
+
         {/* How to start */}
         <Section title="How to start">
           <Body>

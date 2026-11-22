@@ -33,7 +33,7 @@ A curated Claude plugin/skill directory — a few dozen entries that earned thei
 | `/skills` | **SKILLS** — Bear Brown's own skills, searchable (Fuse.js, kind and job filters). 46 from `bear-brown-tools` at launch (2026-10-20). Separate from the audited third-party directory at `/claude/skills` |
 | `/skills/[slug]` | One skill: what it does, what's inside, commands, rules, the full text, install tabs, and a "where this came from" citation. `/skills/[slug]/skill.md` serves the raw text |
 | `/consulting` | **Consulting** — the manifesto (Bear Brown Method, The Belief, Three Ways to Work, method TOC). Was the old home. |
-| `/talent` | **Talent** — the year-long big-tech job search, the graduates stuck inside it, the people who need software built, and Bear as the connector. Two lanes (Open $35/hr, Bespoke $200+/hr). No placement fee, no non-solicit. |
+| `/talent` | **Talent** — the year-long big-tech job search, the graduates stuck inside it, the people who need software built, and Bear as the connector. Two lanes (Open $35/hr, Bespoke $200+/hr). No placement fee, no non-solicit. A "Job hunting? Start with the map" section links the AI job map (https://jobs.humanitarians.ai/ecosystem, startups and research groups, not postings) and its job board. |
 | `/essays` | **Essays** — surface for the five Substack publications |
 | `/ai` | **AI** — the "How to AI" playlist of the @NikBearBrown YouTube channel, each video an article too (searchable list). Empty state until the playlist exists |
 | `/ai/[slug]` | One video + its article (video on top, chapters, transcript, related, prev/next) |
@@ -59,7 +59,7 @@ Right: GitHub, YouTube, Substack pills · ThemeToggle · mobile hamburger
 Uses `--p-bg` background, `--p-border` border-bottom.
 
 ### Footer (`/components/Footer/Footer.tsx`)
-Four-column grid: Bear Brown LLC address/contact · Publications (5 Substack links) · Connect (GitHub, YouTube, Spotify, Substack) · Legal (Privacy, Cookies, ToS)
+Four-column grid: Bear Brown LLC address/contact · Publications (5 Substack links) · Connect (GitHub, YouTube, Spotify, Substack, AI job map = https://jobs.humanitarians.ai/ecosystem, added 2026-11-22) · Legal (Privacy, Cookies, ToS)
 Uses shadcn/ui variables (bg-background, text-muted-foreground) which pick up the new light-mode cream values.
 
 ## AI: video + article (the How to AI playlist)
