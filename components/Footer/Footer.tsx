@@ -7,7 +7,7 @@ const SOCIAL_LINKS = [
   { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
   { name: 'Spotify', href: 'https://open.spotify.com/artist/0hSpFCJodAYMP2cWK72zI6' },
   { name: 'Substack', href: 'https://bearbrownco.substack.com/' },
-  { name: 'AI job map', href: 'https://jobs.humanitarians.ai/ecosystem' },
+  { name: 'AI jobs map', href: 'https://jobs.humanitarians.ai/ecosystem' },
 ]
 
 const SUBSTACK_PUBLICATIONS = [
