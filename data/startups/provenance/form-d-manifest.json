@@ -1,0 +1,606 @@
+{
+  "source": "https://www.sec.gov/data-research/sec-markets-data/form-d-data-sets",
+  "user_agent": "Bear Brown bear@bearbrown.co",
+  "archives": [
+    {
+      "url": "https://www.sec.gov/files/datastandardsinnovation/data/form-d-data-sets/2026q3_d.zip",
+      "file": "raw/2026q3_d.zip",
+      "status": "verified",
+      "bytes": 3652689,
+      "sha256": "03669a23e724645a8bbcad51822cf7f4b27f91c3f2bedac9dcff3c23e68e84bf",
+      "verified_at": "2026-11-01T18:49:53.081315+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/datastandardsinnovation/data/form-d-data-sets/2026q2_d.zip",
+      "file": "raw/2026q2_d.zip",
+      "status": "verified",
+      "bytes": 3805493,
+      "sha256": "e7a08365a5600d1e72357687c76cda20075c00e6817008fcd9fa7064a984592a",
+      "verified_at": "2026-11-01T18:49:54.600104+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2026q1_d.zip",
+      "file": "raw/2026q1_d.zip",
+      "status": "verified",
+      "bytes": 3648126,
+      "sha256": "3d2fb8915fd6c22747b7935f05d1cc66523d2bc1134896d1f03c6f1c16fad9d8",
+      "verified_at": "2026-11-01T18:49:56.012870+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2025q4_d.zip",
+      "file": "raw/2025q4_d.zip",
+      "status": "verified",
+      "bytes": 3490382,
+      "sha256": "74cd9fc70ef008e5cbd27ffa7fab7c715947d8a712d3a28dcda98790248a0f29",
+      "verified_at": "2026-11-01T18:49:57.593436+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2025q3_d.zip",
+      "file": "raw/2025q3_d.zip",
+      "status": "verified",
+      "bytes": 3358303,
+      "sha256": "18c57a72d6d19b65b51ad55a43c18bfd78aadf88643437fcfca2a279a9f0a26b",
+      "verified_at": "2026-11-01T18:49:59.187819+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2025q2_d.zip",
+      "file": "raw/2025q2_d.zip",
+      "status": "verified",
+      "bytes": 3171828,
+      "sha256": "ea133398badf32d0abf6ecc92bdcd7db4c6daafd901f007b380dc5fccee64ff2",
+      "verified_at": "2026-11-01T18:50:00.849887+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2025q1_d.zip",
+      "file": "raw/2025q1_d.zip",
+      "status": "verified",
+      "bytes": 3519235,
+      "sha256": "d98c166e1b7995a2daf0632028825cd3217186299912ae4cdee0e1e3dd7c281c",
+      "verified_at": "2026-11-01T18:50:02.343345+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2024q4_d.zip",
+      "file": "raw/2024q4_d.zip",
+      "status": "verified",
+      "bytes": 3278867,
+      "sha256": "931e1ec5f8777d4d276690de3b8b688cfc72c852bea3c6f06d8ddae0b8080696",
+      "verified_at": "2026-11-01T18:50:03.931325+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2024q3_d.zip",
+      "file": "raw/2024q3_d.zip",
+      "status": "verified",
+      "bytes": 3149649,
+      "sha256": "40d78ab710a12ca8c180855e69ca3d19fd4162e05d8f0dcab25d140ec035ac06",
+      "verified_at": "2026-11-01T18:50:05.400362+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2024q2_d.zip",
+      "file": "raw/2024q2_d.zip",
+      "status": "verified",
+      "bytes": 3296028,
+      "sha256": "cded813f6a8a1f258a032b9602e078d4b6cec327b14cb0e76d38a4af2a6718f3",
+      "verified_at": "2026-11-01T18:50:06.832706+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2024q1_d.zip",
+      "file": "raw/2024q1_d.zip",
+      "status": "verified",
+      "bytes": 3428140,
+      "sha256": "c8101d66b5c1070f249c2b7a26500e48a1dd490e70b4b18bbcf5b836948ebe3e",
+      "verified_at": "2026-11-01T18:50:08.159738+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2023q4_d.zip",
+      "file": "raw/2023q4_d.zip",
+      "status": "verified",
+      "bytes": 3037424,
+      "sha256": "f849e596219aa419bde549c370f7d0b52f0b7eef17ae21043b48543c70fcdc0b",
+      "verified_at": "2026-11-01T18:50:09.573137+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2023q3_d.zip",
+      "file": "raw/2023q3_d.zip",
+      "status": "verified",
+      "bytes": 3080036,
+      "sha256": "0d6837d2cff478acaa3d564a05e4f307c8eae3b04bb20516c4b1cb7366aad515",
+      "verified_at": "2026-11-01T18:50:10.912071+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2023q2_d.zip",
+      "file": "raw/2023q2_d.zip",
+      "status": "verified",
+      "bytes": 3316314,
+      "sha256": "0d968c8a5a030b1132fe0d2a17ea72261d09d501ed65c14fe53b096c4cb4e091",
+      "verified_at": "2026-11-01T18:50:12.353526+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2023q1_d.zip",
+      "file": "raw/2023q1_d.zip",
+      "status": "verified",
+      "bytes": 3473211,
+      "sha256": "f2a102182122278aaf53c8342823afcee5c879239ca4601659f1cee4e36e6c17",
+      "verified_at": "2026-11-01T18:50:13.974087+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2022q4_d.zip",
+      "file": "raw/2022q4_d.zip",
+      "status": "verified",
+      "bytes": 3292156,
+      "sha256": "e92e61ab5356ab27c912e999d6b61e9fa58c4047cf0f6aaf4ffce92e90fefd17",
+      "verified_at": "2026-11-01T18:50:15.458433+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2022q3_d.zip",
+      "file": "raw/2022q3_d.zip",
+      "status": "verified",
+      "bytes": 3342501,
+      "sha256": "e6a9ab5d8b8ccb3b6c70a78728e76ae633e36d06d07ebe54cb30d95560a0087b",
+      "verified_at": "2026-11-01T18:50:17.110256+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2022q2_d.zip",
+      "file": "raw/2022q2_d.zip",
+      "status": "verified",
+      "bytes": 3739716,
+      "sha256": "469e3afb49a7ead9cbaf48a07292c4da9725ca91b497feb91ed17b21586c55ab",
+      "verified_at": "2026-11-01T18:50:18.528920+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2022q1_d.zip",
+      "file": "raw/2022q1_d.zip",
+      "status": "verified",
+      "bytes": 4261542,
+      "sha256": "3bbb882850eae7fffcb8c947790c49b0e74bc3e7695f83608853fa732b6a253c",
+      "verified_at": "2026-11-01T18:50:19.909126+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2021q4_d.zip",
+      "file": "raw/2021q4_d.zip",
+      "status": "verified",
+      "bytes": 3837921,
+      "sha256": "7c20d2aed8d93dae9d940f66d97bd161ba78225844afc41f35373f1a7132d048",
+      "verified_at": "2026-11-01T18:50:21.416407+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2021q3_d.zip",
+      "file": "raw/2021q3_d.zip",
+      "status": "verified",
+      "bytes": 3474904,
+      "sha256": "b22012256a8171c15c47dc421e548a9d500d2436747355676056a6e8cf334b38",
+      "verified_at": "2026-11-01T18:50:22.886362+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2021q2_d.zip",
+      "file": "raw/2021q2_d.zip",
+      "status": "verified",
+      "bytes": 3571492,
+      "sha256": "83d20adf2d10b8b8aa5b9c011bf61e6038448a390184f80a249c41b0565ced20",
+      "verified_at": "2026-11-01T18:50:24.339856+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2021q1_d.zip",
+      "file": "raw/2021q1_d.zip",
+      "status": "verified",
+      "bytes": 3664218,
+      "sha256": "93b80fb8e002e408ebcdce919224b85a2cac8fdd1324655d8019156f7b0f52b0",
+      "verified_at": "2026-11-01T18:50:25.725226+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2020q4_d.zip",
+      "file": "raw/2020q4_d.zip",
+      "status": "verified",
+      "bytes": 3122617,
+      "sha256": "5e4ed8620104e248bc2e1e32bc2774c1f1747e91f3e0e605e307f0328640434b",
+      "verified_at": "2026-11-01T18:50:27.501562+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2020q3_d.zip",
+      "file": "raw/2020q3_d.zip",
+      "status": "verified",
+      "bytes": 2815170,
+      "sha256": "b5d011b4edc6aff4c75bffadf1b17136acf37a1b35485a3f6f85425b1d6c15e8",
+      "verified_at": "2026-11-01T18:50:29.005304+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2020q2_d.zip",
+      "file": "raw/2020q2_d.zip",
+      "status": "verified",
+      "bytes": 2751314,
+      "sha256": "2d821e724cd81b435446a4cab7deaf31885df09f572f44190a0e286d60388c6e",
+      "verified_at": "2026-11-01T18:50:30.380914+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2020q1_d.zip",
+      "file": "raw/2020q1_d.zip",
+      "status": "verified",
+      "bytes": 3320988,
+      "sha256": "dfc29b5dc5b358a5481cf78a54bed78bfe5393801f357b3f6958434b9d91dfe1",
+      "verified_at": "2026-11-01T18:50:31.990816+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2019q4_d.zip",
+      "file": "raw/2019q4_d.zip",
+      "status": "verified",
+      "bytes": 2908389,
+      "sha256": "1b2232bc94fec91dc607e64ca5afaa6e1d4ef86359771731904709f58098e1a4",
+      "verified_at": "2026-11-01T18:50:33.426202+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2019q3_d.zip",
+      "file": "raw/2019q3_d.zip",
+      "status": "verified",
+      "bytes": 2883147,
+      "sha256": "7b787160470de313b02a73e55588bd6605a4766d5054bd6bfc8d03fda1e4e470",
+      "verified_at": "2026-11-01T18:50:35.137281+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2019q2_d.zip",
+      "file": "raw/2019q2_d.zip",
+      "status": "verified",
+      "bytes": 3093866,
+      "sha256": "a24097ace401146ae5f5ebd4f7ed095e1590358ff3119eb124cc164bf941a3ef",
+      "verified_at": "2026-11-01T18:50:36.483848+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2019q1_d.zip",
+      "file": "raw/2019q1_d.zip",
+      "status": "verified",
+      "bytes": 3194943,
+      "sha256": "6ead9133bbe10654930ebb12a68f06bbeb5b2425a8a8bfaf103d675a33e719f0",
+      "verified_at": "2026-11-01T18:50:37.946278+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2018q4_d.zip",
+      "file": "raw/2018q4_d.zip",
+      "status": "verified",
+      "bytes": 2901108,
+      "sha256": "1211a44a38866cba7c14f7c5a5dc340aacec713d01e92c1e5df4904cdfa051e0",
+      "verified_at": "2026-11-01T18:50:39.555631+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2018q3_d.zip",
+      "file": "raw/2018q3_d.zip",
+      "status": "verified",
+      "bytes": 2773329,
+      "sha256": "09c3da806133b76c1592cec90fe7b25695f4f5f531da725f0b994f821000d8a3",
+      "verified_at": "2026-11-01T18:50:41.084514+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2018q2_d.zip",
+      "file": "raw/2018q2_d.zip",
+      "status": "verified",
+      "bytes": 2893938,
+      "sha256": "bcc51c6b55bc20e777bb33270deaba138ce2f80855e363fd624b5ac22a0c0281",
+      "verified_at": "2026-11-01T18:50:42.480448+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2018q1_d.zip",
+      "file": "raw/2018q1_d.zip",
+      "status": "verified",
+      "bytes": 3233627,
+      "sha256": "911c1b28c5a520c5eb335d5c4bfe8e07727382812913e67aa46d7af9e73946cc",
+      "verified_at": "2026-11-01T18:50:43.869509+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2017q4_d.zip",
+      "file": "raw/2017q4_d.zip",
+      "status": "verified",
+      "bytes": 2730740,
+      "sha256": "ddbadaf40dabda9eeb0a7bba4301dbdd01f9f4f84a0b5c2ba60cb233fe585734",
+      "verified_at": "2026-11-01T18:50:45.349613+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2017q3_d.zip",
+      "file": "raw/2017q3_d.zip",
+      "status": "verified",
+      "bytes": 2619732,
+      "sha256": "1a4a90bfa9d629423f6c55b16b115a69f14e705dfe8ebcc7dfbb755ca9fcc890",
+      "verified_at": "2026-11-01T18:50:46.697411+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2017q2_d.zip",
+      "file": "raw/2017q2_d.zip",
+      "status": "verified",
+      "bytes": 2747929,
+      "sha256": "f306e16f2a674942b80bc8c5c8512e50eb277cca8da45f8bcb50a06f3c318411",
+      "verified_at": "2026-11-01T18:50:48.070692+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2017q1_d.zip",
+      "file": "raw/2017q1_d.zip",
+      "status": "verified",
+      "bytes": 3126431,
+      "sha256": "1d054438c82201bf8497271951bc2cec7c2ddc0fe6ab64d28dd47cd8b5b03f02",
+      "verified_at": "2026-11-01T18:50:49.445373+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2016q4_d.zip",
+      "file": "raw/2016q4_d.zip",
+      "status": "verified",
+      "bytes": 2549945,
+      "sha256": "b361a71141fcda9430e95ea670fa3df9f56cefb90abf9d20d4e3a20da94a2a94",
+      "verified_at": "2026-11-01T18:50:50.806136+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2016q3_d.zip",
+      "file": "raw/2016q3_d.zip",
+      "status": "verified",
+      "bytes": 2457169,
+      "sha256": "c3a507803e67de3fd29cdd55d1c263caec3e66eca8a12c725dba5fc9f8fe5068",
+      "verified_at": "2026-11-01T18:50:52.215024+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2016q2_d.zip",
+      "file": "raw/2016q2_d.zip",
+      "status": "verified",
+      "bytes": 2537477,
+      "sha256": "cb5ef9861d3ba8101a138dceb932aa025345efcf5749929902aebd8733870331",
+      "verified_at": "2026-11-01T18:50:53.646147+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2016q1_d.zip",
+      "file": "raw/2016q1_d.zip",
+      "status": "verified",
+      "bytes": 3055326,
+      "sha256": "371b33818e92331c36931f669d0e5d49ee17c308a24e74870031208159ee44ca",
+      "verified_at": "2026-11-01T18:50:54.979485+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2015q4_d.zip",
+      "file": "raw/2015q4_d.zip",
+      "status": "verified",
+      "bytes": 2447970,
+      "sha256": "fbaa4030a4c1abea3472c5cbca75694d29f70b0d5ee09e84f6b45a31d19d9eec",
+      "verified_at": "2026-11-01T18:50:56.381584+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2015q3_d.zip",
+      "file": "raw/2015q3_d.zip",
+      "status": "verified",
+      "bytes": 2395886,
+      "sha256": "b982c6b81bcd46a85ab272de5a1977f5fc149cb02ea572a5f8db2e35b397a028",
+      "verified_at": "2026-11-01T18:50:57.852719+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2015q2_d.zip",
+      "file": "raw/2015q2_d.zip",
+      "status": "verified",
+      "bytes": 2522833,
+      "sha256": "6b6f9c0e1cd7521c225516a23ebee026ca5bfeb2ea4077171a013012b8537463",
+      "verified_at": "2026-11-01T18:50:59.160440+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2015q1_d.zip",
+      "file": "raw/2015q1_d.zip",
+      "status": "verified",
+      "bytes": 3003992,
+      "sha256": "cf6b0b35e75299ee1c9aa7ede911294b9bc04e08181a056a7f39f7ca4360f9f6",
+      "verified_at": "2026-11-01T18:51:00.626490+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2014q4_d.zip",
+      "file": "raw/2014q4_d.zip",
+      "status": "verified",
+      "bytes": 2452223,
+      "sha256": "c4dcea0481954529b129b01b21b136ca4db66a249e4e5ee48a550bd578db4079",
+      "verified_at": "2026-11-01T18:51:02.131364+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2014q3_d.zip",
+      "file": "raw/2014q3_d.zip",
+      "status": "verified",
+      "bytes": 2354103,
+      "sha256": "fb84e8896a292c55151682c7958ae45eeb6c66f3124f373033c8eba946084e17",
+      "verified_at": "2026-11-01T18:51:03.626420+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2014q2_d.zip",
+      "file": "raw/2014q2_d.zip",
+      "status": "verified",
+      "bytes": 2457705,
+      "sha256": "dea10258da037214fa6afaf8c685faa3e4dea94a42201635e54b988a611ae34e",
+      "verified_at": "2026-11-01T18:51:05.006432+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2014q1_d.zip",
+      "file": "raw/2014q1_d.zip",
+      "status": "verified",
+      "bytes": 2932046,
+      "sha256": "8477ca8a5dbf282b773b1ddba2d9ec27431e5c3bded809797d5ecb08d8042c3f",
+      "verified_at": "2026-11-01T18:51:06.377720+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2013q4_d_0.zip",
+      "file": "raw/2013q4_d_0.zip",
+      "status": "verified",
+      "bytes": 2294080,
+      "sha256": "7a0f85ea07c9ceb1eda5d0c4e657be182a0c8db4bcc8c6f59491e85a13f2285a",
+      "verified_at": "2026-11-01T18:51:07.916378+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2013q3_d_0.zip",
+      "file": "raw/2013q3_d_0.zip",
+      "status": "verified",
+      "bytes": 2121531,
+      "sha256": "0a7b4b5d27919ef74afb5b95287b1a4c852475b33a69a730fa0cfc377e0cbe13",
+      "verified_at": "2026-11-01T18:51:09.447067+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2013q2_d_0.zip",
+      "file": "raw/2013q2_d_0.zip",
+      "status": "verified",
+      "bytes": 2164163,
+      "sha256": "b1b59cf26c93aafa98f83b4d205e0263c6fa5d8a18a316a631ebdb39475ae320",
+      "verified_at": "2026-11-01T18:51:10.785415+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2013q1_d_0.zip",
+      "file": "raw/2013q1_d_0.zip",
+      "status": "verified",
+      "bytes": 2780239,
+      "sha256": "a1bb69cdb6c9be49bdf50e871bee0e50bf233f8b2459057a35aae4ad5ac0608e",
+      "verified_at": "2026-11-01T18:51:12.321502+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2012q4_d_0.zip",
+      "file": "raw/2012q4_d_0.zip",
+      "status": "verified",
+      "bytes": 1955176,
+      "sha256": "16ea836293b1407d8e477cd42dc4c2581ebda4a6fbe7d9212bb9f9479dcc0478",
+      "verified_at": "2026-11-01T18:51:13.721096+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2012q3_d_0.zip",
+      "file": "raw/2012q3_d_0.zip",
+      "status": "verified",
+      "bytes": 1848015,
+      "sha256": "ca2fff8dc25ee2605f1e72077f9b058410e35499f8a3d3e81b51c55dcdcf5477",
+      "verified_at": "2026-11-01T18:51:15.280174+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2012q2_d_0.zip",
+      "file": "raw/2012q2_d_0.zip",
+      "status": "verified",
+      "bytes": 2127624,
+      "sha256": "f68f7601d8e8d706f82b626c82d063a21d035a7fa0301ec9253a15a19a2259b2",
+      "verified_at": "2026-11-01T18:51:16.601377+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2012q1_d.zip",
+      "file": "raw/2012q1_d.zip",
+      "status": "verified",
+      "bytes": 2746162,
+      "sha256": "d755c1561a3a990ff7158a405470aaa56db9774190df03f8019a2dab0fc7daae",
+      "verified_at": "2026-11-01T18:51:18.051602+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2011q4_d_0.zip",
+      "file": "raw/2011q4_d_0.zip",
+      "status": "verified",
+      "bytes": 1941378,
+      "sha256": "a92f584526c12cfb365c30842dad825753dcde0e7fe3a7f709806e88be953f48",
+      "verified_at": "2026-11-01T18:51:19.463856+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2011q3_d_0.zip",
+      "file": "raw/2011q3_d_0.zip",
+      "status": "verified",
+      "bytes": 1935999,
+      "sha256": "3d344b4db5a65a1a0466f606dff6d5f587b9b05cc3f707bd6cbc136c829ed11a",
+      "verified_at": "2026-11-01T18:51:20.902936+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2011q2_d_0.zip",
+      "file": "raw/2011q2_d_0.zip",
+      "status": "verified",
+      "bytes": 2034253,
+      "sha256": "97eef3e09d1b8859a9982886e4962604f3c0ce3bf16595c682d1262c53f84d95",
+      "verified_at": "2026-11-01T18:51:22.227745+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2011q1_d_0.zip",
+      "file": "raw/2011q1_d_0.zip",
+      "status": "verified",
+      "bytes": 2782659,
+      "sha256": "535fd5731e98195ef83e05749d91947323e6f975d601b17e2b8b1943202cde08",
+      "verified_at": "2026-11-01T18:51:23.526183+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2010q4_d_0.zip",
+      "file": "raw/2010q4_d_0.zip",
+      "status": "verified",
+      "bytes": 1914471,
+      "sha256": "ce88d400705ff9db364078223107c17ff87cc24427d5785ef0b358a61bdaae2d",
+      "verified_at": "2026-11-01T18:51:24.880190+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2010q3_d_0.zip",
+      "file": "raw/2010q3_d_0.zip",
+      "status": "verified",
+      "bytes": 1823049,
+      "sha256": "f5e2a8f37546fdfd9cc8e4d7d77255368d0cce2130d64f9111697aedf568144d",
+      "verified_at": "2026-11-01T18:51:26.278595+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2010q2_d_0.zip",
+      "file": "raw/2010q2_d_0.zip",
+      "status": "verified",
+      "bytes": 1925910,
+      "sha256": "a4d74a9c35fe91b557d043ec00f608b4058260804a1fa25b24863c5c8c8750ba",
+      "verified_at": "2026-11-01T18:51:27.602355+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2010q1_d_0.zip",
+      "file": "raw/2010q1_d_0.zip",
+      "status": "verified",
+      "bytes": 2676088,
+      "sha256": "a31d09b0ede2c96b6254909d71e7dc329bb6f4b4b1661ec56742063619acd75c",
+      "verified_at": "2026-11-01T18:51:29.030355+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2009q4_d_0.zip",
+      "file": "raw/2009q4_d_0.zip",
+      "status": "verified",
+      "bytes": 1677173,
+      "sha256": "a13df9bd4288f2c3b60f9dd83feff60892da9719ff561df2085a9b925fb8cb9f",
+      "verified_at": "2026-11-01T18:51:30.462895+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2009q3_d_0.zip",
+      "file": "raw/2009q3_d_0.zip",
+      "status": "verified",
+      "bytes": 1643459,
+      "sha256": "e7933dadcfa30c55072a88457fade43e48d059dc683c1ab68a701778d004d6b4",
+      "verified_at": "2026-11-01T18:51:31.737480+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2009q2_d_0.zip",
+      "file": "raw/2009q2_d_0.zip",
+      "status": "verified",
+      "bytes": 1518291,
+      "sha256": "d358f1d8006c1a025874834c794b7a84fa5cc6059ecc35877dfb20fcfb512602",
+      "verified_at": "2026-11-01T18:51:33.181464+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2009q1_d_0.zip",
+      "file": "raw/2009q1_d_0.zip",
+      "status": "verified",
+      "bytes": 948170,
+      "sha256": "11f3f67e1be0e052c1dce832620dddbab67adeae2bc3ae911b8054a84730490e",
+      "verified_at": "2026-11-01T18:51:34.670066+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2008q4_d_0.zip",
+      "file": "raw/2008q4_d_0.zip",
+      "status": "verified",
+      "bytes": 139838,
+      "sha256": "f5ae66a9534424d0efee4e298ed57c824456d9da734cb5f6fd3a9021a05559d6",
+      "verified_at": "2026-11-01T18:51:35.876037+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2008q3_d_0.zip",
+      "file": "raw/2008q3_d_0.zip",
+      "status": "verified",
+      "bytes": 38654,
+      "sha256": "e999f4085558b2e2912fba5135f3119062d84b03da5bfcd5cc55efb033bb7c78",
+      "verified_at": "2026-11-01T18:51:37.157766+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2008q2_d_0.zip",
+      "file": "raw/2008q2_d_0.zip",
+      "status": "verified",
+      "bytes": 30075,
+      "sha256": "6f21af8e66b2fffc4edca943cbaa22b981c04f4b0012071e0d913b9da39ade6b",
+      "verified_at": "2026-11-01T18:51:38.337798+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/structureddata/data/form-d-data-sets/2008q1_d.zip",
+      "file": "raw/2008q1_d.zip",
+      "status": "verified",
+      "bytes": 30167,
+      "sha256": "2d68d3a028517f570eaece70e8409c0e2291e365f1f8169da01a0f442ab55455",
+      "verified_at": "2026-11-01T18:51:39.541851+00:00"
+    }
+  ]
+}

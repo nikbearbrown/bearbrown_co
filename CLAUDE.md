@@ -341,6 +341,10 @@ The Vercel build reads the committed JSON file — no GitHub API calls at build 
 ## Standing instructions
 After every session, update CLAUDE.md to reflect any changes (check `git log` and `git diff` — do not ask).
 
+## AI startup map (2026-10-31)
+
+`/startups` is a D3 Bay Area map and evidence directory, linked from the alphabetical header (between Skills and Talent), home page, and sitemap. The first edition has 12 source-reviewed companies (Ema and Sierra have city/category corroborated with independent reporting; ten candidates are explicitly labeled independent confirmation pending): 8 agent products, 4 builders/infrastructure, across 3 cities. It is a curated starting collection, not a census or product audit. All rows have city precision and null company coordinates; never jitter them or imply exact offices. Canonical downloadable data: `public/data/startups/companies.json`. Component: `components/startups/StartupMap.tsx`; data helpers: `lib/startup-map.ts`; method and provenance: `data/startups/README.md`. Run `node scripts/startups/validate.mjs` when updating data. Source review is AI-assisted; no independent human validation or precision/recall measurement is claimed. This dataset is separate from the audited Claude catalog. Bear requires independent corroboration across multiple sources: company-owned pages and self-reported directory entries alone do not make a confirmed listing. Keep per-record verification status/date, source evidence, and a visible pending label until that independent check is complete.
+
 
 ## Agents workflow library (2026-10-19)
 

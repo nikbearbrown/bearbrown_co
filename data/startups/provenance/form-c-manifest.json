@@ -1,0 +1,342 @@
+{
+  "source": "https://www.sec.gov/data-research/sec-markets-data/crowdfunding-offerings-data-sets",
+  "user_agent": "Bear Brown bear@bearbrown.co",
+  "archives": [
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2026q3_cf.zip",
+      "file": "raw/2026q3_cf.zip",
+      "status": "verified",
+      "bytes": 247202,
+      "sha256": "a3deb30c29df92f8a1676638b7304d6018197fa001971174b96a9012db1d23b8",
+      "verified_at": "2026-11-01T18:51:29.067828+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2026q2_cf.zip",
+      "file": "raw/2026q2_cf.zip",
+      "status": "verified",
+      "bytes": 425426,
+      "sha256": "5c58b1f393dee466e2f09cb1516a36cece7853256c662d0eeb1a0f83ba6462bb",
+      "verified_at": "2026-11-01T18:51:30.416338+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2026q1_cf.zip",
+      "file": "raw/2026q1_cf.zip",
+      "status": "verified",
+      "bytes": 264895,
+      "sha256": "eb2a0f9640bbb39e8f28682b0cd51c6c3a8187da02da08f6801f0993369209bd",
+      "verified_at": "2026-11-01T18:51:31.721884+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2025q4_cf.zip",
+      "file": "raw/2025q4_cf.zip",
+      "status": "verified",
+      "bytes": 291372,
+      "sha256": "eac45ab919d9dd6aada7de5d1316f3cef46f520c9b488cf6b7a790a82bb4aba5",
+      "verified_at": "2026-11-01T18:51:33.039656+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2025q3_cf.zip",
+      "file": "raw/2025q3_cf.zip",
+      "status": "verified",
+      "bytes": 287985,
+      "sha256": "573135cfda42f51c79ee912fa282cbcce587d08320b3329978c824a60c578b89",
+      "verified_at": "2026-11-01T18:51:34.339922+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2025q2_cf.zip",
+      "file": "raw/2025q2_cf.zip",
+      "status": "verified",
+      "bytes": 508302,
+      "sha256": "15a904642798ba59f6797a6a5c687f0485d0cc4b18be6b88862d121628891296",
+      "verified_at": "2026-11-01T18:51:35.668707+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2025q1_cf.zip",
+      "file": "raw/2025q1_cf.zip",
+      "status": "verified",
+      "bytes": 395900,
+      "sha256": "f2a94b511330d0ae8f00d0cbdedce8cda97e49454532a02af14aa0a8e3c939fc",
+      "verified_at": "2026-11-01T18:51:37.249412+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2024q4_cf.zip",
+      "file": "raw/2024q4_cf.zip",
+      "status": "verified",
+      "bytes": 417181,
+      "sha256": "66c24fac4fc4d734d46308d4f2d37d8bab2a5229bf4c887b4fac6db4e4343c24",
+      "verified_at": "2026-11-01T18:51:38.588616+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2024q3_cf.zip",
+      "file": "raw/2024q3_cf.zip",
+      "status": "verified",
+      "bytes": 373825,
+      "sha256": "ce0468430abed921f515423500840f657d882927a6d91a1d5f0955ca925eba8c",
+      "verified_at": "2026-11-01T18:51:39.907461+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2024q2_cf.zip",
+      "file": "raw/2024q2_cf.zip",
+      "status": "verified",
+      "bytes": 563658,
+      "sha256": "ab572a7506391f964020b5863c50ea1023cecd424cbc3501a20bdeac09f9cf58",
+      "verified_at": "2026-11-01T18:51:41.189525+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2024q1_cf.zip",
+      "file": "raw/2024q1_cf.zip",
+      "status": "verified",
+      "bytes": 388647,
+      "sha256": "0e9daeab932c1813d248dc436a3de474c91e46f3ae82d679d6c64f2e9f66755a",
+      "verified_at": "2026-11-01T18:51:42.478169+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2023q4_cf.zip",
+      "file": "raw/2023q4_cf.zip",
+      "status": "verified",
+      "bytes": 419205,
+      "sha256": "b3fe01df4ecb9aa0cbbb6f2bec91c4c8d100f777ba539c43ca87f4eb5384ce58",
+      "verified_at": "2026-11-01T18:51:43.813943+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2023q3_cf.zip",
+      "file": "raw/2023q3_cf.zip",
+      "status": "verified",
+      "bytes": 372884,
+      "sha256": "04d5b9b0bad4bbdcde349cf6c634551f61ef085251b013bdf5a0ecbad63ac2ed",
+      "verified_at": "2026-11-01T18:51:45.134525+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2023q2_cf.zip",
+      "file": "raw/2023q2_cf.zip",
+      "status": "verified",
+      "bytes": 545240,
+      "sha256": "ea0a58466fed18d172a693fff26a72f6637b1556beda02540c9818aab49689a2",
+      "verified_at": "2026-11-01T18:51:46.436930+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2023q1_cf.zip",
+      "file": "raw/2023q1_cf.zip",
+      "status": "verified",
+      "bytes": 434013,
+      "sha256": "7f3f819f10508d20dc206d9d51ead714d2bf52aadf167378d3c838ee0c60197f",
+      "verified_at": "2026-11-01T18:51:47.839557+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2022q4_cf.zip",
+      "file": "raw/2022q4_cf.zip",
+      "status": "verified",
+      "bytes": 450553,
+      "sha256": "6f0df7b3af384c46a683cf36a48afd0f4d428207de0a7ce94ab2f7f61667010a",
+      "verified_at": "2026-11-01T18:51:49.074824+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2022q3_cf.zip",
+      "file": "raw/2022q3_cf.zip",
+      "status": "verified",
+      "bytes": 444911,
+      "sha256": "f913c5ba50f56caf9b50258128668f6f8eac2073a64ff96470949dcdba30c470",
+      "verified_at": "2026-11-01T18:51:50.362889+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2022q2_cf.zip",
+      "file": "raw/2022q2_cf.zip",
+      "status": "verified",
+      "bytes": 606901,
+      "sha256": "b1774be22e758eefa70fe9fabf1dfa8a1181ed19882a4a3772be1b4cae391ad2",
+      "verified_at": "2026-11-01T18:51:51.612797+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2022q1_cf.zip",
+      "file": "raw/2022q1_cf.zip",
+      "status": "verified",
+      "bytes": 431281,
+      "sha256": "113cf361ede266a472eb058c54789231a67896cd7ad9f262fc02828a82b31814",
+      "verified_at": "2026-11-01T18:51:52.952152+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2021q4_cf.zip",
+      "file": "raw/2021q4_cf.zip",
+      "status": "verified",
+      "bytes": 447701,
+      "sha256": "5f7e82c9db7cb227c56137aab8417db6f64cb5b43a1d011646029a1a5d7cddf3",
+      "verified_at": "2026-11-01T18:51:54.224863+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2021q3_cf.zip",
+      "file": "raw/2021q3_cf.zip",
+      "status": "verified",
+      "bytes": 439546,
+      "sha256": "7c3c32ab9acccfb3cc0142a1f7999f0d53ab4d064bc0023e57941205d16060b9",
+      "verified_at": "2026-11-01T18:51:55.593613+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2021q2_cf.zip",
+      "file": "raw/2021q2_cf.zip",
+      "status": "verified",
+      "bytes": 534520,
+      "sha256": "d2270f360128335611c187ebf89c8caae8d4f8b8230f0bb4876c36c3994f673f",
+      "verified_at": "2026-11-01T18:51:56.967363+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2021q1_cf.zip",
+      "file": "raw/2021q1_cf.zip",
+      "status": "verified",
+      "bytes": 412093,
+      "sha256": "f9b23136c71afc662e99b74797447e2f7c55ac4f091c643a0b124c9794991707",
+      "verified_at": "2026-11-01T18:51:58.418017+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2020q4_cf.zip",
+      "file": "raw/2020q4_cf.zip",
+      "status": "verified",
+      "bytes": 386145,
+      "sha256": "d3ab3d27fe2f22e470a19adef306e5d6648ed7bdf89ba81905f1ce5568035385",
+      "verified_at": "2026-11-01T18:51:59.770514+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2020q3_cf.zip",
+      "file": "raw/2020q3_cf.zip",
+      "status": "verified",
+      "bytes": 334409,
+      "sha256": "b0d34d37faceffda86a77b585eaf25466cf1f2bce51f3060d86490db0e3e3d29",
+      "verified_at": "2026-11-01T18:52:01.056324+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2020q2_cf.zip",
+      "file": "raw/2020q2_cf.zip",
+      "status": "verified",
+      "bytes": 361070,
+      "sha256": "5bc85521e3f3c194e3252c8f45cf51c2af32e5ae7574749a68ac032039156389",
+      "verified_at": "2026-11-01T18:52:02.382872+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2020q1_cf.zip",
+      "file": "raw/2020q1_cf.zip",
+      "status": "verified",
+      "bytes": 245827,
+      "sha256": "1a59405047be02f21c61d83d03dc2e3d9370e639fd9251ef49dd109308260984",
+      "verified_at": "2026-11-01T18:52:03.621521+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2019q4_cf.zip",
+      "file": "raw/2019q4_cf.zip",
+      "status": "verified",
+      "bytes": 225156,
+      "sha256": "37fe0c1099933ebbe8013c4b06921718265fe09b599f0b3606d21a278c310c7c",
+      "verified_at": "2026-11-01T18:52:05.012573+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2019q3_cf.zip",
+      "file": "raw/2019q3_cf.zip",
+      "status": "verified",
+      "bytes": 191252,
+      "sha256": "108c2bd08c7356e78b7806c4597540c625d367bf5a09a8ada7a65c17c76e4ea0",
+      "verified_at": "2026-11-01T18:52:06.230662+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2019q2_cf.zip",
+      "file": "raw/2019q2_cf.zip",
+      "status": "verified",
+      "bytes": 228947,
+      "sha256": "fb6e0df425aa04dc8880a525620058151d967961f0c4169df61ac7b1adf75012",
+      "verified_at": "2026-11-01T18:52:07.544891+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2019q1_cf.zip",
+      "file": "raw/2019q1_cf.zip",
+      "status": "verified",
+      "bytes": 190228,
+      "sha256": "cb581d20e870d81f81c744023e5065be31c7832fe5989dd07f9d7cac3f7cde11",
+      "verified_at": "2026-11-01T18:52:08.777553+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2018q4_cf.zip",
+      "file": "raw/2018q4_cf.zip",
+      "status": "verified",
+      "bytes": 196940,
+      "sha256": "c38806a73a4f76d18e7d18e196658f2093c2d76f75fd69f740deb24a942acdf9",
+      "verified_at": "2026-11-01T18:52:10.190615+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2018q3_cf.zip",
+      "file": "raw/2018q3_cf.zip",
+      "status": "verified",
+      "bytes": 200532,
+      "sha256": "542bd2662c4ec1d0307ad6fc2d65c0e4a5c17f614e908f12290ef277f128618b",
+      "verified_at": "2026-11-01T18:52:11.452871+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2018q2_cf.zip",
+      "file": "raw/2018q2_cf.zip",
+      "status": "verified",
+      "bytes": 252214,
+      "sha256": "9d0828c837dd658f0acb4389f6b828dad804eeac0c5edfb638ffcc1f43bfdb08",
+      "verified_at": "2026-11-01T18:52:12.894141+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2018q1_cf.zip",
+      "file": "raw/2018q1_cf.zip",
+      "status": "verified",
+      "bytes": 168218,
+      "sha256": "508ba10c718da80cbc3cd2a226efdbe9d169f4d407dabf50315fb78b348c1175",
+      "verified_at": "2026-11-01T18:52:14.460029+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2017q4_cf.zip",
+      "file": "raw/2017q4_cf.zip",
+      "status": "verified",
+      "bytes": 176332,
+      "sha256": "e4510d76f1b58531dfb7c3481cf0e96d07ea9e54520e9a4ff3b576d4a311a7d8",
+      "verified_at": "2026-11-01T18:52:15.938428+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2017q3_cf.zip",
+      "file": "raw/2017q3_cf.zip",
+      "status": "verified",
+      "bytes": 140560,
+      "sha256": "8b0934546f54359e82393fbde00db5f422cec8cba4cc2e49e7e0f3bfc728acee",
+      "verified_at": "2026-11-01T18:52:17.290063+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2017q2_cf.zip",
+      "file": "raw/2017q2_cf.zip",
+      "status": "verified",
+      "bytes": 142390,
+      "sha256": "ab19bf6b4816b9261d0a53810e04ba8799161d0e511882a09f819d098b2ab532",
+      "verified_at": "2026-11-01T18:52:19.284911+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2017q1_cf.zip",
+      "file": "raw/2017q1_cf.zip",
+      "status": "verified",
+      "bytes": 91705,
+      "sha256": "1ab245caf67f058433f6b7330c94411dcf944bbdf9857388421c1d832fcd638d",
+      "verified_at": "2026-11-01T18:52:20.747634+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2016q4_cf.zip",
+      "file": "raw/2016q4_cf.zip",
+      "status": "verified",
+      "bytes": 87383,
+      "sha256": "8dfe11027340840eeda3c70337580881d47c2c0abb1cc879e69867c2f1c24961",
+      "verified_at": "2026-11-01T18:52:21.948899+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2016q3_cf.zip",
+      "file": "raw/2016q3_cf.zip",
+      "status": "verified",
+      "bytes": 75092,
+      "sha256": "51676be9e006403a875805e455f35fcb358279748c91d027bdd716856b87bf9f",
+      "verified_at": "2026-11-01T18:52:23.312570+00:00"
+    },
+    {
+      "url": "https://www.sec.gov/files/dera/data/crowdfunding-offerings-data-sets/2016q2_cf.zip",
+      "file": "raw/2016q2_cf.zip",
+      "status": "verified",
+      "bytes": 46674,
+      "sha256": "2e0a288547ee1bae3ca62b6ac5016ed52bba03ed9c3a343d6dbec8782a8cd3b7",
+      "verified_at": "2026-11-01T18:52:25.207671+00:00"
+    }
+  ]
+}
